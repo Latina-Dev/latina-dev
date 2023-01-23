@@ -1,0 +1,71 @@
+@font-face {
+  font-family: "Latina Light";
+  src: url("/fonts/Latina-Light.woff2") format("woff2"),
+    url("/fonts/Latina-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: "Latina Light Italic";
+  src: url("/fonts/Latina-Light-Italic.woff2") format("woff2"),
+    url("/fonts/Latina-Light-Italic.woff") format("woff");
+  font-weight: 300;
+  font-style: italic;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: "Latina Medium";
+  src: url("/fonts/Latina-Medium.woff2") format("woff2"),
+    url("/fonts/Latina-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: "Latina Medium Italic";
+  src: url("/fonts/Latina-Medium-Italic.woff2") format("woff2"),
+    url("/fonts/Latina-Medium-Italic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: "Latina Bold";
+  src: url("/fonts/Latina-Bold.woff2") format("woff2"),
+    url("/fonts/Latina-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: "Latina Bold Italic";
+  src: url("/fonts/Latina-Bold-Italic.woff2") format("woff2"),
+    url("/fonts/Latina-Bold-Italic.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: "Latina Heavy";
+  src: url("/fonts/Latina-Heavy.woff2") format("woff2"),
+    url("/fonts/Latina-Heavy.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: "Latina Heavy Italic";
+  src: url("/fonts/Latina-Heavy-Italic.woff2") format("woff2"),
+    url("/fonts/Latina-Heavy-Italic.woff") format("woff");
+  font-weight: 900;
+  font-style: italic;
+  font-display: auto;
+}

@@ -50,15 +50,28 @@
   transform: translateZ(0);
   border-radius: var(--border-radius);
   overflow: hidden;
-  background: rgb(var(--primary-color));
+  background: var(--button-background);
+  color: var(--white-color);
 }
 
 .nameLink:hover {
-  background: rgb(var(--text-color));
+  background: var(--button-background-hover);
+}
+
+.logoContainer {
+  margin-bottom: 24px;
 }
 
 .logo {
   margin-bottom: 24px;
+  width: 46px;
+  height: 89px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo path {
+    fill: var(--white-color);
+  }
 }
 
 .description {

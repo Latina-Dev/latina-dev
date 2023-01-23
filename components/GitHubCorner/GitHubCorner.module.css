@@ -5,12 +5,20 @@
 .githubCorner {
   width: 100px;
   height: 100px;
-  fill: #151513;
-  color: #fff;
+  fill: var(--primary-color);
+  color: var(--white-color);
   position: absolute;
   top: 0;
   border: 0;
   right: 0;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .githubCorner {
+    color: var(--black-color);
+    fill: var(--white-color);
+  }
 }
 
 .octoArm {

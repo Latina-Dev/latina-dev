@@ -1,0 +1,48 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "Latina Light", sans-serif;
+  color: var(--text-color);
+  background: var(--white-color);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+em {
+  font-family: "Latina Light Italic", sans-serif;
+}
+
+b,
+strong {
+  font-family: "Latina Bold", sans-serif;
+}
+
+a,
+blockquote,
+body,
+li,
+p {
+  font-family: "Latina Light", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Latina Bold", sans-serif;
+}
