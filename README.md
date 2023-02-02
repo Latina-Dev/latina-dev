@@ -12,6 +12,8 @@ If you have feedback or are interested in contributing, feel free to create a ne
 
 ## Contributing
 
+TODO: Add more information on installing dependencies
+
 ### Getting Started
 
 First, run the development server:
