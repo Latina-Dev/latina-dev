@@ -2,7 +2,7 @@
 
 Latina Dev is an open-source directory of Latina software engineers at the student, IC, and leadership levels. Our goal is to increase visibility and access to valuable opportunities.
 
-This project is currently in the ideation stage and we ([Frances](https://github.com/FrancesCoronel) and [Gabriella](https://github.com/EllaCodes4)) are currently looking for others interested in developing this with me! 🎉
+This project is currently in the ideation stage and we ([Frances](https://github.com/FrancesCoronel) and [Gabriella](https://github.com/EllaCodes4)) are currently looking for others interested in developing this with us! 🎉
 
 If you have feedback or are interested in contributing, feel free to create a new discussion thread.
 
@@ -12,11 +12,14 @@ If you have feedback or are interested in contributing, feel free to create a ne
 
 ## Contributing
 
-TODO: Add more information on installing dependencies
-
 ### Getting Started
 
-First, run the development server:
+If this is your very first time contributing, run the development server:
+
+```bash
+npm i
+```
+Afterward, run the development server: 
 
 ```bash
 npm run dev
