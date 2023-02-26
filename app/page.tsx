@@ -10,22 +10,18 @@ export default function Home() {
       <GitHubCorner />
       <div className={styles.container}>
         <div className={styles.center}>
-          <div className={styles.logoContainer}>
-            <Logo className={styles.logo} />
+          <h1>{title}</h1>
+          <div className={styles.description}>
+            <p>{description}</p>
           </div>
           <Link
             href="https://github.com/FrancesCoronel/latina-dev"
             aria-label="Latina Dev"
             target={"_blank"}
-            className={styles.nameLink}
+            className={styles.contributeLink}
           >
-            <h1>{title}</h1>
+            Contribute
           </Link>
-          <div className={styles.description}>
-            <p>{description}</p>
-            <br />
-            <p>More to come soon...</p>
-          </div>
         </div>
       </div>
     </main>

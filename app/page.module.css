@@ -41,6 +41,13 @@
   text-align: center;
 }
 
+.contributeLink {
+  padding: 18px 46px;
+  background: var(--button-background);
+  color: var(--white-color);
+  border-radius: var(--border-radius);
+}
+
 .nameLink {
   display: block;
   justify-content: center;
@@ -54,6 +61,7 @@
   color: var(--white-color);
 }
 
+.contributeLink:hover,
 .nameLink:hover {
   background: var(--button-background-hover);
 }
@@ -75,7 +83,7 @@
 }
 
 .description {
-  margin-top: 24px;
+  margin: 24px 0px 48px 0px;
   max-width: 500px;
 }
 

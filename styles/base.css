@@ -38,7 +38,11 @@ p {
   font-family: "Latina Light", sans-serif;
 }
 
-h1,
+h1 {
+  font-family: "Latina Heavy", sans-serif;
+  font-size: 79px;
+}
+
 h2,
 h3,
 h4,
