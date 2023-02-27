@@ -76,12 +76,16 @@
 
 .logo {
   margin-bottom: 24px;
-  width: 46px;
-  height: 89px;
+  width: 225px;
+  height: 225px;
 }
 
 .home {
   margin: 100px 0px 150px;
+}
+
+.about {
+  margin: 267px 0px;
 }
 
 @media (prefers-color-scheme: dark) {

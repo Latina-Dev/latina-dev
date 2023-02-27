@@ -29,6 +29,30 @@ export default function Home() {
               Contribute
             </Link>
           </section>
+
+          <section className={styles.about} id="#about">
+            <div className={styles.logoContainer}>
+              <Logo className={styles.logo} />
+            </div>
+            <h2>About {title}</h2>
+            <strong>
+              Una comunidad for her, by her, to connect, elevate, and empowHER
+            </strong>
+            <div className={styles.description}>
+              <p>
+                {description} Only 15% of engineers are women; 2% are Latina.
+                Let's change that! Vamos!
+              </p>
+            </div>
+            <Link
+              href="https://github.com/FrancesCoronel/latina-dev"
+              aria-label="Latina Dev"
+              target={"_blank"}
+              className={styles.contributeLink}
+            >
+              Join Us
+            </Link>
+          </section>
         </div>
       </div>
     </main>
