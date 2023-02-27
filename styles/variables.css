@@ -20,5 +20,6 @@
   --black-color: #000000;
 
   --button-background: var(--primary-color);
-  --button-background-hover: var(--primary-color-dark);
+  --button-background-hover: var(--white-color);
+  --button-dark-hover: var(--primary-color-dark);
 }

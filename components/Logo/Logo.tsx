@@ -12,8 +12,8 @@ export default function Logo(props: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="138"
-      height="267"
+      width="60"
+      height="60"
       fill="none"
       className={className}
       viewBox="0 0 138 267"

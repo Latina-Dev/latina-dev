@@ -46,6 +46,7 @@
   background: var(--button-background);
   color: var(--white-color);
   border-radius: var(--border-radius);
+  font-weight: bold;
 }
 
 .nameLink {
@@ -64,6 +65,9 @@
 .contributeLink:hover,
 .nameLink:hover {
   background: var(--button-background-hover);
+  border: 2px solid var(--button-dark-hover);
+  color: var(--button-dark-hover);
+  transition: all 150ms ease-in-out;
 }
 
 .logoContainer {
@@ -74,6 +78,10 @@
   margin-bottom: 24px;
   width: 46px;
   height: 89px;
+}
+
+.home {
+  margin: 100px 0px 150px;
 }
 
 @media (prefers-color-scheme: dark) {
