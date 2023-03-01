@@ -29,7 +29,7 @@ export default function Home() {
               Contribute
             </Link>
           </section>
-
+          <hr />
           <section className={styles.about} id="#about">
             <div className={styles.logoContainer}>
               <Logo className={styles.logo} />
@@ -40,8 +40,8 @@ export default function Home() {
             </strong>
             <div className={styles.description}>
               <p>
-                {description} Only 15% of engineers are women; 2% are Latina.
-                Let's change that! Vamos!
+                Only 15% of engineers are women; 2% are Latina. We want that to
+                change! {description}
               </p>
             </div>
             <Link

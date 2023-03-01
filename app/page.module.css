@@ -85,7 +85,7 @@
 }
 
 .about {
-  margin: 267px 0px;
+  margin: 200px 0px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -94,7 +94,7 @@
   }
 }
 
-.description {
+.description p {
   margin: 24px 0px 48px 0px;
   max-width: 500px;
 }
