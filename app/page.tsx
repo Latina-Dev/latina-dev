@@ -53,6 +53,33 @@ export default function Home() {
               Join Us
             </Link>
           </section>
+
+          <footer className={styles.footer}>
+            <div className={styles.logoContainer}>
+              <Logo className={styles.logo} />
+            </div>
+            <Link
+              href="https://github.com/FrancesCoronel/latina-dev"
+              aria-label="Latina Dev GitHub"
+              target={"_blank"}
+            >
+              GitHub
+            </Link>
+            <Link
+              href="https://github.com/EllaCodes4"
+              aria-label="Latina Dev LinkedIn"
+              target={"_blank"}
+            >
+              LinkedIn
+            </Link>
+            <Link
+              href="https://discord.gg/vxasT67u"
+              aria-label="Latina Dev Discord"
+              target={"_blank"}
+            >
+              Discord
+            </Link>
+          </footer>
         </div>
       </div>
     </main>

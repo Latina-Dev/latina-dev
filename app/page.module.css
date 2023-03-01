@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 6rem;
+  padding: 6rem 6rem 3rem;
   min-height: 100vh;
 }
 
@@ -12,7 +12,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 4rem 0;
+  padding: 0;
 }
 
 .container::before {
@@ -66,6 +66,11 @@
 .nameLink:hover {
   background: var(--button-background-hover);
   border: 2px solid var(--button-dark-hover);
+}
+
+.contributeLink:hover,
+.nameLink:hover,
+.footer a:hover {
   color: var(--button-dark-hover);
   transition: all 150ms ease-in-out;
 }
@@ -74,18 +79,32 @@
   margin-bottom: 24px;
 }
 
-.logo {
-  margin-bottom: 24px;
-  width: 225px;
-  height: 225px;
-}
-
 .home {
   margin: 100px 0px 150px;
 }
 
 .about {
   margin: 200px 0px;
+}
+
+.about .logo {
+  margin-bottom: 24px;
+  width: 100px;
+  height: 100px;
+}
+
+.footer {
+  margin-top: 100px;
+  padding: 20px;
+}
+
+.footer .logo {
+  height: 40px;
+  width: 40px;
+}
+
+.footer a {
+  padding-left: 40px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -101,10 +120,6 @@
 
 /* Mobile and Tablet */
 @media (max-width: 1023px) {
-  .container {
-    padding: 8rem 0 6rem;
-  }
-
   .container::before {
     transform: none;
     height: 300px;
