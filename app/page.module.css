@@ -90,25 +90,19 @@
 
 .footer {
   margin-top: 100px;
-  padding: 20px;
+  padding: 20px auto;
 }
 
-.footer .logo {
-  height: 40px;
-  width: 40px;
+.footer a {
+  font-size: 24px;
+  color: var(--primary-color);
+  padding: 12px;
 }
 
 .footer a:hover {
   color: var(--black-color);
   transition: all 150ms ease-in-out;
 }
-
-.footer a {
-  padding-left: 40px;
-  font-size: 24px;
-  color: var(--primary-color);
-}
-
 @media (prefers-color-scheme: dark) {
   .logo path {
     fill: var(--white-color);
