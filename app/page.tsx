@@ -4,6 +4,16 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar/Navbar";
 import { description, title } from "./head";
 import styles from "./page.module.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGithub,
+  faLinkedin,
+  faDiscord,
+} from "@fortawesome/free-brands-svg-icons";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
 
 export default function Home() {
   return (
@@ -55,29 +65,26 @@ export default function Home() {
           </section>
 
           <footer className={styles.footer}>
-            <div className={styles.logoContainer}>
-              <Logo className={styles.logo} />
-            </div>
             <Link
               href="https://github.com/FrancesCoronel/latina-dev"
               aria-label="Latina Dev GitHub"
               target={"_blank"}
             >
-              GitHub
+              <FontAwesomeIcon icon={faGithub} />
             </Link>
             <Link
               href="https://github.com/EllaCodes4"
               aria-label="Latina Dev LinkedIn"
               target={"_blank"}
             >
-              LinkedIn
+              <FontAwesomeIcon icon={faLinkedin} />
             </Link>
             <Link
               href="https://discord.gg/vxasT67u"
               aria-label="Latina Dev Discord"
               target={"_blank"}
             >
-              Discord
+              <FontAwesomeIcon icon={faDiscord} />
             </Link>
           </footer>
         </div>

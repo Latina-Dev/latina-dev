@@ -66,11 +66,6 @@
 .nameLink:hover {
   background: var(--button-background-hover);
   border: 2px solid var(--button-dark-hover);
-}
-
-.contributeLink:hover,
-.nameLink:hover,
-.footer a:hover {
   color: var(--button-dark-hover);
   transition: all 150ms ease-in-out;
 }
@@ -103,8 +98,15 @@
   width: 40px;
 }
 
+.footer a:hover {
+  color: var(--black-color);
+  transition: all 150ms ease-in-out;
+}
+
 .footer a {
   padding-left: 40px;
+  font-size: 24px;
+  color: var(--primary-color);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -114,7 +116,8 @@
 }
 
 .description p {
-  margin: 24px 0px 48px 0px;
+  margin: 0 auto;
+  padding: 24px 0 48px;
   max-width: 500px;
 }
 
