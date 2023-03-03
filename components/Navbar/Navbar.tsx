@@ -13,9 +13,6 @@ export default function Navbar() {
           <Link href="#about">About</Link>
         </li>
         <li>
-          <Link href="#members">Members</Link>
-        </li>
-        <li>
           <Link
             href="https://github.com/FrancesCoronel/latina-dev"
             aria-label="Latina Dev"

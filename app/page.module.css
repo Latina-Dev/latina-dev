@@ -78,6 +78,11 @@
   margin: 100px 0px 150px;
 }
 
+.heroborder {
+  border: none;
+  border-top: 1px var(--black-color) solid;
+}
+
 .about {
   margin: 200px 0px;
 }
@@ -90,17 +95,19 @@
 
 .footer {
   margin-top: 100px;
-  padding: 20px auto;
 }
 
 .footer a {
-  font-size: 24px;
+  font-size: 20px;
   color: var(--primary-color);
   padding: 12px;
+  margin: 10px;
+  border-radius: 40px;
 }
 
 .footer a:hover {
-  color: var(--black-color);
+  color: var(--white-color);
+  background: var(--primary-color-dark);
   transition: all 150ms ease-in-out;
 }
 @media (prefers-color-scheme: dark) {

@@ -36,31 +36,29 @@ export default function Home() {
               target={"_blank"}
               className={styles.contributeLink}
             >
-              Contribute
+              Contribute on GitHub <FontAwesomeIcon icon={faGithub} />
             </Link>
           </section>
-          <hr />
+          <hr className={styles.heroborder} />
           <section className={styles.about} id="#about">
-            <div className={styles.logoContainer}>
-              <Logo className={styles.logo} />
-            </div>
-            <h2>About {title}</h2>
+            <h2>About Us</h2>
             <strong>
-              Una comunidad for her, by her, to connect, elevate, and empowHER
+              Una comunidad for her, by her, to connect, elevate, and empower
+              the next generation of Latina software engineers
             </strong>
             <div className={styles.description}>
               <p>
-                Only 15% of engineers are women; 2% are Latina. We want that to
-                change! {description}
+                Less than 15% of engineers are women; 2% are Latina. We want
+                that to change! {description}
               </p>
             </div>
             <Link
-              href="https://github.com/FrancesCoronel/latina-dev"
-              aria-label="Latina Dev"
+              href="https://discord.gg/vxasT67u"
+              aria-label="Latina Dev Discord"
               target={"_blank"}
               className={styles.contributeLink}
             >
-              Join Us
+              Join us on Discord <FontAwesomeIcon icon={faDiscord} />
             </Link>
           </section>
 
@@ -73,18 +71,18 @@ export default function Home() {
               <FontAwesomeIcon icon={faGithub} />
             </Link>
             <Link
-              href="https://github.com/EllaCodes4"
-              aria-label="Latina Dev LinkedIn"
-              target={"_blank"}
-            >
-              <FontAwesomeIcon icon={faLinkedin} />
-            </Link>
-            <Link
               href="https://discord.gg/vxasT67u"
               aria-label="Latina Dev Discord"
               target={"_blank"}
             >
-              <FontAwesomeIcon icon={faDiscord} />
+              <FontAwesomeIcon icon={faDiscord} width={25} />
+            </Link>
+            <Link
+              href="https://www.linkedin.com/company/latina-dev/"
+              aria-label="Latina Dev LinkedIn"
+              target={"_blank"}
+            >
+              <FontAwesomeIcon icon={faLinkedin} />
             </Link>
           </footer>
         </div>
