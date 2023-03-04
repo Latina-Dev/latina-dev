@@ -1,0 +1,28 @@
+.logoContainer {
+  margin-bottom: 24px;
+}
+
+.home {
+  margin: 100px 0px 150px;
+}
+
+.description p {
+  margin: 0 auto;
+  padding: 12px 0 48px;
+  max-width: 500px;
+}
+
+.contributeLink {
+  padding: 18px 46px;
+  background: var(--button-background);
+  color: var(--white-color);
+  border-radius: var(--border-radius);
+  font-weight: bold;
+}
+
+.contributeLink:hover {
+  background: var(--button-background-hover);
+  border: 2px solid var(--button-dark-hover);
+  color: var(--button-dark-hover);
+  transition: all 150ms ease-in-out;
+}

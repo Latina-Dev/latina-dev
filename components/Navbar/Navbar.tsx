@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Logo from "../Logo/Logo";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {

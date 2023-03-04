@@ -1,0 +1,28 @@
+.maintainters {
+  margin: 0 auto;
+}
+
+.maintainers img {
+  width: 200px;
+  border-radius: 160px;
+}
+
+.maintainersociallinks {
+  margin-top: 10px;
+}
+
+.maintainersociallinks a {
+  padding: 12px;
+  font-size: 20px;
+}
+
+.maintainersociallinks a:hover {
+  color: var(--primary-color);
+  transition: all 150ms ease-in-out;
+}
+
+@media (max-width: 550px) {
+  .maintainers img {
+    width: 160px;
+  }
+}
