@@ -12,8 +12,8 @@ export default function About() {
     <section className={styles.about} id="#about">
       <h2 className="mb-2">About Us</h2>
       <strong>
-        Una comunidad for her, by her, to connect, elevate, and empower the next
-        generation of Latina software engineers
+        Una comunidad for present & future Latina software engineers created to
+        connect, elevate and empower the next generation of Latina tech leaders
       </strong>
       <div className={styles.description}>
         <p>
