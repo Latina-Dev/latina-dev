@@ -17,7 +17,7 @@ export default function Maintainers() {
       <h3>Chief Maintainers</h3>
       <div className="mt-10 grid grid-rows-1 grid-cols-2">
         <div>
-          <img src="/img/maintainers/frances.jpg"></img>{" "}
+          <img src="/img/maintainers/frances.jpg" alt="Frances Coronel"></img>{" "}
           <h4 className="mt-3">Frances Coronel</h4>
           <small>Senior Software Enginner at JupiterSpark</small>
           <div className={styles.maintainersociallinks}>
@@ -38,7 +38,10 @@ export default function Maintainers() {
           </div>
         </div>
         <div>
-          <img src="/img/maintainers/gabriellac.jpg"></img>
+          <img
+            src="/img/maintainers/gabriellac.jpg"
+            alt="Gabriella Corales"
+          ></img>
           <h4 className="mt-3">Gabriella Corales</h4>
           <small>Educator turned Aspiring Front End Developer</small>
           <div className={styles.maintainersociallinks}>
