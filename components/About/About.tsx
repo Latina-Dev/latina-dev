@@ -3,13 +3,10 @@ import Link from "next/link";
 import { description } from "app/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord } from "@fortawesome/free-brands-svg-icons";
-import { config } from "@fortawesome/fontawesome-svg-core";
-import "@fortawesome/fontawesome-svg-core/styles.css";
-config.autoAddCss = false;
 
 export default function About() {
   return (
-    <section className={styles.about} id="#about">
+    <section className={styles.about} id="about">
       <h2 className="mb-2">About Us</h2>
       <strong>
         Una comunidad for present & future Latina software engineers created to
