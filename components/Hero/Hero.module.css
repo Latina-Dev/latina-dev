@@ -26,3 +26,9 @@
   color: var(--button-dark-hover);
   transition: all 150ms ease-in-out;
 }
+
+@media (max-width: 550px) {
+  .contributeLink {
+    padding: 18px 40px;
+  }
+}

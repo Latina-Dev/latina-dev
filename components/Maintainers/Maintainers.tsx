@@ -10,12 +10,12 @@ import {
 export default function Maintainers() {
   return (
     <section className={styles.maintainers}>
-      <h3>Chief Maintainers</h3>
+      <h3>Maintainers</h3>
       <div className="mt-10 grid grid-rows-1 grid-cols-2">
         <div>
           <img src="/img/maintainers/frances.jpg" alt="Frances Coronel"></img>{" "}
           <h4 className="mt-3">Frances Coronel</h4>
-          <small>Senior Software Enginner at JupiterSpark</small>
+          <small>Senior Software Enginner at JupiterOne</small>
           <div className={styles.maintainersociallinks}>
             <Link
               href="https://www.linkedin.com/in/francescoronel/"

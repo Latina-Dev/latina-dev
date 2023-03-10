@@ -10,7 +10,7 @@ export default function About() {
       <h2 className="mb-2">About Us</h2>
       <strong>
         Una comunidad for present & future Latina software engineers created to
-        connect, elevate and empower the next generation of Latina tech leaders
+        connect, elevate and empower the next generation of tech leaders
       </strong>
       <div className={styles.description}>
         <p>
