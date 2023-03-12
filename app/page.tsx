@@ -1,7 +1,8 @@
 import GitHubCorner from "@/components/GitHubCorner/GitHubCorner";
-import Logo from "@/components/Logo/Logo";
-import Link from "next/link";
-import { description, title } from "./head";
+import Hero from "@/components/Hero/Hero";
+import About from "@/components/About/About";
+import Maintainers from "@/components/Maintainers/Maintainers";
+import Footer from "@/components/Footer/Footer";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -10,22 +11,11 @@ export default function Home() {
       <GitHubCorner />
       <div className={styles.container}>
         <div className={styles.center}>
-          <div className={styles.logoContainer}>
-            <Logo className={styles.logo} />
-          </div>
-          <Link
-            href="https://github.com/FrancesCoronel/latina-dev"
-            aria-label="Latina Dev"
-            target={"_blank"}
-            className={styles.nameLink}
-          >
-            <h1>{title}</h1>
-          </Link>
-          <div className={styles.description}>
-            <p>{description}</p>
-            <br />
-            <p>More to come soon...</p>
-          </div>
+          <Hero />
+          <hr className={styles.heroborder} />
+          <About />
+          <Maintainers />
+          <Footer />
         </div>
       </div>
     </main>

@@ -1,0 +1,20 @@
+.footer {
+  margin-top: 100px;
+  color: var(--primary-color);
+  padding: 36px;
+  justify-content: space-evenly;
+  display: flex;
+}
+
+.footer a {
+  font-size: 20px;
+  padding: 16px;
+  border-radius: 50px;
+  display: flex;
+}
+
+.footer a:hover {
+  color: var(--white-color);
+  background: var(--primary-color-dark);
+  transition: all 150ms ease-in-out;
+}
