@@ -2,3 +2,7 @@
 @import "variables.css";
 @import "base.css";
 @import "dark-mode.css";
+
+
+@tailwind components;
+@tailwind utilities;

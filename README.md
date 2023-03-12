@@ -16,7 +16,12 @@ If you have feedback or are interested in contributing, feel free to create a ne
 
 ### Getting Started
 
-First, run the development server:
+If this is your very first time contributing, install the dependencies:
+
+```bash
+npm i
+```
+Afterward, run the development server: 
 
 ```bash
 npm run dev
@@ -35,3 +40,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - 🎉 Get your pull request approved - success!
 
 Or just [create an issue](https://github.com/FrancesCoronel/latina-dev/issues) - any little bit of help counts! 😊
+
+### Credits 
+- [Frances Coronel](https://francescoronel.com/)
+- [Gabriella Corales](https://ellacodes.netlify.app/)

@@ -7,8 +7,8 @@
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
-  --primary-color: #6c5aa6;
-  --primary-color-dark: #5a4a8d;
+  --primary-color: #9e0001;
+  --primary-color-dark: #7d0000;
 
   --warning-color: #ffc101;
   --success-color: #3f784c;
@@ -20,5 +20,6 @@
   --black-color: #000000;
 
   --button-background: var(--primary-color);
-  --button-background-hover: var(--primary-color-dark);
+  --button-background-hover: var(--white-color);
+  --button-dark-hover: var(--primary-color-dark);
 }
