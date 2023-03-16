@@ -29,6 +29,9 @@
 
 @media (max-width: 550px) {
   .contributeLink {
-    padding: 18px 40px;
+    padding: 18px 33px;
+  }
+  .home {
+    margin: 70px 0px 100px;
   }
 }

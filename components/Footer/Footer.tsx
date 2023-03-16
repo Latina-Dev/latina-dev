@@ -18,7 +18,7 @@ export default function Footer() {
         <FontAwesomeIcon icon={faGithub} />
       </Link>
       <Link
-        href="https://discord.gg/vxasT67u"
+        href="https://discord.com/invite/xzHDhxsQAQ"
         aria-label="Latina Dev Discord"
         target={"_blank"}
       >
