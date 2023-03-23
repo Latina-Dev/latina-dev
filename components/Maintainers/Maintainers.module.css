@@ -21,7 +21,7 @@
   transition: all 150ms ease-in-out;
 }
 
-@media (max-width: 550px) {
+@media (max-width: 628px) {
   .maintainers img {
     width: 130px;
   }

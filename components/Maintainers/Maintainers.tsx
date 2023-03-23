@@ -6,6 +6,7 @@ import {
   faLinkedin,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 
 export default function Maintainers() {
   return (
@@ -30,6 +31,13 @@ export default function Maintainers() {
               target={"_blank"}
             >
               <FontAwesomeIcon icon={faGithub} />
+            </Link>
+            <Link
+              href="https://francescoronel.com/"
+              aria-label="Gabriella Corales Portfolio"
+              target={"_blank"}
+            >
+              <FontAwesomeIcon icon={faGlobe} />
             </Link>
           </div>
         </div>
@@ -61,6 +69,13 @@ export default function Maintainers() {
               target={"_blank"}
             >
               <FontAwesomeIcon icon={faTwitter} />
+            </Link>
+            <Link
+              href="https://ellacodes.netlify.app"
+              aria-label="Gabriella Corales Portfolio"
+              target={"_blank"}
+            >
+              <FontAwesomeIcon icon={faGlobe} />
             </Link>
           </div>
         </div>
