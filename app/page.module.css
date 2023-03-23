@@ -24,12 +24,6 @@
   border-top: 1px var(--black-color) solid;
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo path {
-    fill: var(--white-color);
-  }
-}
-
 .description p {
   margin: 0 auto;
   padding: 24px 0 48px;
@@ -41,5 +35,12 @@
   .container::before {
     transform: none;
     height: 300px;
+  }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .heroborder {
+    border-top: 1px var(--white-color) solid;
   }
 }

@@ -16,7 +16,7 @@
 /* Dark Mode */
 @media (prefers-color-scheme: dark) {
   .githubCorner {
-    color: var(--black-color);
+    color: var(--primary-color);
     fill: var(--white-color);
   }
 }

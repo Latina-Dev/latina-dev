@@ -2,6 +2,12 @@
   margin-bottom: 24px;
 }
 
+@media (prefers-color-scheme: dark) {
+  .logo path {
+    fill: var(--white-color);
+  }
+}
+
 .home {
   margin: 100px 0px 150px;
 }
