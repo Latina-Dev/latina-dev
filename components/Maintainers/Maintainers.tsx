@@ -64,13 +64,6 @@ export default function Maintainers() {
               <FontAwesomeIcon icon={faGithub} />
             </Link>
             <Link
-              href="https://twitter.com/EllaCodes"
-              aria-label="Gabriella Corales Twitter"
-              target={"_blank"}
-            >
-              <FontAwesomeIcon icon={faTwitter} />
-            </Link>
-            <Link
               href="https://ellacodes.netlify.app"
               aria-label="Gabriella Corales Portfolio"
               target={"_blank"}
