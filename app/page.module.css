@@ -24,6 +24,12 @@
   border-top: 1px var(--black-color) solid;
 }
 
+@media (prefers-color-scheme: dark) {
+  .logo path {
+    fill: var(--white-color);
+  }
+}
+
 .description p {
   margin: 0 auto;
   padding: 24px 0 48px;
