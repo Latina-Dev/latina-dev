@@ -15,7 +15,7 @@ export default function Maintainers() {
         <div>
           <img src="/img/maintainers/frances.jpg" alt="Frances Coronel"></img>{" "}
           <h4 className="mt-3">Frances Coronel</h4>
-          <small>Senior Software Enginner at JupiterOne</small>
+          <small>Senior Software Engineer at JupiterOne</small>
           <div className={styles.maintainersociallinks}>
             <Link
               href="https://www.linkedin.com/in/francescoronel/"
