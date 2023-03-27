@@ -37,3 +37,10 @@
     height: 300px;
   }
 }
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .heroborder {
+    border-top: 1px var(--white-color) solid;
+  }
+}

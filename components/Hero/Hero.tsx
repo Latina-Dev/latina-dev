@@ -9,7 +9,7 @@ export default function Hero() {
   return (
     <section className={styles.home} id="home">
       <div className={styles.logoContainer}>
-        <Logo />
+        <Logo className={styles.logo} />
       </div>
       <h1>{title}</h1>
       <div className={styles.description}>

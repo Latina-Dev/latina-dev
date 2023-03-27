@@ -66,12 +66,12 @@ export default function Head() {
       {/* For Old Chrome */}
       <link rel="icon" sizes="32x32" href="img/favicons/favicon-32.png" />
       {/* For IE10 Metro */}
-      <meta name="msapplication-TileColor" content="#6C5AA6" />
+      <meta name="msapplication-TileColor" content="#9e0001" />
       <meta
         name="msapplication-TileImage"
         content="img/favicons/favicon-144.png"
       />
-      <meta name="theme-color" content="#6C5AA6" />
+      <meta name="theme-color" content="#9e0001" />
       {/* Chrome for Android */}
       <link rel="manifest" href="manifest.json" />
       <link rel="icon" sizes="192x192" href="img/favicons/favicon-192.png" />
