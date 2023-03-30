@@ -2,13 +2,13 @@
 
 Latina Dev is an open-source directory of Latina software engineers at the student, IC, and leadership levels. Our goal is to increase visibility and access to valuable opportunities.
 
-This project is currently in the ideation stage and we ([Frances](https://github.com/FrancesCoronel) and [Gabriella](https://github.com/EllaCodes4)) are currently looking for others interested in developing this with us! 🎉
+This project is currently in the ideation stage and we are currently looking for others interested in developing this with us! 🎉
 
 If you have feedback or are interested in contributing, feel free to create a new discussion thread or join us on Discord.
 
-💬 [Create a new discussion](https://github.com/FrancesCoronel/latina-dev/discussions)
+💬 [Create a new discussion](https://github.com/orgs/Latina-Dev/discussions)
 
-🛠️ [View the existing project board](https://github.com/users/FrancesCoronel/projects/1)
+🛠️ [View the existing project board](https://github.com/orgs/Latina-Dev/projects/1)
 
 [![Discord Latina Dev Community](https://dcbadge.vercel.app/api/server/xzHDhxsQAQ)](https://discord.gg/xzHDhxsQAQ)
 
@@ -41,6 +41,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Or just [create an issue](https://github.com/FrancesCoronel/latina-dev/issues) - any little bit of help counts! 😊
 
-### Credits 
-- [Frances Coronel](https://francescoronel.com/)
-- [Gabriella Corales](https://ellacodes.netlify.app/)
+### Maintainers
+
+- [Frances Coronel](https://github.com/FrancesCoronel)
+- [Gabriella Corales](https://github.com/EllaCodes4)
