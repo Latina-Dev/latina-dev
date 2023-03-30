@@ -1,0 +1,23 @@
+.title {
+  font-size: 40px;
+}
+
+.members {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem 6rem 3rem;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 0;
+}
+
+.center {
+  text-align: center;
+}
