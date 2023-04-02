@@ -1,5 +1,6 @@
 import styles from "./Maintainers.module.css";
 import Link from "next/link";
+import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faGithub,
@@ -12,9 +13,14 @@ export default function Maintainers() {
   return (
     <section className={styles.maintainers}>
       <h3>Maintainers</h3>
-      <div className="mt-10 grid grid-rows-1 grid-cols-2">
+      <div className="mt-10 grid-rows-2 grid-cols-1 sm:grid grid-rows-1 grid-cols-2">
         <div>
-          <img src="/img/maintainers/frances.jpg" alt="Frances Coronel"></img>{" "}
+          <Image
+            src="/img/maintainers/frances.jpg"
+            alt="Frances Coronel"
+            width="200"
+            height="200"
+          ></Image>{" "}
           <h4 className="mt-3">Frances Coronel</h4>
           <small>Senior Software Engineer at JupiterOne</small>
           <div className={styles.maintainersociallinks}>
@@ -41,11 +47,13 @@ export default function Maintainers() {
             </Link>
           </div>
         </div>
-        <div>
-          <img
+        <div className="mt-9 sm:mt-0">
+          <Image
             src="/img/maintainers/gabriellac.jpg"
             alt="Gabriella Corales"
-          ></img>
+            width="200"
+            height="200"
+          ></Image>
           <h4 className="mt-3">Gabriella Corales</h4>
           <small>Educator turned Aspiring Front End Developer</small>
           <div className={styles.maintainersociallinks}>
