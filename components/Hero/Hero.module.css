@@ -9,7 +9,7 @@
 }
 
 .home {
-  margin: 100px 19px 150px;
+  margin: 100px 0px 150px;
 }
 
 .description p {
@@ -38,6 +38,6 @@
     padding: 18px 33px;
   }
   .home {
-    margin: 70px 19px 100px;
+    margin: 70px 0px 100px;
   }
 }
