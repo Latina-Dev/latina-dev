@@ -3,7 +3,6 @@
 }
 
 .maintainers img {
-  width: 200px;
   border-radius: 160px;
 }
 
@@ -24,5 +23,6 @@
 @media (max-width: 628px) {
   .maintainers img {
     width: 130px;
+    height: 130px;
   }
 }
