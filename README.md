@@ -12,6 +12,8 @@ If you have feedback or are interested in contributing, feel free to create a ne
 
 [![Discord Latina Dev Community](https://dcbadge.vercel.app/api/server/xzHDhxsQAQ)](https://discord.gg/xzHDhxsQAQ)
 
+[![Vercel](/public/img/logos/vercel.svg "Vercel")](https://vercel.com?utm_source=latina-dev&utm_campaign=oss)
+
 ## Contributing
 
 ### Getting Started
@@ -21,7 +23,8 @@ If this is your very first time contributing, install the dependencies:
 ```bash
 npm i
 ```
-Afterward, run the development server: 
+
+Afterward, run the development server:
 
 ```bash
 npm run dev
