@@ -36,15 +36,16 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 > To get started...
 
-- 🍴 Fork this repo [here](https://github.com/FrancesCoronel/latina-dev#fork-destination-box)
+- 🍴 Fork this repo [here](https://github.com/Latina-Dev/latina-dev#fork-destination-box)
 - 🔨 Hack away
 - 👥 Add yourself as a contributor under credits
-- 🔧 Make a pull request [here](https://github.com/FrancesCoronel/latina-dev/compare)
+- 🔧 Make a pull request [here](https://github.com/Latina-Dev/latina-dev/compare)
 - 🎉 Get your pull request approved - success!
 
-Or just [create an issue](https://github.com/FrancesCoronel/latina-dev/issues) - any little bit of help counts! 😊
+Or just [create an issue](https://github.com/Latina-Dev/latina-dev/issues) - any little bit of help counts! 😊
 
 ### Maintainers
 
 - [Frances Coronel](https://github.com/FrancesCoronel)
 - [Gabriella Corales](https://github.com/EllaCodes4)
+- [Fernanda Pérez Gutiérrez](https://github.com/fernperezg97)
