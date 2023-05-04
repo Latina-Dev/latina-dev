@@ -1,15 +1,21 @@
-- name: "bug"
-  color: "d73a4a"
-  description: "Something isn't working"
-- name: "documentation"
-  color: "0075ca"
-  description: "Improvements or additions to documentation"
-- name: "duplicate"
-  color: "cfd8d7"
-  description: "This issue or pull request already exists"
-- name: "enhancement"
-  color: "a22eef"
-- name: "wontfix_it"
-  color: "000000"
-  description: "This will not be worked on"
-  from_name: "wontfix"
+# Add 'repo' label to any root file changes
+repo:
+  - '*'
+
+# Add '@domain/core' label to any change within the 'core' package
+'@domain/core':
+  - package/core/*
+  - package/core/**/*
+
+# Add 'test' label to any change to *.spec.js files within the source dir
+test:
+  - src/**/*.spec.js
+
+# Add 'source' label to any change to src files within the source dir EXCEPT for the docs sub-folder
+source:
+  - any: ['src/**/*', '!src/docs/*']
+
+# Add 'frontend` label to any change to *.js files as long as the `main.js` hasn't changed
+frontend:
+  - any: ['src/**/*.js']
+    all: ['!src/main.js']
