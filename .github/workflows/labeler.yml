@@ -20,3 +20,6 @@ jobs:
     - uses: actions/labeler@v4
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        yaml-file: .github/labeler.yml
+        skip-delete: false
+        dry-run: false
