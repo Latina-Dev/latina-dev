@@ -1,0 +1,5 @@
+repo: *
+app: app/**/*
+components: components/**/*
+public: public/**/*
+styles: styles/**/*
