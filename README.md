@@ -49,3 +49,6 @@ Or just [create an issue](https://github.com/Latina-Dev/latina-dev/issues) - any
 - [Frances Coronel](https://github.com/FrancesCoronel)
 - [Gabriella Corales](https://github.com/EllaCodes4)
 - [Fernanda Pérez Gutiérrez](https://github.com/fernperezg97)
+
+### Credits
+
