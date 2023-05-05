@@ -9,7 +9,7 @@ name: Labeler
 on: [pull_request_target]
 
 jobs:
-  labeler:
+  label:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -17,7 +17,4 @@ jobs:
     steps:
     - uses: actions/labeler@v4
       with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        yaml-file: .github/labeler.yml
-        skip-delete: false
-        dry-run: false
+        configuration-path: /tmp/labeler.yml
