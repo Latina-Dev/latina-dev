@@ -1,6 +1,6 @@
 import { faDiscord } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { description } from "app/head";
+import { metadata } from "app/layout";
 import Link from "next/link";
 import styles from "./About.module.css";
 
@@ -15,7 +15,7 @@ export default function About() {
       <div className={styles.description}>
         <p>
           Less than 15% of engineers are women; 2% are Latina. We want that to
-          change! {description}
+          change! {metadata.description}
         </p>
       </div>
       <Link

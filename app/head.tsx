@@ -1,19 +1,9 @@
-export const title = "Latina Dev";
-export const description =
-  "Latina Dev is an open-source directory of Latina software engineers at the student, IC, and leadership levels. Our goal is to increase visibility and access to valuable opportunities.";
-
 export default function Head() {
   return (
     <>
-      <title>{title}</title>
-      <meta name="description" content={description} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta property="og:description" content={description} />
       <meta property="og:image" content="img/featured-image.png" />
-      <meta property="og:title" content={title} />
       <meta property="og:type" content="website" />
-      {/* For old IEs */}
-      <link rel="shortcut icon" href="img/favicons/favicon.ico" />
       {/* For new browsers - multisize ico  */}
       <link
         rel="icon"

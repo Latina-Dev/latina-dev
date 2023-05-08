@@ -1,7 +1,20 @@
+import Head from "@/app/head";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "/styles/_styles.css";
 config.autoAddCss = false;
+
+export const metadata = {
+  title: {
+    default: "Latina Dev",
+    template: "%s | Latina Dev",
+  },
+  description:
+    "Latina Dev is an open-source directory of Latina software engineers at the student, IC, and leadership levels. Our goal is to increase visibility and access to valuable opportunities.",
+  icons: {
+    shortcut: "/favicon.png",
+  },
+};
 
 export default function RootLayout({
   children,
@@ -10,11 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
-      <head />
+      <Head />
       <body>{children}</body>
     </html>
   );
