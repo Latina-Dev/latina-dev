@@ -4,6 +4,7 @@ import About from "@/components/About/About";
 import Maintainers from "@/components/Maintainers/Maintainers";
 import Footer from "@/components/Footer/Footer";
 import styles from "./page.module.css";
+import Members from "@/components/Members/Members";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
           <hr className={styles.heroborder} />
           <About />
           <Maintainers />
+          <Members />
           <Footer />
         </div>
       </div>
