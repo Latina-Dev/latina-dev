@@ -7,7 +7,7 @@ interface Props {
 }
 
 // TODO: Update styling for this single member page view
-const Member = async ({ params }: Props) => {
+export default async function Member({ params }: Props) {
   // get member data from slug
   const member = await getMemberBySlug(params.slug);
   // if no member, return 404
@@ -61,7 +61,7 @@ const Member = async ({ params }: Props) => {
       {bio && <div dangerouslySetInnerHTML={{ __html: bio }} />}
     </article>
   );
-};
+}
 
 // Generate a list of paths for Next.js to pre-render, based on the members
 export async function generateStaticParams() {
@@ -79,5 +79,3 @@ export async function generateMetadata({ params }: Props) {
     title: `${member?.name} | Members`,
   };
 }
-
-export default Member;

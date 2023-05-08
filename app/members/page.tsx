@@ -1,7 +1,7 @@
 import { getMembers } from "@/lib/getMembers";
 import { MemberInterface } from "@/types/members";
 
-const Members = async () => {
+export default async function Members() {
   const members: MemberInterface[] = await getMembers();
   return (
     <div>
@@ -15,6 +15,4 @@ const Members = async () => {
       </ul>
     </div>
   );
-};
-
-export default Members;
+}
