@@ -1,27 +1,18 @@
-.maintainters {
+.avatars {
   margin: 0 auto;
+  padding: 50px 0;
 }
 
-.maintainers img {
+.avatars a:hover {
+  color: var(--primary-color);
+}
+
+.avatars img {
   border-radius: 160px;
 }
 
-.maintainersociallinks {
-  margin-top: 10px;
-}
-
-.maintainersociallinks a {
-  padding: 12px;
-  font-size: 18px;
-}
-
-.maintainersociallinks a:hover {
-  color: var(--primary-color);
-  transition: all 150ms ease-in-out;
-}
-
 @media (max-width: 628px) {
-  .maintainers img {
+  .avatars img {
     width: 130px;
     height: 130px;
   }

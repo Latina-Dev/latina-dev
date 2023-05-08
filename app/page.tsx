@@ -1,12 +1,15 @@
+import About from "@/components/About/About";
+import Footer from "@/components/Footer/Footer";
 import GitHubCorner from "@/components/GitHubCorner/GitHubCorner";
 import Hero from "@/components/Hero/Hero";
-import About from "@/components/About/About";
-import Maintainers from "@/components/Maintainers/Maintainers";
-import Footer from "@/components/Footer/Footer";
-import styles from "./page.module.css";
 import Members from "@/components/Members/Members";
+import { getMembers } from "@/lib/getMembers";
+import { MemberInterface } from "@/types/members";
+import styles from "./page.module.css";
 
-export default function Home() {
+export default async function Home() {
+  const members: MemberInterface[] = await getMembers();
+
   return (
     <main className={styles.main}>
       <GitHubCorner />
@@ -15,8 +18,9 @@ export default function Home() {
           <Hero />
           <hr className={styles.heroborder} />
           <About />
-          <Maintainers />
-          <Members />
+          <Members members={members} />
+          {/* Removing Maintainers for now since it feels a little redundant  but once we have more, it should be fine */}
+          {/* <Maintainers /> */}
           <Footer />
         </div>
       </div>

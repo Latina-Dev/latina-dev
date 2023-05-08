@@ -1,21 +1,15 @@
-import { getMembers } from "@/app/members/getMembers";
-
-export type MemberData = {
-  title: string;
-  date: string;
-  slug: string;
-  path: string;
-};
+import { getMembers } from "@/lib/getMembers";
+import { MemberInterface } from "@/types/members";
 
 const Members = async () => {
-  const members: MemberData[] = await getMembers();
+  const members: MemberInterface[] = await getMembers();
   return (
     <div>
       <h1>All Members</h1>
       <ul>
         {members.map((member) => (
           <li key={member.slug}>
-            <a href={member.path}>{member.title}</a>
+            <a href={member.path}>{member.name}</a>
           </li>
         ))}
       </ul>

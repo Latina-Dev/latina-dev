@@ -1,12 +1,12 @@
-import styles from "./Footer.module.css";
-import Link from "next/link";
-import Image from "next/image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faDiscord,
   faGithub,
   faLinkedin,
-  faDiscord,
 } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
+import Link from "next/link";
+import styles from "./Footer.module.css";
 
 export default function Footer() {
   return (

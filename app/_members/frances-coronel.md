@@ -1,6 +1,9 @@
 ---
-title: Frances Coronel
-date: '2023-05-07'
+name: Frances Coronel
+added: '2023-01-25'
+level: "Individual Contributor"
+linkedin: 'frances-coronel'
+github: 'FrancesCoronel'
+twitter: 'FrancesCoronel'
+website: 'https://francescoronel.com'
 ---
-
-This is an example of a blog post written in Markdown.

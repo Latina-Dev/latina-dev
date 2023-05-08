@@ -4,7 +4,7 @@ import styles from "./GitHubCorner.module.css";
 export default function GitHubCorner() {
   return (
     <Link
-      href="https://github.com/users/FrancesCoronel/projects/1/views/4?query=is%3Aopen+sort%3Aupdated-desc"
+      href="https://github.com/orgs/Latina-Dev/projects/1?query=is%3Aopen+sort%3Aupdated-desc"
       className={styles.githubCornerLink}
       aria-label="View source on GitHub"
       target={"_blank"}

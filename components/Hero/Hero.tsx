@@ -1,9 +1,9 @@
-import styles from "./Hero.module.css";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { description, title } from "app/head";
 import Link from "next/link";
 import Logo from "../Logo/Logo";
-import { description, title } from "app/head";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import styles from "./Hero.module.css";
 
 export default function Hero() {
   return (

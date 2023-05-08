@@ -1,8 +1,8 @@
-import styles from "./About.module.css";
-import Link from "next/link";
-import { description } from "app/head";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { description } from "app/head";
+import Link from "next/link";
+import styles from "./About.module.css";
 
 export default function About() {
   return (
