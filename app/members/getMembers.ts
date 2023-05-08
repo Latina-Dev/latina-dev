@@ -1,46 +1,58 @@
 import fs from "fs";
-import matter from "gray-matter";
+import grayMatter from "gray-matter";
+import remarkParse from "remark-parse";
+import remarkHtml from "remark-html";
+import { unified } from "unified";
 
-type PostData = {
+type MemberData = {
   title: string;
   date: string;
   slug: string;
   path: string;
+  html: string;
 };
 
-export const getMembers = async (): Promise<PostData[]> => {
+export const getMembers = async (): Promise<MemberData[]> => {
   const files = fs.readdirSync(`app/_members`);
   // console.log({ files });
 
-  const members = files.map((filename) => {
+  const members = files.map(async (filename) => {
     // console.log({ filename });
     const markdownWithMetadata = fs
       .readFileSync(`app/_members/${filename}`)
       .toString();
 
-    // console.log({ markdownWithMetadata });
-    const { data, content: markdown } = matter(markdownWithMetadata);
+    const { data, content } = grayMatter(markdownWithMetadata);
 
-    const title = data.title;
-    // console.log({ title });
-    const date = data.date;
-    // console.log({ date });
+    const html = await unified()
+      .use(remarkParse)
+      .use(remarkHtml)
+      .process(content);
+
+    console.log({ html });
+
+    const htmlData = html.value.toString();
+
+    // Front Matter
     const slug = filename.replace(".md", "");
-    // console.log({ slug });
     const path = `/members/${slug}`;
-    // console.log({ path });
+    const title = data.title;
+    const date = data.date;
+
+    // Parse Markdown
 
     return {
       title,
       date,
       slug,
       path,
+      html: htmlData,
     };
   });
 
   // console.log({ members });
 
-  return members;
+  return Promise.all(members);
 };
 
 export const getMemberBySlug = async (slug: string) => {

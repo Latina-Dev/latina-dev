@@ -4,17 +4,17 @@ import { getMemberBySlug, getMembers } from "@/app/members/getMembers";
 // allowed to be async
 export default async function Member({ params }: { params: { slug: string } }) {
   const member = await getMemberBySlug(params.slug);
-  console.log({ member });
-  const title = member?.title;
-  const date = member?.date;
-  if (!member) {
-    return <div>404</div>;
-  }
+  const { title, date, html } = member ?? {};
+
+  console.log({ html });
+
+  if (!member) return <div>404</div>;
+
   return (
     <article>
       <h1>{title}</h1>
       <h4>{date}</h4>
-      {/* <div dangerouslySetInnerHTML={{ __html: html }} /> */}
+      <div dangerouslySetInnerHTML={{ __html: html ?? "" }} />
     </article>
   );
 }
