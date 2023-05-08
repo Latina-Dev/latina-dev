@@ -3,10 +3,6 @@
   padding: 50px 0;
 }
 
-.avatars a:hover {
-  color: var(--primary-color);
-}
-
 .avatars img {
   border-radius: 160px;
 }
