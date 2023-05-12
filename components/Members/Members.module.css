@@ -1,10 +1,9 @@
 .avatars {
-  margin: 0 auto;
   padding: 50px 0;
 }
 
 .avatars img {
-  border-radius: 160px;
+  border-radius: var(--border-radius);
 }
 
 @media (max-width: 628px) {
