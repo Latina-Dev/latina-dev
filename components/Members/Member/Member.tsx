@@ -30,13 +30,13 @@ const Member = (props: MemberProps) => {
       />
       {/* Name */}
       <Link
-            href={props.member.path}
-            aria-label={`${name}`}
-            target={"_blank"}
-            className="block"
-          >
-           <h4 className="mt-3">{name}</h4>
-          </Link>
+        href={props.member.path}
+        aria-label={`${name}`}
+        target={"_blank"}
+        className="block"
+      >
+        <h4 className="mt-3">{name}</h4>
+      </Link>
       {/* Level */}
       <p className="text-muted">{level}</p>
       {/* Social Links */}

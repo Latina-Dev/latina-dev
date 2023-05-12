@@ -14,8 +14,8 @@ export default async function MembersPage() {
       <div className="mt-10 grid grid-cols-1 gap-y-10 lg:grid lg:grid-cols-2 lg:grid-rows lg:gap-x-10">
         {members.map((member) => (
           <div key={member.slug}>
-              <Link href={member.path}>
-                <Member member={member} />
+            <Link href={member.path}>
+              <Member member={member} />
             </Link>
           </div>
         ))}
