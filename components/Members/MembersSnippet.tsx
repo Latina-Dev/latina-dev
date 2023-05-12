@@ -20,7 +20,7 @@ const Members = (props: Props) => {
   return (
     <section className={styles.avatars}>
       <h2>Members</h2>
-      <div className="mt-20 grid gap-x-10 gap-y-10 grid-cols-3">
+      <div className="mt-10 grid grid-cols-1 gap-y-10 lg:grid lg:grid-cols-3 lg:grid-rows-2 lg:gap-x-10">
         {membersSorted.map((member) => (
           <Member key={member.slug} member={member} />
         ))}
