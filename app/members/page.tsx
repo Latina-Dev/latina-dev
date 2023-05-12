@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer/Footer";
 import GitHubCorner from "@/components/GitHubCorner/GitHubCorner";
 import Member from "@/components/Members/Member/Member";
 import Navbar from "@/components/Navbar/Navbar";
@@ -11,18 +12,22 @@ export default async function MembersPage() {
   return (
     <section className={styles.memberspage}>
       <GitHubCorner />
-        <Navbar />
-        <h1 className="text-5xl">Members</h1>
-        <div className="mt-10 grid grid-cols-1 gap-y-10 lg:grid lg:grid-cols-2 lg:grid-rows lg:gap-x-10">
-          {members.map((member) => (
-            <div key={member.slug}>
-              <Link href={member.path}>
-                <Member member={member} />
-              </Link>
-            </div>
-          ))}
+      <Navbar />
+      <div className={styles.container}>
+        <div className={styles.center}>
+          <h1 className="text-5xl">Members</h1>
+          <div className="mt-10 grid grid-cols-1 gap-y-10 lg:grid lg:grid-cols-2 lg:grid-rows lg:gap-x-10">
+            {members.map((member) => (
+              <div key={member.slug}>
+                <Link href={member.path}>
+                  <Member member={member} />
+                </Link>
+              </div>
+            ))}
+          </div>
+          <Footer />
         </div>
-    
+      </div>
     </section>
   );
 }
