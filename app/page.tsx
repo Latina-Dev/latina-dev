@@ -3,6 +3,7 @@ import Footer from "@/components/Footer/Footer";
 import GitHubCorner from "@/components/GitHubCorner/GitHubCorner";
 import Hero from "@/components/Hero/Hero";
 import MembersSnippet from "@/components/Members/MembersSnippet";
+import Navbar from "@/components/Navbar/Navbar";
 import { getMembers } from "@/lib/getMembers";
 import { MemberInterface } from "@/types/members";
 import styles from "./page.module.css";
@@ -15,6 +16,7 @@ export default async function Home() {
       <GitHubCorner />
       <div className={styles.container}>
         <div className={styles.center}>
+          <Navbar />
           <Hero />
           <hr className={styles.heroborder} />
           <About />
