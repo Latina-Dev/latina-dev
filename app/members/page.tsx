@@ -2,6 +2,7 @@ import GitHubCorner from "@/components/GitHubCorner/GitHubCorner";
 import Member from "@/components/Members/Member/Member";
 import { getMembers } from "@/lib/getMembers";
 import { MemberInterface } from "@/types/members";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 export default async function MembersPage() {
@@ -13,7 +14,9 @@ export default async function MembersPage() {
       <div className="mt-10 grid grid-cols-1 gap-y-10 lg:grid lg:grid-cols-2 lg:grid-rows lg:gap-x-10">
         {members.map((member) => (
           <div key={member.slug}>
-             <Member member={member} href={member.path} />
+              <Link href={member.path}>
+                <Member member={member} />
+            </Link>
           </div>
         ))}
       </div>
