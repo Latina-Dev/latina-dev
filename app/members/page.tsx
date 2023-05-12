@@ -1,18 +1,22 @@
+import GitHubCorner from "@/components/GitHubCorner/GitHubCorner";
+import Member from "@/components/Members/Member/Member";
 import { getMembers } from "@/lib/getMembers";
 import { MemberInterface } from "@/types/members";
+import styles from "./page.module.css";
 
-export default async function Members() {
+export default async function MembersPage() {
   const members: MemberInterface[] = await getMembers();
   return (
-    <div>
-      <h1>All Members</h1>
-      <ul>
+    <section className={styles.memberspage}>
+      <GitHubCorner />
+      <h1 className="text-5xl">Members</h1>
+      <div className="mt-10 grid grid-cols-1 gap-y-10 lg:grid lg:grid-cols-2 lg:grid-rows lg:gap-x-10">
         {members.map((member) => (
-          <li key={member.slug}>
-            <a href={member.path}>{member.name}</a>
-          </li>
+          <div key={member.slug}>
+             <Member member={member} href={member.path} />
+          </div>
         ))}
-      </ul>
-    </div>
+      </div>
+    </section>
   );
 }
