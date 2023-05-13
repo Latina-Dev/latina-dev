@@ -23,10 +23,10 @@ const Member = (props: MemberProps) => {
       {/* Image */}
       <Image
         src={`/img/members/${slug}.jpg`}
-        alt={name}
+        alt={`${name}`}
         width="250"
         height="250"
-        className="rounded"
+        className="rounded-xl"
       />
       {/* Name */}
       <Link

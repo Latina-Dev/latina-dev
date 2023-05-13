@@ -14,13 +14,4 @@
   text-align: center;
 }
 
-.logo {
-  margin-top: 100px;
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo path {
-    fill: var(--white-color);
-  }
-}
 

@@ -14,7 +14,7 @@ export default async function Home() {
   return (
     <main className={styles.main}>
       <GitHubCorner />
-<Navbar />
+      <Navbar />
       <div className={styles.container}>
         <div className={styles.center}>
           <Hero />
