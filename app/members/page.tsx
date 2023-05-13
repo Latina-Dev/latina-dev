@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import { getMembers } from "@/lib/getMembers";
 import { MemberInterface } from "@/types/members";
 import Link from "next/link";
-import styles from "./page.module.css";
+import styles from "./memberspage.module.css";
 
 export default async function MembersPage() {
   const members: MemberInterface[] = await getMembers();
@@ -20,8 +20,8 @@ export default async function MembersPage() {
             {members.map((member) => (
               <div key={member.slug}>
                 <Link href={member.path}>
-                  <Member member={member} />
                 </Link>
+                <Member member={member} />
               </div>
             ))}
           </div>
