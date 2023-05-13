@@ -1,22 +1,21 @@
-.nav {
+.navbar {
   justify-content: space-between;
   font-weight: bold;
   text-align: center;
-  margin: 50px;
+  margin-top: 50px;
 }
 
-.nav ul {
+.navbar ul {
   margin: 0;
   padding: 0;
 }
 
-.nav li {
+.navbar li {
   list-style: none;
   display: inline;
-  padding-left: 20px;
 }
 
-.nav li:hover {
+.navbar li:hover {
   color: var(--primary-color);
   transition: all 150ms ease-in-out;
 }
