@@ -9,7 +9,7 @@ export default function Navbar() {
           <Link href="/">Home</Link>
         </li>
         <li>
-          <Link href="/members/" className="pl-10 pr-10">Members</Link>
+          <Link href="/members/" className="pl-4 pr-4 sm:pl-10 sm:pr-10" >Members</Link>
         </li>
         <li>
           <Link
