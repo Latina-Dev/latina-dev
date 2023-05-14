@@ -1,6 +1,6 @@
 import Member from "@/components/Members/Member/Member";
 import { MemberInterface } from "@/types/members";
-import styles from "./Members.module.css";
+import styles from "./MembersSnippet.module.css";
 
 interface Props {
   members: MemberInterface[];
