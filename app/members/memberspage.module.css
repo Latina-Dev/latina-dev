@@ -14,4 +14,11 @@
   text-align: center;
 }
 
+@media (max-width: 628px) {
+  .memberspage img {
+    width: 130px;
+    height: 130px;
+  }
+}
+
 

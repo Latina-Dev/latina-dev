@@ -23,7 +23,7 @@ const Member = (props: MemberProps) => {
       {/* Image */}
       <Image
         src={`/img/members/${slug}.jpg`}
-        alt={`${name}`}
+        alt={name}
         width="250"
         height="250"
         className="rounded-xl"
@@ -31,7 +31,7 @@ const Member = (props: MemberProps) => {
       {/* Name */}
       <Link
         href={props.member.path}
-        aria-label={`${name}`}
+        aria-label={name}
         target={"_blank"}
         className="block"
       >
