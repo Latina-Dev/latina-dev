@@ -2,7 +2,7 @@ import { MemberInterface } from "@/types/members";
 import {
   faGithub,
   faLinkedin,
-  faTwitter,
+  faTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,9 +26,17 @@ const Member = (props: MemberProps) => {
         alt={name}
         width="250"
         height="250"
+        className="rounded-xl"
       />
       {/* Name */}
-      <h4 className="mt-3">{name}</h4>
+      <Link
+        href={props.member.path}
+        aria-label={name}
+        target={"_blank"}
+        className="block"
+      >
+        <h4 className="mt-3">{name}</h4>
+      </Link>
       {/* Level */}
       <p className="text-muted">{level}</p>
       {/* Social Links */}
