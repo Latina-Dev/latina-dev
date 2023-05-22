@@ -6,4 +6,5 @@ linkedin: "gabriella-corales"
 github: "EllaCodes4"
 twitter: "EllaCodes"
 website: "https://ellacodes.netlify.app"
+countries: [ "Mexico" ]
 ---

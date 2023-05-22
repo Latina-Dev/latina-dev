@@ -28,7 +28,16 @@ export const getMembers = async (): Promise<MemberInterface[]> => {
     const path = `/members/${slug}`;
 
     // Process custom fields
-    const { name, linkedin, github, twitter, website, added, level } = data;
+    const {
+      name,
+      linkedin,
+      github,
+      twitter,
+      website,
+      added,
+      level,
+      countries,
+    } = data;
 
     // Parse Markdown
     const html = await unified()
@@ -49,6 +58,7 @@ export const getMembers = async (): Promise<MemberInterface[]> => {
       slug,
       path,
       bio,
+      countries,
     };
   });
 

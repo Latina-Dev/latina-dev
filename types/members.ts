@@ -11,4 +11,5 @@ export interface MemberInterface {
   twitter?: string; // optional: Twitter username, e.g. FrancesCoronel
   website?: string; // optional: Personal website URL, e.g. https://francescoronel.com
   bio?: string; // optional: Markdown content
+  countries?: string[]; // optional: Country or countries of origin
 }

@@ -6,4 +6,5 @@ linkedin: "francescoronel"
 github: "FrancesCoronel"
 twitter: "FrancesCoronel"
 website: "https://francescoronel.com"
+countries: [ "Peru" ]
 ---

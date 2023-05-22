@@ -1,8 +1,9 @@
+import CountryFlags from "@/components/CountryFlags/CountryFlags";
 import { MemberInterface } from "@/types/members";
 import {
   faGithub,
   faLinkedin,
-  faTwitter
+  faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,30 +16,27 @@ interface MemberProps {
 }
 
 const Member = (props: MemberProps) => {
-  const { name, linkedin, slug, github, twitter, website, level } =
+  const { name, linkedin, slug, github, twitter, website, level, countries } =
     props.member;
 
   return (
     <div>
-      {/* Image */}
-      <Image
-        src={`/img/members/${slug}.jpg`}
-        alt={name}
-        width="250"
-        height="250"
-        className="rounded-xl"
-      />
-      {/* Name */}
-      <Link
-        href={props.member.path}
-        aria-label={name}
-        target={"_blank"}
-        className="block"
-      >
-        <h4 className="mt-3">{name}</h4>
+      <Link href={props.member.path} aria-label={name} className="block">
+        {/* Image */}
+        <Image
+          src={`/img/members/${slug}.jpg`}
+          alt={name}
+          width="250"
+          height="250"
+          className="rounded-xl"
+        />
+        {/* Name */}
+        <h4 className="mt-3 text-xl">{name}</h4>
+        {/* Level */}
+        <p className="text-muted">{level}</p>
+        {/* Country Flag */}
+        {countries && <CountryFlags countries={countries} />}
       </Link>
-      {/* Level */}
-      <p className="text-muted">{level}</p>
       {/* Social Links */}
       <div className={styles.avatars_social_links}>
         {/* LinkedIn */}

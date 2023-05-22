@@ -1,3 +1,4 @@
+import CountryFlags from "@/components/CountryFlags/CountryFlags";
 import { getMemberBySlug, getMembers } from "@/lib/getMembers";
 
 interface Props {
@@ -10,14 +11,17 @@ interface Props {
 export default async function Member({ params }: Props) {
   // get member data from slug
   const member = await getMemberBySlug(params.slug);
+  // console.log({ member });
   // if no member, return 404
   if (!member) return <article>404</article>;
   // otherwise, destructure member data
-  const { name, added, linkedin, github, twitter, website, bio } = member;
+  const { name, added, linkedin, github, twitter, website, bio, countries } =
+    member;
   return (
     <article>
-      {name && <p>{name}</p>}
+      {name && <p className={"text-xl"}>{name}</p>}
       {added && <p>{added}</p>}
+      {countries && <CountryFlags countries={countries} />}
       {linkedin && (
         <p>
           <a
@@ -66,7 +70,6 @@ export default async function Member({ params }: Props) {
 // Generate a list of paths for Next.js to pre-render, based on the members
 export async function generateStaticParams() {
   const members = await getMembers();
-
   return members.map((member) => ({
     slug: member.slug,
   }));

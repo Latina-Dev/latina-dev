@@ -12,3 +12,18 @@
     height: 130px;
   }
 }
+
+.button {
+  padding: 18px 46px;
+  background: var(--button-background);
+  color: var(--white-color);
+  border-radius: var(--border-radius);
+  font-weight: bold;
+}
+
+.button:hover {
+  background: var(--button-background-hover);
+  border: 2px solid var(--button-dark-hover);
+  color: var(--button-dark-hover);
+  transition: all 150ms ease-in-out;
+}
