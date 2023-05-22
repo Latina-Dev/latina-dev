@@ -5,6 +5,7 @@ added: '2023-05-07'
 level: "Individual Contributor"
 linkedin: 'isistejeda'
 github: 'latinadeveloper'
+twitter: "latinadeveloper"
 ---
 
 **Isis Harris** empowering Change as a Latina Software Developer. Acting with intention is incredibly important to me.
