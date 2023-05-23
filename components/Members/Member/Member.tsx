@@ -24,7 +24,6 @@ const Member = (props: MemberProps) => {
       <Link
         href={props.member.path}
         aria-label={name}
-        target={"blank"}
         className="block"
       >
       {/* Image */}
