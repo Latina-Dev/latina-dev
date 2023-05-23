@@ -1,6 +1,7 @@
 import Head from "@/app/head";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { Analytics } from "@vercel/analytics/react";
 import "/styles/_styles.css";
 config.autoAddCss = false;
 
@@ -24,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head />
-      <body>{children}</body>
+      <body>
+        {children} <Analytics />
+      </body>
     </html>
   );
 }
