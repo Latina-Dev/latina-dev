@@ -23,7 +23,7 @@ const SocialLinks = (props: MemberProps) => {
         <Link
           href={`https://www.linkedin.com/in/${linkedin}`}
           aria-label={`${name} LinkedIn`}
-          target={"blank"}
+          target={"_blank"}
           rel="noopener noreferrer"
         >
           <FontAwesomeIcon icon={faLinkedin} />
@@ -34,7 +34,7 @@ const SocialLinks = (props: MemberProps) => {
         <Link
           href={`https://www.github.com/${github}`}
           aria-label={`${name} GitHub`}
-          target={"blank"}
+          target={"_blank"}
           rel="noopener noreferrer"
         >
           <FontAwesomeIcon icon={faGithub} />
@@ -45,7 +45,7 @@ const SocialLinks = (props: MemberProps) => {
         <Link
           href={`https://www.twitter.com/${twitter}`}
           aria-label={`${name} Twitter`}
-          target={"blank"}
+          target={"_blank"}
           rel="noopener noreferrer"
         >
           <FontAwesomeIcon icon={faTwitter} />
@@ -55,7 +55,7 @@ const SocialLinks = (props: MemberProps) => {
       {website && (
         <Link href={website}
               aria-label={`${name} Website`}
-              target={"blank"}
+              target={"_blank"}
               rel="noopener noreferrer"
         >
           <FontAwesomeIcon icon={faGlobe} />
