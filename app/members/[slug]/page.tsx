@@ -26,7 +26,7 @@ export default async function Member({params}: Props) {
       <Navbar/>
       <div className="w-full pt-20">
         <div className={styles.topbar}/>
-        <article className="px-32 relative py-16">
+        <article className="max-w-screen-lg relative mx-auto py-16">
           <div className="inline-block text-center">
             <Image
               src={`/img/members/${params.slug}.jpg`}
