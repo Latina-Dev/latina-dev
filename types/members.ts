@@ -10,5 +10,6 @@ export interface MemberInterface {
   github?: string; // optional: GitHub username, e.g. FrancesCoronel
   twitter?: string; // optional: Twitter username, e.g. FrancesCoronel
   website?: string; // optional: Personal website URL, e.g. https://francescoronel.com
-  bio?: string; // optional: Markdown content
+  bio?: string; // optional: Markdown that forms bio, e.g. Frances Coronel is a senior software engineer...
+  affiliation?: string // optional: title and company or school, eg. Senior Software Engineer at XYZ
 }

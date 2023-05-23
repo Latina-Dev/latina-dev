@@ -9,17 +9,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Member.module.css";
+import SocialLinks from "@/components/Members/Member/SocialLinks";
 
 interface MemberProps {
   member: MemberInterface;
 }
 
 const Member = (props: MemberProps) => {
-  const { name, linkedin, slug, github, twitter, website, level } =
+  const { name, slug, level } =
     props.member;
 
   return (
     <div>
+      <Link
+        href={props.member.path}
+        aria-label={name}
+        className="block"
+      >
       {/* Image */}
       <Image
         src={`/img/members/${slug}.jpg`}
@@ -29,55 +35,14 @@ const Member = (props: MemberProps) => {
         className="rounded-xl"
       />
       {/* Name */}
-      <Link
-        href={props.member.path}
-        aria-label={name}
-        target={"_blank"}
-        className="block"
-      >
+
         <h4 className="mt-3">{name}</h4>
-      </Link>
+
       {/* Level */}
       <p className="text-muted">{level}</p>
+      </Link>
       {/* Social Links */}
-      <div className={styles.avatars_social_links}>
-        {/* LinkedIn */}
-        {linkedin && (
-          <Link
-            href={`https://www.linkedin.com/in/${linkedin}`}
-            aria-label={`${name} LinkedIn`}
-            target={"_blank"}
-          >
-            <FontAwesomeIcon icon={faLinkedin} />
-          </Link>
-        )}
-        {/* GitHub */}
-        {github && (
-          <Link
-            href={`https://www.github.com/${github}`}
-            aria-label={`${name} GitHub`}
-            target={"_blank"}
-          >
-            <FontAwesomeIcon icon={faGithub} />
-          </Link>
-        )}
-        {/* Twitter */}
-        {twitter && (
-          <Link
-            href={`https://www.twitter.com/${twitter}`}
-            aria-label={`${name} Twitter`}
-            target={"_blank"}
-          >
-            <FontAwesomeIcon icon={faTwitter} />
-          </Link>
-        )}
-        {/* Website */}
-        {website && (
-          <Link href={website} aria-label={`${name} Website`} target={"_blank"}>
-            <FontAwesomeIcon icon={faGlobe} />
-          </Link>
-        )}
-      </div>
+      <SocialLinks member={props.member}/>
     </div>
   );
 };
