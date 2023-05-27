@@ -1,0 +1,20 @@
+.wrapper {
+  padding: 5rem 0;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 0;
+}
+
+/* Mobile and Tablet */
+@media (max-width: 1023px) {
+  .container::before {
+    transform: none;
+    height: 300px;
+  }
+}

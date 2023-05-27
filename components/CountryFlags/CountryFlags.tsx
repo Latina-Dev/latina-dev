@@ -26,11 +26,11 @@ const countryOptions: CountryOption[] = [
   { country: "Haiti", flag: "🇭🇹" },
 ];
 
-interface CountryFlagsProps {
+interface Props {
   countries: string[];
 }
 
-const CountryFlags = (props: CountryFlagsProps) => {
+const CountryFlags = (props: Props) => {
   const { countries } = props;
 
   // get flag based on country name given

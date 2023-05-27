@@ -1,11 +1,8 @@
 import CountryFlags from "@/components/CountryFlags/CountryFlags";
-import Footer from "@/components/Footer/Footer";
-import GitHubCorner from "@/components/GitHubCorner/GitHubCorner";
-import SocialLinks from "@/components/MemberCard/SocialLinks/SocialLinks";
-import Navbar from "@/components/Navbar/Navbar";
+import SocialLinks from "@/components/SocialLinks/SocialLinks";
 import { getMemberBySlug, getMembers } from "@/lib/getMembers";
 import Image from "next/image";
-import styles from "./memberpage.module.css";
+import styles from "./page.module.css";
 
 interface Props {
   params: {
@@ -22,36 +19,31 @@ export default async function Member({ params }: Props) {
   // otherwise, destructure member data
   const { name, affiliation, level, bio, countries } = member;
   return (
-    <section className="py-20">
-      <GitHubCorner />
-      <Navbar />
-      <div className="w-full pt-20">
-        <div className={styles.topbar} />
-        <article className="max-w-screen-lg relative mx-auto py-16">
-          <div className="inline-block text-center">
-            <Image
-              src={`/img/members/${params.slug}.jpg`}
-              alt={name}
-              width="250"
-              height="250"
-              className="rounded-xl y-8"
-            />
-            <SocialLinks member={member} />
-          </div>
-          <h2 className="mt-3">{name}</h2>
-          <h3>{affiliation}</h3>
-          <h3 className={styles.affiliation}>{level}</h3>
-          {countries && <CountryFlags countries={countries} />}
-          {bio && (
-            <div
-              className={styles.bio}
-              dangerouslySetInnerHTML={{ __html: bio }}
-            />
-          )}
-          <Footer />
-        </article>
-      </div>
-    </section>
+    <div className="w-full pt-20">
+      <div className={styles.topBar} />
+      <article className="max-w-screen-lg relative mx-auto py-16">
+        <div className="inline-block text-center">
+          <Image
+            src={`/img/members/${params.slug}.jpg`}
+            alt={name}
+            width="250"
+            height="250"
+            className="rounded-xl y-8"
+          />
+          <SocialLinks member={member} />
+        </div>
+        <h2 className="mt-3">{name}</h2>
+        <h3>{affiliation}</h3>
+        <h3 className={styles.affiliation}>{level}</h3>
+        {countries && <CountryFlags countries={countries} />}
+        {bio && (
+          <div
+            className={styles.bio}
+            dangerouslySetInnerHTML={{ __html: bio }}
+          />
+        )}
+      </article>
+    </div>
   );
 }
 

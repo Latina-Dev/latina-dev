@@ -1,7 +1,6 @@
+import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { metadata } from "app/layout";
-import Link from "next/link";
 import Logo from "../../Logo/Logo";
 import styles from "./Hero.module.css";
 
@@ -15,14 +14,12 @@ export default function Hero() {
       <div className={styles.description}>
         <p>{metadata.description}</p>
       </div>
-      <Link
-        href="https://github.com/FrancesCoronel/latina-dev"
-        aria-label="Latina Dev"
-        target={"_blank"}
-        className={styles.contributeLink}
-      >
-        Contribute on GitHub <FontAwesomeIcon icon={faGithub} />
-      </Link>
+      <ButtonLink
+        text="Contribute on GitHub"
+        url="https://github.com/FrancesCoronel/latina-dev"
+        external={true}
+        icon={faGithub}
+      />
     </section>
   );
 }

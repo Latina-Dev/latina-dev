@@ -1,5 +1,5 @@
 import CountryFlags from "@/components/CountryFlags/CountryFlags";
-import SocialLinks from "@/components/MemberCard/SocialLinks/SocialLinks";
+import SocialLinks from "@/components/SocialLinks/SocialLinks";
 import { MemberInterface } from "@/types/members";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,11 +8,11 @@ interface MemberProps {
   member: MemberInterface;
 }
 
-const Member = (props: MemberProps) => {
+const MemberCard = (props: MemberProps) => {
   const { name, slug, level, countries } = props.member;
 
   return (
-    <div>
+    <div className={"text-center"}>
       <Link href={props.member.path} aria-label={name} className="block">
         {/* Image */}
         <Image
@@ -35,4 +35,4 @@ const Member = (props: MemberProps) => {
   );
 };
 
-export default Member;
+export default MemberCard;

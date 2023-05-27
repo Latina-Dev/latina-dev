@@ -1,13 +1,13 @@
-.avatars_social_links {
+.socialLinks {
   margin-top: 10px;
 }
 
-.avatars_social_links a {
+.socialLinks a {
   padding: 12px;
   font-size: 18px;
 }
 
-.avatars_social_links a:hover {
+.socialLinks a:hover {
   color: var(--primary-color);
   transition: all 150ms ease-in-out;
 }

@@ -2,22 +2,22 @@ import { MemberInterface } from "@/types/members";
 import {
   faGithub,
   faLinkedin,
-  faTwitter
+  faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import styles from "./Member.module.css";
+import styles from "./SocialLinks.module.css";
 
 interface MemberProps {
   member: MemberInterface;
 }
 
 const SocialLinks = (props: MemberProps) => {
-  const { name, linkedin, github, twitter, website } = props.member
+  const { name, linkedin, github, twitter, website } = props.member;
 
   return (
-    <div className={styles.avatars_social_links}>
+    <div className={styles.socialLinks}>
       {/* LinkedIn */}
       {linkedin && (
         <Link
@@ -53,10 +53,11 @@ const SocialLinks = (props: MemberProps) => {
       )}
       {/* Website */}
       {website && (
-        <Link href={website}
-              aria-label={`${name} Website`}
-              target={"_blank"}
-              rel="noopener noreferrer"
+        <Link
+          href={website}
+          aria-label={`${name} Website`}
+          target={"_blank"}
+          rel="noopener noreferrer"
         >
           <FontAwesomeIcon icon={faGlobe} />
         </Link>

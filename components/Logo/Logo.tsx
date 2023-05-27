@@ -4,7 +4,7 @@ interface Props {
   height?: number;
 }
 
-export default function Logo(props: Props) {
+const Logo = (props: Props) => {
   const { className } = props;
 
   return (
@@ -26,4 +26,6 @@ export default function Logo(props: Props) {
       />
     </svg>
   );
-}
+};
+
+export default Logo;

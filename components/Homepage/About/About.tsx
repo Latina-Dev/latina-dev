@@ -1,7 +1,6 @@
+import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import { faDiscord } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { metadata } from "app/layout";
-import Link from "next/link";
 import styles from "./About.module.css";
 
 export default function About() {
@@ -20,14 +19,12 @@ export default function About() {
           change! {metadata.description}
         </p>
       </div>
-      <Link
-        href="https://discord.com/invite/xzHDhxsQAQ"
-        aria-label="Latina Dev Discord"
-        target={"_blank"}
-        className={styles.contributeLink}
-      >
-        Join us on Discord <FontAwesomeIcon icon={faDiscord} />
-      </Link>
+      <ButtonLink
+        text="Join us on Discord"
+        url="https://discord.com/invite/xzHDhxsQAQ"
+        external={true}
+        icon={faDiscord}
+      />
     </section>
   );
 }

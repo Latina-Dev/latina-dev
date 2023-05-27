@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./GitHubCorner.module.css";
 
-export default function GitHubCorner() {
+const GitHubCorner = () => {
   return (
     <Link
       href="https://github.com/orgs/Latina-Dev/projects/1?query=is%3Aopen+sort%3Aupdated-desc"
@@ -24,4 +24,6 @@ export default function GitHubCorner() {
       </svg>
     </Link>
   );
-}
+};
+
+export default GitHubCorner;
