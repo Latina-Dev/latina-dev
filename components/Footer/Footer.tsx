@@ -1,14 +1,14 @@
 import {
   faDiscord,
   faGithub,
-  faLinkedin
+  faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Footer.module.css";
 
-export default function Footer() {
+const Footer = () => {
   return (
     <footer>
       <div className={styles.footer}>
@@ -50,4 +50,6 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

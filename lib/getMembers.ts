@@ -10,14 +10,15 @@ import { unified } from "unified";
  * @returns members
  */
 export const getMembers = async (): Promise<MemberInterface[]> => {
+  const memberPath = "data/members";
   // Get files from members directory
-  const files = fs.readdirSync(`app/_members`);
+  const files = fs.readdirSync(memberPath);
 
   // Loop through files and create array of members
   const members = files.map(async (filename) => {
     // Get raw markdown
     const markdownWithMetadata = fs
-      .readFileSync(`app/_members/${filename}`)
+      .readFileSync(`${memberPath}/${filename}`)
       .toString();
 
     // Parse markdown, grab front matter
@@ -28,7 +29,17 @@ export const getMembers = async (): Promise<MemberInterface[]> => {
     const path = `/members/${slug}`;
 
     // Process custom fields
-    const { name, linkedin, github, twitter, website, added, affiliation, level } = data;
+    const {
+      name,
+      linkedin,
+      github,
+      twitter,
+      website,
+      added,
+      affiliation,
+      level,
+      countries,
+    } = data;
 
     // Parse Markdown
     const html = await unified()
@@ -50,6 +61,7 @@ export const getMembers = async (): Promise<MemberInterface[]> => {
       slug,
       path,
       bio,
+      countries,
     };
   });
 

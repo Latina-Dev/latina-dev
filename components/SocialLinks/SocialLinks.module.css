@@ -1,0 +1,13 @@
+.socialLinks {
+  margin-top: 10px;
+}
+
+.socialLinks a {
+  padding: 12px;
+  font-size: 18px;
+}
+
+.socialLinks a:hover {
+  color: var(--primary-color);
+  transition: all 150ms ease-in-out;
+}

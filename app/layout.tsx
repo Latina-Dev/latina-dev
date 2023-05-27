@@ -1,8 +1,11 @@
-import Head from "@/app/head";
-import { config } from "@fortawesome/fontawesome-svg-core";
+import Footer from "@/components/Footer/Footer";
+import GitHubCorner from "@/components/GitHubCorner/GitHubCorner";
+import MetaTags from "@/components/Layout/MetaTags";
+import Navbar from "@/components/Navbar/Navbar";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { Analytics } from "@vercel/analytics/react";
+import styles from "./layout.module.css";
 import "/styles/_styles.css";
-config.autoAddCss = false;
 
 export const metadata = {
   title: {
@@ -23,8 +26,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Head />
-      <body>{children}</body>
+      <MetaTags />
+      <body>
+        <div className={styles.wrapper}>
+          <GitHubCorner />
+          <Navbar />
+          <main>
+            <div className={styles.container}>
+              {children}
+              <Analytics />
+            </div>
+          </main>
+          <Footer />
+        </div>
+      </body>
     </html>
   );
 }
