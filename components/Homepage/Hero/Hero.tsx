@@ -2,7 +2,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { metadata } from "app/layout";
 import Link from "next/link";
-import Logo from "../Logo/Logo";
+import Logo from "../../Logo/Logo";
 import styles from "./Hero.module.css";
 
 export default function Hero() {

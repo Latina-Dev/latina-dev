@@ -1,4 +1,4 @@
-import Member from "@/components/Members/Member/Member";
+import Member from "@/components/MemberCard/Member";
 import { MemberInterface } from "@/types/members";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +9,7 @@ interface Props {
   members: MemberInterface[];
 }
 
-const Members = (props: Props) => {
+const MemberPreview = (props: Props) => {
   const { members } = props;
 
   // sort members by added date property
@@ -40,4 +40,4 @@ const Members = (props: Props) => {
   );
 };
 
-export default Members;
+export default MemberPreview;

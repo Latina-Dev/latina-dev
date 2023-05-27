@@ -1,9 +1,5 @@
+import { CountryOption } from "@/types/countries";
 import styles from "./CountryFlags.module.css";
-
-interface CountryOption {
-  country: string;
-  flag: string;
-}
 
 const countryOptions: CountryOption[] = [
   { country: "Ecuador", flag: "🇪🇨" },

@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer/Footer";
 import GitHubCorner from "@/components/GitHubCorner/GitHubCorner";
-import Member from "@/components/Members/Member/Member";
+import Member from "@/components/MemberCard/Member";
 import Navbar from "@/components/Navbar/Navbar";
 import { getMembers } from "@/lib/getMembers";
 import { MemberInterface } from "@/types/members";

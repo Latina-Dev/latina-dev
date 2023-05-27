@@ -1,4 +1,4 @@
-import Maintainer from "@/components/Maintainers/Maintainer/Maintainer";
+import Maintainer from "@/components/Homepage/Maintainers/Maintainer/Maintainer";
 import styles from "./Maintainers.module.css";
 
 export default function Maintainers() {

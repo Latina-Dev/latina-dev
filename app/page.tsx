@@ -1,8 +1,8 @@
-import About from "@/components/About/About";
 import Footer from "@/components/Footer/Footer";
 import GitHubCorner from "@/components/GitHubCorner/GitHubCorner";
-import Hero from "@/components/Hero/Hero";
-import MembersSnippet from "@/components/Members/MembersSnippet";
+import About from "@/components/Homepage/About/About";
+import Hero from "@/components/Homepage/Hero/Hero";
+import MemberPreview from "@/components/Homepage/MemberPreview/MemberPreview";
 import Navbar from "@/components/Navbar/Navbar";
 import { getMembers } from "@/lib/getMembers";
 import { MemberInterface } from "@/types/members";
@@ -20,7 +20,7 @@ export default async function Home() {
           <Hero />
           <hr className={styles.heroborder} />
           <About />
-          <MembersSnippet members={members} />
+          <MemberPreview members={members} />
           {/* Removing Maintainers for now since it feels a little redundant  but once we have more, it should be fine */}
           {/* <Maintainers /> */}
           <Footer />
