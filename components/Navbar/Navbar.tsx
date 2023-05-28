@@ -11,19 +11,24 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
-          <Link
-            href="/members/"
-            className="pl-4 pr-4 sm:pl-10 sm:pr-10 underline"
-          >
+          <Link href="/members/" className="pl-4 sm:pl-10 underline">
             All Members
           </Link>
         </li>
         <li>
           <Link
-            href="https://github.com/FrancesCoronel/latina-dev"
-            aria-label="Latina Dev"
+            href="https://forms.fillout.com/t/xARDm8SG6mus"
             target={"_blank"}
-            className="underline"
+            className="pl-4 sm:pl-10 underline"
+          >
+            Add your profile
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="https://github.com/FrancesCoronel/latina-dev"
+            target={"_blank"}
+            className="pl-4 sm:pl-10 underline"
           >
             Contribute
           </Link>
