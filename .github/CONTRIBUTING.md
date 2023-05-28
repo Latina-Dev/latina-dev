@@ -39,7 +39,7 @@ Feel free to contribute to Latina Dev in one or more of the following ways and t
 - [Report a bug](https://github.com/Latina-Dev/latina-dev/issues/new?template=bug-report.md)
 - [Request a new feature](https://github.com/Latina-Dev/latina-dev/issues/new?template=feature-request.md)
 - Improve our [contributing guidelines](https://github.com/Latina-Dev/latina-dev/blob/master/.github/CONTRIBUTING.md) (this file)
-- Improve our [wiki](https://github.com/Latina-Dev/latina-dev/wiki) which houses all our documentation
+- Improve our [Storybook](https://www.chromatic.com/library?appId=6472ce8643c60096810af8c0) which houses all our documentation and design system components
 - Fix typos or grammar errors on pages or across the code base
 - Refactor code
 - Anything else you can think of! 😆
@@ -49,12 +49,10 @@ Feel free to contribute to Latina Dev in one or more of the following ways and t
 - Next.js
 - TypeScript
 - Tailwind CSS
-- CSS
 - ESLint
 - PostCSS
 - Prettier
-- Auth0 (Planned)
-- Supabase (Planned)
+- Storybook
 
 ### Collaboration
 
@@ -71,6 +69,8 @@ Feel free to contribute to Latina Dev in one or more of the following ways and t
   - Meetings
 - Notion
   - Meeting notes
+- Storybook
+  - Documentation and design system components
 
 ## 2. Local Development
 

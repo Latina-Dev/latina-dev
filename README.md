@@ -14,13 +14,13 @@ Our goal is to increase visibility and access to valuable opportunities.
 
 👾 [Discord](https://discord.gg/xzHDhxsQAQ)
 
+🎨 [Storybook](https://www.chromatic.com/library?appId=6472ce8643c60096810af8c0)
+
 💬 [GitHub Discussions](https://github.com/orgs/Latina-Dev/discussions)
 
 🎯 [GitHub Milestones](https://github.com/Latina-Dev/latina-dev/milestones)
 
 🛠️ [GitHub Project Board](https://github.com/orgs/Latina-Dev/projects/1)
-
-📖 [GitHub Wiki](https://github.com/Latina-Dev/latina-dev/wiki)
 
 💼 [LinkedIn Page](https://linkedin.com/company/latina-dev)
 
@@ -32,11 +32,9 @@ Our goal is to increase visibility and access to valuable opportunities.
 
 1. 🍴 Fork this repo [here](https://github.com/Latina-Dev/latina-dev/fork)
 2. 🔍 View the contributing guidelines [here](https://github.com/Latina-Dev/latina-dev/blob/main/.github/CONTRIBUTING.md)
-3. 📖 Read through our [wiki](https://github.com/Latina-Dev/latina-dev/wiki)
-4. 🔨 Hack away
-5. 👥 Add yourself as a contributor under the "Contributors" section in this README
-6. 🔧 Open a pull request [here](https://github.com/Latina-Dev/latina-dev/compare)
-7. 🎉 Get your pull request approved — success!
+3. 🔨 Hack away
+4. 🔧 Open a pull request [here](https://github.com/Latina-Dev/latina-dev/compare)
+5. 🎉 Get your pull request approved — success!
 
 Or just [create an issue](https://github.com/Latina-Dev/latina-dev/issues/new/choose) - any little bit of help counts! 😊
 
