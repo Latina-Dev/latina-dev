@@ -10,7 +10,7 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "npx chromatic --project-token=chpt_893c647d97da23a"
+    "chromatic": "chromatic"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.3.0",

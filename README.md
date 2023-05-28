@@ -12,19 +12,19 @@ Our goal is to increase visibility and access to valuable opportunities.
 
 [![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=Latina-Dev&style=for-the-badge)](https://vercel.com/latina-dev/latina-dev) [![MIT License](https://img.shields.io/github/license/Latina-Dev/latina-dev.svg?style=for-the-badge)](http://badges.mit-license.org)
 
+🌐 [Website](https://latina.dev)
+
+💼 [LinkedIn Page](https://linkedin.com/company/latina-dev)
+
 👾 [Discord](https://discord.gg/xzHDhxsQAQ)
 
 🎨 [Storybook](https://www.chromatic.com/library?appId=6472ce8643c60096810af8c0)
-
-💬 [GitHub Discussions](https://github.com/orgs/Latina-Dev/discussions)
 
 🎯 [GitHub Milestones](https://github.com/Latina-Dev/latina-dev/milestones)
 
 🛠️ [GitHub Project Board](https://github.com/orgs/Latina-Dev/projects/1)
 
-💼 [LinkedIn Page](https://linkedin.com/company/latina-dev)
-
-🌐 [Website](https://latina.dev)
+💬 [GitHub Discussions](https://github.com/orgs/Latina-Dev/discussions)
 
 ## Contributing
 
