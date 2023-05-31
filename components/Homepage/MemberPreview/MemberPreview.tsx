@@ -1,7 +1,7 @@
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import MemberCard from "@/components/MemberCard/MemberCard";
 import { MemberInterface } from "@/types/members";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
 import styles from "./MembersSnippet.module.css";
 
 interface Props {
@@ -34,7 +34,7 @@ const MemberPreview = (props: Props) => {
         <ButtonLink
           text="View all our Members "
           url="/members"
-          icon={faMagnifyingGlass}
+          icon={faPeopleGroup}
         />
       </div>
     </section>
