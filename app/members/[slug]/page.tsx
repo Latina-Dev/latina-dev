@@ -21,18 +21,19 @@ export default async function Member({ params }: Props) {
   return (
     <div className="w-full pt-20">
       <div className={styles.topBar} />
-      <article className="max-w-screen-lg relative mx-auto py-16">
-        <div className="inline-block text-center">
+      <article className="relative py-16 lg:max-w-screen-lg lg:mx-auto">
+        <div className="text-center lg:inline-block">
           <Image
             src={`/img/members/${params.slug}.jpg`}
             alt={name}
             width="250"
             height="250"
-            className="rounded-xl y-8"
+            className="rounded-xl y-8 "
           />
           <SocialLinks member={member} />
         </div>
-        <h2 className="mt-3">{name}</h2>
+        <div className="text-center lg:text-left">
+        <h2 className="mt-3 text-3xl lg:text-4xl">{name}</h2>
         <h3>{affiliation}</h3>
         <h3 className={styles.affiliation}>{level}</h3>
         {countries && <CountryFlags countries={countries} />}
@@ -42,6 +43,7 @@ export default async function Member({ params }: Props) {
             dangerouslySetInnerHTML={{ __html: bio }}
           />
         )}
+        </div>
       </article>
     </div>
   );
