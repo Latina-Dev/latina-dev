@@ -32,7 +32,7 @@ export default async function Member({ params }: Props) {
           />
           <SocialLinks member={member} />
         </div>
-        <div className="text-center lg:text-left">
+        <div className="text-center p-10 lg:p-0 lg:text-left">
         <h2 className="mt-3 text-3xl lg:text-4xl">{name}</h2>
         <h3>{affiliation}</h3>
         <h3 className={styles.affiliation}>{level}</h3>
