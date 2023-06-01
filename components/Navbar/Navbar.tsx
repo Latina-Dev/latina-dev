@@ -6,20 +6,20 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <ul>
         <li>
-          <Link href="/" className="underline">
+          <Link href="/">
             Home
           </Link>
         </li>
         <li>
-          <Link href="/members/" className="pl-4 sm:pl-10 underline">
-            All Members
+          <Link href="/members/" className="pl-4 sm:pl-10">
+            Members
           </Link>
         </li>
         <li>
           <Link
             href="https://forms.fillout.com/t/xARDm8SG6mus"
             target={"_blank"}
-            className="pl-4 sm:pl-10 underline"
+            className="pl-4 sm:pl-10 inline-block"
           >
             Add your profile
           </Link>
@@ -28,7 +28,7 @@ export default function Navbar() {
           <Link
             href="https://github.com/FrancesCoronel/latina-dev"
             target={"_blank"}
-            className="pl-4 sm:pl-10 underline"
+            className="pl-4 sm:pl-10"
           >
             Contribute
           </Link>
