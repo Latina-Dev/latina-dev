@@ -33,8 +33,7 @@ export default function RootLayout({
           <Navbar />
           <main>
             <div className={styles.container}>
-              {children}
-              <Analytics />
+              {children} <Analytics />
             </div>
           </main>
           <Footer />
