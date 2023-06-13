@@ -2,7 +2,9 @@
   justify-content: space-between;
   font-weight: bold;
   text-align: center;
+  margin: 10px;
   margin-top: 25px;
+  
 }
 
 .navbar ul {
@@ -13,6 +15,11 @@
 .navbar li {
   list-style: none;
   display: inline;
+}
+
+.navbar a {
+  margin-bottom: 15px;
+  text-decoration: underline;
 }
 
 .navbar li:hover {
