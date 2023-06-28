@@ -16,6 +16,11 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
+            <Link href="/about/" className="pl-4 sm:pl-10">
+                About
+            </Link>
+        </li>
+        <li>
           <Link
             href="https://forms.fillout.com/t/xARDm8SG6mus"
             target={"_blank"}
