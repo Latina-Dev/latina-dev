@@ -11,7 +11,7 @@ export default async (req, res) => {
             .find({})
             .toArray();
 
-        res.json(members)
+        res.json(members);
     } catch (e) {
         console.log(e);
     }
