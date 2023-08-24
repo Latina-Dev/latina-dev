@@ -33,7 +33,7 @@ Our goal is to increase visibility and access to valuable opportunities.
 > To get started...
 
 1. 🍴 Fork this repo [here](https://github.com/Latina-Dev/latina-dev/fork)
-2. 🔍 View the contributing guidelines [here](https://github.com/Latina-Dev/latina-dev/blob/main/.github/CONTRIBUTING.md)
+2. 📚 View the documentation [here](https://docs.latina.dev)
 3. 🔨 Hack away
 4. 🔧 Open a pull request [here](https://github.com/Latina-Dev/latina-dev/compare)
 5. 🎉 Get your pull request approved — success!
