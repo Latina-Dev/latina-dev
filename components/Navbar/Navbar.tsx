@@ -6,9 +6,7 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <ul>
         <li>
-          <Link href="/">
-            Home
-          </Link>
+          <Link href="/">Home</Link>
         </li>
         <li>
           <Link href="/members/" className="pl-4 sm:pl-10">
@@ -26,7 +24,7 @@ export default function Navbar() {
         </li>
         <li>
           <Link
-            href="https://github.com/FrancesCoronel/latina-dev"
+            href="https://github.com/Latina-Dev/latina-dev"
             target={"_blank"}
             className="pl-4 sm:pl-10"
           >

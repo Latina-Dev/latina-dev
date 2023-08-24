@@ -1,15 +1,12 @@
-import { Meta } from "@storybook/blocks";
-
-<Meta title="2. Adding a New Member" />
-
 # Adding a New Member
 
 There should be **two changes** in the PR you open, one for the Markdown file and the other for the image.
 
 ## Markdown File
 
-1. Add a new file to the `data/members` directory with the following format: `firstname-lastname.md`.
-2. You can use the template below to get started:
+### 1. Add a new file to the `data/members` directory with the following format: `firstname-lastname.md`.
+
+### 2. You can use the template below to get started:
 
 ```md
 ---
@@ -36,7 +33,7 @@ Brief bio about yourself. You can use Markdown here.
 
 ## Image
 
-3. Add an image of yourself in the `public/img/members` folder
+### 3. Add an image of yourself in the `public/img/members` folder
 
 - the image must be at least 250px by 250px
 - the image must have the same width and height

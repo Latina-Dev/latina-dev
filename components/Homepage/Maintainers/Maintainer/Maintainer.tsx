@@ -17,7 +17,7 @@ const Maintainer = (props: MaintainerProps) => {
         rel="noreferrer"
       >
         <Image
-          src={`/img/maintainers/${imagePath}.jpg`}
+          src={`/img/members/${imagePath}.jpg`}
           alt={name}
           width="100"
           height="100"

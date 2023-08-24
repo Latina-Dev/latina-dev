@@ -1,7 +1,3 @@
-import { Meta } from "@storybook/blocks";
-
-<Meta title="3. Branding" />
-
 # Branding
 
 ## Logo
