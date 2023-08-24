@@ -1,7 +1,3 @@
-import { Meta } from "@storybook/blocks";
-
-<Meta title="4. Member Levels" />
-
 # Member Levels
 
 This is how we categorize members so we can match them with the right opportunities.
