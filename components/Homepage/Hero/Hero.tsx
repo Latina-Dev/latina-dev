@@ -16,7 +16,7 @@ export default function Hero() {
       </div>
       <ButtonLink
         text="Contribute on GitHub"
-        url="https://github.com/FrancesCoronel/latina-dev"
+        url="https://github.com/Latina-Dev/latina-dev"
         external={true}
         icon={faGithub}
       />
