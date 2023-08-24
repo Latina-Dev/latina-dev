@@ -13,7 +13,7 @@ const Footer = () => {
     <footer>
       <div className={styles.footer}>
         <Link
-          href="https://github.com/FrancesCoronel/latina-dev"
+          href="https://github.com/Latina-Dev/latina-dev"
           aria-label="Latina Dev GitHub"
           target={"_blank"}
         >
