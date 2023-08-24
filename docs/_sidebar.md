@@ -3,6 +3,7 @@
 - [Getting Started](/pages/getting-started)
 - [Local Development](/pages/local-development)
 - [Opening a Pull Request](/pages/opening-pr)
+- [Benefits of Contributing](/pages/benefits-of-contributing)
 - [Member Levels](/pages/member-levels)
 - [Adding a Member](/pages/adding-a-member)
 - [Branding](/pages/branding)
