@@ -9,12 +9,12 @@ export default function Maintainers() {
         <Maintainer
           name="Frances Coronel"
           github="FrancesCoronel"
-          imagePath="frances"
+          imagePath="frances-coronel"
         />
         <Maintainer
           name="Gabriella Corales"
           github="EllaCodes4"
-          imagePath="gabriella"
+          imagePath="gabriella-corales"
         />
       </div>
     </section>
