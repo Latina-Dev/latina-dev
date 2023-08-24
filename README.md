@@ -16,7 +16,7 @@ Our goal is to increase visibility and access to valuable opportunities.
 
 💼 [LinkedIn Page](https://linkedin.com/company/latina-dev)
 
-📚 [Documentation](https://latina.dev/docs)
+📚 [Documentation](https://docs.latina.dev)
 
 👾 [Discord](https://discord.gg/xzHDhxsQAQ)
 
@@ -45,5 +45,11 @@ Or just [create an issue](https://github.com/Latina-Dev/latina-dev/issues/new/ch
 <a href="https://github.com/Latina-Dev/latina-dev/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Latina-Dev/latina-dev" />
 </a>
+
+- [Frances Coronel](https://github.com/FrancesCoronel)
+- [Gabriella Corales](https://github.com/EllaCodes4)
+- [Fernanda Pérez Gutiérrez](https://github.com/fernperezg97)
+- [Isis Harris](https://github.com/latinadeveloper)
+- [Amandha W. Barok](https://github.com/amandhawb)
 
 [![Powered by Vercel](https://latina.dev/img/logos/vercel.svg "Vercel")](https://vercel.com?utm_source=latina-dev&utm_campaign=oss)
