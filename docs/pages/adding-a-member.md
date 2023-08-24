@@ -14,7 +14,7 @@ name: Frances Coronel // first and last name
 added: "2023-01-25" // date you were added
 level: "Individual Contributor" // see member levels for more info
 linkedin: "francescoronel" // your LinkedIn handle
-countries: ["Peru"] // your country or coutries of origin
+countries: ["Peru"] // your country or countries of origin
 ---
 ```
 

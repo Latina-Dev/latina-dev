@@ -2,7 +2,7 @@
 
 ## Logo
 
-<img src="/img/logos/logo.png" width="50" />
+<img src="https://latina.dev/img/logos/logo.png" width="50" />
 
 We decided to base our logo off the the South American great horned owl that can be found throughout the Americas.
 
