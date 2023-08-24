@@ -1,0 +1,14 @@
+name: Purge Branches
+on:
+  schedule:
+    - cron: "0 10 * * *" # every day @ 10 AM UTC
+jobs:
+  purgeBranches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete & Notify Branches
+        uses: gita-vahdatinia/purge-branchn@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          days-to-notify: 30
+          days-to-delete: 7
