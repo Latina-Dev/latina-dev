@@ -3,13 +3,27 @@ export default async function About() {
     return (
         <section>
             <div className={styles.center}>
-                <h2 className="mt-3">What is a Latina?</h2>
+                <h2 className="mt-3">About Us</h2>
                 <div className={styles.description}>
+                    <h3 className="mt-3">Our Mission</h3>
                     <p>
                         As an open source project led by Latina software engineers, our mission is to empower Latinas in the tech industry and foster an
                         inclusive and supportive community. We recognize the importance of being a Latina and how it intertwines with our expertise in
                         software engineering and open source development.
                     </p>
+                    <h3>About Us</h3>
+                    <p>
+                        A community for present & future Latina software engineers created to connect, elevate and empower the next generation of tech leaders.
+                        Less than 15% of engineers are women; 2% are Latina. We want that to change! Latina Dev is an open-source directory of
+                        Latina software engineers at the student, IC, and leadership levels.
+                        Our goal is to increase visibility and access to valuable opportunities.
+                    </p>
+
+                    <h3>Who are Latinas?</h3>
+                    <p>
+
+                    </p>
+                    <h3>What does it mean to be a Latina Dev? </h3>
                     <p>
                         Being a Latina within the context of our open source project signifies the fusion of our Latin American heritage with our
                         passion for technology and collaboration. It embodies our commitment to leveraging open source principles to drive innovation,
