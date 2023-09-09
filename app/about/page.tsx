@@ -21,8 +21,30 @@ export default async function About() {
 
                     <h3>Who are Latinas?</h3>
                     <p>
-
+                        To be considered Latina/Latino/Latinx, you or your ancestors must have come from a Latin American country: Mexico, Dominican Republic,
+                        Puerto Rico, Cuba, French-speaking Caribbean nations, Central or South America.
                     </p>
+
+                    <p>
+                        A nation cannot be inherently referred to as "Latina." The term "Latina" functions as a noun to characterize an individual,
+                        as defined by <a href="https://www.merriam-webster.com/dictionary/Latino">Merriam-Webster</a>, either as a "native or resident of Latin America" or as someone "of Latin American heritage
+                        residing in the United States."
+                    </p>
+
+                    <p>
+                        <a href="https://www.britannica.com/topic/list-of-countries-in-Latin-America-2061416">Britannica's</a> information confirms that Latin American countries comprise over 20 nations spanning North, Central,
+                        and South America, as well as the Caribbean. These nations encompass Puerto Rico as a U.S. territory, Haiti, Panama, Guyana,
+                        Bolivia, Honduras, Nicaragua, Mexico, Cuba, Saint Barthélemy, Paraguay, Uruguay, Colombia, French Guiana, El Salvador, Venezuela,
+                        Ecuador, Chile, Suriname, Guatemala, the Dominican Republic, Argentina, Brazil, Martinique, Guadeloupe, and Saint Martin.
+                    </p>
+
+                    <p>
+                        Please note that this list includes some countries, but it may not be exhaustive. If you believe that there are
+                        other countries we should include, we encourage you to get in touch with us. Our aim is to promote inclusivity and build a sense of
+                        community, and we would be delighted to welcome your input and suggestions.
+                    </p>
+
+
                     <h3>What does it mean to be a Latina Dev? </h3>
                     <p>
                         Being a Latina within the context of our open source project signifies the fusion of our Latin American heritage with our
