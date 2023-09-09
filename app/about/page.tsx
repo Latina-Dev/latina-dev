@@ -26,9 +26,9 @@ export default async function About() {
                     </p>
 
                     <p>
-                        A nation cannot be inherently referred to as 'Latina.' The term 'Latina' functions as a noun to characterize an individual,
-                        as defined by <a href="https://www.merriam-webster.com/dictionary/Latino">Merriam-Webster</a>, either as a 'native or resident of Latin America' or as someone 'of Latin American heritage
-                        residing in the United States.'
+                        A nation cannot be inherently referred to as <q>Latina.</q> The term <q>Latina</q> functions as a noun to characterize an individual,
+                        as defined by <a href="https://www.merriam-webster.com/dictionary/Latino">Merriam-Webster</a>, either as a <q>native or resident of Latin America</q> or someone <q>of Latin American heritage
+                            residing in the United States.</q>
                     </p>
 
                     <p>
