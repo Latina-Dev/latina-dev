@@ -3,7 +3,7 @@ export default async function About() {
     return (
         <section>
             <div className={styles.center}>
-                <h2 className="mt-3">About Us</h2>
+                <h2 className="mt-3">About Latina Dev</h2>
                 <div className={styles.description}>
                     <h3 className="mt-3">Our Mission</h3>
                     <p>
