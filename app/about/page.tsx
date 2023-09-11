@@ -32,7 +32,7 @@ export default async function About() {
                     </p>
 
                     <p>
-                        <a href="https://www.britannica.com/topic/list-of-countries-in-Latin-America-2061416">Britannica's</a> information confirms that Latin American countries comprise over 20 nations spanning North, Central,
+                        <a href="https://www.britannica.com/topic/list-of-countries-in-Latin-America-2061416">Britannica<q></q>s</a> information confirms that Latin American countries comprise over 20 nations spanning North, Central,
                         and South America, as well as the Caribbean. These nations encompass Puerto Rico as a U.S. territory, Haiti, Panama, Guyana,
                         Bolivia, Honduras, Nicaragua, Mexico, Cuba, Saint Barthélemy, Paraguay, Uruguay, Colombia, French Guiana, El Salvador, Venezuela,
                         Ecuador, Chile, Suriname, Guatemala, the Dominican Republic, Argentina, Brazil, Martinique, Guadeloupe, and Saint Martin.
