@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@storybook/addon-a11y": "7.0.18",
-    "@storybook/addon-essentials": "7.0.18",
+    "@storybook/addon-essentials": "7.5.0",
     "@storybook/addon-interactions": "7.0.18",
     "@storybook/addon-links": "7.0.18",
     "@storybook/addon-storysource": "7.0.27",
@@ -54,7 +54,7 @@
     "eslint-plugin-storybook": "0.6.12",
     "eslint-plugin-unused-imports": "2.0.0",
     "postcss": "^8.4.21",
-    "storybook": "7.0.18",
+    "storybook": "7.5.0",
     "tailwindcss": "^3.2.7"
   }
 }
