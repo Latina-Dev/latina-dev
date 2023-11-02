@@ -1,10 +1,9 @@
-.navbar {
+/*.navbar {
   justify-content: space-between;
   font-weight: bold;
   text-align: center;
   margin: 10px;
   margin-top: 25px;
-  
 }
 
 .navbar ul {

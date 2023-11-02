@@ -4,7 +4,7 @@ import MetaTags from '@/components/Layout/MetaTags';
 import Navbar from '@/components/Navbar/Navbar';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { Analytics } from '@vercel/analytics/react';
-import styles from './layout.module.css';
+// import styles from './layout.module.css';
 import '/styles/_styles.css';
 
 export const metadata = {
@@ -28,11 +28,12 @@ export default function RootLayout({
     <html lang='en'>
       <MetaTags />
       <body>
-        <div className={styles.wrapper}>
+        <div className='py-20 min-h-screen'>
           <GitHubCorner />
           <Navbar />
           <main>
-            <div className={styles.container}>
+            <div className='flex justify-center items-center relative p-0'>
+              {/* Solve Later JV <div className={styles.container}> */}
               {children}
               <Analytics />
             </div>

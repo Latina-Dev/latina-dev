@@ -5,7 +5,7 @@ import styles from './About.module.css';
 
 export default function About() {
   return (
-    <section className={styles.about} id='about'>
+    <section className='my-0 mx-auto max-w-[500px] py-[100px] px-0' id='about'>
       <h2>About Us</h2>
       <div className='mt-10'>
         <strong>
@@ -13,7 +13,7 @@ export default function About() {
           connect, elevate and empower the next generation of tech leaders.
         </strong>
       </div>
-      <div className={styles.description}>
+      <div className='pt-[18px] px-0 pb-12'>
         <p>
           Less than 15% of engineers are women; 2% are Latina. We want that to
           change! {metadata.description}
