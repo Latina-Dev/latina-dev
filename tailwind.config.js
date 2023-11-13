@@ -16,6 +16,25 @@ module.exports = {
         textColor: '#151515',
         whiteColor: '#ffffff',
         blackColor: '#000000',
+        buttonBackground: '#9e0001',
+        buttonBackgroundHover: '#ffffff',
+        buttonDarkHover: '#7d0000',
+      },
+      keyframes: {
+        octocatWave: {
+          '0%, 100%': {
+            transform: 'rotate(0)',
+          },
+          '20%, 60%': {
+            transform: 'rotate(-25deg)',
+          },
+          '40%, 80%': {
+            transform: 'rotate(10deg)',
+          },
+        },
+      },
+      animation: {
+        octocatWave: 'octocatWave 560ms ease-in-out',
       },
     },
   },
