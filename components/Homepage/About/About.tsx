@@ -1,7 +1,6 @@
 import ButtonLink from '@/components/ButtonLink/ButtonLink';
 import { faDiscord } from '@fortawesome/free-brands-svg-icons';
 import { metadata } from 'app/layout';
-import styles from './About.module.css';
 
 export default function About() {
   return (

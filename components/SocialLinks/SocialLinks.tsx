@@ -1,13 +1,12 @@
-import { MemberInterface } from "@/types/members";
+import { MemberInterface } from '@/types/members';
 import {
   faGithub,
   faLinkedin,
   faTwitter,
-} from "@fortawesome/free-brands-svg-icons";
-import { faGlobe } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import styles from "./SocialLinks.module.css";
+} from '@fortawesome/free-brands-svg-icons';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
 
 interface MemberProps {
   member: MemberInterface;
@@ -17,16 +16,18 @@ const SocialLinks = (props: MemberProps) => {
   const { name, linkedin, github, twitter, website } = props.member;
 
   return (
-    <div className={styles.socialLinks}>
+    <div className='mt-[10px]'>
       {/* LinkedIn */}
       {linkedin && (
         <Link
           href={`https://www.linkedin.com/in/${linkedin}`}
           aria-label={`${name} LinkedIn`}
-          target={"_blank"}
-          rel="noopener noreferrer"
-        >
-          <FontAwesomeIcon icon={faLinkedin} />
+          target={'_blank'}
+          rel='noopener noreferrer'>
+          <FontAwesomeIcon
+            className='p-3 text-lg hover:text-primary transition-all duration-150 ease-in-out'
+            icon={faLinkedin}
+          />
         </Link>
       )}
       {/* GitHub */}
@@ -34,10 +35,12 @@ const SocialLinks = (props: MemberProps) => {
         <Link
           href={`https://www.github.com/${github}`}
           aria-label={`${name} GitHub`}
-          target={"_blank"}
-          rel="noopener noreferrer"
-        >
-          <FontAwesomeIcon icon={faGithub} />
+          target={'_blank'}
+          rel='noopener noreferrer'>
+          <FontAwesomeIcon
+            className='p-3 text-lg hover:text-primary transition-all duration-150 ease-in-out'
+            icon={faGithub}
+          />
         </Link>
       )}
       {/* Twitter */}
@@ -45,10 +48,12 @@ const SocialLinks = (props: MemberProps) => {
         <Link
           href={`https://www.twitter.com/${twitter}`}
           aria-label={`${name} Twitter`}
-          target={"_blank"}
-          rel="noopener noreferrer"
-        >
-          <FontAwesomeIcon icon={faTwitter} />
+          target={'_blank'}
+          rel='noopener noreferrer'>
+          <FontAwesomeIcon
+            className='p-3 text-lg hover:text-primary transition-all duration-150 ease-in-out'
+            icon={faTwitter}
+          />
         </Link>
       )}
       {/* Website */}
@@ -56,10 +61,12 @@ const SocialLinks = (props: MemberProps) => {
         <Link
           href={website}
           aria-label={`${name} Website`}
-          target={"_blank"}
-          rel="noopener noreferrer"
-        >
-          <FontAwesomeIcon icon={faGlobe} />
+          target={'_blank'}
+          rel='noopener noreferrer'>
+          <FontAwesomeIcon
+            className='p-3 text-lg hover:text-primary transition-all duration-150 ease-in-out'
+            icon={faGlobe}
+          />
         </Link>
       )}
     </div>

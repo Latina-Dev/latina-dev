@@ -2,7 +2,6 @@ import ButtonLink from '@/components/ButtonLink/ButtonLink';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { metadata } from 'app/layout';
 import Logo from '../../Logo/Logo';
-// import styles from './Hero.module.css';
 
 export default function Hero() {
   return (
