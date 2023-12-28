@@ -51,5 +51,6 @@ Or just [create an issue](https://github.com/Latina-Dev/latina-dev/issues/new/ch
 - [Fernanda Pérez Gutiérrez](https://github.com/fernperezg97)
 - [Isis Harris](https://github.com/latinadeveloper)
 - [Amandha W. Barok](https://github.com/amandhawb)
+- [Jasmin Villatoro](https://github.com/Jasminvillatoro)
 
-[![Powered by Vercel](https://latina.dev/img/logos/vercel.svg "Vercel")](https://vercel.com?utm_source=latina-dev&utm_campaign=oss)
+[![Powered by Vercel](https://latina.dev/img/logos/vercel.svg 'Vercel')](https://vercel.com?utm_source=latina-dev&utm_campaign=oss)
