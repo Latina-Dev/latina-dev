@@ -1,7 +1,7 @@
 import {
-  faDiscord,
   faGithub,
   faLinkedin,
+  faSlack,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -20,11 +20,11 @@ const Footer = () => {
           <FontAwesomeIcon icon={faGithub} />
         </Link>
         <Link
-          href="https://discord.com/invite/xzHDhxsQAQ"
-          aria-label="Latina Dev Discord"
+          href="https://latinadev.slack.com"
+          aria-label="Latina Dev Slack"
           target={"_blank"}
         >
-          <FontAwesomeIcon icon={faDiscord} width={25} />
+          <FontAwesomeIcon icon={faSlack} width={25} />
         </Link>
         <Link
           href="https://www.linkedin.com/company/latina-dev/"
