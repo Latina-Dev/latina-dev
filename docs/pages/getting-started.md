@@ -37,11 +37,9 @@ Feel free to contribute to Latina Dev in one or more of the following ways and t
 - GitHub
   - Version control
   - Project management
-- Discord
+- Slack
   - Communication
+  - Meetings
+  - Notes
 - Figma
   - Design
-- Google Meet
-  - Meetings
-- Notion
-  - Meeting notes

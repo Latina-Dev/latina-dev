@@ -1,5 +1,5 @@
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
-import { faDiscord } from "@fortawesome/free-brands-svg-icons";
+import { faSlack } from "@fortawesome/free-brands-svg-icons";
 import { metadata } from "app/layout";
 import styles from "./About.module.css";
 
@@ -20,10 +20,10 @@ export default function About() {
         </p>
       </div>
       <ButtonLink
-        text="Join us on Discord"
-        url="https://discord.com/invite/xzHDhxsQAQ"
+        text="Request an invite to our Slack community"
+        url="mailto:hello@latinadev.com"
         external={true}
-        icon={faDiscord}
+        icon={faSlack}
       />
     </section>
   );
