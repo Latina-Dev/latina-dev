@@ -19,20 +19,27 @@ const config: StorybookConfig = {
       titlePrefix: "Components"
     }
   ],
+
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
     "@storybook/addon-storysource",
-    "@storybook/addon-a11y"
+    "@storybook/addon-a11y",
+    "@chromatic-com/storybook"
   ],
+
   framework: {
     name: "@storybook/nextjs",
     options: {}
   },
+
   staticDirs: ["../public"],
-  docs: {
-    autodocs: "tag"
+
+  docs: {},
+
+  typescript: {
+    reactDocgen: "react-docgen-typescript"
   }
 };
 export default config;
