@@ -24,8 +24,4 @@ Amplify opportunities for over 1,000 Latina software engineers by 2025.
 
 ## Roadmap
 
-We share our roadmap publicly so that you can see what we're working on and what's coming up next. We also welcome your feedback and suggestions.
-
-🎯 [GitHub Milestones](https://github.com/Latina-Dev/latina-dev/milestones)
-
-🛠️ [GitHub Project Board](https://github.com/orgs/Latina-Dev/projects/1)
+[Request an invite](mailto:hello@latina.dev) to [our Slack community](https://latinadev.slack.com) to learn more about our roadmap and how you can contribute.

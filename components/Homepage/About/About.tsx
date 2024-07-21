@@ -24,7 +24,7 @@ export default function About() {
       </div>
       <ButtonLink
         text="Request an invite to our Slack community"
-        url="mailto:hello@latinadev.com"
+        url="mailto:hello@latina.dev"
         external={true}
         icon={faSlack}
       />
