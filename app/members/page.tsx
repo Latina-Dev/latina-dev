@@ -1,6 +1,9 @@
 import MemberCard from "@/components/MemberCard/MemberCard";
+
 import { getMembers } from "@/lib/getMembers";
+
 import { MemberInterface } from "@/types/members";
+
 import styles from "./page.module.css";
 
 export default async function MembersPage() {

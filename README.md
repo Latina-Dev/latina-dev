@@ -18,15 +18,9 @@ Our goal is to increase visibility and access to valuable opportunities.
 
 📚 [Documentation](https://docs.latina.dev)
 
-👾 [Slack](https://latinadev.slack.com)
+👾 [Slack](https://latinadev.slack.com) ([Request an invite](mailto:hello@latina.dev))
 
 🎨 [Storybook](https://www.chromatic.com/library?appId=6472ce8643c60096810af8c0)
-
-🎯 [GitHub Milestones](https://github.com/Latina-Dev/latina-dev/milestones)
-
-🛠️ [GitHub Project Board](https://github.com/orgs/Latina-Dev/projects/1)
-
-💬 [GitHub Discussions](https://github.com/orgs/Latina-Dev/discussions)
 
 ## Contributing
 

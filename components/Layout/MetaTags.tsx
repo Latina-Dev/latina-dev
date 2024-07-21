@@ -2,7 +2,10 @@ export default function MetaTags() {
   return (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta property="og:image" content="https://latina.dev/img/featured-image.png" />
+      <meta
+        property="og:image"
+        content="https://latina.dev/img/featured-image.png"
+      />
       <meta property="og:type" content="website" />
       {/* For new browsers - multisize ico  */}
       <link

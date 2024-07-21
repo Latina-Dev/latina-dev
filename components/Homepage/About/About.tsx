@@ -1,6 +1,9 @@
-import ButtonLink from "@/components/ButtonLink/ButtonLink";
-import { faSlack } from "@fortawesome/free-brands-svg-icons";
 import { metadata } from "app/layout";
+
+import { faSlack } from "@fortawesome/free-brands-svg-icons";
+
+import ButtonLink from "@/components/ButtonLink/ButtonLink";
+
 import styles from "./About.module.css";
 
 export default function About() {
@@ -21,7 +24,7 @@ export default function About() {
       </div>
       <ButtonLink
         text="Request an invite to our Slack community"
-        url="mailto:hello@latinadev.com"
+        url="mailto:hello@latina.dev"
         external={true}
         icon={faSlack}
       />

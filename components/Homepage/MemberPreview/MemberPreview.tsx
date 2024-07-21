@@ -1,7 +1,10 @@
+import { faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
+
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import MemberCard from "@/components/MemberCard/MemberCard";
+
 import { MemberInterface } from "@/types/members";
-import { faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
+
 import styles from "./MembersSnippet.module.css";
 
 interface Props {

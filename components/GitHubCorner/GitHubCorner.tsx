@@ -1,10 +1,11 @@
 import Link from "next/link";
+
 import styles from "./GitHubCorner.module.css";
 
 const GitHubCorner = () => {
   return (
     <Link
-      href="https://github.com/orgs/Latina-Dev/projects/1?query=is%3Aopen+sort%3Aupdated-desc"
+      href="https://github.com/latina-dev/latina-dev"
       className={styles.githubCornerLink}
       aria-label="View source on GitHub"
       target={"_blank"}

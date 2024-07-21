@@ -5,7 +5,7 @@ import CountryFlags from "./CountryFlags";
 const meta: Meta<typeof CountryFlags> = {
   title: "CountryFlags",
   component: CountryFlags,
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -14,12 +14,12 @@ type Story = StoryObj<typeof CountryFlags>;
 
 export const SingleCountry: Story = {
   args: {
-    countries: ["Peru"],
-  },
+    countries: ["Peru"]
+  }
 };
 
 export const MultipleCountries: Story = {
   args: {
-    countries: ["Peru", "Brazil", "Argentina"],
-  },
+    countries: ["Peru", "Brazil", "Argentina"]
+  }
 };
