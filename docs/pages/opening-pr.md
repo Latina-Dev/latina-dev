@@ -27,7 +27,6 @@ Adds a contact form to the website
 
 - [x] Reviewed the [contributing guidelines](https://github.com/Latina-Dev/latina-dev/blob/master/.github/CONTRIBUTING.md) 🔍️
 - [x] Added my name to the bottom of the list under the **Contributors** section in the [README.md](https://github.com/Latina-Dev/latina-dev/blob/master/README.md) with a link to my personal website or GitHub profile 👥️
-
 ```
 
 ## Checks

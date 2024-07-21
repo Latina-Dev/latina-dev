@@ -13,11 +13,6 @@
       }
     ]
   },
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:storybook/recommended"
-  ],
-  "plugins": [
-    "unused-imports"
-  ]
+  "extends": ["next/core-web-vitals", "plugin:storybook/recommended"],
+  "plugins": ["unused-imports"]
 }

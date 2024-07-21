@@ -1,12 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    appDir: true,
-  },
-}
+    appDir: true
+  }
+};
 
-module.exports = nextConfig
-
+module.exports = nextConfig;
 
 // Injected content via Sentry wizard below
 
@@ -22,7 +21,7 @@ module.exports = withSentryConfig(
     silent: true,
 
     org: "latina-dev",
-    project: "latina-dev",
+    project: "latina-dev"
   },
   {
     // For all available options, see:
@@ -41,6 +40,6 @@ module.exports = withSentryConfig(
     hideSourceMaps: true,
 
     // Automatically tree-shake Sentry logger statements to reduce bundle size
-    disableLogger: true,
+    disableLogger: true
   }
 );

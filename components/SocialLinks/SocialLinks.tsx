@@ -1,12 +1,15 @@
-import { MemberInterface } from "@/types/members";
+import Link from "next/link";
+
 import {
   faGithub,
   faLinkedin,
-  faTwitter,
+  faTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
+
+import { MemberInterface } from "@/types/members";
+
 import styles from "./SocialLinks.module.css";
 
 interface MemberProps {

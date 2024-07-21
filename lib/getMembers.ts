@@ -1,9 +1,10 @@
-import { MemberInterface } from "@/types/members";
 import fs from "fs";
 import grayMatter from "gray-matter";
 import remarkHtml from "remark-html";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
+
+import { MemberInterface } from "@/types/members";
 
 /**
  * Get all members from Markdown posts
@@ -38,7 +39,7 @@ export const getMembers = async (): Promise<MemberInterface[]> => {
       added,
       affiliation,
       level,
-      countries,
+      countries
     } = data;
 
     // Parse Markdown
@@ -61,7 +62,7 @@ export const getMembers = async (): Promise<MemberInterface[]> => {
       slug,
       path,
       bio,
-      countries,
+      countries
     };
   });
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import styles from "./GitHubCorner.module.css";
 
 const GitHubCorner = () => {

@@ -1,7 +1,10 @@
+import Image from "next/image";
+
 import CountryFlags from "@/components/CountryFlags/CountryFlags";
 import SocialLinks from "@/components/SocialLinks/SocialLinks";
+
 import { getMemberBySlug, getMembers } from "@/lib/getMembers";
-import Image from "next/image";
+
 import styles from "./page.module.css";
 
 interface Props {
@@ -33,16 +36,16 @@ export default async function Member({ params }: Props) {
           <SocialLinks member={member} />
         </div>
         <div className="text-center p-10 lg:p-0 lg:text-left">
-        <h2 className="mt-3 text-3xl lg:text-4xl">{name}</h2>
-        <h3>{affiliation}</h3>
-        <h3 className={styles.affiliation}>{level}</h3>
-        {countries && <CountryFlags countries={countries} />}
-        {bio && (
-          <div
-            className={styles.bio}
-            dangerouslySetInnerHTML={{ __html: bio }}
-          />
-        )}
+          <h2 className="mt-3 text-3xl lg:text-4xl">{name}</h2>
+          <h3>{affiliation}</h3>
+          <h3 className={styles.affiliation}>{level}</h3>
+          {countries && <CountryFlags countries={countries} />}
+          {bio && (
+            <div
+              className={styles.bio}
+              dangerouslySetInnerHTML={{ __html: bio }}
+            />
+          )}
         </div>
       </article>
     </div>
@@ -54,7 +57,7 @@ export async function generateStaticParams() {
   const members = await getMembers();
 
   return members.map((member) => ({
-    slug: member.slug,
+    slug: member.slug
   }));
 }
 
@@ -62,6 +65,6 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
   const member = await getMemberBySlug(params.slug);
   return {
-    title: `${member?.name} | Members`,
+    title: `${member?.name} | Members`
   };
 }

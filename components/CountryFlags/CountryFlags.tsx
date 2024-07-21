@@ -1,4 +1,5 @@
 import { CountryOption } from "@/types/countries";
+
 import styles from "./CountryFlags.module.css";
 
 const countryOptions: CountryOption[] = [
@@ -23,7 +24,7 @@ const countryOptions: CountryOption[] = [
   { country: "Chile", flag: "🇨🇱" },
   { country: "Puerto Rico", flag: "🇵🇷" },
   { country: "Belize", flag: "🇧🇿" },
-  { country: "Haiti", flag: "🇭🇹" },
+  { country: "Haiti", flag: "🇭🇹" }
 ];
 
 interface Props {

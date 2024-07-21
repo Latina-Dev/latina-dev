@@ -1,0 +1,27 @@
+{
+  "trailingComma": "none",
+  "tabWidth": 2,
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "^react$",
+    "^next/(.*)$",
+    "app/(.*)$",
+    "",
+    "^@vercel/(.*)$",
+    "<BUILTIN_MODULES>",
+    "<THIRD_PARTY_MODULES>",
+    "^@fortawesome/(.*)$",
+    "",
+    "^@/components/(.*)$",
+    "",
+    "^@/lib/(.*)$",
+    "",
+    "<TYPES>",
+    "^@/types/(.*)$",
+    "",
+    "^[.]",
+    "",
+    "^(?!.*[.]css$)[./].*$",
+    ".css$"
+  ]
+}

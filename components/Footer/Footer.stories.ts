@@ -5,7 +5,7 @@ import Footer from "./Footer";
 const meta: Meta<typeof Footer> = {
   title: "Footer",
   component: Footer,
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -13,5 +13,5 @@ export default meta;
 type Story = StoryObj<typeof Footer>;
 
 export const Default: Story = {
-  args: {},
+  args: {}
 };

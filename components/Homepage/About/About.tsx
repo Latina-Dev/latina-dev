@@ -1,6 +1,9 @@
-import ButtonLink from "@/components/ButtonLink/ButtonLink";
-import { faSlack } from "@fortawesome/free-brands-svg-icons";
 import { metadata } from "app/layout";
+
+import { faSlack } from "@fortawesome/free-brands-svg-icons";
+
+import ButtonLink from "@/components/ButtonLink/ButtonLink";
+
 import styles from "./About.module.css";
 
 export default function About() {

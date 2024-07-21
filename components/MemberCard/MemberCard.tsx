@@ -1,8 +1,10 @@
-import CountryFlags from "@/components/CountryFlags/CountryFlags";
-import SocialLinks from "@/components/SocialLinks/SocialLinks";
-import { MemberInterface } from "@/types/members";
 import Image from "next/image";
 import Link from "next/link";
+
+import CountryFlags from "@/components/CountryFlags/CountryFlags";
+import SocialLinks from "@/components/SocialLinks/SocialLinks";
+
+import { MemberInterface } from "@/types/members";
 
 interface MemberProps {
   member: MemberInterface;
