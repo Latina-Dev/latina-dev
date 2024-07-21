@@ -8,7 +8,7 @@ Our goal is to increase visibility and access to valuable opportunities.
 
 [![GitHub Issues](https://img.shields.io/github/issues/Latina-Dev/latina-dev.svg?style=for-the-badge)](https://github.com/Latina-Dev/latina-dev/issues) [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/Latina-Dev/latina-dev.svg?style=for-the-badge)](https://github.com/Latina-Dev/latina-dev/pulls)
 
-[![Discord Latina Dev Community](https://dcbadge.vercel.app/api/server/xzHDhxsQAQ)](https://discord.gg/xzHDhxsQAQ) [![Follow on GitHub](https://img.shields.io/github/followers/Latina-Dev?logo=github&style=for-the-badge&color=black)](https://github.com/Latina-Dev?tab=followers) [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0e76a8?style=for-the-badge&logo=Linkedin&logoColor=white)](https://linkedin.com/company/latina-dev)
+[![Follow on GitHub](https://img.shields.io/github/followers/Latina-Dev?logo=github&style=for-the-badge&color=black)](https://github.com/Latina-Dev?tab=followers) [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0e76a8?style=for-the-badge&logo=Linkedin&logoColor=white)](https://linkedin.com/company/latina-dev)
 
 [![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=Latina-Dev&style=for-the-badge)](https://vercel.com/latina-dev/latina-dev) [![MIT License](https://img.shields.io/github/license/Latina-Dev/latina-dev.svg?style=for-the-badge)](http://badges.mit-license.org)
 
@@ -18,7 +18,7 @@ Our goal is to increase visibility and access to valuable opportunities.
 
 📚 [Documentation](https://docs.latina.dev)
 
-👾 [Discord](https://discord.gg/xzHDhxsQAQ)
+👾 [Slack](https://latinadev.slack.com)
 
 🎨 [Storybook](https://www.chromatic.com/library?appId=6472ce8643c60096810af8c0)
 
