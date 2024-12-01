@@ -18,8 +18,7 @@ export default function Navbar() {
           <Link
             href="https://forms.fillout.com/t/xARDm8SG6mus"
             target={"_blank"}
-            className="pl-4 sm:pl-10 inline-block"
-          >
+            className="pl-4 sm:pl-10 inline-block">
             Add your profile
           </Link>
         </li>
@@ -27,8 +26,7 @@ export default function Navbar() {
           <Link
             href="https://github.com/Latina-Dev/latina-dev"
             target={"_blank"}
-            className="pl-4 sm:pl-10"
-          >
+            className="pl-4 sm:pl-10">
             Contribute
           </Link>
         </li>

@@ -1,10 +1,6 @@
 import Link from "next/link";
 
-import {
-  faGithub,
-  faLinkedin,
-  faTwitter
-} from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -27,8 +23,7 @@ const SocialLinks = (props: MemberProps) => {
           href={`https://www.linkedin.com/in/${linkedin}`}
           aria-label={`${name} LinkedIn`}
           target={"_blank"}
-          rel="noopener noreferrer"
-        >
+          rel="noopener noreferrer">
           <FontAwesomeIcon icon={faLinkedin} />
         </Link>
       )}
@@ -38,8 +33,7 @@ const SocialLinks = (props: MemberProps) => {
           href={`https://www.github.com/${github}`}
           aria-label={`${name} GitHub`}
           target={"_blank"}
-          rel="noopener noreferrer"
-        >
+          rel="noopener noreferrer">
           <FontAwesomeIcon icon={faGithub} />
         </Link>
       )}
@@ -49,8 +43,7 @@ const SocialLinks = (props: MemberProps) => {
           href={`https://www.twitter.com/${twitter}`}
           aria-label={`${name} Twitter`}
           target={"_blank"}
-          rel="noopener noreferrer"
-        >
+          rel="noopener noreferrer">
           <FontAwesomeIcon icon={faTwitter} />
         </Link>
       )}
@@ -60,8 +53,7 @@ const SocialLinks = (props: MemberProps) => {
           href={website}
           aria-label={`${name} Website`}
           target={"_blank"}
-          rel="noopener noreferrer"
-        >
+          rel="noopener noreferrer">
           <FontAwesomeIcon icon={faGlobe} />
         </Link>
       )}

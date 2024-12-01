@@ -1,6 +1,11 @@
 {
-  "trailingComma": "none",
+  "arrowParens": "always",
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "printWidth": 100,
+  "singleQuote": false,
   "tabWidth": 2,
+  "useTabs": false,
   "plugins": ["@ianvs/prettier-plugin-sort-imports"],
   "importOrder": [
     "^react$",

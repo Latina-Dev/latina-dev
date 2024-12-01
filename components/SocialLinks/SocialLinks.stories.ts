@@ -3,20 +3,20 @@ import { exampleMember } from "@/types/members";
 
 import SocialLinks from "./SocialLinks";
 
-const meta: Meta<typeof SocialLinks> = {
+const meta: Meta = {
   title: "SocialLinks",
   component: SocialLinks,
-  tags: ["autodocs"]
+  tags: ["autodocs"],
 };
 
 export default meta;
 
-type Story = StoryObj<typeof SocialLinks>;
+type Story = StoryObj;
 
 export const Default: Story = {
   args: {
     member: {
-      ...exampleMember
-    }
-  }
+      ...exampleMember,
+    },
+  },
 };

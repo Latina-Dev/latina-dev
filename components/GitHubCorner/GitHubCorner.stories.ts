@@ -2,16 +2,16 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import GitHubCorner from "./GitHubCorner";
 
-const meta: Meta<typeof GitHubCorner> = {
+const meta: Meta = {
   title: "GitHubCorner",
   component: GitHubCorner,
-  tags: ["autodocs"]
+  tags: ["autodocs"],
 };
 
 export default meta;
 
-type Story = StoryObj<typeof GitHubCorner>;
+type Story = StoryObj;
 
 export const Default: Story = {
-  args: {}
+  args: {},
 };

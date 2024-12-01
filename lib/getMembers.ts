@@ -10,7 +10,7 @@ import { MemberInterface } from "@/types/members";
  * Get all members from Markdown posts
  * @returns members
  */
-export const getMembers = async (): Promise<MemberInterface[]> => {
+export const getMembers = async (): Promise => {
   const memberPath = "data/members";
   // Get files from members directory
   const files = fs.readdirSync(memberPath);
@@ -18,9 +18,7 @@ export const getMembers = async (): Promise<MemberInterface[]> => {
   // Loop through files and create array of members
   const members = files.map(async (filename) => {
     // Get raw markdown
-    const markdownWithMetadata = fs
-      .readFileSync(`${memberPath}/${filename}`)
-      .toString();
+    const markdownWithMetadata = fs.readFileSync(`${memberPath}/${filename}`).toString();
 
     // Parse markdown, grab front matter
     const { data, content } = grayMatter(markdownWithMetadata);
@@ -30,23 +28,10 @@ export const getMembers = async (): Promise<MemberInterface[]> => {
     const path = `/members/${slug}`;
 
     // Process custom fields
-    const {
-      name,
-      linkedin,
-      github,
-      twitter,
-      website,
-      added,
-      affiliation,
-      level,
-      countries
-    } = data;
+    const { name, linkedin, github, twitter, website, added, affiliation, level, countries } = data;
 
     // Parse Markdown
-    const html = await unified()
-      .use(remarkParse)
-      .use(remarkHtml)
-      .process(content);
+    const html = await unified().use(remarkParse).use(remarkHtml).process(content);
     const bio = html.value.toString();
 
     // Return member data
@@ -62,7 +47,7 @@ export const getMembers = async (): Promise<MemberInterface[]> => {
       slug,
       path,
       bio,
-      countries
+      countries,
     };
   });
 

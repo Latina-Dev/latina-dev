@@ -34,11 +34,7 @@ const MemberPreview = (props: Props) => {
         ))}
       </div>
       <div>
-        <ButtonLink
-          text="View all our Members "
-          url="/members"
-          icon={faPeopleGroup}
-        />
+        <ButtonLink text="View all our Members " url="/members" icon={faPeopleGroup} />
       </div>
     </section>
   );

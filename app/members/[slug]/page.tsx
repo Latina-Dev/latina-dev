@@ -40,12 +40,7 @@ export default async function Member({ params }: Props) {
           <h3>{affiliation}</h3>
           <h3 className={styles.affiliation}>{level}</h3>
           {countries && <CountryFlags countries={countries} />}
-          {bio && (
-            <div
-              className={styles.bio}
-              dangerouslySetInnerHTML={{ __html: bio }}
-            />
-          )}
+          {bio && <div className={styles.bio} dangerouslySetInnerHTML={{ __html: bio }} />}
         </div>
       </article>
     </div>
@@ -57,7 +52,7 @@ export async function generateStaticParams() {
   const members = await getMembers();
 
   return members.map((member) => ({
-    slug: member.slug
+    slug: member.slug,
   }));
 }
 
@@ -65,6 +60,6 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
   const member = await getMemberBySlug(params.slug);
   return {
-    title: `${member?.name} | Members`
+    title: `${member?.name} | Members`,
   };
 }
