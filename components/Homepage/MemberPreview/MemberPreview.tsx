@@ -14,14 +14,6 @@ interface Props {
 const MemberPreview = (props: Props) => {
   const { members } = props;
 
-  // sort members by added date property
-  const membersSorted = members.sort((a, b) => {
-    const firstDate = new Date(a.added);
-    const secondDate = new Date(b.added);
-    if (firstDate < secondDate) return -1;
-    return 1;
-  });
-
   // 6 random members picked from original members array
   const membersRandom = members.sort(() => Math.random() - 0.5).slice(0, 6);
 
@@ -34,11 +26,7 @@ const MemberPreview = (props: Props) => {
         ))}
       </div>
       <div>
-        <ButtonLink
-          text="View all our Members "
-          url="/members"
-          icon={faPeopleGroup}
-        />
+        <ButtonLink text="View all our Members " url="/members" icon={faPeopleGroup} />
       </div>
     </section>
   );

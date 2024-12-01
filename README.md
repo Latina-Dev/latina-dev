@@ -18,7 +18,7 @@ Our goal is to increase visibility and access to valuable opportunities.
 
 📚 [Documentation](https://docs.latina.dev)
 
-👾 [Slack](https://latinadev.slack.com) ([Request an invite](mailto:hello@latina.dev))
+👾 [Slack](https://latinadev.slack.com) ([Request an invite via email](mailto:hello@latina.dev))
 
 🎨 [Storybook](https://www.chromatic.com/library?appId=6472ce8643c60096810af8c0)
 

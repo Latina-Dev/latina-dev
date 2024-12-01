@@ -18,12 +18,7 @@ const ButtonLink = (props: Props) => {
   const target = external ? "_blank" : "_self";
 
   return (
-    <Link
-      href={url}
-      aria-label={text}
-      target={target}
-      className={styles.buttonLink}
-    >
+    <Link href={url} aria-label={text} target={target} className={styles.buttonLink}>
       {text} {icon && <FontAwesomeIcon icon={icon} />}
     </Link>
   );

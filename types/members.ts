@@ -27,5 +27,5 @@ export const exampleMember: MemberInterface = {
   level: "Individual Contributor",
   slug: "frances-coronel",
   path: "/members/frances-coronel",
-  countries: ["Peru"]
+  countries: ["Peru"],
 };
