@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import escapeHtml from "escape-html";
 
 import CountryFlags from "@/components/CountryFlags/CountryFlags";
 import SocialLinks from "@/components/SocialLinks/SocialLinks";
@@ -12,10 +13,11 @@ interface MemberProps {
 
 const MemberCard = (props: MemberProps) => {
   const { name, slug, level, countries } = props.member;
+  const sanitizedPath = escapeHtml(props.member.path);
 
   return (
     <div className={"text-center"}>
-      <Link href={props.member.path} aria-label={name} className="block">
+      <Link href={sanitizedPath} aria-label={name} className="block">
         {/* Image */}
         <Image
           src={`/img/members/${slug}.jpg`}
