@@ -10,7 +10,7 @@ import { MemberInterface } from "@/types/members";
  * Get all members from Markdown posts
  * @returns members
  */
-export const getMembers = async (): Promise => {
+export const getMembers = async (): Promise<MemberInterface[]> => {
   const memberPath = "data/members";
   // Get files from members directory
   const files = fs.readdirSync(memberPath);

@@ -1,5 +1,27 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.options": {
+    "overrideConfig": {
+      "rules": {
+        "no-debugger": "off"
+      }
+    }
+  },
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": "always",
+    "source.fixAll.eslint": "always",
+    "source.fixAll.stylelint": "explicit",
+    "source.removeUnusedImports": "always"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.detectIndentation": true,
+  "editor.fontVariations": false,
+  "editor.formatOnSave": true,
+  "editor.wordWrap": "on",
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "prettier.withNodeModules": false,
+  "stylelint.validate": ["css", "less"],
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "editor.formatOnSave": true
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.updateImportsOnFileMove.enabled": "always"
 }
