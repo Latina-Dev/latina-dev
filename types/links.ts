@@ -6,5 +6,5 @@ export enum Links {
   LinkedInPage = "https://www.linkedin.com/company/latina-dev",
   Slack = "https://latinadev.slack.com",
   Vercel = "https://vercel.com/?utm_source=latina-dev&utm_campaign=oss",
-  FormSelfAddMember = "https://forms.fillout.com/t/xARDm8SG6mus"
+  FormSelfAddMember = "https://forms.fillout.com/t/xARDm8SG6mus",
 }

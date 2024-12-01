@@ -3,20 +3,20 @@ import { exampleMember } from "@/types/members";
 
 import MemberCard from "./MemberCard";
 
-const meta: Meta<typeof MemberCard> = {
+const meta: Meta = {
   title: "MemberCard",
   component: MemberCard,
-  tags: ["autodocs"]
+  tags: ["autodocs"],
 };
 
 export default meta;
 
-type Story = StoryObj<typeof MemberCard>;
+type Story = StoryObj;
 
 export const Default: Story = {
   args: {
     member: {
-      ...exampleMember
-    }
-  }
+      ...exampleMember,
+    },
+  },
 };

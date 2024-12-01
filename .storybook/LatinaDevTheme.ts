@@ -5,8 +5,7 @@ export default create({
   base: "light",
 
   // Typography
-  fontBase:
-    '"Latina Light", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif',
+  fontBase: '"Latina Light", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif',
   fontCode:
     'ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace',
 
@@ -39,5 +38,5 @@ export default create({
   inputBg: "#ffffff",
   inputBorder: "#151515",
   inputTextColor: "#151515",
-  inputBorderRadius: 8
+  inputBorderRadius: 8,
 });

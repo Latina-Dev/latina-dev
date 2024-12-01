@@ -7,17 +7,17 @@ const preview: Preview = {
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/
-      }
+        date: /Date$/,
+      },
     },
     layout: "centered",
     options: {
       storySort: {
         method: "alphabetical",
-        order: ["Docs", "Components"]
-      }
-    }
-  }
+        order: ["Docs", "Components"],
+      },
+    },
+  },
 };
 
 export default preview;

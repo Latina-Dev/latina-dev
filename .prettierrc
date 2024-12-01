@@ -1,7 +1,14 @@
 {
-  "trailingComma": "none",
-  "tabWidth": 2,
+  "arrowParens": "always",
+  "bracketSameLine": true,
+  "bracketSpacing": true,
   "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "printWidth": 100,
+  "semi": true,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "useTabs": false,
   "importOrder": [
     "^react$",
     "^next/(.*)$",

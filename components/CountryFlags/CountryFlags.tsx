@@ -24,7 +24,7 @@ const countryOptions: CountryOption[] = [
   { country: "Chile", flag: "🇨🇱" },
   { country: "Puerto Rico", flag: "🇵🇷" },
   { country: "Belize", flag: "🇧🇿" },
-  { country: "Haiti", flag: "🇭🇹" }
+  { country: "Haiti", flag: "🇭🇹" },
 ];
 
 interface Props {
@@ -36,9 +36,7 @@ const CountryFlags = (props: Props) => {
 
   // get flag based on country name given
   const getFlag = (country: string) => {
-    const countryOption = countryOptions.find(
-      (countryOption) => countryOption.country === country
-    );
+    const countryOption = countryOptions.find((countryOption) => countryOption.country === country);
     if (!countryOption) return null;
     return countryOption.flag;
   };
