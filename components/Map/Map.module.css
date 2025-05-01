@@ -1,0 +1,12 @@
+.mapContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mapTitle {
+  margin: 0 auto;
+  max-width: 500px;
+  padding: 100px 0;
+}
+
