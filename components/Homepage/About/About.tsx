@@ -1,9 +1,7 @@
 import { metadata } from "app/layout";
-
 import { faSlack } from "@fortawesome/free-brands-svg-icons";
-
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
-
+import Map from "@/components/Map/Map";
 import styles from "./About.module.css";
 
 export default function About() {
@@ -28,6 +26,7 @@ export default function About() {
         external={true}
         icon={faSlack}
       />
+      <Map /> 
     </section>
   );
 }
