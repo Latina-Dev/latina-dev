@@ -56,7 +56,7 @@ export async function generateStaticParams() {
   }));
 }
 
-// Set the title of the page to be the post title
+// Set the page title based on the member name
 export async function generateMetadata({ params }: Props) {
   const member = await getMemberBySlug(params.slug);
   return {
