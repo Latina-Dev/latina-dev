@@ -4,7 +4,7 @@
 
 <img src="https://latina.dev/img/logos/logo.png" width="50" />
 
-We decided to base our logo off the the South American great horned owl that can be found throughout the Americas.
+We decided to base our logo off the South American great horned owl that can be found throughout the Americas.
 
 The owl is a symbol of wisdom and knowledge which is a nod to our intersectional identity as Latina software engineers.
 
