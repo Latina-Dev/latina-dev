@@ -9,6 +9,10 @@
 .navbar ul {
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 0;
 }
 
 .navbar li {

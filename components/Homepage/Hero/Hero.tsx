@@ -1,5 +1,3 @@
-import { metadata } from "app/layout";
-
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
@@ -13,9 +11,12 @@ export default function Hero() {
       <div className={styles.logoContainer}>
         <Logo className={styles.logo} />
       </div>
-      <h1>{metadata.title.default}</h1>
+      <h1>Latina Dev</h1>
       <div className={styles.description}>
-        <p>{metadata.description}</p>
+        <p>
+          An open-source directory of Latina software engineers at the student, IC, and leadership
+          levels. Our goal is to increase visibility and access to valuable opportunities.
+        </p>
       </div>
       <ButtonLink
         text="Contribute on GitHub"

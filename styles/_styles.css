@@ -1,7 +1,5 @@
-@import "typography.css";
-@import "variables.css";
-@import "base.css";
-@import "dark-mode.css";
-
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "./typography.css";
+@import "./variables.css";
+@import "./base.css";
+@import "./dark-mode.css";

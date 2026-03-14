@@ -1,0 +1,117 @@
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  text-align: center;
+}
+
+.hero {
+  padding: 60px 0 40px;
+}
+
+.tag {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  font-family: "Latina Bold", sans-serif;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  max-width: 560px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+
+.heroCta {
+  margin-top: 8px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--text-color);
+  margin: 20px auto 0;
+  max-width: 600px;
+}
+
+.section {
+  padding: 48px 0;
+}
+
+.section h2 {
+  margin-bottom: 20px;
+}
+
+.body {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  max-width: 620px;
+  margin: 0 auto 20px;
+}
+
+.roleGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 32px 0;
+  text-align: left;
+}
+
+@media (min-width: 640px) {
+  .roleGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.role {
+  background: #fdf5f5;
+  border: 1px solid #f0d4d4;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.role h3 {
+  margin: 12px 0 8px;
+  font-size: 1.1rem;
+}
+
+.role p {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+.roleIcon {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+
+.volunteerCta {
+  margin-top: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .divider {
+    border-top-color: var(--white-color);
+  }
+
+  .role {
+    background: #2a1010;
+    border-color: #5a2020;
+  }
+
+  .role p {
+    color: #ccc;
+  }
+}

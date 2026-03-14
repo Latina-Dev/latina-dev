@@ -4,7 +4,7 @@ import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   return (
-    <nav className={styles.navbar}>
+    <nav className={styles.navbar} aria-label="Main navigation">
       <ul>
         <li>
           <Link href="/">Home</Link>
@@ -15,9 +15,15 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
+          <Link href="/conference" className="pl-4 sm:pl-10">
+            Conference
+          </Link>
+        </li>
+        <li>
           <Link
             href="https://forms.fillout.com/t/xARDm8SG6mus"
-            target={"_blank"}
+            target="_blank"
+            rel="noopener noreferrer"
             className="pl-4 sm:pl-10 inline-block">
             Add your profile
           </Link>
@@ -25,7 +31,8 @@ export default function Navbar() {
         <li>
           <Link
             href="https://github.com/Latina-Dev/latina-dev"
-            target={"_blank"}
+            target="_blank"
+            rel="noopener noreferrer"
             className="pl-4 sm:pl-10">
             Contribute
           </Link>

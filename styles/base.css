@@ -40,7 +40,7 @@ p {
 
 h1 {
   font-family: "Latina Heavy", sans-serif;
-  font-size: 79px;
+  font-size: clamp(2.5rem, 10vw, 79px);
 }
 
 h2 {

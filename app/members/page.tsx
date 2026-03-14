@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import MemberCard from "@/components/MemberCard/MemberCard";
 
 import { getMembers } from "@/lib/getMembers";
@@ -5,6 +7,17 @@ import { getMembers } from "@/lib/getMembers";
 import { MemberInterface } from "@/types/members";
 
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  title: "Members",
+  description:
+    "Browse our directory of Latina software engineers at the student, individual contributor, and leadership levels. Find and connect with Latina engineers across the industry.",
+  openGraph: {
+    title: "Members | Latina Dev",
+    description:
+      "Browse our directory of Latina software engineers at the student, IC, and leadership levels.",
+  },
+};
 
 export default async function MembersPage() {
   const members: MemberInterface[] = await getMembers();
