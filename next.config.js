@@ -1,10 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  // Skip ESLint during production builds (storybook ESLint 9 compat issues)
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-};
+const nextConfig = {};
 
 const { withSentryConfig } = require("@sentry/nextjs");
 
@@ -25,8 +20,9 @@ module.exports = withSentryConfig(nextConfig, {
   hideSourceMaps: true,
 
   // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
-
-  // Enables automatic instrumentation of Vercel Cron Monitors
-  automaticVercelMonitors: true,
+  webpack: {
+    treeshake: {
+      removeDebugLogging: true,
+    },
+  },
 });
