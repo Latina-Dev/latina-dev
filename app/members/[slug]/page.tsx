@@ -20,10 +20,31 @@ export default async function Member({ params }: Props) {
 
   if (!member) notFound();
 
-  const { name, affiliation, level, bio, countries } = member;
+  const { name, affiliation, level, bio, countries, linkedin, github, twitter, website } = member;
+
+  const sameAs = [
+    linkedin ? `https://www.linkedin.com/in/${linkedin}` : null,
+    github ? `https://github.com/${github}` : null,
+    twitter ? `https://twitter.com/${twitter}` : null,
+    website ?? null,
+  ].filter((v): v is string => typeof v === "string");
+
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name,
+    ...(affiliation ? { jobTitle: affiliation } : {}),
+    url: `https://latina.dev/members/${slug}`,
+    image: `https://latina.dev/img/members/${slug}.jpg`,
+    ...(sameAs.length > 0 ? { sameAs } : {}),
+  };
 
   return (
     <div className="w-full pt-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <div className={styles.topBar} />
       <article className="relative py-16 lg:max-w-screen-lg lg:mx-auto">
         <div className="text-center lg:inline-block">
