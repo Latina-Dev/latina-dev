@@ -1,21 +1,56 @@
 import type { StorybookConfig } from "@storybook/nextjs";
+import type { RuleSetRule } from "webpack";
+
+const SWC_LOADER = "next-swc-loader-patch";
+
+function isSwcLoader(loader: unknown): boolean {
+  return (
+    typeof loader === "string" && loader.includes(SWC_LOADER)
+  );
+}
+
+function hasSwcLoader(use: unknown): boolean {
+  if (typeof use === "string") return isSwcLoader(use);
+  if (typeof use === "object" && use !== null && "loader" in use)
+    return isSwcLoader((use as { loader: unknown }).loader);
+  if (Array.isArray(use))
+    return (use as unknown[]).some(hasSwcLoader);
+  return false;
+}
+
+function filterSwcFromRule(rule: RuleSetRule): RuleSetRule | null {
+  if (!rule || typeof rule !== "object") return rule;
+
+  // Direct loader property
+  if ("loader" in rule && isSwcLoader(rule.loader)) return null;
+
+  // use: single object or array
+  if ("use" in rule) {
+    const use = (rule as { use: unknown }).use;
+    if (hasSwcLoader(use)) return null; // drop entire rule
+  }
+
+  // oneOf array
+  if (Array.isArray((rule as { oneOf?: RuleSetRule[] }).oneOf)) {
+    const oneOf = ((rule as { oneOf: RuleSetRule[] }).oneOf)
+      .map(filterSwcFromRule)
+      .filter(Boolean) as RuleSetRule[];
+    return { ...rule, oneOf };
+  }
+
+  return rule;
+}
 
 const config: StorybookConfig = {
   stories: [
     {
-      // 👇 Sets the directory containing your stories
       directory: "../docs",
-      // 👇 Storybook will load all files that match this glob
       files: "**/*.mdx",
-      // 👇 Used when generating automatic titles for your stories
       titlePrefix: "Docs",
     },
     {
-      // 👇 Sets the directory containing your stories
       directory: "../components",
-      // 👇 Storybook will load all files that match this glob
       files: "**/*.stories.@(js|jsx|ts|tsx)",
-      // 👇 Used when generating automatic titles for your stories
       titlePrefix: "Components",
     },
   ],
@@ -23,11 +58,7 @@ const config: StorybookConfig = {
   addons: [
     "@chromatic-com/storybook",
     "@storybook/addon-a11y",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
     "@storybook/addon-links",
-    "@storybook/addon-storysource",
-    "@storybook/addon-styling",
   ],
 
   framework: {
@@ -38,5 +69,35 @@ const config: StorybookConfig = {
   staticDirs: ["../public"],
 
   docs: {},
+
+  webpackFinal: async (config) => {
+    // Remove @storybook/nextjs's SWC loader — it calls swc.isWasm() which was
+    // removed in Next.js 16. Replace with babel-loader for TS/TSX compilation.
+    if (config.module?.rules) {
+      config.module.rules = (config.module.rules as RuleSetRule[])
+        .map(filterSwcFromRule)
+        .filter(Boolean) as RuleSetRule[];
+    }
+
+    // Add babel-loader as TS/TSX replacement for the removed SWC loader
+    config.module = config.module ?? { rules: [] };
+    config.module.rules = config.module.rules ?? [];
+    (config.module.rules as RuleSetRule[]).push({
+      test: /\.((c|m)?(j|t)sx?)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: "babel-loader",
+        options: {
+          presets: [
+            ["@babel/preset-env", { targets: { browsers: "last 2 versions" } }],
+            ["@babel/preset-react", { runtime: "automatic" }],
+            "@babel/preset-typescript",
+          ],
+        },
+      },
+    });
+
+    return config;
+  },
 };
 export default config;
