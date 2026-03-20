@@ -10,21 +10,16 @@ export default function Navbar() {
           <Link href="/">Home</Link>
         </li>
         <li>
-          <Link href="/members/" className="pl-4 sm:pl-10">
-            Members
-          </Link>
+          <Link href="/members/">Members</Link>
         </li>
         <li>
-          <Link href="/conference" className="pl-4 sm:pl-10">
-            Conference
-          </Link>
+          <Link href="/conference">Conference</Link>
         </li>
         <li>
           <Link
             href="https://forms.fillout.com/t/xARDm8SG6mus"
             target="_blank"
-            rel="noopener noreferrer"
-            className="pl-4 sm:pl-10 inline-block">
+            rel="noopener noreferrer">
             Add your profile
           </Link>
         </li>
@@ -32,8 +27,7 @@ export default function Navbar() {
           <Link
             href="https://github.com/Latina-Dev/latina-dev"
             target="_blank"
-            rel="noopener noreferrer"
-            className="pl-4 sm:pl-10">
+            rel="noopener noreferrer">
             Contribute
           </Link>
         </li>

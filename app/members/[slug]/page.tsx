@@ -40,7 +40,7 @@ export default async function Member({ params }: Props) {
   };
 
   return (
-    <div className="w-full pt-20">
+    <div className="w-full pt-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -51,8 +51,8 @@ export default async function Member({ params }: Props) {
         }}
       />
       <div className={styles.topBar} />
-      <article className="relative py-16 lg:max-w-screen-lg lg:mx-auto">
-        <div className="text-center lg:inline-block">
+      <article className="relative py-16 lg:max-w-screen-lg lg:mx-auto lg:flex lg:gap-12 lg:items-start">
+        <div className="text-center lg:shrink-0">
           <Image
             src={`/img/members/${slug}.jpg`}
             alt={name}
@@ -62,7 +62,7 @@ export default async function Member({ params }: Props) {
           />
           <SocialLinks member={member} />
         </div>
-        <div className="text-center p-10 lg:p-0 lg:text-left">
+        <div className="text-center p-10 lg:p-0 lg:pt-8 lg:text-left">
           <h2 className="mt-3 text-3xl lg:text-4xl">{name}</h2>
           <h3>{affiliation}</h3>
           <h3 className={styles.affiliation}>{level}</h3>

@@ -23,7 +23,9 @@
 }
 
 .vercel {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
 }
 
 @media (prefers-color-scheme: dark) {

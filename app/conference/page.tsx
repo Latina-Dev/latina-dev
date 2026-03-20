@@ -33,8 +33,8 @@ export default function ConferencePage() {
         </p>
         <div className={styles.heroCta}>
           <ButtonLink
-            text="Request a Slack invite by email"
-            url="mailto:hello@latina.dev"
+            text="Join our Slack"
+            url="https://latinadev.slack.com"
             external={true}
             icon={faSlack}
           />
@@ -91,8 +91,8 @@ export default function ConferencePage() {
             <strong>#conference-volunteers</strong>. We&apos;ll reach out with next steps.
           </p>
           <ButtonLink
-            text="Request a Slack invite"
-            url="mailto:hello@latina.dev"
+            text="Join our Slack"
+            url="https://latinadev.slack.com"
             external={true}
             icon={faSlack}
           />
@@ -104,7 +104,7 @@ export default function ConferencePage() {
         <h2>Stay in the Loop</h2>
         <p className={styles.body}>
           All conference updates, volunteer opportunities, and speaker announcements will be shared
-          in our Slack community first. Don&apos;t miss it — request an invite today.
+          in our Slack community first. Don&apos;t miss it — join us today.
         </p>
         <ButtonLink
           text="Request a Slack invite"
