@@ -33,7 +33,7 @@ export default function ConferencePage() {
         </p>
         <div className={styles.heroCta}>
           <ButtonLink
-            text="Join our Slack to stay updated"
+            text="Request a Slack invite by email"
             url="mailto:hello@latina.dev"
             external={true}
             icon={faSlack}

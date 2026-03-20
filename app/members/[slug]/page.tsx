@@ -43,7 +43,12 @@ export default async function Member({ params }: Props) {
     <div className="w-full pt-20">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(personJsonLd)
+            .replace(/</g, "\\u003c")
+            .replace(/>/g, "\\u003e")
+            .replace(/&/g, "\\u0026"),
+        }}
       />
       <div className={styles.topBar} />
       <article className="relative py-16 lg:max-w-screen-lg lg:mx-auto">
@@ -53,7 +58,7 @@ export default async function Member({ params }: Props) {
             alt={name}
             width="250"
             height="250"
-            className="rounded-xl y-8"
+            className="rounded-xl my-8"
           />
           <SocialLinks member={member} />
         </div>
