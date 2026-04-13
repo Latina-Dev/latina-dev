@@ -16,18 +16,10 @@ export default function Navbar() {
           <Link href="/conference">Conference</Link>
         </li>
         <li>
-          <Link
-            href="https://forms.fillout.com/t/xARDm8SG6mus"
-            target="_blank"
-            rel="noopener noreferrer">
-            Add your profile
-          </Link>
+          <Link href="/add-member">Add your profile</Link>
         </li>
         <li>
-          <Link
-            href="https://github.com/Latina-Dev/latina-dev"
-            target="_blank"
-            rel="noopener noreferrer">
+          <Link href="https://docs.latina.dev" target="_blank" rel="noopener noreferrer">
             Contribute
           </Link>
         </li>

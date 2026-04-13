@@ -16,15 +16,14 @@ export default function About() {
       </div>
       <div className={styles.description}>
         <p>
-          Less than 15% of engineers are women. Only 2% are Latina. We&apos;re changing that.
-          Latina Dev is an open-source directory and community where Latina engineers at the student,
-          IC, and leadership levels can find visibility, opportunity, and each other.
+          Less than 15% of engineers are women. Only 2% are Latina. We&apos;re changing that. Latina
+          Dev is an open-source directory and community where Latina engineers at the student, IC,
+          and leadership levels can find visibility, opportunity, and each other.
         </p>
       </div>
       <ButtonLink
         text="Request an invite to our Slack community"
-        url="mailto:hello@latina.dev"
-        external={true}
+        url="/add-member"
         icon={faSlack}
       />
     </section>
