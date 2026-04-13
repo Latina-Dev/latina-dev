@@ -2,13 +2,32 @@ name: Purge Branches
 on:
   schedule:
     - cron: "0 10 * * *" # every day @ 10 AM UTC
+
+permissions:
+  contents: write
+
 jobs:
   purgeBranches:
     runs-on: ubuntu-latest
     steps:
-      - name: Delete & Notify Branches
-        uses: gita-vahdatinia/purge-branchn@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          days-to-notify: 30
-          days-to-delete: 7
+      - name: Delete merged branches older than 7 days
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPO="${{ github.repository }}"
+          CUTOFF=$(date -d '7 days ago' --iso-8601=seconds)
+
+          gh api "repos/$REPO/branches" --paginate --jq '.[].name' | while read -r branch; do
+            case "$branch" in
+              main|master|dev|develop) continue ;;
+            esac
+            status=$(gh api "repos/$REPO/compare/main...$branch" --jq '.status' 2>/dev/null || echo "error")
+            if [ "$status" = "behind" ] || [ "$status" = "identical" ]; then
+              last=$(gh api "repos/$REPO/branches/$branch" --jq '.commit.commit.author.date' 2>/dev/null || echo "")
+              if [ -n "$last" ] && [[ "$last" < "$CUTOFF" ]]; then
+                gh api -X DELETE "repos/$REPO/git/refs/heads/$branch" \
+                  && echo "Deleted: $branch" \
+                  || echo "Failed to delete: $branch"
+              fi
+            fi
+          done

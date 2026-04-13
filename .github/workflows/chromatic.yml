@@ -6,6 +6,10 @@ name: "Chromatic"
 # Event for the workflow
 on: push
 
+# Minimal permissions required
+permissions:
+  contents: read
+
 # List of jobs
 jobs:
   chromatic:
