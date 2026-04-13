@@ -1,11 +1,11 @@
 import type { StorybookConfig } from "@storybook/nextjs";
 import type { RuleSetRule } from "webpack";
 
-const SWC_LOADER = "next-swc-loader-patch";
+const SWC_LOADER_PATTERNS = ["next-swc-loader", "swc-loader", "@swc/loader"];
 
 function isSwcLoader(loader: unknown): boolean {
   return (
-    typeof loader === "string" && loader.includes(SWC_LOADER)
+    typeof loader === "string" && SWC_LOADER_PATTERNS.some((p) => loader.includes(p))
   );
 }
 

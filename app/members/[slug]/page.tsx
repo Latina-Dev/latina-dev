@@ -26,7 +26,7 @@ export default async function Member({ params }: Props) {
     linkedin ? `https://www.linkedin.com/in/${linkedin}` : null,
     github ? `https://github.com/${github}` : null,
     twitter ? `https://twitter.com/${twitter}` : null,
-    website ?? null,
+    website && website.trim() ? website : null,
   ].filter((v): v is string => typeof v === "string");
 
   const personJsonLd = {
