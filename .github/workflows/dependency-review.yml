@@ -17,4 +17,9 @@ jobs:
       - name: "Checkout Repository"
         uses: actions/checkout@v3
       - name: "Dependency Review"
-        uses: actions/dependency-review-action@v2
+        uses: actions/dependency-review-action@v4
+        with:
+          # Only fail on runtime/production dependency vulnerabilities.
+          # Dev-only packages (Storybook, Babel, docsify-cli) are not shipped
+          # to production and their transitive CVEs should not block PRs.
+          fail-on-scopes: runtime
