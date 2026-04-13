@@ -6,7 +6,7 @@ name: "Chromatic"
 # Event for the workflow
 on: push
 
-# Least-privilege token permissions
+# Minimal permissions required
 permissions:
   contents: read
 
