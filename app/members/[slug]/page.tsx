@@ -22,11 +22,20 @@ export default async function Member({ params }: Props) {
 
   const { name, affiliation, level, bio, countries, linkedin, github, twitter, website } = member;
 
+  const clean = (value?: string) => {
+    const v = value?.trim();
+    return v ? v : null;
+  };
+  const linkedinHandle = clean(linkedin);
+  const githubHandle = clean(github);
+  const twitterHandle = clean(twitter);
+  const websiteUrl = clean(website);
+
   const sameAs = [
-    linkedin ? `https://www.linkedin.com/in/${linkedin}` : null,
-    github ? `https://github.com/${github}` : null,
-    twitter ? `https://twitter.com/${twitter}` : null,
-    website && website.trim() ? website : null,
+    linkedinHandle ? `https://www.linkedin.com/in/${encodeURIComponent(linkedinHandle)}` : null,
+    githubHandle ? `https://github.com/${encodeURIComponent(githubHandle)}` : null,
+    twitterHandle ? `https://twitter.com/${encodeURIComponent(twitterHandle)}` : null,
+    websiteUrl,
   ].filter((v): v is string => typeof v === "string");
 
   const personJsonLd = {

@@ -27,7 +27,13 @@ function filterSwcFromRule(rule: RuleSetRule): RuleSetRule | null {
   // use: single object or array
   if ("use" in rule) {
     const use = (rule as { use: unknown }).use;
-    if (hasSwcLoader(use)) return null; // drop entire rule
+    if (Array.isArray(use)) {
+      const filtered = (use as unknown[]).filter((entry) => !hasSwcLoader(entry));
+      if (filtered.length === 0) return null;
+      if (filtered.length < use.length) return { ...rule, use: filtered };
+    } else if (hasSwcLoader(use)) {
+      return null; // single loader object is SWC — drop entire rule
+    }
   }
 
   // oneOf array
@@ -58,6 +64,7 @@ const config: StorybookConfig = {
   addons: [
     "@chromatic-com/storybook",
     "@storybook/addon-a11y",
+    "@storybook/addon-docs",
     "@storybook/addon-links",
   ],
 
