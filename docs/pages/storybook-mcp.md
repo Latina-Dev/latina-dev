@@ -18,7 +18,9 @@ npm run storybook
 
 Then open a new Claude Code session. It will automatically connect to the Storybook MCP server and can read stories for `ButtonLink`, `MemberCard`, `CountryFlags`, and other components.
 
-## Stories in this project
+## Example stories
+
+The following components currently have stories (check `components/**/*.stories.*` for the full up-to-date list):
 
 | Component | Story file |
 |-----------|-----------|
