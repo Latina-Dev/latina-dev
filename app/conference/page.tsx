@@ -1,21 +1,21 @@
-import type { Metadata } from "next";
-
 import { faSlack } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandshake, faStar, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
+
+import type { Metadata } from "next";
 
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "East Bay Conference",
+  title: "Conference",
   description:
-    "Latina Dev is hosting a conference for Latina software engineers in the East Bay Area in October 2026. Join us, volunteer, or sponsor. Connect with the community on Slack.",
+    "Latina Dev is exploring the idea of a conference for Latina software engineers. Interested in volunteering? We'd love to hear from you.",
   openGraph: {
-    title: "East Bay Conference for Latina Engineers | Latina Dev",
+    title: "Conference | Latina Dev",
     description:
-      "Join us in the East Bay for a day of connection, learning, and celebration of Latina engineers. Volunteer interest now open.",
+      "We're exploring a conference for Latina engineers. Help us make it happen — volunteer interest now open.",
     images: [{ url: "/img/featured-image.png", width: 1200, height: 630 }],
   },
 };
@@ -25,93 +25,63 @@ export default function ConferencePage() {
     <div className={styles.page}>
       {/* Hero */}
       <section className={styles.hero}>
-        <p className={styles.tag}>October 2026 · East Bay, CA</p>
-        <h1 className={styles.title}>East Bay Conference</h1>
+        <p className={styles.tag}>An idea in progress</p>
+        <h1 className={styles.title}>Conference</h1>
         <p className={styles.subtitle}>
-          A day of community, learning, and celebration for Latina software engineers in the Bay
-          Area.
+          We&apos;re exploring the idea of a conference for Latina software engineers — and we need
+          your help to make it happen.
         </p>
-        <div className={styles.heroCta}>
-          <ButtonLink
-            text="Join our Slack"
-            url="https://latinadev.slack.com"
-            external={true}
-            icon={faSlack}
-          />
-        </div>
       </section>
 
       <hr className={styles.divider} />
 
-      {/* About */}
+      {/* The idea */}
       <section className={styles.section}>
-        <h2>About the Conference</h2>
+        <h2>The Idea</h2>
         <p className={styles.body}>
-          We&apos;re bringing the Latina Dev community together in the East Bay for our first
-          in-person conference — a space designed by and for Latina engineers. Expect inspiring
-          talks, hands-on workshops, career panels, and plenty of time to connect with engineers at
-          all levels.
+          Nothing is set in stone yet — no venue, no date, no agenda. But we believe the Latina Dev
+          community deserves a dedicated in-person space: a day of talks, workshops, and genuine
+          connection among Latina engineers at all levels.
         </p>
         <p className={styles.body}>
-          Details on venue, exact date, and registration are coming soon. Drop into our Slack
-          community to be the first to know.
+          If that sounds exciting to you, we&apos;d love your involvement. This only happens if the
+          community shows up to build it.
         </p>
       </section>
 
       {/* Volunteer */}
       <section className={styles.section}>
-        <h2>Volunteer with Us</h2>
+        <h2>Interested in Volunteering?</h2>
         <p className={styles.body}>
-          This event is community-powered. We&apos;re looking for volunteers to help with logistics,
-          speaker coordination, day-of support, social media, and more. Whether you have an hour or
-          a whole weekend, we&apos;d love your help.
+          We&apos;re looking for people who want to help shape this from the ground up — logistics,
+          speaker outreach, social media, or whatever skills you bring.
         </p>
 
         <div className={styles.roleGrid}>
           <div className={styles.role}>
             <FontAwesomeIcon icon={faUsers} className={styles.roleIcon} />
-            <h3>Event Logistics</h3>
-            <p>Help with setup, registration, wayfinding, and day-of coordination.</p>
+            <h3>Logistics</h3>
+            <p>Venue research, scheduling, day-of coordination.</p>
           </div>
           <div className={styles.role}>
             <FontAwesomeIcon icon={faStar} className={styles.roleIcon} />
-            <h3>Speaker Support</h3>
-            <p>Coordinate with speakers, manage A/V, and moderate sessions.</p>
+            <h3>Programming</h3>
+            <p>Speaker outreach, session ideas, agenda planning.</p>
           </div>
           <div className={styles.role}>
             <FontAwesomeIcon icon={faHandshake} className={styles.roleIcon} />
             <h3>Community</h3>
-            <p>Welcome attendees, foster connections, and keep the energy going.</p>
+            <p>Spreading the word, welcoming attendees, keeping the energy up.</p>
           </div>
         </div>
 
-        <div className={styles.volunteerCta}>
-          <p className={styles.body}>
-            Ready to help? Join our Slack and introduce yourself in{" "}
-            <strong>#conference-volunteers</strong>. We&apos;ll reach out with next steps.
-          </p>
-          <ButtonLink
-            text="Join our Slack"
-            url="https://latinadev.slack.com"
-            external={true}
-            icon={faSlack}
-          />
-        </div>
-      </section>
-
-      {/* Stay in the loop */}
-      <section className={styles.section}>
-        <h2>Stay in the Loop</h2>
         <p className={styles.body}>
-          All conference updates, volunteer opportunities, and speaker announcements will be shared
-          in our Slack community first. Don&apos;t miss it — join us today.
+          Join our Slack and drop a note in <strong>#conference-volunteers</strong> — we&apos;ll
+          take it from there.
         </p>
-        <ButtonLink
-          text="Request a Slack invite"
-          url="mailto:hello@latina.dev"
-          external={true}
-          icon={faSlack}
-        />
+        <div className={styles.volunteerCta}>
+          <ButtonLink text="Join our Slack" url="/add-member" icon={faSlack} />
+        </div>
       </section>
     </div>
   );

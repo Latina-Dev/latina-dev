@@ -1,5 +1,7 @@
 .logoContainer {
   margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
 }
 
 @media (prefers-color-scheme: dark) {

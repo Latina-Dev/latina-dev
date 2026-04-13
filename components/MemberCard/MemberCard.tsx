@@ -11,19 +11,25 @@ interface MemberProps {
 }
 
 const MemberCard = (props: MemberProps) => {
-  const { name, slug, level, countries } = props.member;
+  const { name, slug, level, countries, linkedin } = props.member;
 
   return (
     <div className={"text-center"}>
-      <Link href={props.member.path} aria-label={name} className="block">
+      <Link
+        href={`https://linkedin.com/in/${linkedin}`}
+        aria-label={name}
+        className="block"
+        target="_blank"
+        rel="noopener noreferrer">
         {/* Image */}
-        <Image
-          src={`/img/members/${slug}.jpg`}
-          alt={name}
-          width="250"
-          height="250"
-          className="rounded-xl"
-        />
+        <div className="relative mx-auto w-[250px] h-[250px]">
+          <Image
+            src={`/img/members/${slug}.jpg`}
+            alt={name}
+            fill
+            className="rounded-xl object-cover object-top"
+          />
+        </div>
         {/* Name */}
         <h4 className="mt-3">{name}</h4>
         {/* Level */}

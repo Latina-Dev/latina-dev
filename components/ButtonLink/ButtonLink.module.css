@@ -4,11 +4,12 @@
   color: var(--white-color);
   border-radius: var(--border-radius);
   font-weight: bold;
+  border: 2px solid transparent;
 }
 
 .buttonLink:hover {
   background: var(--button-background-hover);
-  border: 2px solid var(--button-dark-hover);
+  border-color: var(--button-dark-hover);
   color: var(--button-dark-hover);
   transition: all 150ms ease-in-out;
 }
