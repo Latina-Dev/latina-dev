@@ -11,8 +11,8 @@
 
 .footer a {
   font-size: 20px;
-  padding: 16px;
-  border-radius: 50px;
+  padding: 14px 12px;
+  border-radius: var(--border-radius);
   display: flex;
 }
 
@@ -23,7 +23,9 @@
 }
 
 .vercel {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
 }
 
 @media (prefers-color-scheme: dark) {

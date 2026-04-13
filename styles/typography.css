@@ -5,7 +5,7 @@
     url("/fonts/Latina-Light.woff") format("woff");
   font-weight: 300;
   font-style: normal;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -15,7 +15,7 @@
     url("/fonts/Latina-Light-Italic.woff") format("woff");
   font-weight: 300;
   font-style: italic;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -25,7 +25,7 @@
     url("/fonts/Latina-Medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -35,7 +35,7 @@
     url("/fonts/Latina-Medium-Italic.woff") format("woff");
   font-weight: 500;
   font-style: italic;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -45,7 +45,7 @@
     url("/fonts/Latina-Bold.woff") format("woff");
   font-weight: 700;
   font-style: normal;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -55,7 +55,7 @@
     url("/fonts/Latina-Bold-Italic.woff") format("woff");
   font-weight: 700;
   font-style: italic;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -65,7 +65,7 @@
     url("/fonts/Latina-Heavy.woff") format("woff");
   font-weight: 900;
   font-style: normal;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -75,5 +75,5 @@
     url("/fonts/Latina-Heavy-Italic.woff") format("woff");
   font-weight: 900;
   font-style: italic;
-  font-display: auto;
+  font-display: swap;
 }
