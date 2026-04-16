@@ -22,7 +22,7 @@ const MemberCard = (props: MemberProps) => {
         target="_blank"
         rel="noopener noreferrer">
         {/* Image */}
-        <div className="relative mx-auto w-[250px] h-[250px]">
+        <div className="relative mx-auto w-[160px] h-[160px] sm:w-[200px] sm:h-[200px] md:w-[250px] md:h-[250px]">
           <Image
             src={`/img/members/${slug}.jpg`}
             alt={name}
