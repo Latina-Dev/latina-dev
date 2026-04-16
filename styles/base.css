@@ -45,12 +45,12 @@ h1 {
 
 h2 {
   font-family: "Latina Heavy", sans-serif;
-  font-size: 40px;
+  font-size: clamp(1.75rem, 6vw, 2.5rem);
 }
 
 h3 {
   font-family: "Latina Bold", sans-serif;
-  font-size: 23px;
+  font-size: clamp(1.1rem, 4vw, 1.4375rem);
 }
 
 h4,

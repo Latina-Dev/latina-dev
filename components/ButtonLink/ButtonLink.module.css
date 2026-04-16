@@ -1,10 +1,15 @@
 .buttonLink {
-  padding: 18px 46px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 36px;
   background: var(--button-background);
   color: var(--white-color);
   border-radius: var(--border-radius);
   font-weight: bold;
   border: 2px solid transparent;
+  font-size: 1rem;
+  white-space: nowrap;
 }
 
 .buttonLink:hover {
@@ -16,6 +21,14 @@
 
 @media (max-width: 550px) {
   .buttonLink {
-    padding: 18px 33px;
+    padding: 14px 24px;
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .buttonLink {
+    padding: 12px 20px;
+    font-size: 0.875rem;
   }
 }

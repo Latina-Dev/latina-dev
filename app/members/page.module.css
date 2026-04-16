@@ -14,16 +14,22 @@
 
 .center {
   text-align: center;
-  padding-top: 120px;
+  padding-top: 80px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
 }
 
 .heading {
   margin-bottom: 48px;
 }
 
-@media (max-width: 628px) {
-  .membersPage img {
-    width: 130px;
-    height: 130px;
+@media (max-width: 640px) {
+  .center {
+    padding-top: 48px;
+  }
+
+  .heading {
+    margin-bottom: 32px;
   }
 }
