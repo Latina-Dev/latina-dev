@@ -2,7 +2,8 @@
   justify-content: space-between;
   font-weight: bold;
   text-align: center;
-  margin: 24px;
+  margin: 24px 16px;
+  padding: 0 8px;
 }
 
 .navbar ul {
@@ -11,7 +12,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 4px 1.5rem;
+  gap: 4px 1.25rem;
 }
 
 .navbar li {
@@ -20,11 +21,22 @@
 }
 
 .navbar a {
-  margin-bottom: 15px;
+  display: inline-block;
+  padding: 6px 4px;
   text-decoration: underline;
 }
 
 .navbar li:hover {
   color: var(--primary-color);
   transition: all 150ms ease-in-out;
+}
+
+@media (max-width: 400px) {
+  .navbar {
+    margin: 16px 12px;
+  }
+
+  .navbar ul {
+    gap: 2px 1rem;
+  }
 }

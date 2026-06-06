@@ -4,9 +4,11 @@
   margin-right: auto;
   margin-top: 50px;
   color: var(--primary-color);
-  padding: 36px;
+  padding: 24px 16px;
   justify-content: space-evenly;
   display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .footer a {

@@ -61,17 +61,17 @@ export default async function Member({ params }: Props) {
       />
       <div className={styles.topBar} />
       <article className="relative py-16 lg:max-w-screen-lg lg:mx-auto lg:flex lg:gap-12 lg:items-start">
-        <div className="text-center lg:shrink-0">
+        <div className="flex flex-col items-center lg:shrink-0">
           <Image
             src={`/img/members/${slug}.jpg`}
             alt={name}
             width="250"
             height="250"
-            className="rounded-xl my-8"
+            className="rounded-xl my-8 w-40 h-40 sm:w-52 sm:h-52 md:w-[250px] md:h-[250px]"
           />
           <SocialLinks member={member} />
         </div>
-        <div className="text-center p-10 lg:p-0 lg:pt-8 lg:text-left">
+        <div className="text-center px-4 py-6 sm:px-8 sm:py-8 lg:p-0 lg:pt-8 lg:text-left">
           <h2 className="mt-3 text-3xl lg:text-4xl">{name}</h2>
           <h3>{affiliation}</h3>
           <h3 className={styles.affiliation}>{level}</h3>

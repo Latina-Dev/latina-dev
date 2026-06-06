@@ -13,6 +13,7 @@
 .home {
   text-align: center;
   margin: 100px 0;
+  padding: 0 1.25rem;
 }
 
 .description p {
@@ -23,6 +24,7 @@
 
 @media (max-width: 550px) {
   .home {
-    margin: 70px 0px 100px;
+    margin: 56px 0 80px;
+    padding: 0 1rem;
   }
 }
