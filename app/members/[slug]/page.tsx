@@ -61,7 +61,7 @@ export default async function Member({ params }: Props) {
       />
       <div className={styles.topBar} />
       <article className="relative py-16 lg:max-w-screen-lg lg:mx-auto lg:flex lg:gap-12 lg:items-start">
-        <div className="text-center lg:shrink-0">
+        <div className="flex flex-col items-center lg:shrink-0">
           <Image
             src={`/img/members/${slug}.jpg`}
             alt={name}

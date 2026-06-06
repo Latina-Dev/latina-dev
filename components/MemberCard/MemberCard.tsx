@@ -14,15 +14,15 @@ const MemberCard = (props: MemberProps) => {
   const { name, slug, level, countries, linkedin } = props.member;
 
   return (
-    <div className={"text-center"}>
+    <div className="flex flex-col items-center text-center">
       <Link
         href={`https://linkedin.com/in/${linkedin}`}
         aria-label={name}
-        className="block"
+        className="flex flex-col items-center"
         target="_blank"
         rel="noopener noreferrer">
         {/* Image */}
-        <div className="relative mx-auto w-[160px] h-[160px] sm:w-[200px] sm:h-[200px] md:w-[250px] md:h-[250px]">
+        <div className="relative w-[160px] h-[160px] sm:w-[200px] sm:h-[200px] md:w-[250px] md:h-[250px]">
           <Image
             src={`/img/members/${slug}.jpg`}
             alt={name}
