@@ -38,7 +38,7 @@
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.0",
-    "@babel/preset-react": "^7.28.5",
+    "@babel/preset-react": "^8.0.1",
     "@babel/preset-typescript": "^7.28.5",
     "@chromatic-com/storybook": "^5.1.1",
     "@ianvs/prettier-plugin-sort-imports": "4.7.1",
