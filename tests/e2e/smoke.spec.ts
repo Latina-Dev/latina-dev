@@ -7,7 +7,7 @@ for (const path of pages) {
   test(`${path} loads without serious accessibility issues`, async ({ page }) => {
     const response = await page.goto(path);
     expect(response?.status()).toBe(200);
-    await expect(page.getByRole("main").getByRole("heading").first()).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
     const { violations } = await new AxeBuilder({ page }).analyze();
     const serious = violations.filter((v) => v.impact === "serious" || v.impact === "critical");
