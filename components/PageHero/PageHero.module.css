@@ -33,3 +33,8 @@
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* The global red focus ring would vanish on the red band */
+.hero :focus-visible {
+  outline-color: var(--white);
+}

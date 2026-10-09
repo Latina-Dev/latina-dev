@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "@/app/members/page.module.css";
 
 import JsonLd from "@/components/JsonLd/JsonLd";
-import MemberCard from "@/components/MemberCard/MemberCard";
+import MemberCard, { levelTags } from "@/components/MemberCard/MemberCard";
 import DirectorySearch from "@/components/MemberDirectory/DirectorySearch";
 import PageHero from "@/components/PageHero/PageHero";
 
@@ -38,6 +38,7 @@ const searchText = (member: MemberInterface) =>
     member.name,
     member.affiliation,
     member.level,
+    levelTags[member.level],
     member.location,
     ...(member.countries ?? []),
     ...(member.skills ?? []),

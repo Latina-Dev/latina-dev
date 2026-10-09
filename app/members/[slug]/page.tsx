@@ -114,7 +114,7 @@ export default async function Member({ params }: Props) {
               alt={name}
               fill
               priority
-              sizes="(max-width: 767px) 100vw, 380px"
+              sizes="(max-width: 767px) 140px, (max-width: 1023px) 280px, 380px"
               className={styles.image}
             />
           </div>

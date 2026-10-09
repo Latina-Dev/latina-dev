@@ -172,3 +172,8 @@
     min-height: 60px;
   }
 }
+
+/* The global red focus ring would vanish on the red masthead */
+.masthead :focus-visible {
+  outline-color: var(--white);
+}

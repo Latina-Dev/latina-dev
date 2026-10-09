@@ -213,11 +213,6 @@
     gap: 16px;
   }
 
-  /* Two columns on phones, so an odd third card would sit alone */
-  .relatedGrid > li:nth-child(3) {
-    display: none;
-  }
-
   .related {
     padding-top: 48px;
     padding-bottom: 56px;

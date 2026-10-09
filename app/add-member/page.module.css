@@ -288,8 +288,9 @@
     gap: 28px;
   }
 
+  /* Two columns while they fit, one when names are long or text is zoomed */
   .countries {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 140px), 1fr));
   }
 
   .steps {

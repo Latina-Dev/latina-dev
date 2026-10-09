@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import MobileMenu from "./MobileMenu";
 import styles from "./Navbar.module.css";
 
 const links = [
@@ -31,7 +32,7 @@ export default function Navbar() {
           </Link>
         </nav>
         {/* Works without JavaScript: <details> opens and closes the menu on phones */}
-        <details className={styles.mobile}>
+        <MobileMenu className={styles.mobile}>
           <summary aria-label="Menu">
             <span className={styles.burger} aria-hidden="true" />
           </summary>
@@ -45,7 +46,7 @@ export default function Navbar() {
               Add your profile
             </Link>
           </nav>
-        </details>
+        </MobileMenu>
       </div>
     </header>
   );
