@@ -3,6 +3,9 @@ import { faHandshake, faStar, faUsers } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import JsonLd from "@/components/JsonLd/JsonLd";
+
+import { breadcrumbJsonLd } from "@/lib/jsonLd";
 
 import type { Metadata } from "next";
 
@@ -24,6 +27,12 @@ export const metadata: Metadata = {
 export default function ConferencePage() {
   return (
     <div className={styles.page}>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Conference", path: "/conference" },
+        ])}
+      />
       {/* Hero */}
       <section className={styles.hero}>
         <p className={styles.tag}>An idea in progress</p>

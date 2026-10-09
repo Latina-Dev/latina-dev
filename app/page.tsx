@@ -1,8 +1,10 @@
 import About from "@/components/Homepage/About/About";
 import Hero from "@/components/Homepage/Hero/Hero";
 import MemberPreview from "@/components/Homepage/MemberPreview/MemberPreview";
+import JsonLd from "@/components/JsonLd/JsonLd";
 
 import { getMembers } from "@/lib/getMembers";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonLd";
 import { siteDescription } from "@/lib/site";
 
 import type { Metadata } from "next";
@@ -21,6 +23,7 @@ export default async function Home() {
 
   return (
     <div className={styles.center}>
+      <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
       <Hero />
       <hr className={styles.heroBorder} />
       <About />

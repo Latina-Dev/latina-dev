@@ -1,3 +1,7 @@
+import JsonLd from "@/components/JsonLd/JsonLd";
+
+import { breadcrumbJsonLd } from "@/lib/jsonLd";
+
 import type { Metadata } from "next";
 
 // The page itself is a client component, so its metadata lives here
@@ -9,5 +13,15 @@ export const metadata: Metadata = {
 };
 
 export default function AddMemberLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Add Your Profile", path: "/add-member" },
+        ])}
+      />
+      {children}
+    </>
+  );
 }

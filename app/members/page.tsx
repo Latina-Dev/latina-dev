@@ -1,6 +1,8 @@
+import JsonLd from "@/components/JsonLd/JsonLd";
 import MemberCard from "@/components/MemberCard/MemberCard";
 
 import { getMembers } from "@/lib/getMembers";
+import { breadcrumbJsonLd, membersCollectionJsonLd } from "@/lib/jsonLd";
 
 import type { Metadata } from "next";
 import { MemberInterface } from "@/types/members";
@@ -24,6 +26,15 @@ export default async function MembersPage() {
   const memberCount = members.length;
   return (
     <div className={styles.center}>
+      <JsonLd
+        data={[
+          membersCollectionJsonLd(members),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Members", path: "/members" },
+          ]),
+        ]}
+      />
       <div className={styles.heading}>
         <h1 className="text-5xl sm:text-6xl">Members ({memberCount})</h1>
       </div>
