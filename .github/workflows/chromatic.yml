@@ -13,6 +13,8 @@ permissions:
 # List of jobs
 jobs:
   chromatic:
+    # Dependabot runs don't get the Chromatic token, so skip them instead of failing
+    if: github.actor != 'dependabot[bot]'
     # Operating System
     runs-on: ubuntu-latest
     # Job steps
