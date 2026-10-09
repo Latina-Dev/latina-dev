@@ -11,6 +11,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+import { defaultSocialImage } from "@/lib/pageMetadata";
 import { siteDescription, siteName, siteUrl } from "@/lib/site";
 
 import styles from "./layout.module.css";
@@ -30,9 +31,16 @@ export const metadata: Metadata = {
     type: "website",
     url: siteUrl,
     siteName,
-    title: "Latina Dev — A Community for Latina Software Engineers",
+    locale: "en_US",
+    title: siteName,
     description: siteDescription,
-    images: [{ url: "/img/featured-image.png", width: 1200, height: 630, alt: "Latina Dev" }],
+    images: [defaultSocialImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteName,
+    description: siteDescription,
+    images: [defaultSocialImage],
   },
   icons: {
     shortcut: "/favicon.png",

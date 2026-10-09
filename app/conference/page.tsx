@@ -6,23 +6,18 @@ import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import JsonLd from "@/components/JsonLd/JsonLd";
 
 import { breadcrumbJsonLd } from "@/lib/jsonLd";
+import { pageMetadata } from "@/lib/pageMetadata";
 
 import type { Metadata } from "next";
 
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Conference",
   description:
     "Latina Dev is exploring the idea of a conference for Latina software engineers. Interested in volunteering? We'd love to hear from you.",
-  alternates: { canonical: "/conference" },
-  openGraph: {
-    title: "Conference | Latina Dev",
-    description:
-      "We're exploring a conference for Latina engineers. Help us make it happen — volunteer interest now open.",
-    images: [{ url: "/img/featured-image.png", width: 1200, height: 630 }],
-  },
-};
+  path: "/conference",
+});
 
 export default function ConferencePage() {
   return (

@@ -6,6 +6,7 @@ import JsonLd from "@/components/JsonLd/JsonLd";
 
 import { getMembers } from "@/lib/getMembers";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonLd";
+import { pageMetadata } from "@/lib/pageMetadata";
 import { siteDescription } from "@/lib/site";
 
 import type { Metadata } from "next";
@@ -13,11 +14,12 @@ import { MemberInterface } from "@/types/members";
 
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: { absolute: "Latina Dev | Directory of Latina Software Engineers" },
+export const metadata: Metadata = pageMetadata({
+  title: "Latina Dev | Directory of Latina Software Engineers",
+  absolute: true,
   description: siteDescription,
-  alternates: { canonical: "/" },
-};
+  path: "/",
+});
 
 export default async function Home() {
   const members: MemberInterface[] = await getMembers();

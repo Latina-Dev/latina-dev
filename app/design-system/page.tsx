@@ -1,10 +1,12 @@
+import { pageMetadata } from "@/lib/pageMetadata";
+
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Design System",
   description: "Design tokens, typography, colors, and spacing used across Latina Dev.",
-  alternates: { canonical: "/design-system" },
-};
+  path: "/design-system",
+});
 
 const colors = [
   { name: "--primary-color", value: "#9e0001", label: "Primary" },
