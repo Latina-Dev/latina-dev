@@ -1,5 +1,7 @@
 # Adding a New Member
 
+> The easiest way to join is [latina.dev/add-member](https://latina.dev/add-member): sign in with LinkedIn and fill in the form, and it opens this pull request for you. See [Member Sign-in](/pages/member-sign-in). The steps below are for adding a profile by hand.
+
 There should be **two changes** in the PR you open, one for the Markdown file and the other for the image.
 
 ## Markdown File
