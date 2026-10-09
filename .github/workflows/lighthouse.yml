@@ -1,15 +1,13 @@
-name: CI
+name: Lighthouse
 
 on:
-  push:
-    branches: ["main"]
   pull_request:
 
 permissions:
   contents: read
 
 jobs:
-  check:
+  lighthouse:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -21,17 +19,9 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Validate member profiles
-        run: npm run validate:members
-      - name: Lint
-        run: npm run lint
-      - name: Typecheck
-        run: npm run typecheck
       - name: Build
         run: npm run build
         env:
           NEXT_TELEMETRY_DISABLED: 1
-      # Reports unused files, exports and dependencies; not blocking until the existing findings are cleaned up
-      - name: Find unused code
-        run: npm run knip
-        continue-on-error: true
+      - name: Run Lighthouse CI
+        run: npx --yes @lhci/cli@0.15.1 autorun

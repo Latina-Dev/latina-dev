@@ -12,7 +12,11 @@
     "validate:members": "tsx scripts/validate-members.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "chromatic --exit-zero-on-changes --exit-once-uploaded"
+    "chromatic": "chromatic --exit-zero-on-changes --exit-once-uploaded",
+    "prepare": "husky",
+    "knip": "knip",
+    "test:e2e": "playwright test",
+    "links:list": "tsx scripts/list-member-links.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
@@ -39,12 +43,14 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.0",
     "@babel/preset-react": "^7.28.5",
     "@babel/preset-typescript": "^7.28.5",
     "@chromatic-com/storybook": "^5.1.1",
     "@ianvs/prettier-plugin-sort-imports": "4.7.1",
+    "@playwright/test": "^1.64.0",
     "@storybook/addon-a11y": "^10.3.5",
     "@storybook/addon-docs": "^10.3.5",
     "@storybook/addon-links": "^10.3.5",
@@ -58,6 +64,9 @@
     "eslint": "^9.39.5",
     "eslint-plugin-storybook": "^10.3.5",
     "eslint-plugin-unused-imports": "4.4.1",
+    "husky": "^9.1.7",
+    "knip": "^6.40.0",
+    "lint-staged": "^16.4.0",
     "postcss": "^8.5.11",
     "prettier": "3.8.1",
     "storybook": "^10.3.5",
