@@ -91,6 +91,22 @@ export const personJsonLd = (member: MemberInterface): JsonLd => ({
   ...personFields(member),
 });
 
+/**
+ * A member's profile page as Google's ProfilePage rich result: the Person is the main entity.
+ * dateCreated is when they joined the directory; dateModified is when their file last changed.
+ */
+export const profilePageJsonLd = (member: MemberInterface, dateModified?: Date): JsonLd => ({
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": absolute(member.path),
+  url: absolute(member.path),
+  name: member.name,
+  dateCreated: member.added,
+  ...(dateModified ? { dateModified: dateModified.toISOString() } : {}),
+  isPartOf: { "@id": websiteId },
+  mainEntity: personFields(member),
+});
+
 interface CollectionOptions {
   name: string;
   path: string;

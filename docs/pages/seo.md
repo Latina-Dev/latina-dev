@@ -32,14 +32,14 @@ The home page ends with a short FAQ (`components/Homepage/Faq`), which is also p
 
 Pages include [schema.org](https://schema.org) data in a `<script type="application/ld+json">` tag, built by the helpers in `lib/jsonLd.ts`:
 
-| Page                         | Types                                                                     |
-| ---------------------------- | ------------------------------------------------------------------------- |
-| Home                         | `Organization` and `WebSite`                                              |
-| `/members`                   | `CollectionPage` with an `ItemList` of every member, and `BreadcrumbList` |
-| Profile pages                | `Person` (with `memberOf` Latina Dev) and `BreadcrumbList`                |
-| Conference, Add Your Profile | `BreadcrumbList`                                                          |
+| Page                         | Types                                                                                             |
+| ---------------------------- | ------------------------------------------------------------------------------------------------- |
+| Home                         | `Organization` and `WebSite`                                                                      |
+| `/members`                   | `CollectionPage` with an `ItemList` of every member, and `BreadcrumbList`                         |
+| Profile pages                | `ProfilePage` whose `mainEntity` is a `Person` (with `memberOf` Latina Dev), and `BreadcrumbList` |
+| Conference, Add Your Profile | `BreadcrumbList`                                                                                  |
 
-A `Person` only includes fields the member has filled in: `jobTitle` comes from `affiliation`, `sameAs` from their LinkedIn, GitHub, X and website, `knowsAbout` from `skills`, and `homeLocation` from `location`. Nothing is inferred or made up.
+Google shows profile pages as a "Profile page" rich result. The `ProfilePage` carries `dateCreated` (the member's `added` date) and `dateModified` (the last commit to their file). A `Person` only includes fields the member has filled in: `jobTitle` comes from `affiliation`, `sameAs` from their LinkedIn, GitHub, X and website, `knowsAbout` from `skills`, and `homeLocation` from `location`. Nothing is inferred or made up.
 
 To check a page, paste its URL into Google's [Rich Results Test](https://search.google.com/test/rich-results) or the [Schema.org validator](https://validator.schema.org). Run the helper tests with `npm test`.
 
