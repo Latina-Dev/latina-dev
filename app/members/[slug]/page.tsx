@@ -122,5 +122,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: member.name,
     description: `${member.name} is a Latina software engineer${member.affiliation ? ` — ${member.affiliation}` : ""}. Find her on Latina Dev.`,
     alternates: { canonical: member.path },
+    // Members who opt out stay reachable from the directory but out of search results
+    ...(member.noindex ? { robots: { index: false } } : {}),
   };
 }

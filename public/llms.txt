@@ -2,7 +2,7 @@
 
 > Latina Dev is an open-source directory and community of Latina software engineers at the student, individual contributor (IC), and leadership levels. It exists to increase the visibility of Latina engineers and their access to opportunities across the tech industry.
 
-Each member has a profile page at https://latina.dev/members/<slug> with their level, affiliation, countries of heritage, and links to LinkedIn, GitHub, X and their personal site. Members who opt out of indexing are left out of the feed and sitemap.
+Each member has a profile page at https://latina.dev/members/<slug> with their level and LinkedIn. Profiles may also include an affiliation, countries of heritage, and links to GitHub, X and a personal site, when the member has added them. Members who opt out of indexing are left out of the feed and sitemap.
 
 ## Directory
 
