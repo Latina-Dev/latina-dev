@@ -21,3 +21,22 @@ export const ViewAllMembers: Story = {
     icon: faMagnifyingGlass,
   },
 };
+
+export const Outline: Story = {
+  args: {
+    text: "Request a Slack invite",
+    url: "/add-member",
+    variant: "outline",
+  },
+};
+
+export const Light: Story = {
+  args: {
+    text: "Add your profile",
+    url: "/add-member",
+    variant: "light",
+  },
+  parameters: {
+    backgrounds: { default: "brand", values: [{ name: "brand", value: "#9e0001" }] },
+  },
+};

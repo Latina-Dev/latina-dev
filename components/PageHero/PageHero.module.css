@@ -1,0 +1,35 @@
+.hero {
+  background: var(--surface-brand);
+  color: var(--white);
+}
+
+.inner {
+  padding-top: clamp(40px, 7vw, 72px);
+  padding-bottom: clamp(48px, 8vw, 80px);
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 20px;
+}
+
+.title {
+  max-width: 17em;
+  margin-bottom: 20px;
+}
+
+.lede {
+  font-size: clamp(1.0625rem, 2vw, 1.1875rem);
+  line-height: 1.55;
+  max-width: 36em;
+  opacity: 0.92;
+}
+
+.lede a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

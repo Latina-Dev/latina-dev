@@ -1,29 +1,52 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import styles from "./Navbar.module.css";
 
+const links = [
+  { href: "/members", label: "Directory" },
+  { href: "/conference", label: "Conference" },
+  { href: "/#about", label: "About" },
+];
+
 export default function Navbar() {
   return (
-    <nav className={styles.navbar} aria-label="Main navigation">
-      <ul>
-        <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
-          <Link href="/members/">Members</Link>
-        </li>
-        <li>
-          <Link href="/conference">Conference</Link>
-        </li>
-        <li>
-          <Link href="/add-member">Add your profile</Link>
-        </li>
-        <li>
-          <Link href="https://docs.latina.dev" target="_blank" rel="noopener noreferrer">
-            Contribute
+    <header className={styles.masthead}>
+      <a href="#main" className={styles.skip}>
+        Skip to content
+      </a>
+      <div className={`page-width ${styles.bar}`}>
+        <Link href="/" className={styles.brand}>
+          <Image src="/img/logos/owl-mark-white.svg" alt="" width={14} height={28} />
+          <span>Latina Dev</span>
+        </Link>
+        <nav className={styles.desktop} aria-label="Main navigation">
+          {links.map((link) => (
+            <Link key={link.href} href={link.href}>
+              {link.label}
+            </Link>
+          ))}
+          <Link href="/add-member" className={styles.cta}>
+            Add your profile
           </Link>
-        </li>
-      </ul>
-    </nav>
+        </nav>
+        {/* Works without JavaScript: <details> opens and closes the menu on phones */}
+        <details className={styles.mobile}>
+          <summary aria-label="Menu">
+            <span className={styles.burger} aria-hidden="true" />
+          </summary>
+          <nav aria-label="Main navigation" className={styles.sheet}>
+            {links.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {link.label}
+              </Link>
+            ))}
+            <Link href="/add-member" className={styles.cta}>
+              Add your profile
+            </Link>
+          </nav>
+        </details>
+      </div>
+    </header>
   );
 }

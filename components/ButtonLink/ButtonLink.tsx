@@ -10,16 +10,19 @@ interface Props {
   url: string;
   icon?: IconProp;
   external?: boolean;
+  variant?: "primary" | "outline" | "light"; // light sits on the red masthead
 }
 
 const ButtonLink = (props: Props) => {
-  const { text, url, icon, external } = props;
-
-  const target = external ? "_blank" : "_self";
+  const { text, url, icon, external, variant = "primary" } = props;
 
   return (
-    <Link href={url} aria-label={text} target={target} className={styles.buttonLink}>
-      {text} {icon && <FontAwesomeIcon icon={icon} />}
+    <Link
+      href={url}
+      className={`${styles.buttonLink} ${styles[variant]}`}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+      {icon && <FontAwesomeIcon icon={icon} aria-hidden="true" />}
+      <span>{text}</span>
     </Link>
   );
 };

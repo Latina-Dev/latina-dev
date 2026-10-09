@@ -2,3 +2,10 @@
   margin-right: 0.5rem;
   font-size: 1.5rem;
 }
+
+.named {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  list-style: none;
+}

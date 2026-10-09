@@ -2,10 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { faGithub, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import CountryFlags from "@/components/CountryFlags/CountryFlags";
 import JsonLd from "@/components/JsonLd/JsonLd";
 import MemberCard from "@/components/MemberCard/MemberCard";
-import SocialLinks from "@/components/SocialLinks/SocialLinks";
+import PageHero from "@/components/PageHero/PageHero";
 
 import { getMemberBySlug, getMembers } from "@/lib/getMembers";
 import { breadcrumbJsonLd, personJsonLd } from "@/lib/jsonLd";
@@ -40,8 +44,36 @@ export default async function Member({ params }: Props) {
 
   const { name, affiliation, level, bio, countries, skills, location, openTo } = member;
 
+  const links = [
+    member.linkedin && {
+      href: `https://www.linkedin.com/in/${member.linkedin}`,
+      label: "LinkedIn",
+      icon: faLinkedin,
+    },
+    member.github && {
+      href: `https://www.github.com/${member.github}`,
+      label: "GitHub",
+      icon: faGithub,
+    },
+    member.twitter && {
+      href: `https://www.twitter.com/${member.twitter}`,
+      label: "Twitter",
+      icon: faTwitter,
+    },
+    member.website && { href: member.website, label: "Website", icon: faGlobe },
+  ].filter((link) => !!link);
+
+  const facts = [
+    { label: "Level", value: level },
+    countries?.length && {
+      label: "Roots",
+      value: <CountryFlags countries={countries} showNames />,
+    },
+    location && { label: "Based in", value: location },
+  ].filter((fact) => !!fact);
+
   return (
-    <div className="w-full pt-12">
+    <>
       {!member.noindex && (
         <JsonLd
           data={[
@@ -54,62 +86,108 @@ export default async function Member({ params }: Props) {
           ]}
         />
       )}
-      <div className={styles.topBar} />
-      <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
-        <ol>
-          <li>
-            <Link href="/">Home</Link>
-          </li>
-          <li>
-            <Link href="/members">Members</Link>
-          </li>
-          <li>
-            <span aria-current="page">{name}</span>
-          </li>
-        </ol>
-      </nav>
-      <article className="relative py-16 lg:max-w-screen-lg lg:mx-auto lg:flex lg:gap-12 lg:items-start">
-        <div className="flex flex-col items-center lg:shrink-0">
-          <Image
-            src={`/img/members/${slug}.jpg`}
-            alt={name}
-            width="250"
-            height="250"
-            className="rounded-xl my-8 w-40 h-40 sm:w-52 sm:h-52 md:w-[250px] md:h-[250px]"
-          />
-          <SocialLinks member={member} />
-        </div>
-        <div className="text-center px-4 py-6 sm:px-8 sm:py-8 lg:p-0 lg:pt-8 lg:text-left">
-          <h1 className={`mt-3 ${styles.name}`}>{name}</h1>
-          <h3>{affiliation}</h3>
-          <h3 className={styles.affiliation}>{level}</h3>
-          {countries && <CountryFlags countries={countries} />}
-          {location && <p className="text-muted">{location}</p>}
-          {openTo && <p className={styles.openTo}>Open to: {openTo.join(", ")}</p>}
-          {skills && (
-            <ul className={styles.skills} aria-label="Skills">
-              {skills.map((skill) => (
-                <li key={skill}>{skill}</li>
+      <PageHero
+        before={
+          <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
+            <ol>
+              <li>
+                <Link href="/">Home</Link>
+              </li>
+              <li>
+                <Link href="/members">Members</Link>
+              </li>
+              <li>
+                <span aria-current="page">{name}</span>
+              </li>
+            </ol>
+          </nav>
+        }
+        eyebrow={level}
+        title={<span className={styles.name}>{name}</span>}
+        lede={affiliation && <p>{affiliation}</p>}
+      />
+      <article className={`page-width ${styles.profile}`}>
+        <aside className={styles.aside}>
+          <div className={styles.photo}>
+            <Image
+              src={`/img/members/${slug}.jpg`}
+              alt={name}
+              fill
+              priority
+              sizes="(max-width: 767px) 100vw, 380px"
+              className={styles.image}
+            />
+          </div>
+          {links.length > 0 && (
+            <ul className={styles.links} aria-label={`${name} online`}>
+              {links.map((link) => (
+                <li key={link.label}>
+                  <a href={link.href} target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={link.icon} aria-hidden="true" />
+                    <span>{link.label}</span>
+                  </a>
+                </li>
               ))}
             </ul>
           )}
-          {bio && <div className={styles.bio} dangerouslySetInnerHTML={{ __html: bio }} />}
+        </aside>
+        <div className={styles.content}>
+          {bio && (
+            <>
+              <h2 className={styles.label}>About</h2>
+              <div className={styles.bio} dangerouslySetInnerHTML={{ __html: bio }} />
+            </>
+          )}
+          <dl className={styles.facts}>
+            {facts.map((fact) => (
+              <div key={fact.label}>
+                <dt className={styles.label}>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+          {openTo && (
+            <section className={styles.section}>
+              <h2 className={styles.label}>Open to</h2>
+              <ul className={styles.tags}>
+                {openTo.map((option) => (
+                  <li key={option} className={styles.openTo}>
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+          {skills && (
+            <section className={styles.section}>
+              <h2 className={styles.label}>Skills</h2>
+              <ul className={styles.tags} aria-label="Skills">
+                {skills.map((skill) => (
+                  <li key={skill}>{skill}</li>
+                ))}
+              </ul>
+            </section>
+          )}
         </div>
       </article>
       {relatedMembers.length > 0 && (
-        <section className={styles.related} aria-labelledby="related-members">
-          <h2 id="related-members">{relatedHeadings[level]}</h2>
-          <div className="mt-10 grid grid-cols-1 gap-y-12 md:grid-cols-2 md:gap-x-12 lg:grid-cols-3 lg:gap-x-10">
-            {relatedMembers.map((related) => (
-              <MemberCard key={related.slug} member={related} />
-            ))}
+        <section className={`page-width ${styles.related}`} aria-labelledby="related-members">
+          <div className={styles.relatedHeader}>
+            <h2 id="related-members">{relatedHeadings[level]}</h2>
+            <Link href="/members" className={styles.all}>
+              See all members <span aria-hidden="true">→</span>
+            </Link>
           </div>
-          <p className="mt-12">
-            <Link href="/members">See all members</Link>
-          </p>
+          <ul className={styles.relatedGrid}>
+            {relatedMembers.map((related) => (
+              <li key={related.slug}>
+                <MemberCard member={related} />
+              </li>
+            ))}
+          </ul>
         </section>
       )}
-    </div>
+    </>
   );
 }
 

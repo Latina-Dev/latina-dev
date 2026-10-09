@@ -39,20 +39,22 @@ const faqs: Faq[] = [
 
 export default function Faq() {
   return (
-    <section className={styles.faq} id="faq" aria-labelledby="faq-heading">
+    <section className={`page-width ${styles.faq}`} id="faq" aria-labelledby="faq-heading">
       <JsonLd data={faqJsonLd(faqs)} />
       <h2 id="faq-heading">Frequently Asked Questions</h2>
-      {faqs.map(({ question, answer, link }) => (
-        <div key={question} className={styles.item}>
-          <h3>{question}</h3>
-          <p>{answer}</p>
-          {link && (
-            <p className={styles.link}>
-              <Link href={link.href}>{link.text}</Link>
-            </p>
-          )}
-        </div>
-      ))}
+      <div className={styles.items}>
+        {faqs.map(({ question, answer, link }) => (
+          <div key={question} className={styles.item}>
+            <h3>{question}</h3>
+            <p>{answer}</p>
+            {link && (
+              <p className={styles.link}>
+                <Link href={link.href}>{link.text}</Link>
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

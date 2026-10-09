@@ -1,30 +1,112 @@
-.logoContainer {
-  margin-bottom: 24px;
+.search {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  background: var(--white);
+  color: var(--ink);
+  max-width: 640px;
+  margin-top: 40px;
+  padding: 8px 8px 8px 22px;
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo path {
-    fill: var(--white-color);
+.search:focus-within {
+  outline: 3px solid var(--red-100);
+}
+
+.icon {
+  color: var(--red-700);
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 18px;
+  font-weight: var(--weight-light);
+  color: var(--ink);
+  padding: 10px 0;
+}
+
+.search button {
+  background: var(--red-700);
+  color: var(--white);
+  border: 0;
+  font: inherit;
+  font-weight: var(--weight-bold);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.search button:hover {
+  background: var(--red-800);
+}
+
+/* Value first visually, label first for screen readers */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 48px;
+  margin-top: 48px;
+}
+
+.stats > div {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.stats dd {
+  font-size: clamp(2rem, 5vw, 2.375rem);
+  font-weight: var(--weight-heavy);
+  line-height: 1;
+}
+
+.stats dt {
+  font-size: 13px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-top: 6px;
+}
+
+@media (max-width: 480px) {
+  .search {
+    padding-left: 14px;
   }
-}
 
-.home {
-  text-align: center;
-  margin: 100px 0;
-  padding: 0 1.25rem;
-}
+  .search input {
+    font-size: 16px;
+  }
 
-.description p {
-  margin: 0 auto;
-  padding: 12px 0 48px;
-  max-width: 500px;
-}
+  .search button {
+    padding: 12px 14px;
+  }
 
-@media (max-width: 550px) {
-  .home {
-    margin: 56px 0 80px;
-    padding: 0 1rem;
+  .stats {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .stats dt {
+    font-size: 11px;
   }
 }

@@ -1,0 +1,97 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--surface-card);
+  border: 1px solid var(--border-default);
+  text-align: left;
+  transition: var(--transition);
+}
+
+.card:hover,
+.card:focus-within {
+  border-color: var(--red-700);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.photo {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: var(--surface-card-tint);
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  object-position: top;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  padding: 18px 20px 14px;
+}
+
+.level {
+  align-self: flex-start;
+  background: var(--surface-card-tint);
+  color: var(--text-brand);
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 9px;
+  line-height: 1;
+}
+
+.name {
+  font-size: 20px;
+  line-height: 1.18;
+}
+
+.main:hover .name {
+  color: var(--text-brand);
+}
+
+.affiliation,
+.countries {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.countries {
+  margin-top: auto;
+}
+
+.socials {
+  margin: 0 20px;
+  border-top: 1px solid var(--border-default);
+  padding: 4px 0;
+}
+
+@media (max-width: 480px) {
+  .body {
+    padding: 14px 12px 10px;
+  }
+
+  .name {
+    font-size: 17px;
+  }
+
+  .affiliation,
+  .countries {
+    font-size: 13px;
+  }
+
+  .socials {
+    margin: 0 12px;
+  }
+}

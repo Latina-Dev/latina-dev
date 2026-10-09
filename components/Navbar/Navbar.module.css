@@ -1,42 +1,174 @@
-.navbar {
-  justify-content: space-between;
-  font-weight: bold;
-  text-align: center;
-  margin: 24px 16px;
-  padding: 0 8px;
+.masthead {
+  background: var(--surface-brand);
+  color: var(--white);
+  position: relative;
+  z-index: 10;
 }
 
-.navbar ul {
-  margin: 0;
-  padding: 0;
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  background: var(--white);
+  color: var(--red-800);
+  font-weight: var(--weight-bold);
+  padding: 8px 16px;
+}
+
+.skip:focus {
+  top: 8px;
+}
+
+.bar {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 4px 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  min-height: 72px;
 }
 
-.navbar li {
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: var(--weight-heavy);
+  font-size: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.desktop {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 15px;
+  font-weight: var(--weight-medium);
+}
+
+.desktop a:not(.cta) {
+  opacity: 0.9;
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+  transition: var(--transition);
+}
+
+.desktop a:not(.cta):hover {
+  opacity: 1;
+  border-bottom-color: var(--white);
+}
+
+.cta {
+  background: var(--white);
+  color: var(--red-800);
+  font-weight: var(--weight-bold);
+  padding: 11px 20px;
+  border: 2px solid var(--white);
+  transition: var(--transition);
+}
+
+.cta:hover {
+  background: transparent;
+  color: var(--white);
+}
+
+.mobile {
+  display: none;
+}
+
+.mobile summary {
   list-style: none;
-  display: inline;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.navbar a {
-  display: inline-block;
-  padding: 6px 4px;
-  text-decoration: underline;
+.mobile summary::-webkit-details-marker {
+  display: none;
 }
 
-.navbar li:hover {
-  color: var(--primary-color);
-  transition: all 150ms ease-in-out;
+/* Three bars that turn into an X when open */
+.burger,
+.burger::before,
+.burger::after {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--white);
+  transition: var(--transition);
 }
 
-@media (max-width: 400px) {
-  .navbar {
-    margin: 16px 12px;
+.burger {
+  position: relative;
+}
+
+.burger::before,
+.burger::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.burger::before {
+  top: -7px;
+}
+
+.burger::after {
+  top: 7px;
+}
+
+.mobile[open] .burger {
+  background: transparent;
+}
+
+.mobile[open] .burger::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.mobile[open] .burger::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+.sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  background: var(--surface-brand);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px var(--gutter) 24px;
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  font-weight: var(--weight-medium);
+}
+
+.sheet a:not(.cta) {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sheet .cta {
+  margin-top: 20px;
+  text-align: center;
+  padding: 14px 20px;
+}
+
+@media (max-width: 767px) {
+  .desktop {
+    display: none;
   }
 
-  .navbar ul {
-    gap: 2px 1rem;
+  .mobile {
+    display: block;
+  }
+
+  .bar {
+    min-height: 60px;
   }
 }

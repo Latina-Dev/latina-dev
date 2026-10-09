@@ -1,4 +1,6 @@
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -11,9 +13,13 @@ body {
 }
 
 body {
-  font-family: "Latina Light", sans-serif;
-  color: var(--text-color);
-  background: var(--white-color);
+  font-family: var(--font-sans);
+  font-weight: var(--weight-light);
+  line-height: var(--leading-normal);
+  color: var(--text-default);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -21,40 +27,78 @@ a {
   text-decoration: none;
 }
 
-em {
-  font-family: "Latina Light Italic", sans-serif;
-}
-
 b,
 strong {
-  font-family: "Latina Bold", sans-serif;
+  font-weight: var(--weight-bold);
 }
 
-a,
-blockquote,
-body,
-li,
-p {
-  font-family: "Latina Light", sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-sans);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
 }
 
 h1 {
-  font-family: "Latina Heavy", sans-serif;
-  font-size: clamp(2.5rem, 10vw, 79px);
+  font-weight: var(--weight-heavy);
+  font-size: clamp(2.25rem, 7vw, 3.875rem);
+  letter-spacing: -0.02em;
 }
 
 h2 {
-  font-family: "Latina Heavy", sans-serif;
-  font-size: clamp(1.75rem, 6vw, 2.5rem);
+  font-weight: var(--weight-heavy);
+  font-size: clamp(1.75rem, 4.5vw, 2.625rem);
 }
 
 h3 {
-  font-family: "Latina Bold", sans-serif;
-  font-size: clamp(1.1rem, 4vw, 1.4375rem);
+  font-weight: var(--weight-heavy);
+  font-size: clamp(1.125rem, 2.5vw, 1.3125rem);
 }
 
 h4,
 h5,
 h6 {
-  font-family: "Latina Bold", sans-serif;
+  font-weight: var(--weight-bold);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 2px solid var(--red-700);
+  outline-offset: 2px;
+}
+
+/* Shared page width */
+.page-width {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* Small uppercase label above a heading */
+.eyebrow {
+  font-size: 12px;
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-brand);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
 }
