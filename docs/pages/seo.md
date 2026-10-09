@@ -43,6 +43,12 @@ A `Person` only includes fields the member has filled in: `jobTitle` comes from 
 
 To check a page, paste its URL into Google's [Rich Results Test](https://search.google.com/test/rich-results) or the [Schema.org validator](https://validator.schema.org). Run the helper tests with `npm test`.
 
+## Social previews
+
+Every page sets Open Graph and Twitter card tags through `pageMetadata()` in `lib/pageMetadata.ts`. Next.js replaces the layout's `openGraph` and `twitter` objects when a page sets its own, so new pages should build their metadata with that helper rather than by hand. It sets the title, description, canonical URL, Open Graph URL, site name and a `summary_large_image` card.
+
+Most pages share `/img/featured-image.png`. Profile pages get their own 1200×630 image from `app/members/[slug]/opengraph-image.tsx`, generated at build time with the member's photo, name, level and affiliation (when they have one) on Latina Dev branding. To preview one, run the site and open `/members/<slug>/opengraph-image`.
+
 ## Opting out
 
 A member with `noindex: true` in their front matter:

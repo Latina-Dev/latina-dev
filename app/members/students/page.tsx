@@ -3,6 +3,7 @@ import MemberDirectory from "@/components/MemberDirectory/MemberDirectory";
 import { getMembers } from "@/lib/getMembers";
 import { directoryLastUpdated } from "@/lib/memberDates";
 import { getCountryViews, levelViewFor } from "@/lib/memberViews";
+import { pageMetadata } from "@/lib/pageMetadata";
 
 import type { Metadata } from "next";
 
@@ -10,11 +11,11 @@ const view = levelViewFor("students")!;
 
 export async function generateMetadata(): Promise<Metadata> {
   const members = (await getMembers()).filter((member) => member.level === view.level);
-  return {
+  return pageMetadata({
     title: view.title,
     description: view.intro(members.length),
-    alternates: { canonical: `/members/${view.segment}` },
-  };
+    path: `/members/${view.segment}`,
+  });
 }
 
 export default async function LevelPage() {

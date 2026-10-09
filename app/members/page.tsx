@@ -3,20 +3,16 @@ import MemberDirectory from "@/components/MemberDirectory/MemberDirectory";
 import { getMembers } from "@/lib/getMembers";
 import { directoryLastUpdated } from "@/lib/memberDates";
 import { getCountryViews, levelViews } from "@/lib/memberViews";
+import { pageMetadata } from "@/lib/pageMetadata";
 
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Members: Latina Software Engineers",
   description:
     "Browse our directory of Latina software engineers at the student, individual contributor, and leadership levels. Find and connect with Latina engineers across the industry.",
-  alternates: { canonical: "/members" },
-  openGraph: {
-    title: "Members | Latina Dev",
-    description:
-      "Browse our directory of Latina software engineers at the student, IC, and leadership levels.",
-  },
-};
+  path: "/members",
+});
 
 export default async function MembersPage() {
   const members = await getMembers();

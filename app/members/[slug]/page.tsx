@@ -9,6 +9,7 @@ import SocialLinks from "@/components/SocialLinks/SocialLinks";
 
 import { getMemberBySlug, getMembers } from "@/lib/getMembers";
 import { breadcrumbJsonLd, personJsonLd } from "@/lib/jsonLd";
+import { pageMetadata } from "@/lib/pageMetadata";
 import { getRelatedMembers } from "@/lib/relatedMembers";
 
 import type { Metadata } from "next";
@@ -122,9 +123,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const member = await getMemberBySlug(slug);
   if (!member) return {};
   return {
-    title: member.name,
-    description: `${member.name} is a Latina software engineer${member.affiliation ? ` — ${member.affiliation}` : ""}. Find her on Latina Dev.`,
-    alternates: { canonical: member.path },
+    ...pageMetadata({
+      title: member.name,
+      description: `${member.name} is a Latina software engineer${member.affiliation ? ` — ${member.affiliation}` : ""}. Find her on Latina Dev.`,
+      path: member.path,
+      // The opengraph-image file next to this page supplies the image
+      defaultImage: false,
+      type: "profile",
+    }),
     // Members who opt out stay reachable from the directory but out of search results
     ...(member.noindex ? { robots: { index: false } } : {}),
   };

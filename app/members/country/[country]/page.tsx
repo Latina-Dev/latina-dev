@@ -5,6 +5,7 @@ import MemberDirectory from "@/components/MemberDirectory/MemberDirectory";
 import { getMembers } from "@/lib/getMembers";
 import { directoryLastUpdated } from "@/lib/memberDates";
 import { getCountryViews } from "@/lib/memberViews";
+import { pageMetadata } from "@/lib/pageMetadata";
 
 import type { Metadata } from "next";
 
@@ -31,11 +32,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { view } = await findView((await params).country);
   if (!view) return {};
-  return {
+  return pageMetadata({
     title: `Latina Software Engineers with Roots in ${view.country}`,
     description: intro(view.members.length, view.country),
-    alternates: { canonical: `/members/country/${view.slug}` },
-  };
+    path: `/members/country/${view.slug}`,
+  });
 }
 
 export default async function CountryPage({ params }: Props) {
