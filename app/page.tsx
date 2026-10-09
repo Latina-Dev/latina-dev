@@ -1,3 +1,4 @@
+import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import About from "@/components/Homepage/About/About";
 import Faq from "@/components/Homepage/Faq/Faq";
 import Hero from "@/components/Homepage/Hero/Hero";
@@ -23,17 +24,27 @@ export const metadata: Metadata = pageMetadata({
 
 export default async function Home() {
   const members: MemberInterface[] = await getMembers();
+  const countryCount = new Set(members.flatMap((member) => member.countries ?? [])).size;
 
   return (
-    <div className={styles.center}>
+    <>
       <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
-      <Hero />
-      <hr className={styles.heroBorder} />
+      <Hero memberCount={members.length} countryCount={countryCount} />
       <About />
       <MemberPreview members={members} />
       <Faq />
+      <section className={styles.join} aria-labelledby="join-heading">
+        <div className={styles.joinInner}>
+          <h2 id="join-heading">You belong in this directory.</h2>
+          <p>
+            Add your profile and we&apos;ll add you to the directory and invite you to our Slack
+            community.
+          </p>
+          <ButtonLink text="Add your profile" url="/add-member" />
+        </div>
+      </section>
       {/* Removing Maintainers for now since it feels a little redundant  but once we have more, it should be fine */}
       {/* <Maintainers /> */}
-    </div>
+    </>
   );
 }

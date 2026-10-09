@@ -23,3 +23,10 @@ export const MultipleCountries: Story = {
     countries: ["Peru", "Brazil", "Argentina"],
   },
 };
+
+export const WithNames: Story = {
+  args: {
+    countries: ["Peru", "Mexico"],
+    showNames: true,
+  },
+};
