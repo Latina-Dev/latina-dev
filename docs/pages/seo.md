@@ -17,6 +17,17 @@ The code lives in `app/robots.ts`, `app/sitemap.ts` and `public/llms.txt`.
 
 Each member has a page at `/members/firstname-lastname`, built from their file in `data/members`. Member cards link there, and each profile links back to the directory through its breadcrumb and to three related members at the same level. See [Adding a Member](/pages/adding-a-member) for the fields a profile shows.
 
+## Directory views
+
+The directory has a crawlable page for each level and for each country of origin with at least two members, each with its own title, intro and sitemap entry:
+
+- `/members/students`, `/members/ic` and `/members/leaders`
+- `/members/country/<country>`, e.g. `/members/country/mexico`
+
+Every directory page opens with a sentence that answers the search directly ("Latina Dev is an open-source directory of N Latina software engineers…"), with counts taken from the data, and shows when the directory was last updated (the last commit to `data/members`, or the build date when git history isn't available). The views are defined in `lib/memberViews.ts` and rendered by `components/MemberDirectory`.
+
+The home page ends with a short FAQ (`components/Homepage/Faq`), which is also published as `FAQPage` structured data.
+
 ## Structured data (JSON-LD)
 
 Pages include [schema.org](https://schema.org) data in a `<script type="application/ld+json">` tag, built by the helpers in `lib/jsonLd.ts`:

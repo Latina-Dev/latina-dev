@@ -1,16 +1,13 @@
-import JsonLd from "@/components/JsonLd/JsonLd";
-import MemberCard from "@/components/MemberCard/MemberCard";
+import MemberDirectory from "@/components/MemberDirectory/MemberDirectory";
 
 import { getMembers } from "@/lib/getMembers";
-import { breadcrumbJsonLd, membersCollectionJsonLd } from "@/lib/jsonLd";
+import { directoryLastUpdated } from "@/lib/memberDates";
+import { getCountryViews, levelViews } from "@/lib/memberViews";
 
 import type { Metadata } from "next";
-import { MemberInterface } from "@/types/members";
-
-import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Members",
+  title: "Members: Latina Software Engineers",
   description:
     "Browse our directory of Latina software engineers at the student, individual contributor, and leadership levels. Find and connect with Latina engineers across the industry.",
   alternates: { canonical: "/members" },
@@ -22,27 +19,27 @@ export const metadata: Metadata = {
 };
 
 export default async function MembersPage() {
-  const members: MemberInterface[] = await getMembers();
-  const memberCount = members.length;
+  const members = await getMembers();
+  const levelCounts = levelViews
+    .map((view) => {
+      const count = members.filter((member) => member.level === view.level).length;
+      return `${count} ${view.label.toLowerCase()}`;
+    })
+    .join(", ");
+
   return (
-    <div className={styles.center}>
-      <JsonLd
-        data={[
-          membersCollectionJsonLd(members),
-          breadcrumbJsonLd([
-            { name: "Home", path: "/" },
-            { name: "Members", path: "/members" },
-          ]),
-        ]}
-      />
-      <div className={styles.heading}>
-        <h1 className="text-5xl sm:text-6xl">Members ({memberCount})</h1>
-      </div>
-      <div className="mt-20 grid grid-cols-1 gap-y-12 md:grid md:grid-cols-2 md-grid-rows md:gap-x-12 lg:grid lg:grid-cols-3 lg:grid-rows lg:gap-x-10">
-        {members.map((member) => (
-          <MemberCard key={member.slug} member={member} />
-        ))}
-      </div>
-    </div>
+    <MemberDirectory
+      heading="Members"
+      title="Latina Dev members"
+      intro={`Latina Dev is an open-source directory of ${members.length} Latina software engineers, from students to engineering leaders: ${levelCounts}.`}
+      path="/members"
+      members={members}
+      countryViews={getCountryViews(members)}
+      lastUpdated={directoryLastUpdated()}
+      breadcrumb={[
+        { name: "Home", path: "/" },
+        { name: "Members", path: "/members" },
+      ]}
+    />
   );
 }
