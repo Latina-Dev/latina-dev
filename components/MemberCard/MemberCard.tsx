@@ -4,37 +4,53 @@ import Link from "next/link";
 import CountryFlags from "@/components/CountryFlags/CountryFlags";
 import SocialLinks from "@/components/SocialLinks/SocialLinks";
 
-import { MemberInterface } from "@/types/members";
+import { MemberInterface, MemberLevel } from "@/types/members";
+
+import styles from "./MemberCard.module.css";
+
+// Short labels keep the level tag on one line in a two-column phone grid
+export const levelTags: Record<MemberLevel, string> = {
+  Student: "Student",
+  "Individual Contributor": "IC",
+  Leader: "Leader",
+};
 
 interface MemberProps {
   member: MemberInterface;
 }
 
 const MemberCard = (props: MemberProps) => {
-  const { name, slug, path, level, countries } = props.member;
+  const { name, slug, path, level, affiliation, countries } = props.member;
 
   return (
-    <div className="flex flex-col items-center text-center">
-      <Link href={path} aria-label={name} className="flex flex-col items-center">
-        {/* Image */}
-        <div className="relative w-[160px] h-[160px] sm:w-[200px] sm:h-[200px] md:w-[250px] md:h-[250px]">
+    <article className={styles.card}>
+      <Link href={path} className={styles.main}>
+        <div className={styles.photo}>
           <Image
             src={`/img/members/${slug}.jpg`}
             alt={name}
             fill
-            className="rounded-xl object-cover object-top"
+            sizes="(max-width: 767px) 50vw, (max-width: 1279px) 33vw, 300px"
+            className={styles.image}
           />
         </div>
-        {/* Name */}
-        <h4 className="mt-3">{name}</h4>
-        {/* Level */}
-        <p className="text-muted">{level}</p>
-        {/* Country Flag */}
-        {countries && <CountryFlags countries={countries} />}
+        <div className={styles.body}>
+          <span className={styles.level} title={level}>
+            {levelTags[level]}
+          </span>
+          <h3 className={styles.name}>{name}</h3>
+          {affiliation && <p className={styles.affiliation}>{affiliation}</p>}
+          {countries && (
+            <div className={styles.countries}>
+              <CountryFlags countries={countries} showNames />
+            </div>
+          )}
+        </div>
       </Link>
-      {/* Social Links */}
-      <SocialLinks member={props.member} />
-    </div>
+      <div className={styles.socials}>
+        <SocialLinks member={props.member} />
+      </div>
+    </article>
   );
 };
 

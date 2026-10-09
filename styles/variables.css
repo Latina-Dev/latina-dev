@@ -1,24 +1,96 @@
+/* Design tokens from the Latina Dev design system (tokens/colors.css, typography.css, spacing.css).
+ * Components use the semantic names (--text-default, --surface-page, ...) so dark mode only
+ * has to redefine those. */
 :root {
-  --max-width: 1100px;
-  --border-radius: 8px;
-  --font-primary: "Latina Light", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono",
-    "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono",
-    "Courier New", monospace;
+  /* Brand */
+  --red-700: #9e0001; /* the royal red */
+  --red-800: #7d0000; /* hover / pressed */
+  --red-900: #5e0000;
+  --red-50: #fdf5f5; /* faint red wash */
+  --red-100: #f0d4d4; /* red border tint */
 
-  --primary-color: #9e0001;
-  --primary-color-dark: #7d0000;
+  /* Neutrals */
+  --ink: #151515;
+  --white: #ffffff;
+  --black: #000000;
+  --gray-600: #444444;
+  --gray-400: #767676; /* the kit's #999 fails contrast on white for small text */
+  --gray-300: #cccccc;
+  --gray-200: #e0e0e0;
 
-  --warning-color: #ffc101;
-  --success-color: #3f784c;
-  --error-color: #7d1128;
+  /* Status */
+  --warning: #ffc101;
+  --success: #3f784c;
+  --error: #7d1128;
 
-  --text-color: #151515;
+  /* Semantic */
+  --color-primary: var(--red-700);
+  --color-primary-hover: var(--red-800);
+  --text-default: var(--ink);
+  --text-muted: var(--gray-600);
+  --text-subtle: var(--gray-400);
+  --text-inverse: var(--white);
+  --text-brand: var(--red-700);
+  --surface-page: var(--white);
+  --surface-card: var(--white);
+  --surface-card-tint: var(--red-50);
+  --surface-brand: var(--red-700);
+  --border-default: var(--gray-200);
+  --border-input: var(--gray-300);
+  --border-strong: var(--ink);
+  --border-brand-tint: var(--red-100);
 
-  --white-color: #ffffff;
-  --black-color: #000000;
+  /* Type */
+  --font-sans: "Latina", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono:
+    ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono",
+    "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+  --weight-light: 300;
+  --weight-medium: 500;
+  --weight-bold: 700;
+  --weight-heavy: 900;
+  --leading-tight: 1.1;
+  --leading-normal: 1.6;
+  --tracking-eyebrow: 0.14em;
 
-  --button-background: var(--primary-color);
-  --button-background-hover: var(--white-color);
-  --button-dark-hover: var(--primary-color-dark);
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-25: 100px;
+  --gutter: clamp(16px, 4vw, 40px); /* page side padding */
+
+  /* Radius */
+  --radius: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  /* Layout */
+  --max-width: 1280px;
+  --max-width-prose: 800px;
+  --max-width-narrow: 600px;
+
+  /* Motion */
+  --transition: all 150ms ease-in-out;
+
+  /* Legacy names, still used by a few components */
+  --border-radius: var(--radius);
+  --font-primary: var(--font-sans);
+  --primary-color: var(--red-700);
+  --primary-color-dark: var(--red-800);
+  --warning-color: var(--warning);
+  --success-color: var(--success);
+  --error-color: var(--error);
+  --text-color: var(--ink);
+  --white-color: var(--white);
+  --black-color: var(--black);
+  --button-background: var(--red-700);
+  --button-background-hover: var(--white);
+  --button-dark-hover: var(--red-800);
 }

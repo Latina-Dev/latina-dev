@@ -1,10 +1,20 @@
+/* Dark mode redefines the semantic tokens; the red masthead stays red */
 @media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+  :root {
+    --text-default: #f2f2f2;
+    --text-muted: #c8c8c8;
+    --text-subtle: #a0a0a0;
+    --text-brand: #ff8a8a;
+    --surface-page: var(--ink);
+    --surface-card: #1d1d1d;
+    --surface-card-tint: #2a1616;
+    --border-default: #333333;
+    --border-input: #555555;
+    --border-strong: #f2f2f2;
+    --border-brand-tint: #4a2222;
   }
 
-  body {
-    background: var(--text-color);
-    color: var(--white-color);
+  html {
+    color-scheme: dark;
   }
 }

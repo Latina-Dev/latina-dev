@@ -1,7 +1,6 @@
 import { config } from "@fortawesome/fontawesome-svg-core";
 
 import Footer from "@/components/Footer/Footer";
-import GitHubCorner from "@/components/GitHubCorner/GitHubCorner";
 import Navbar from "@/components/Navbar/Navbar";
 
 import type { Metadata } from "next";
@@ -13,8 +12,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { defaultSocialImage } from "@/lib/pageMetadata";
 import { siteDescription, siteName, siteUrl } from "@/lib/site";
-
-import styles from "./layout.module.css";
 
 import "../styles/_styles.css";
 
@@ -52,18 +49,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <div className={styles.wrapper}>
-          <GitHubCorner />
-          <Navbar />
-          <main>
-            <div className={styles.container}>
-              {children}
-              <Analytics />
-              <SpeedInsights />
-            </div>
-          </main>
-          <Footer />
-        </div>
+        <Navbar />
+        <main id="main">{children}</main>
+        <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

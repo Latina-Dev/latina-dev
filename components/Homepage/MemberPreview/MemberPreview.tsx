@@ -1,20 +1,14 @@
-import { faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
-import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import MemberCard from "@/components/MemberCard/MemberCard";
 
 import { MemberInterface } from "@/types/members";
 
 import styles from "./MembersSnippet.module.css";
 
-/**
- * Pick random members without mutating the original array
- * @param members
- * @param count
- * @returns random members
- */
-const pickRandomMembers = (members: MemberInterface[], count: number) =>
-  [...members].sort(() => Math.random() - 0.5).slice(0, count);
+/** The most recently added members, newest first */
+const newestMembers = (members: MemberInterface[], count: number) =>
+  [...members].sort((a, b) => b.added.localeCompare(a.added)).slice(0, count);
 
 interface Props {
   members: MemberInterface[];
@@ -23,23 +17,22 @@ interface Props {
 const MemberPreview = (props: Props) => {
   const { members } = props;
 
-  // 6 random members picked from original members array
-  const membersRandom = pickRandomMembers(members, 6);
-
   return (
-    <>
-      <section className={styles.avatars}>
-        <h2>Member Preview</h2>
-        <div className="mt-10 grid grid-cols-1 gap-y-12 md:grid md:grid-cols-2 md:grid-rows-3 md:gap-x-10 lg:grid lg:grid-cols-3 lg:grid-rows-2 lg:gap-x-10">
-          {membersRandom.map((member) => (
-            <MemberCard key={member.slug} member={member} />
-          ))}
-        </div>
-      </section>
-      <section className={styles.cta}>
-        <ButtonLink text="View all our Members " url="/members" icon={faPeopleGroup} />
-      </section>
-    </>
+    <section className={`page-width ${styles.preview}`} aria-labelledby="recent-heading">
+      <div className={styles.header}>
+        <h2 id="recent-heading">Recently added</h2>
+        <Link href="/members" className={styles.all}>
+          See all {members.length} engineers <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+      <ul className={styles.grid}>
+        {newestMembers(members, 4).map((member) => (
+          <li key={member.slug}>
+            <MemberCard member={member} />
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 };
 
