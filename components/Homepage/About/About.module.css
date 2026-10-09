@@ -30,6 +30,8 @@
 .stats > div {
   display: flex;
   flex-direction: column-reverse;
+  /* Keeps the numbers level when one label wraps to more lines */
+  justify-content: flex-end;
 }
 
 .stats dd {
@@ -43,6 +45,18 @@
   font-size: 15px;
   color: var(--text-muted);
   margin-top: 8px;
+}
+
+.sources {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+
+.sources a {
+  color: inherit;
+  text-decoration: underline;
 }
 
 .actions {
