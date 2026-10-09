@@ -1,5 +1,5 @@
 # Reviews pull requests with Claude, alongside CodeRabbit.
-# Needs an ANTHROPIC_API_KEY repository secret.
+# Needs an ANTHROPIC_API_KEY repository secret; until it's added, the review is skipped.
 name: Claude Code Review
 
 on:
@@ -16,14 +16,22 @@ jobs:
       pull-requests: write
       issues: read
       id-token: write
+    env:
+      HAS_ANTHROPIC_KEY: ${{ secrets.ANTHROPIC_API_KEY != '' }}
 
     steps:
+      - name: Skip when the API key secret is missing
+        if: env.HAS_ANTHROPIC_KEY != 'true'
+        run: echo "::notice::ANTHROPIC_API_KEY is not set, so Claude review was skipped."
+
       - name: Checkout repository
+        if: env.HAS_ANTHROPIC_KEY == 'true'
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
       - name: Run Claude Code Review
+        if: env.HAS_ANTHROPIC_KEY == 'true'
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
