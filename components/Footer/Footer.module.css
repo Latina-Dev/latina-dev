@@ -20,6 +20,13 @@
   color: var(--text-muted);
 }
 
+.star {
+  color: var(--text-brand);
+  font-weight: var(--weight-medium);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .links {
   display: flex;
   flex-wrap: wrap;

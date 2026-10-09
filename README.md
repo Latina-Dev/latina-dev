@@ -22,6 +22,10 @@ Our goal is to increase visibility and access to valuable opportunities.
 
 🎨 [Storybook](https://www.chromatic.com/library?appId=6472ce8643c60096810af8c0)
 
+## ⭐ Star this repo
+
+Latina Dev is free and run by volunteers. If the directory helped you, or you want more Latina engineers to be seen, please [star the repo](https://github.com/Latina-Dev/latina-dev). Stars help us qualify for open source programs that give free tools and credits to projects like this one.
+
 ## Contributing
 
 > To get started...
