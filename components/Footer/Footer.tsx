@@ -26,7 +26,17 @@ const Footer = () => {
       <div className={`page-width ${styles.inner}`}>
         <div className={styles.tagline}>
           <Image src="/img/logos/owl-mark.svg" alt="" width={12} height={24} />
-          <span>Open source. Contributions welcome.</span>
+          <span>
+            Open source. Contributions welcome.{" "}
+            <a
+              href="https://github.com/Latina-Dev/latina-dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.star}>
+              Star us on GitHub
+            </a>{" "}
+            to help us qualify for open source programs.
+          </span>
         </div>
         <nav aria-label="Footer" className={styles.links}>
           {links.map((link) => (

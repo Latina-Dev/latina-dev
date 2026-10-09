@@ -49,7 +49,7 @@ export default function About() {
             icon={faSlack}
           />
           <ButtonLink
-            text="Contribute on GitHub"
+            text="Star us on GitHub"
             url="https://github.com/Latina-Dev/latina-dev"
             external
             icon={faGithub}
