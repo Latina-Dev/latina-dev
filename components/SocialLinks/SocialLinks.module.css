@@ -1,13 +1,21 @@
+/* A compact row of icon links; each is a 40px tap target */
 .socialLinks {
-  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -10px;
 }
 
 .socialLinks a {
-  padding: 12px;
-  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  color: var(--text-subtle);
+  transition: var(--transition);
 }
 
 .socialLinks a:hover {
-  color: var(--primary-color);
-  transition: all 150ms ease-in-out;
+  color: var(--text-brand);
 }

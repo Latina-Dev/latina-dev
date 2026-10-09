@@ -1,34 +1,53 @@
 .buttonLink {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 14px 36px;
-  background: var(--button-background);
-  color: var(--white-color);
-  border-radius: var(--border-radius);
-  font-weight: bold;
-  border: 2px solid transparent;
-  font-size: 1rem;
-  white-space: nowrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 100%;
+  min-height: 52px;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: var(--weight-bold);
+  line-height: 1.3;
+  text-align: center;
+  border: 1px solid transparent;
+  transition: var(--transition);
 }
 
-.buttonLink:hover {
-  background: var(--button-background-hover);
-  border-color: var(--button-dark-hover);
-  color: var(--button-dark-hover);
-  transition: all 150ms ease-in-out;
+.primary {
+  background: var(--red-700);
+  color: var(--white);
+  border-color: var(--red-700);
 }
 
-@media (max-width: 550px) {
+.primary:hover {
+  background: var(--red-800);
+  border-color: var(--red-800);
+}
+
+.outline {
+  background: transparent;
+  color: var(--text-brand);
+  border-color: currentColor;
+}
+
+.outline:hover {
+  background: var(--surface-card);
+}
+
+.light {
+  background: var(--white);
+  color: var(--red-800);
+  border-color: var(--white);
+}
+
+.light:hover {
+  background: transparent;
+  color: var(--white);
+}
+
+@media (max-width: 480px) {
   .buttonLink {
-    padding: 14px 24px;
-    font-size: 0.9375rem;
-  }
-}
-
-@media (max-width: 360px) {
-  .buttonLink {
-    padding: 12px 20px;
-    font-size: 0.875rem;
+    width: 100%;
   }
 }

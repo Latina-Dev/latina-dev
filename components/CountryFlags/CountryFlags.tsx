@@ -4,19 +4,27 @@ import styles from "./CountryFlags.module.css";
 
 interface Props {
   countries: string[];
+  showNames?: boolean; // flag followed by the country name, e.g. 🇵🇪 Peru
 }
 
+const getFlag = (country: string) =>
+  countryOptions.find((countryOption) => countryOption.country === country)?.flag ?? null;
+
 const CountryFlags = (props: Props) => {
-  const { countries } = props;
+  const { countries, showNames } = props;
 
-  // get flag based on country name given
-  const getFlag = (country: string) => {
-    const countryOption = countryOptions.find((countryOption) => countryOption.country === country);
-    if (!countryOption) return null;
-    return countryOption.flag;
-  };
+  if (showNames) {
+    return (
+      <ul className={styles.named}>
+        {countries.map((country) => (
+          <li key={country}>
+            <span aria-hidden="true">{getFlag(country)}</span> {country}
+          </li>
+        ))}
+      </ul>
+    );
+  }
 
-  // return list of flags
   return (
     <div>
       {countries.map((country) => (

@@ -1,3 +1,85 @@
+/* One "Latina" family with real weights, as the design system uses it */
+@font-face {
+  font-family: "Latina";
+  src:
+    url("/fonts/Latina-Light.woff2") format("woff2"),
+    url("/fonts/Latina-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latina";
+  src:
+    url("/fonts/Latina-Light-Italic.woff2") format("woff2"),
+    url("/fonts/Latina-Light-Italic.woff") format("woff");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latina";
+  src:
+    url("/fonts/Latina-Medium.woff2") format("woff2"),
+    url("/fonts/Latina-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latina";
+  src:
+    url("/fonts/Latina-Medium-Italic.woff2") format("woff2"),
+    url("/fonts/Latina-Medium-Italic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latina";
+  src:
+    url("/fonts/Latina-Bold.woff2") format("woff2"),
+    url("/fonts/Latina-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latina";
+  src:
+    url("/fonts/Latina-Bold-Italic.woff2") format("woff2"),
+    url("/fonts/Latina-Bold-Italic.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latina";
+  src:
+    url("/fonts/Latina-Heavy.woff2") format("woff2"),
+    url("/fonts/Latina-Heavy.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latina";
+  src:
+    url("/fonts/Latina-Heavy-Italic.woff2") format("woff2"),
+    url("/fonts/Latina-Heavy-Italic.woff") format("woff");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Per-weight family names, kept for older styles */
 @font-face {
   font-family: "Latina Light";
   src:
