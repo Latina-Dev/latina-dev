@@ -17,6 +17,7 @@ export interface MemberInterface {
   bio?: string; // optional: Markdown that forms bio, e.g. Frances Coronel is a senior software engineer...
   affiliation?: string; // optional: title and company or school, e.g. Senior Software Engineer at XYZ
   countries?: CountryName[]; // optional: Country or countries of origin, e.g. ['Peru']
+  noindex?: boolean; // optional: true leaves the member out of the /members.json feed
 }
 
 export const exampleMember: MemberInterface = {

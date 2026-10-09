@@ -6,6 +6,7 @@
 - [Benefits of Contributing](/pages/benefits-of-contributing)
 - [Member Levels](/pages/member-levels)
 - [Adding a Member](/pages/adding-a-member)
+- [Members Data Feed](/pages/members-feed)
 - [Branding](/pages/branding)
 - [Storybook MCP](/pages/storybook-mcp)
 - [Questions](/pages/questions)
