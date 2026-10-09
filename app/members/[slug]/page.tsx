@@ -3,10 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import CountryFlags from "@/components/CountryFlags/CountryFlags";
+import JsonLd from "@/components/JsonLd/JsonLd";
 import MemberCard from "@/components/MemberCard/MemberCard";
 import SocialLinks from "@/components/SocialLinks/SocialLinks";
 
 import { getMemberBySlug, getMembers } from "@/lib/getMembers";
+import { breadcrumbJsonLd, personJsonLd } from "@/lib/jsonLd";
 import { getRelatedMembers } from "@/lib/relatedMembers";
 
 import type { Metadata } from "next";
@@ -35,60 +37,22 @@ export default async function Member({ params }: Props) {
 
   const relatedMembers = getRelatedMembers(member, members);
 
-  const {
-    name,
-    affiliation,
-    level,
-    bio,
-    countries,
-    linkedin,
-    github,
-    twitter,
-    website,
-    skills,
-    location,
-    openTo,
-  } = member;
-
-  const clean = (value?: string) => {
-    const v = value?.trim();
-    return v ? v : null;
-  };
-  const linkedinHandle = clean(linkedin);
-  const githubHandle = clean(github);
-  const twitterHandle = clean(twitter);
-  const websiteUrl = clean(website);
-
-  const sameAs = [
-    linkedinHandle ? `https://www.linkedin.com/in/${encodeURIComponent(linkedinHandle)}` : null,
-    githubHandle ? `https://github.com/${encodeURIComponent(githubHandle)}` : null,
-    twitterHandle ? `https://twitter.com/${encodeURIComponent(twitterHandle)}` : null,
-    websiteUrl,
-  ].filter((v): v is string => typeof v === "string");
-
-  const personJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name,
-    ...(affiliation ? { jobTitle: affiliation } : {}),
-    url: `https://latina.dev/members/${slug}`,
-    image: `https://latina.dev/img/members/${slug}.jpg`,
-    ...(sameAs.length > 0 ? { sameAs } : {}),
-    ...(skills ? { knowsAbout: skills } : {}),
-    ...(location ? { homeLocation: { "@type": "Place", name: location } } : {}),
-  };
+  const { name, affiliation, level, bio, countries, skills, location, openTo } = member;
 
   return (
     <div className="w-full pt-12">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(personJsonLd)
-            .replace(/</g, "\\u003c")
-            .replace(/>/g, "\\u003e")
-            .replace(/&/g, "\\u0026"),
-        }}
-      />
+      {!member.noindex && (
+        <JsonLd
+          data={[
+            personJsonLd(member),
+            breadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "Members", path: "/members" },
+              { name, path: member.path },
+            ]),
+          ]}
+        />
+      )}
       <div className={styles.topBar} />
       <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
         <ol>

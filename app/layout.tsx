@@ -40,28 +40,10 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: siteName,
-  url: siteUrl,
-  logo: `${siteUrl}/img/logos/logo.png`,
-  description: siteDescription,
-  sameAs: [
-    "https://github.com/Latina-Dev/latina-dev",
-    "https://www.linkedin.com/company/latina-dev/",
-    "https://latinadev.slack.com",
-  ],
-};
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
         <div className={styles.wrapper}>
           <GitHubCorner />
           <Navbar />
