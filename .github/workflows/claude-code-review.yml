@@ -1,5 +1,6 @@
 # Reviews pull requests with Claude, alongside CodeRabbit.
-# Needs an ANTHROPIC_API_KEY repository secret; until it's added, the review is skipped.
+# Uses a Claude subscription through a CLAUDE_CODE_OAUTH_TOKEN repository secret
+# (create one with `claude setup-token`). Until it's added, the review is skipped.
 name: Claude Code Review
 
 on:
@@ -17,24 +18,24 @@ jobs:
       issues: read
       id-token: write
     env:
-      HAS_ANTHROPIC_KEY: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+      HAS_CLAUDE_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
 
     steps:
-      - name: Skip when the API key secret is missing
-        if: env.HAS_ANTHROPIC_KEY != 'true'
-        run: echo "::notice::ANTHROPIC_API_KEY is not set, so Claude review was skipped."
+      - name: Skip when the token secret is missing
+        if: env.HAS_CLAUDE_TOKEN != 'true'
+        run: echo "::notice::CLAUDE_CODE_OAUTH_TOKEN is not set, so Claude review was skipped."
 
       - name: Checkout repository
-        if: env.HAS_ANTHROPIC_KEY == 'true'
+        if: env.HAS_CLAUDE_TOKEN == 'true'
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
       - name: Run Claude Code Review
-        if: env.HAS_ANTHROPIC_KEY == 'true'
+        if: env.HAS_CLAUDE_TOKEN == 'true'
         uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
