@@ -47,7 +47,6 @@ noindex: true
 ---
 ```
 
-
 ## Example
 
 ```sh
