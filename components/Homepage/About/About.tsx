@@ -14,24 +14,34 @@ export default function About() {
         </h2>
       </div>
       <div>
-        {/* TODO(Frances): add a linked source for these numbers, or reword them. They have no
-            citation yet, and AI search tools are less likely to repeat unsourced statistics. */}
         <p className={styles.description}>
-          Built to connect, elevate, and empower the next generation of tech leaders. Less than 15%
-          of engineers are women. Only 2% are Latina. We&apos;re changing that. Latina Dev is an
+          Built to connect, elevate, and empower the next generation of tech leaders. Only about 1
+          in 5 software developers in the US are women, and Black, Latina, and Native American women
+          together hold about 4% of tech jobs. We&apos;re changing that. Latina Dev is an
           open-source directory and community where Latina engineers at the student, IC, and
           leadership levels can find visibility, opportunity, and each other.
         </p>
         <dl className={styles.stats}>
           <div>
-            <dt>of engineers are women</dt>
-            <dd>15%</dd>
+            <dt>of US software developers are women</dt>
+            <dd>20%</dd>
           </div>
           <div>
-            <dt>of engineers are Latina</dt>
-            <dd>2%</dd>
+            <dt>of tech jobs are held by Black, Latina, and Native American women</dt>
+            <dd>4%</dd>
           </div>
         </dl>
+        <p className={styles.sources}>
+          Sources:{" "}
+          <a href="https://www.bls.gov/cps/cpsaat11.htm">
+            U.S. Bureau of Labor Statistics, Current Population Survey, 2025
+          </a>
+          ;{" "}
+          <a href="https://www.mckinsey.com/featured-insights/week-in-charts/a-dearth-of-blna-women-in-tech">
+            McKinsey &amp; LeanIn.Org, Women in the Workplace, 2022
+          </a>
+          .
+        </p>
         <div className={styles.actions}>
           <ButtonLink
             text="Request an invite to our Slack community"
