@@ -1,18 +1,31 @@
-## Overview
+<!-- Thanks for contributing to Latina Dev! 💛 Aim for a description a reviewer can read in under a minute. Delete any hint comments you don't need. -->
 
-Insert description of PR here
+## What changed
 
-## Relevant Issue
+<!-- Describe what a visitor or contributor will notice, in plain language. -->
 
-Link issue this PR is related to
+**Before:**
 
----
+**After:**
 
-<!-- Thank you for contributing to Latina Dev, it is much appreciated! 😊 -->
+## Why
 
-<!-- Before creating a PR, make sure to verify the following. -->
+<!-- Link the issue this closes (for example "Fixes #92"), or explain the reason in a sentence or two. -->
 
-> ✅️ By submitting this PR, I have verified the following
+## How to verify
 
-- [x] Reviewed the [contributing guidelines](https://github.com/Latina-Dev/latina-dev/blob/master/.github/CONTRIBUTING.md) 🔍️
-- [x] Added my name to the bottom of the list under the **Contributors** section in the [README.md](https://github.com/Latina-Dev/latina-dev/blob/master/README.md) with a link to my personal website or GitHub profile 👥️
+<!-- Steps a reviewer can follow to see the change working: pages to open, commands to run, what they should see. -->
+
+1.
+2.
+
+**Evidence:** <!-- Before and after screenshots for visual changes, command output for scripts, or a preview link. -->
+
+## Checklist
+
+<!-- Check each box only once it is true. -->
+
+- [ ] I read the [contributing guidelines](https://github.com/Latina-Dev/latina-dev/blob/main/.github/CONTRIBUTING.md)
+- [ ] `npm run lint` and `npm run build` pass locally
+- [ ] Visual changes include before and after screenshots
+- [ ] Adding a member? The Markdown file is in `data/members/` and the square photo (at least 250px) is in `public/img/members/` with the same name

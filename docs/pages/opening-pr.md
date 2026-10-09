@@ -2,36 +2,45 @@
 
 ## A Good PR
 
-Make sure to do the following when opening your pull request (or PR)
+Our [PR template](https://github.com/Latina-Dev/latina-dev/blob/main/.github/PULL_REQUEST_TEMPLATE.md) is filled in for you when you open a PR. A good PR description:
 
-- include a useful description of your PR after opening it
-- make sure all the checks have been filled out
-- reference any relevant issues or supporting documentation in your PR (for example, **"Fixes #37."**)
+- says what changed in plain language, with a **Before** and **After**
+- links the issue it closes (for example, **"Fixes #92"**)
+- gives a reviewer steps to verify the change, plus screenshots or output as evidence
+- only checks the boxes that are actually true
 
 > Below is an example of what the Markdown for a good PR looks like.
->
-> Notice it has a with a description with a reference to an existing issue. It also has all the checks filled in with an x.
 
 ```markdown
-Adds a contact form to the website
+## What changed
 
-- Fixes #92
+**Before:** There was no way to contact the Latina Dev team from the website.
 
----
+**After:** The homepage has a contact form that emails the team.
 
-<!-- Thank you for contributing to Latina Dev, it is much appreciated! 😊 -->
+## Why
 
-<!-- Before creating a PR, make sure to verify the following. -->
+Fixes #92
 
-> ✅️ By submitting this PR, I have verified the following
+## How to verify
 
-- [x] Reviewed the [contributing guidelines](https://github.com/Latina-Dev/latina-dev/blob/master/.github/CONTRIBUTING.md) 🔍️
-- [x] Added my name to the bottom of the list under the **Contributors** section in the [README.md](https://github.com/Latina-Dev/latina-dev/blob/master/README.md) with a link to my personal website or GitHub profile 👥️
+1. Run `npm run dev` and open http://localhost:3000
+2. Scroll to the contact form, fill it in and submit it
+3. You should see a "Thanks, we'll be in touch" message
+
+**Evidence:** screenshot of the form before and after submitting
+
+## Checklist
+
+- [x] I read the contributing guidelines
+- [x] `npm run lint` and `npm run build` pass locally
+- [x] Visual changes include before and after screenshots
+- [ ] Adding a member? The Markdown file is in `data/members/` and the square photo (at least 250px) is in `public/img/members/` with the same name
 ```
 
 ## Checks
 
-We use several GitHub integrations/bots to make it easy to catch errors for every new PR created.
+We use several GitHub integrations/bots to make it easy to catch errors for every new PR created. CodeRabbit and Claude both review each PR and leave comments, so read through them before asking for a human review.
 
 > Here's an example of how that would look like for a great PR.
 
