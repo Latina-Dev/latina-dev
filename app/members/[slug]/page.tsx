@@ -12,7 +12,8 @@ import MemberCard from "@/components/MemberCard/MemberCard";
 import PageHero from "@/components/PageHero/PageHero";
 
 import { getMemberBySlug, getMembers } from "@/lib/getMembers";
-import { breadcrumbJsonLd, personJsonLd } from "@/lib/jsonLd";
+import { breadcrumbJsonLd, profilePageJsonLd } from "@/lib/jsonLd";
+import { memberLastModified } from "@/lib/memberDates";
 import { pageMetadata } from "@/lib/pageMetadata";
 import { getRelatedMembers } from "@/lib/relatedMembers";
 
@@ -77,7 +78,7 @@ export default async function Member({ params }: Props) {
       {!member.noindex && (
         <JsonLd
           data={[
-            personJsonLd(member),
+            profilePageJsonLd(member, memberLastModified(member)),
             breadcrumbJsonLd([
               { name: "Home", path: "/" },
               { name: "Members", path: "/members" },

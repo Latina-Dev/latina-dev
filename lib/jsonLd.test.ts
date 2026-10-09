@@ -9,6 +9,7 @@ import {
   organizationId,
   organizationJsonLd,
   personJsonLd,
+  profilePageJsonLd,
   serializeJsonLd,
   websiteJsonLd,
 } from "@/lib/jsonLd";
@@ -23,6 +24,23 @@ const member = (overrides: Partial<MemberInterface> = {}): MemberInterface => ({
   slug: "ana-example",
   path: "/members/ana-example",
   ...overrides,
+});
+
+describe("profilePageJsonLd", () => {
+  it("wraps the Person as the main entity of a ProfilePage", () => {
+    const page = profilePageJsonLd(member(), new Date("2025-03-04T05:06:07Z"));
+
+    assert.equal(page["@type"], "ProfilePage");
+    assert.equal(page.url, "https://latina.dev/members/ana-example");
+    assert.equal(page.dateCreated, "2024-01-01");
+    assert.equal(page.dateModified, "2025-03-04T05:06:07.000Z");
+    const { "@context": _context, ...person } = personJsonLd(member());
+    assert.deepEqual(page.mainEntity, person);
+  });
+
+  it("leaves out dateModified when it is unknown", () => {
+    assert.equal(profilePageJsonLd(member()).dateModified, undefined);
+  });
 });
 
 describe("personJsonLd", () => {
