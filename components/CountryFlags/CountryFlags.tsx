@@ -1,31 +1,6 @@
-import { CountryOption } from "@/types/countries";
+import { countryOptions } from "@/types/countries";
 
 import styles from "./CountryFlags.module.css";
-
-const countryOptions: CountryOption[] = [
-  { country: "Ecuador", flag: "🇪🇨" },
-  { country: "Bolivia", flag: "🇧🇴" },
-  { country: "Paraguay", flag: "🇵🇾" },
-  { country: "Colombia", flag: "🇨🇴" },
-  { country: "Brazil", flag: "🇧🇷" },
-  { country: "Nicaragua", flag: "🇳🇮" },
-  { country: "Venezuela", flag: "🇻🇪" },
-  { country: "Peru", flag: "🇵🇪" },
-  { country: "Uruguay", flag: "🇺🇾" },
-  { country: "Guatemala", flag: "🇬🇹" },
-  { country: "Honduras", flag: "🇭🇳" },
-  { country: "El Salvador", flag: "🇸🇻" },
-  { country: "Costa Rica", flag: "🇨🇷" },
-  { country: "Argentina", flag: "🇦🇷" },
-  { country: "Panama", flag: "🇵🇦" },
-  { country: "Cuba", flag: "🇨🇺" },
-  { country: "Mexico", flag: "🇲🇽" },
-  { country: "Dominican Republic", flag: "🇩🇴" },
-  { country: "Chile", flag: "🇨🇱" },
-  { country: "Puerto Rico", flag: "🇵🇷" },
-  { country: "Belize", flag: "🇧🇿" },
-  { country: "Haiti", flag: "🇭🇹" },
-];
 
 interface Props {
   countries: string[];

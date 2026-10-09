@@ -1,6 +1,8 @@
 import { CountryName } from "@/types/countries";
 
-type MemberLevel = "Student" | "Individual Contributor" | "Leader";
+export const memberLevels = ["Student", "Individual Contributor", "Leader"] as const;
+
+export type MemberLevel = (typeof memberLevels)[number];
 
 export interface MemberInterface {
   name: string; // full name, e.g. Frances Coronel
