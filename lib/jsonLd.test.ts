@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 
 import {
   breadcrumbJsonLd,
+  faqJsonLd,
   memberSameAs,
   membersCollectionJsonLd,
   organizationId,
@@ -100,6 +101,36 @@ describe("membersCollectionJsonLd", () => {
         [2, "https://latina.dev/members/bea", "Bea"],
       ]
     );
+  });
+});
+
+describe("membersCollectionJsonLd with options", () => {
+  it("describes a filtered view at its own URL", () => {
+    const collection = membersCollectionJsonLd([member()], {
+      name: "Latina Engineering Leaders",
+      path: "/members/leaders",
+      description: "1 Latina engineering leader.",
+    });
+
+    assert.equal(collection.name, "Latina Engineering Leaders");
+    assert.equal(collection.url, "https://latina.dev/members/leaders");
+    assert.equal(collection.description, "1 Latina engineering leader.");
+  });
+});
+
+describe("faqJsonLd", () => {
+  it("turns questions and answers into an FAQPage", () => {
+    assert.deepEqual(faqJsonLd([{ question: "Who can join?", answer: "Latinas who code." }]), {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "Who can join?",
+          acceptedAnswer: { "@type": "Answer", text: "Latinas who code." },
+        },
+      ],
+    });
   });
 });
 

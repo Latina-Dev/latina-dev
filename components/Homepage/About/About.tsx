@@ -15,6 +15,8 @@ export default function About() {
         </strong>
       </div>
       <div className={styles.description}>
+        {/* TODO(Frances): add a linked source for these numbers, or reword them. They have no
+            citation yet, and AI search tools are less likely to repeat unsourced statistics. */}
         <p>
           Less than 15% of engineers are women. Only 2% are Latina. We&apos;re changing that. Latina
           Dev is an open-source directory and community where Latina engineers at the student, IC,

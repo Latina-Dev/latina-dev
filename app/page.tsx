@@ -1,4 +1,5 @@
 import About from "@/components/Homepage/About/About";
+import Faq from "@/components/Homepage/Faq/Faq";
 import Hero from "@/components/Homepage/Hero/Hero";
 import MemberPreview from "@/components/Homepage/MemberPreview/MemberPreview";
 import JsonLd from "@/components/JsonLd/JsonLd";
@@ -28,6 +29,7 @@ export default async function Home() {
       <hr className={styles.heroBorder} />
       <About />
       <MemberPreview members={members} />
+      <Faq />
       {/* Removing Maintainers for now since it feels a little redundant  but once we have more, it should be fine */}
       {/* <Maintainers /> */}
     </div>

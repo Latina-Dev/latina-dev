@@ -91,16 +91,33 @@ export const personJsonLd = (member: MemberInterface): JsonLd => ({
   ...personFields(member),
 });
 
-/** The members directory: a CollectionPage holding an ItemList of every indexable member */
-export const membersCollectionJsonLd = (members: MemberInterface[]): JsonLd => {
+interface CollectionOptions {
+  name: string;
+  path: string;
+  description: string;
+}
+
+/**
+ * A directory page: a CollectionPage holding an ItemList of every indexable member it shows.
+ * Defaults describe the full directory at /members.
+ */
+export const membersCollectionJsonLd = (
+  members: MemberInterface[],
+  options?: CollectionOptions
+): JsonLd => {
   const listed = members.filter((member) => !member.noindex);
+  const { name, path, description } = options ?? {
+    name: "Latina Dev members",
+    path: "/members",
+    description: `A directory of ${listed.length} Latina software engineers, from students to engineering leaders.`,
+  };
 
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Latina Dev members",
-    url: absolute("/members"),
-    description: `A directory of ${listed.length} Latina software engineers, from students to engineering leaders.`,
+    name,
+    url: absolute(path),
+    description,
     isPartOf: { "@id": websiteId },
     mainEntity: {
       "@type": "ItemList",
@@ -114,6 +131,17 @@ export const membersCollectionJsonLd = (members: MemberInterface[]): JsonLd => {
     },
   };
 };
+
+/** Questions and answers shown on the page, as plain text */
+export const faqJsonLd = (faqs: { question: string; answer: string }[]): JsonLd => ({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map(({ question, answer }) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: { "@type": "Answer", text: answer },
+  })),
+});
 
 /** A breadcrumb trail, e.g. Home › Members › Name. Paths are relative to the site root. */
 export const breadcrumbJsonLd = (items: { name: string; path: string }[]): JsonLd => ({
