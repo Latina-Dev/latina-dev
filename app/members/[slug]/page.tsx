@@ -6,6 +6,8 @@ import SocialLinks from "@/components/SocialLinks/SocialLinks";
 
 import { getMemberBySlug, getMembers } from "@/lib/getMembers";
 
+import type { Metadata } from "next";
+
 import styles from "./page.module.css";
 
 interface Props {
@@ -112,12 +114,15 @@ export async function generateStaticParams() {
   return members.map((member) => ({ slug: member.slug }));
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const member = await getMemberBySlug(slug);
   if (!member) return {};
   return {
-    title: `${member.name} | Members`,
+    title: member.name,
     description: `${member.name} is a Latina software engineer${member.affiliation ? ` — ${member.affiliation}` : ""}. Find her on Latina Dev.`,
+    alternates: { canonical: member.path },
+    // Members who opt out stay reachable from the directory but out of search results
+    ...(member.noindex ? { robots: { index: false } } : {}),
   };
 }

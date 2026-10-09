@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: "Conference",
   description:
     "Latina Dev is exploring the idea of a conference for Latina software engineers. Interested in volunteering? We'd love to hear from you.",
+  alternates: { canonical: "/conference" },
   openGraph: {
     title: "Conference | Latina Dev",
     description:
