@@ -31,9 +31,13 @@ affiliation: "Senior Software Engineer at XYZ" // your current title and org
 Brief bio about yourself. You can use Markdown here.
 ```
 
+### 3. Check your file
+
+Run `npm run validate:members`. It lists any problem in your file, such as a full LinkedIn URL instead of just the handle, a website missing `https://`, an unknown country or a misspelled field. CI runs the same check on every pull request.
+
 ## Image
 
-### 3. Add an image of yourself in the `public/img/members` folder
+### 4. Add an image of yourself in the `public/img/members` folder
 
 - the image must be at least 250px by 250px
 - the image must have the same width and height
