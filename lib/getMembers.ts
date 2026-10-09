@@ -30,6 +30,12 @@ export const readMemberFiles = () => {
       return;
     }
 
+    // These names are taken by directory views under /members
+    if (["students", "ic", "leaders", "country"].includes(filename.replace(".md", ""))) {
+      errors.push(`${memberPath}/${filename}\n✖ filename is reserved for a directory page`);
+      return;
+    }
+
     // Get raw markdown
     const markdownWithMetadata = fs.readFileSync(`${memberPath}/${filename}`).toString();
 
