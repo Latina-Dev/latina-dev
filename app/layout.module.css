@@ -11,6 +11,12 @@
   padding: 0;
 }
 
+/* Let page content shrink to the viewport instead of its widest line */
+.container > * {
+  width: 100%;
+  min-width: 0;
+}
+
 /* Mobile and Tablet */
 @media (max-width: 1023px) {
   .container::before {

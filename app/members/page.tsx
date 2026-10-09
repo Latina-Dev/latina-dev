@@ -26,7 +26,7 @@ export default async function MembersPage() {
       <div className={styles.heading}>
         <h1 className="text-5xl sm:text-6xl">Members ({memberCount})</h1>
       </div>
-      <div className="mt-20 grid grid-cols-1 gap-y-12 md:grid md:grid-cols-2 md-grid-rows md:gap-x-12 lg:grid lg:grid-cols-3 lg:grid-rows lg:gap-x-10">
+      <div className="mt-12 grid grid-cols-2 gap-x-4 gap-y-10 sm:mt-20 sm:gap-y-12 md:gap-x-12 lg:grid-cols-3 lg:gap-x-10">
         {members.map((member) => (
           <MemberCard key={member.slug} member={member} />
         ))}
