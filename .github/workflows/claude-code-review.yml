@@ -1,0 +1,47 @@
+# Reviews pull requests with Claude, alongside CodeRabbit.
+# Needs an ANTHROPIC_API_KEY repository secret.
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+
+jobs:
+  claude-review:
+    # Secrets aren't available to pull requests from forks, and drafts aren't ready for review
+    if: github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Review this pull request. Latina Dev is a Next.js member directory: members live as
+            Markdown files in data/members, photos in public/img/members, and shared components
+            in components/.
+
+            Focus on:
+            - Bugs and broken behavior, including member data that won't parse or render
+            - Accessibility and responsive layout for UI changes
+            - Security issues, such as unsafe HTML or exposed secrets
+            - Whether the PR description explains what changed and how to verify it
+
+            CodeRabbit also reviews this repo, so skip pure style nits and keep each comment short.
+            Use inline comments for specific lines, and one top-level PR comment for an overall summary.
+          claude_args: |
+            --allowed-tools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
