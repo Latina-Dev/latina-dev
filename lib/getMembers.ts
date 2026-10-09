@@ -4,7 +4,18 @@ import remarkHtml from "remark-html";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
 
-import { MemberInterface } from "@/types/members";
+import { MemberInterface, OpenToOption, openToOptions } from "@/types/members";
+
+/**
+ * Normalize an optional front matter list, dropping empty values
+ * @param value
+ * @returns trimmed strings, or undefined when nothing is left
+ */
+const toStringList = (value: unknown): string[] | undefined => {
+  if (!Array.isArray(value)) return undefined;
+  const list = value.map((item) => String(item).trim()).filter(Boolean);
+  return list.length ? list : undefined;
+};
 
 /**
  * Get all members from Markdown posts
@@ -29,6 +40,12 @@ export const getMembers = async (): Promise<MemberInterface[]> => {
 
     // Process custom fields
     const { name, linkedin, github, twitter, website, added, affiliation, level, countries } = data;
+    const skills = toStringList(data.skills);
+    const location =
+      typeof data.location === "string" && data.location.trim() ? data.location.trim() : undefined;
+    const openTo = toStringList(data.openTo)?.filter((option): option is OpenToOption =>
+      (openToOptions as readonly string[]).includes(option)
+    );
 
     // Parse Markdown
     const html = await unified().use(remarkParse).use(remarkHtml).process(content);
@@ -48,6 +65,9 @@ export const getMembers = async (): Promise<MemberInterface[]> => {
       path,
       bio,
       countries,
+      ...(skills ? { skills } : {}),
+      ...(location ? { location } : {}),
+      ...(openTo?.length ? { openTo } : {}),
     };
   });
 

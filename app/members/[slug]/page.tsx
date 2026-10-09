@@ -20,7 +20,20 @@ export default async function Member({ params }: Props) {
 
   if (!member) notFound();
 
-  const { name, affiliation, level, bio, countries, linkedin, github, twitter, website } = member;
+  const {
+    name,
+    affiliation,
+    level,
+    bio,
+    countries,
+    linkedin,
+    github,
+    twitter,
+    website,
+    skills,
+    location,
+    openTo,
+  } = member;
 
   const clean = (value?: string) => {
     const v = value?.trim();
@@ -46,6 +59,8 @@ export default async function Member({ params }: Props) {
     url: `https://latina.dev/members/${slug}`,
     image: `https://latina.dev/img/members/${slug}.jpg`,
     ...(sameAs.length > 0 ? { sameAs } : {}),
+    ...(skills ? { knowsAbout: skills } : {}),
+    ...(location ? { homeLocation: { "@type": "Place", name: location } } : {}),
   };
 
   return (
@@ -76,6 +91,15 @@ export default async function Member({ params }: Props) {
           <h3>{affiliation}</h3>
           <h3 className={styles.affiliation}>{level}</h3>
           {countries && <CountryFlags countries={countries} />}
+          {location && <p className="text-muted">{location}</p>}
+          {openTo && <p className={styles.openTo}>Open to: {openTo.join(", ")}</p>}
+          {skills && (
+            <ul className={styles.skills} aria-label="Skills">
+              {skills.map((skill) => (
+                <li key={skill}>{skill}</li>
+              ))}
+            </ul>
+          )}
           {bio && <div className={styles.bio} dangerouslySetInnerHTML={{ __html: bio }} />}
         </div>
       </article>

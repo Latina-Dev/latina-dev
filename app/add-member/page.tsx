@@ -8,12 +8,15 @@ import {
   faEnvelope,
   faFileLines,
   faGlobe,
+  faLocationDot,
+  faScrewdriverWrench,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { CountryName, CountryOption } from "@/types/countries";
+import { openToOptions } from "@/types/members";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xeevjdqa";
 
@@ -200,6 +203,27 @@ export default function AddMemberPage() {
             placeholder="A short bio about yourself…"
             icon={faFileLines}
           />
+
+          {/* Maps to MemberInterface.skills */}
+          <Field
+            label="Skills"
+            name="skills"
+            placeholder="React, TypeScript, Accessibility"
+            hint="Up to 10, separated by commas"
+            icon={faScrewdriverWrench}
+          />
+
+          {/* Maps to MemberInterface.location */}
+          <Field
+            label="Location"
+            name="location"
+            placeholder="San Francisco, CA"
+            hint="Where you are based now"
+            icon={faLocationDot}
+          />
+
+          {/* Maps to MemberInterface.openTo */}
+          <OpenToCheckboxes />
 
           {countryError && (
             <p style={{ color: "var(--error-color)", fontSize: "14px" }}>
@@ -390,5 +414,24 @@ function CountryMultiSelect({ selected, onToggle, error }: CountryMultiSelectPro
         <span style={{ fontSize: "13px", opacity: 0.6 }}>Selected: {selected.join(", ")}</span>
       )}
     </div>
+  );
+}
+
+function OpenToCheckboxes() {
+  return (
+    <fieldset style={{ display: "flex", flexDirection: "column", gap: "8px", border: "none" }}>
+      <legend style={{ fontFamily: "Latina Bold, sans-serif", fontSize: "14px" }}>Open to</legend>
+      <span style={{ fontSize: "13px", opacity: 0.55 }}>Optional, select any that apply</span>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 16px" }}>
+        {openToOptions.map((option) => (
+          <label
+            key={option}
+            style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px" }}>
+            <input type="checkbox" name="openTo" value={option} />
+            {option}
+          </label>
+        ))}
+      </div>
+    </fieldset>
   );
 }
