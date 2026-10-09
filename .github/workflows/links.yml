@@ -1,0 +1,39 @@
+name: Member links
+
+on:
+  schedule:
+    - cron: "0 14 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: List member links
+        run: npm run --silent links:list > member-links.txt
+      - name: Check links
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --max-retries 3 --accept 200..=299,403,429 member-links.txt README.md
+          fail: false
+      - name: Open an issue for broken links
+        if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: Broken member links
+          content-filepath: ./lychee/out.md
+          labels: links

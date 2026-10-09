@@ -10,7 +10,7 @@ Our goal is to increase visibility and access to valuable opportunities.
 
 [![Follow on GitHub](https://img.shields.io/github/followers/Latina-Dev?logo=github&style=for-the-badge&color=black)](https://github.com/Latina-Dev?tab=followers) [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0e76a8?style=for-the-badge&logo=Linkedin&logoColor=white)](https://linkedin.com/company/latina-dev)
 
-[![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=Latina-Dev&style=for-the-badge)](https://vercel.com/latina-dev/latina-dev) [![MIT License](https://img.shields.io/github/license/Latina-Dev/latina-dev.svg?style=for-the-badge)](http://badges.mit-license.org)
+[![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=Latina-Dev&style=for-the-badge)](https://vercel.com/latina-dev/latina-dev) [![MIT License](https://img.shields.io/github/license/Latina-Dev/latina-dev.svg?style=for-the-badge)](http://badges.mit-license.org) [![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/Latina-Dev/latina-dev?label=openssf%20scorecard&style=for-the-badge)](https://scorecard.dev/viewer/?uri=github.com/Latina-Dev/latina-dev)
 
 🌐 [Website](https://latina.dev)
 

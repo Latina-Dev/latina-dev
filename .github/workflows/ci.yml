@@ -35,3 +35,7 @@ jobs:
         run: npm run build
         env:
           NEXT_TELEMETRY_DISABLED: 1
+      # Reports unused files, exports and dependencies; not blocking until the existing findings are cleaned up
+      - name: Find unused code
+        run: npm run knip
+        continue-on-error: true

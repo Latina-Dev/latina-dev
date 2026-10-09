@@ -44,3 +44,8 @@ next-env.d.ts
 # Storybook
 *storybook.log
 /storybook-static
+
+# Playwright and Lighthouse CI
+/test-results
+/playwright-report
+/.lighthouseci
