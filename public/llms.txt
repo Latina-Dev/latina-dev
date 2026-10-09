@@ -1,0 +1,25 @@
+# Latina Dev
+
+> Latina Dev is an open-source directory and community of Latina software engineers at the student, individual contributor (IC), and leadership levels. It exists to increase the visibility of Latina engineers and their access to opportunities across the tech industry.
+
+Each member has a profile page at https://latina.dev/members/<slug> with their level, affiliation, countries of heritage, and links to LinkedIn, GitHub, X and their personal site. Members who opt out of indexing are left out of the feed and sitemap.
+
+## Directory
+
+- [Members](https://latina.dev/members): every member in the directory, with links to their profile pages
+- [Members data feed](https://latina.dev/members.json): the same directory as JSON, built from the site's data files
+- [About Latina Dev](https://latina.dev/#about): what the community is and who it is for
+- [Add your profile](https://latina.dev/add-member): how a Latina software engineer can join the directory
+
+## Docs
+
+- [Documentation](https://docs.latina.dev): how the project works and how to contribute
+- [Adding a member](https://docs.latina.dev/#/pages/adding-a-member): the member data format and how to add a profile
+- [Members data feed](https://docs.latina.dev/#/pages/members-feed): the format of /members.json
+- [Member levels](https://docs.latina.dev/#/pages/member-levels): what Student, Individual Contributor and Leader mean
+- [Contributing guide](https://github.com/Latina-Dev/latina-dev/blob/main/.github/CONTRIBUTING.md)
+
+## Optional
+
+- [Source code](https://github.com/Latina-Dev/latina-dev)
+- [Conference](https://latina.dev/conference): an idea in progress for a conference for Latina software engineers

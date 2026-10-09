@@ -1,6 +1,9 @@
-export const metadata = {
-  title: "Design System | Latina Dev",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Design System",
   description: "Design tokens, typography, colors, and spacing used across Latina Dev.",
+  alternates: { canonical: "/design-system" },
 };
 
 const colors = [
