@@ -4,17 +4,54 @@ import remarkHtml from "remark-html";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
 
-import { MemberInterface, OpenToOption, openToOptions } from "@/types/members";
+import { MemberFrontmatter, validateMemberFrontmatter } from "@/lib/memberSchema";
+
+import { MemberInterface } from "@/types/members";
+
+const memberPath = "data/members";
 
 /**
- * Normalize an optional front matter list, dropping empty values
- * @param value
- * @returns trimmed strings, or undefined when nothing is left
+ * Read and validate every member profile
+ * @returns validated frontmatter and Markdown body for each profile
+ * @throws if any profile is invalid, listing every problem across all files
  */
-const toStringList = (value: unknown): string[] | undefined => {
-  if (!Array.isArray(value)) return undefined;
-  const list = value.map((item) => String(item).trim()).filter(Boolean);
-  return list.length ? list : undefined;
+export const readMemberFiles = () => {
+  // Get files from members directory
+  const files = fs.readdirSync(memberPath);
+
+  const errors: string[] = [];
+  const memberFiles: { slug: string; data: MemberFrontmatter; content: string }[] = [];
+
+  files.forEach((filename) => {
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*\.md$/.test(filename)) {
+      errors.push(
+        `${memberPath}/${filename}\n✖ filename must be a lowercase slug ending in .md, e.g. frances-coronel.md`
+      );
+      return;
+    }
+
+    // Get raw markdown
+    const markdownWithMetadata = fs.readFileSync(`${memberPath}/${filename}`).toString();
+
+    // Parse markdown, grab front matter
+    const { data, content } = grayMatter(markdownWithMetadata);
+
+    const result = validateMemberFrontmatter(filename, data);
+    if (!result.success) {
+      errors.push(result.error);
+      return;
+    }
+
+    memberFiles.push({ slug: filename.replace(".md", ""), data: result.data, content });
+  });
+
+  if (errors.length > 0) {
+    throw new Error(
+      `${errors.length} invalid member profile(s) in ${memberPath}:\n\n${errors.join("\n\n")}`
+    );
+  }
+
+  return memberFiles;
 };
 
 /**
@@ -22,53 +59,16 @@ const toStringList = (value: unknown): string[] | undefined => {
  * @returns members
  */
 export const getMembers = async (): Promise<MemberInterface[]> => {
-  const memberPath = "data/members";
-  // Get files from members directory
-  const files = fs.readdirSync(memberPath);
-
   // Loop through files and create array of members
-  const members = files.map(async (filename) => {
-    // Get raw markdown
-    const markdownWithMetadata = fs.readFileSync(`${memberPath}/${filename}`).toString();
-
-    // Parse markdown, grab front matter
-    const { data, content } = grayMatter(markdownWithMetadata);
-
-    // Process front matter
-    const slug = filename.replace(".md", "");
+  const members = readMemberFiles().map(async ({ slug, data, content }) => {
     const path = `/members/${slug}`;
-
-    // Process custom fields
-    const { name, linkedin, github, twitter, website, added, affiliation, level, countries } = data;
-    const skills = toStringList(data.skills);
-    const location =
-      typeof data.location === "string" && data.location.trim() ? data.location.trim() : undefined;
-    const openTo = toStringList(data.openTo)?.filter((option): option is OpenToOption =>
-      (openToOptions as readonly string[]).includes(option)
-    );
 
     // Parse Markdown
     const html = await unified().use(remarkParse).use(remarkHtml).process(content);
     const bio = html.value.toString();
 
     // Return member data
-    return {
-      name,
-      linkedin,
-      github,
-      twitter,
-      website,
-      added,
-      affiliation,
-      level,
-      slug,
-      path,
-      bio,
-      countries,
-      ...(skills ? { skills } : {}),
-      ...(location ? { location } : {}),
-      ...(openTo?.length ? { openTo } : {}),
-    };
+    return { ...data, slug, path, bio };
   });
 
   // Return all members

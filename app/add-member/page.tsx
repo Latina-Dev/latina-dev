@@ -15,35 +15,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { CountryName, CountryOption } from "@/types/countries";
+import { CountryName, countryOptions } from "@/types/countries";
 import { openToOptions } from "@/types/members";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xeevjdqa";
-
-const countryOptions: CountryOption[] = [
-  { country: "Argentina", flag: "🇦🇷" },
-  { country: "Belize", flag: "🇧🇿" },
-  { country: "Bolivia", flag: "🇧🇴" },
-  { country: "Brazil", flag: "🇧🇷" },
-  { country: "Chile", flag: "🇨🇱" },
-  { country: "Colombia", flag: "🇨🇴" },
-  { country: "Costa Rica", flag: "🇨🇷" },
-  { country: "Cuba", flag: "🇨🇺" },
-  { country: "Dominican Republic", flag: "🇩🇴" },
-  { country: "Ecuador", flag: "🇪🇨" },
-  { country: "El Salvador", flag: "🇸🇻" },
-  { country: "Guatemala", flag: "🇬🇹" },
-  { country: "Haiti", flag: "🇭🇹" },
-  { country: "Honduras", flag: "🇭🇳" },
-  { country: "Mexico", flag: "🇲🇽" },
-  { country: "Nicaragua", flag: "🇳🇮" },
-  { country: "Panama", flag: "🇵🇦" },
-  { country: "Paraguay", flag: "🇵🇾" },
-  { country: "Peru", flag: "🇵🇪" },
-  { country: "Puerto Rico", flag: "🇵🇷" },
-  { country: "Uruguay", flag: "🇺🇾" },
-  { country: "Venezuela", flag: "🇻🇪" },
-];
 
 export default function AddMemberPage() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
