@@ -38,6 +38,7 @@ export const memberFrontmatterSchema = z.strictObject({
     .optional(),
   affiliation: text.optional(),
   countries: z.array(z.enum(countryNames)).min(1, "must list at least one country").optional(),
+  noindex: z.boolean({ message: "must be true or false" }).optional(),
 });
 
 export type MemberFrontmatter = z.infer<typeof memberFrontmatterSchema>;
