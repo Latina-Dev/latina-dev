@@ -20,7 +20,6 @@ export const countryOptions = [
   { country: "Honduras", flag: "🇭🇳" },
   { country: "Mexico", flag: "🇲🇽" },
   { country: "Nicaragua", flag: "🇳🇮" },
-  { country: "Palestine", flag: "🇵🇸" },
   { country: "Panama", flag: "🇵🇦" },
   { country: "Paraguay", flag: "🇵🇾" },
   { country: "Peru", flag: "🇵🇪" },
