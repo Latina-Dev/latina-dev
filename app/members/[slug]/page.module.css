@@ -15,3 +15,31 @@
   margin-top: 4em;
   font-size: large;
 }
+
+.openTo {
+  color: var(--primary-color);
+  font-family: "Latina Bold", sans-serif;
+  margin-top: 1em;
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  justify-content: center;
+  list-style: none;
+  margin-top: 1em;
+  padding: 0;
+}
+
+.skills li {
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  padding: 0.25em 0.75em;
+}
+
+@media (min-width: 1024px) {
+  .skills {
+    justify-content: flex-start;
+  }
+}

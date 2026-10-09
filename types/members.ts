@@ -4,6 +4,16 @@ export const memberLevels = ["Student", "Individual Contributor", "Leader"] as c
 
 export type MemberLevel = (typeof memberLevels)[number];
 
+export const openToOptions = [
+  "Mentoring",
+  "Being mentored",
+  "Job opportunities",
+  "Speaking",
+  "Hiring",
+] as const;
+
+export type OpenToOption = (typeof openToOptions)[number];
+
 export interface MemberInterface {
   name: string; // full name, e.g. Frances Coronel
   added: string; // when member was added, e.g. 2023-05-07
@@ -17,6 +27,9 @@ export interface MemberInterface {
   bio?: string; // optional: Markdown that forms bio, e.g. Frances Coronel is a senior software engineer...
   affiliation?: string; // optional: title and company or school, e.g. Senior Software Engineer at XYZ
   countries?: CountryName[]; // optional: Country or countries of origin, e.g. ['Peru']
+  skills?: string[]; // optional: up to 10 skills or technologies, e.g. ['React', 'TypeScript', 'Accessibility']
+  location?: string; // optional: where the member is based now, e.g. San Francisco, CA
+  openTo?: OpenToOption[]; // optional: what the member is open to, e.g. ['Mentoring', 'Speaking']
   noindex?: boolean; // optional: true leaves the member out of the /members.json feed
 }
 
@@ -31,4 +44,7 @@ export const exampleMember: MemberInterface = {
   slug: "frances-coronel",
   path: "/members/frances-coronel",
   countries: ["Peru"],
+  skills: ["React", "TypeScript", "Accessibility"],
+  location: "San Francisco, CA",
+  openTo: ["Mentoring", "Speaking"],
 };

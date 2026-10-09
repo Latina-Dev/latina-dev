@@ -21,6 +21,9 @@ The feed is generated at build time from the files in `data/members`, so it upda
       "level": "Individual Contributor",
       "affiliation": "Senior Software Engineer at XYZ",
       "countries": ["Peru"],
+      "skills": ["React", "TypeScript", "Accessibility"],
+      "location": "San Francisco, CA",
+      "openTo": ["Mentoring", "Speaking"],
       "slug": "frances-coronel",
       "path": "/members/frances-coronel",
       "url": "https://latina.dev/members/frances-coronel",
@@ -51,4 +54,10 @@ noindex: true
 
 ```sh
 curl -s https://latina.dev/members.json | jq '.members[] | select(.level == "Leader") | .name'
+```
+
+Find members who are open to mentoring:
+
+```sh
+curl -s https://latina.dev/members.json | jq '.members[] | select(.openTo // [] | index("Mentoring")) | .name'
 ```
