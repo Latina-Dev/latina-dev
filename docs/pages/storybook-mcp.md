@@ -22,10 +22,10 @@ Then open a new Claude Code session. It will automatically connect to the Storyb
 
 The following components currently have stories (check `components/**/*.stories.*` for the full up-to-date list):
 
-| Component | Story file |
-|-----------|-----------|
-| `ButtonLink` | `components/ButtonLink/ButtonLink.stories.tsx` |
-| `MemberCard` | `components/MemberCard/MemberCard.stories.tsx` |
+| Component      | Story file                                         |
+| -------------- | -------------------------------------------------- |
+| `ButtonLink`   | `components/ButtonLink/ButtonLink.stories.tsx`     |
+| `MemberCard`   | `components/MemberCard/MemberCard.stories.tsx`     |
 | `CountryFlags` | `components/CountryFlags/CountryFlags.stories.tsx` |
 
 ## MCP config

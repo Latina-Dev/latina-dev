@@ -29,7 +29,7 @@ jobs:
         # ⚠️ See your package manager's documentation for the correct command to install dependencies in a CI environment.
         run: npm ci
       - name: Publish to Chromatic
-        uses: chromaui/action@latest
+        uses: chromaui/action@v18.11.0
         # Chromatic GitHub Action options
         with:
           # 👇 Chromatic projectToken, refer to the manage page to obtain it.

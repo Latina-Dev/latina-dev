@@ -4,17 +4,14 @@ import type { RuleSetRule } from "webpack";
 const SWC_LOADER_PATTERNS = ["next-swc-loader", "swc-loader", "@swc/loader"];
 
 function isSwcLoader(loader: unknown): boolean {
-  return (
-    typeof loader === "string" && SWC_LOADER_PATTERNS.some((p) => loader.includes(p))
-  );
+  return typeof loader === "string" && SWC_LOADER_PATTERNS.some((p) => loader.includes(p));
 }
 
 function hasSwcLoader(use: unknown): boolean {
   if (typeof use === "string") return isSwcLoader(use);
   if (typeof use === "object" && use !== null && "loader" in use)
     return isSwcLoader((use as { loader: unknown }).loader);
-  if (Array.isArray(use))
-    return (use as unknown[]).some(hasSwcLoader);
+  if (Array.isArray(use)) return (use as unknown[]).some(hasSwcLoader);
   return false;
 }
 
@@ -38,7 +35,7 @@ function filterSwcFromRule(rule: RuleSetRule): RuleSetRule | null {
 
   // oneOf array
   if (Array.isArray((rule as { oneOf?: RuleSetRule[] }).oneOf)) {
-    const oneOf = ((rule as { oneOf: RuleSetRule[] }).oneOf)
+    const oneOf = (rule as { oneOf: RuleSetRule[] }).oneOf
       .map(filterSwcFromRule)
       .filter(Boolean) as RuleSetRule[];
     return { ...rule, oneOf };
@@ -66,7 +63,7 @@ const config: StorybookConfig = {
     "@storybook/addon-a11y",
     "@storybook/addon-docs",
     "@storybook/addon-links",
-    "@storybook/addon-mcp"
+    "@storybook/addon-mcp",
   ],
 
   framework: {
