@@ -1,0 +1,27 @@
+.faq {
+  margin: 0 auto;
+  max-width: 640px;
+  padding: 80px 0;
+  text-align: left;
+}
+
+.faq h2 {
+  text-align: center;
+}
+
+.item {
+  margin-top: 32px;
+}
+
+.item p {
+  margin-top: 8px;
+}
+
+.link {
+  margin-top: 8px;
+}
+
+.link a {
+  color: var(--primary-color);
+  text-decoration: underline;
+}

@@ -11,16 +11,11 @@ interface MemberProps {
 }
 
 const MemberCard = (props: MemberProps) => {
-  const { name, slug, level, countries, linkedin } = props.member;
+  const { name, slug, path, level, countries } = props.member;
 
   return (
     <div className="flex flex-col items-center text-center">
-      <Link
-        href={`https://linkedin.com/in/${linkedin}`}
-        aria-label={name}
-        className="flex flex-col items-center"
-        target="_blank"
-        rel="noopener noreferrer">
+      <Link href={path} aria-label={name} className="flex flex-col items-center">
         {/* Image */}
         <div className="relative w-[160px] h-[160px] sm:w-[200px] sm:h-[200px] md:w-[250px] md:h-[250px]">
           <Image

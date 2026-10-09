@@ -200,6 +200,9 @@ export default function AddMemberPage() {
           {/* Maps to MemberInterface.openTo */}
           <OpenToCheckboxes />
 
+          {/* Maps to MemberInterface.noindex */}
+          <NoindexCheckbox />
+
           {countryError && (
             <p style={{ color: "var(--error-color)", fontSize: "14px" }}>
               Please select at least one country of origin.
@@ -407,6 +410,23 @@ function OpenToCheckboxes() {
           </label>
         ))}
       </div>
+    </fieldset>
+  );
+}
+
+function NoindexCheckbox() {
+  return (
+    <fieldset style={{ display: "flex", flexDirection: "column", gap: "8px", border: "none" }}>
+      <legend style={{ fontFamily: "Latina Bold, sans-serif", fontSize: "14px" }}>
+        Search engines
+      </legend>
+      <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px" }}>
+        <input type="checkbox" name="noindex" value="true" />
+        Keep my profile page out of search engines and AI search
+      </label>
+      <span style={{ fontSize: "13px", opacity: 0.55 }}>
+        Your profile still appears in the directory on latina.dev.
+      </span>
     </fieldset>
   );
 }

@@ -5,6 +5,43 @@
   height: 13em;
 }
 
+/* The h1 keeps the size the name had as an h2 */
+.name {
+  font-size: clamp(1.75rem, 6vw, 2.5rem);
+}
+
+.breadcrumb {
+  position: relative;
+  padding: 1.5em 1em 0;
+  color: var(--white-color);
+  font-size: 0.9em;
+}
+
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb li + li::before {
+  content: "›";
+  margin-right: 0.5em;
+}
+
+.breadcrumb a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.related {
+  padding: 2em 1em 4em;
+  text-align: center;
+}
+
 .affiliation {
   color: var(--primary-color);
   font-family: "Latina Light", sans-serif;

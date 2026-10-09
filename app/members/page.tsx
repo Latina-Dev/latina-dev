@@ -1,36 +1,41 @@
-import MemberCard from "@/components/MemberCard/MemberCard";
+import MemberDirectory from "@/components/MemberDirectory/MemberDirectory";
 
 import { getMembers } from "@/lib/getMembers";
+import { directoryLastUpdated } from "@/lib/memberDates";
+import { getCountryViews, levelViews } from "@/lib/memberViews";
+import { pageMetadata } from "@/lib/pageMetadata";
 
 import type { Metadata } from "next";
-import { MemberInterface } from "@/types/members";
 
-import styles from "./page.module.css";
-
-export const metadata: Metadata = {
-  title: "Members",
+export const metadata: Metadata = pageMetadata({
+  title: "Members: Latina Software Engineers",
   description:
     "Browse our directory of Latina software engineers at the student, individual contributor, and leadership levels. Find and connect with Latina engineers across the industry.",
-  openGraph: {
-    title: "Members | Latina Dev",
-    description:
-      "Browse our directory of Latina software engineers at the student, IC, and leadership levels.",
-  },
-};
+  path: "/members",
+});
 
 export default async function MembersPage() {
-  const members: MemberInterface[] = await getMembers();
-  const memberCount = members.length;
+  const members = await getMembers();
+  const levelCounts = levelViews
+    .map((view) => {
+      const count = members.filter((member) => member.level === view.level).length;
+      return `${count} ${view.label.toLowerCase()}`;
+    })
+    .join(", ");
+
   return (
-    <div className={styles.center}>
-      <div className={styles.heading}>
-        <h1 className="text-5xl sm:text-6xl">Members ({memberCount})</h1>
-      </div>
-      <div className="mt-12 grid grid-cols-2 gap-x-4 gap-y-10 sm:mt-20 sm:gap-y-12 md:gap-x-12 lg:grid-cols-3 lg:gap-x-10">
-        {members.map((member) => (
-          <MemberCard key={member.slug} member={member} />
-        ))}
-      </div>
-    </div>
+    <MemberDirectory
+      heading="Members"
+      title="Latina Dev members"
+      intro={`Latina Dev is an open-source directory of ${members.length} Latina software engineers, from students to engineering leaders: ${levelCounts}.`}
+      path="/members"
+      members={members}
+      countryViews={getCountryViews(members)}
+      lastUpdated={directoryLastUpdated()}
+      breadcrumb={[
+        { name: "Home", path: "/" },
+        { name: "Members", path: "/members" },
+      ]}
+    />
   );
 }
