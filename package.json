@@ -35,7 +35,7 @@
     "@vercel/speed-insights": "^2.0.0",
     "eslint-config-next": "16.2.3",
     "gray-matter": "4.0.3",
-    "next": "^16.2.7",
+    "next": "^16.4.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "remark-html": "16.0.1",
