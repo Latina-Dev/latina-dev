@@ -30,6 +30,7 @@ export interface MemberInterface {
   skills?: string[]; // optional: up to 10 skills or technologies, e.g. ['React', 'TypeScript', 'Accessibility']
   location?: string; // optional: where the member is based now, e.g. San Francisco, CA
   openTo?: OpenToOption[]; // optional: what the member is open to, e.g. ['Mentoring', 'Speaking']
+  noindex?: boolean; // optional: true leaves the member out of the /members.json feed
 }
 
 export const exampleMember: MemberInterface = {

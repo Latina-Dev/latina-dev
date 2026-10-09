@@ -45,6 +45,7 @@ export const memberFrontmatterSchema = z.strictObject({
     .optional(),
   location: text.optional(),
   openTo: z.array(z.enum(openToOptions)).min(1, "must list at least one option").optional(),
+  noindex: z.boolean({ message: "must be true or false" }).optional(),
 });
 
 export type MemberFrontmatter = z.infer<typeof memberFrontmatterSchema>;
