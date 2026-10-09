@@ -7,7 +7,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "validate:members": "tsx scripts/validate-members.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "chromatic": "chromatic --exit-zero-on-changes --exit-once-uploaded"
@@ -33,7 +35,8 @@
     "remark-parse": "11.0.0",
     "swr": "^2.4.1",
     "typescript": "6.0.3",
-    "unified": "11.0.5"
+    "unified": "11.0.5",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
@@ -52,12 +55,13 @@
     "babel-loader": "^10.1.1",
     "chromatic": "17.3.0",
     "docsify-cli": "5.0.0-rc.4",
-    "eslint": "10.0.3",
+    "eslint": "^9.39.5",
     "eslint-plugin-storybook": "^10.3.5",
     "eslint-plugin-unused-imports": "4.4.1",
     "postcss": "^8.5.11",
     "prettier": "3.8.1",
     "storybook": "^10.3.5",
-    "tailwindcss": "^4.2.1"
+    "tailwindcss": "^4.2.1",
+    "tsx": "^4.23.15"
   }
 }
