@@ -36,6 +36,7 @@
     "eslint-config-next": "16.2.3",
     "gray-matter": "4.0.3",
     "next": "^16.2.7",
+    "next-auth": "5.0.0-beta.32",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "remark-html": "16.0.1",
