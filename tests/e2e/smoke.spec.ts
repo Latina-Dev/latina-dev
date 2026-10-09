@@ -11,7 +11,11 @@ for (const path of pages) {
 
     const { violations } = await new AxeBuilder({ page }).analyze();
     const serious = violations.filter((v) => v.impact === "serious" || v.impact === "critical");
-    expect(serious.map((v) => `${v.id}: ${v.help} (${v.nodes.length})`)).toEqual([]);
+    // List each failing element so CI logs show exactly what to fix
+    const problems = serious.flatMap((v) =>
+      v.nodes.map((node) => `${v.id}: ${node.target.join(" ")}\n${node.failureSummary}`)
+    );
+    expect(problems).toEqual([]);
   });
 }
 
