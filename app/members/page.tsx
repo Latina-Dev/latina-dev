@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Members",
   description:
     "Browse our directory of Latina software engineers at the student, individual contributor, and leadership levels. Find and connect with Latina engineers across the industry.",
+  alternates: { canonical: "/members" },
   openGraph: {
     title: "Members | Latina Dev",
     description:
