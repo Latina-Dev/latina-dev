@@ -3,7 +3,6 @@ on:
   schedule:
     - cron: "0 10 * * *" # every day @ 10 AM UTC
 
-
 permissions:
   contents: write
 

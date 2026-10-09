@@ -1,0 +1,3 @@
+# Member profiles are checked by validate:members instead, so first-time
+# contributors aren't blocked on formatting their own profile
+data/members

@@ -1,5 +1,15 @@
-repo: "*"
-app: app/**/*
-components: components/**/*
-public: public/**/*
-styles: styles/**/*
+repo:
+  - changed-files:
+      - any-glob-to-any-file: "*"
+app:
+  - changed-files:
+      - any-glob-to-any-file: app/**/*
+components:
+  - changed-files:
+      - any-glob-to-any-file: components/**/*
+public:
+  - changed-files:
+      - any-glob-to-any-file: public/**/*
+styles:
+  - changed-files:
+      - any-glob-to-any-file: styles/**/*
