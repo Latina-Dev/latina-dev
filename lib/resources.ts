@@ -370,6 +370,12 @@ export const resourceGroups: ResourceGroup[] = [
           "Weekly newsletter on developer fundamentals like git, CI and security hygiene by Andrea Griffiths, a Colombian-born, self-taught engineer and Senior Developer Advocate at GitHub.",
       },
       {
+        name: "/path2lead",
+        url: "https://path2lead.substack.com/",
+        description:
+          "Engineering leadership newsletter on promotions, first-time manager lessons, Staff+ expectations and AI adoption by Anyell Cano, a Staff Engineering Manager at GitHub.",
+      },
+      {
         name: "The State of Tech Diversity: The Latine Tech Ecosystem",
         url: "https://kaporfoundation.org/latine-tech-ecosystem/",
         description:
