@@ -41,21 +41,10 @@ export const resourceGroups: ResourceGroup[] = [
           "Nonprofit with chapters across the US that connects, supports and empowers Latina women working in tech.",
       },
       {
-        name: "Latinas in Computing",
-        url: "https://latinasincomputing.org/",
-        description: "Mentoring community for Latinas in computing.",
-      },
-      {
         name: "#LatinaGeeks",
         url: "https://latinageeks.com/",
         description:
           "Nonprofit running workshops, career resources and events for Latinas in tech and entrepreneurship.",
-      },
-      {
-        name: "Technolochicas",
-        url: "https://technolochicas.org/",
-        description:
-          "NCWIT and Televisa Foundation initiative that shares the stories of Latina technologists to encourage young Latinas and their families to explore tech careers.",
       },
       {
         name: "Latinas in Cyber",
@@ -102,26 +91,6 @@ export const resourceGroups: ResourceGroup[] = [
         url: "https://somoslatinxintech.com/",
         description: "Events, programs, mentorship and sponsorship for Latino tech professionals.",
       },
-      {
-        name: "Latinos in Tech",
-        url: "https://www.latinosin.tech/",
-        description: "Community events, resource sharing and professional development.",
-      },
-      {
-        name: "Brazilians in Tech",
-        url: "https://braziliansintech.com/",
-        description: "Community for Brazilians working in tech.",
-      },
-      {
-        name: "Silicon Slopes LatinX",
-        url: "http://latinxut.com/",
-        description: "Community for Latino tech professionals in Utah.",
-      },
-      {
-        name: "Queer Latinxs in Tech",
-        url: "https://www.eventbrite.com/o/luis-torres-34812180323",
-        description: "Events for queer Latinos working in tech, including Latina engineers.",
-      },
     ],
   },
   {
@@ -150,20 +119,14 @@ export const resourceGroups: ResourceGroup[] = [
           "Volunteer-run programs for K-12 students and parents, college students and professionals.",
       },
       {
-        name: "Code Nation",
-        url: "https://codenation.org/",
-        description:
-          "Coding courses and career connections for students in under-resourced high schools.",
-      },
-      {
         name: "Code2College",
         url: "https://code2college.org/",
         description:
           "Helps minority and low-income high school students enter and excel in STEM majors and careers.",
       },
       {
-        name: "Coded by Kids",
-        url: "https://codedbykids.com/",
+        name: "Coded By",
+        url: "https://www.codedby.org/",
         description:
           "Software development skills for young people aged 8 to 18 from underrepresented groups.",
       },
@@ -172,12 +135,6 @@ export const resourceGroups: ResourceGroup[] = [
         url: "https://www.hackthehood.org/",
         description:
           "Tech skill-building and career navigation for youth and communities of color.",
-      },
-      {
-        name: "Code as a Second Language",
-        url: "https://hispanicheritage.org/programs/education/loft-csl/",
-        description:
-          "Hispanic Heritage Foundation initiative introducing youth to programming and tech careers.",
       },
       {
         name: "Mission Bit",
@@ -196,14 +153,10 @@ export const resourceGroups: ResourceGroup[] = [
         description: "Technology access and training for communities of color in Silicon Valley.",
       },
       {
-        name: "MIT Office of Engineering Outreach Programs",
-        url: "https://oeop.mit.edu/",
-        description: "Science and engineering programs for middle and high school students.",
-      },
-      {
-        name: "Upperline Code",
-        url: "https://www.upperlinecode.com/",
-        description: "Computer science education for the next generation of tech leaders.",
+        name: "MITES at MIT",
+        url: "https://mites.mit.edu/",
+        description:
+          "MIT's science and engineering programs for middle and high school students, formerly the Office of Engineering Outreach Programs.",
       },
       {
         name: "dev/mission",
@@ -246,17 +199,6 @@ export const resourceGroups: ResourceGroup[] = [
         name: "SHPE",
         url: "https://shpe.org/",
         description: "The Society of Hispanic Professional Engineers.",
-      },
-      {
-        name: "Hispanics in Computing",
-        url: "https://hispanicsincomputing.org/",
-        description: "Community for Hispanic students and professionals in computing.",
-      },
-      {
-        name: "MLT Career Prep: Software Engineering",
-        url: "https://info.mlt.org/career-prep-software-engineering-swe",
-        description:
-          "Management Leadership for Tomorrow's software engineering career prep program.",
       },
       {
         name: "Latinos in Technology Scholarship",
@@ -326,11 +268,6 @@ export const resourceGroups: ResourceGroup[] = [
         description: "Community and job board for women in tech.",
       },
       {
-        name: "Elpha",
-        url: "https://elpha.com/",
-        description: "Professional network and job board for women in tech.",
-      },
-      {
         name: "WomenHack",
         url: "https://womenhack.com/",
         description: "Invite-only hiring events and job matching for women in tech.",
@@ -357,12 +294,6 @@ export const resourceGroups: ResourceGroup[] = [
     question: "How can Latina engineers grow into senior and leadership roles?",
     resources: [
       {
-        name: "#LatinaGeeks Latina Leaders in Tech",
-        url: "https://latinageeks.com/2026-latina-leaders-in-tech-essential-skills-cohort-program-2/",
-        description:
-          "Free seven-week virtual cohort on resumes, networking, interviewing and leadership for Latinas in tech.",
-      },
-      {
         name: "HACE",
         url: "https://www.haceonline.org/",
         description: "The Hispanic Alliance for Career Enhancement.",
@@ -377,11 +308,6 @@ export const resourceGroups: ResourceGroup[] = [
         name: "HITEC",
         url: "https://www.hitecglobal.org/",
         description: "The Hispanic Technology Executive Council.",
-      },
-      {
-        name: "NextGen Collective",
-        url: "https://hispanicexecutive.com/ngc/",
-        description: "Newsletter and job board for rising Latino leaders from Hispanic Executive.",
       },
       {
         name: "Latino Leadership Institute",
@@ -400,31 +326,9 @@ export const resourceGroups: ResourceGroup[] = [
     question: "What conferences are there for Latinas in tech?",
     resources: [
       {
-        name: "LTX Connect",
-        url: "https://ltxconnect.org/",
-        description: "Conference connecting Latino professionals in tech.",
-      },
-      {
         name: "Silicon Valley Latino Leadership Summit",
         url: "https://www.svlls.com/",
         description: "Summit on the changes future Latino generations need to succeed.",
-      },
-      {
-        name: "RaicesCon",
-        url: "https://www.raicescyber.org/",
-        description: "Conference for Latino cybersecurity professionals, held each October.",
-      },
-      {
-        name: "Techsuyo",
-        url: "https://www.techsuyo.org/",
-        description:
-          "Tech and innovation summit run by Peruvians in Silicon Valley (PeruSV) for Latino professionals in tech, most recently held in San Francisco in September 2024.",
-      },
-      {
-        name: "LOFT Coder Summit",
-        url: "https://loftcsl.org/programs/loft-coder-summit/",
-        description:
-          "Hispanic Heritage Foundation gathering of Latino software engineers who learn to teach coding to underserved students.",
       },
     ],
   },
@@ -438,14 +342,9 @@ export const resourceGroups: ResourceGroup[] = [
     resources: [
       {
         name: "Black and Brown Founders",
-        url: "https://blackandbrownfounders.com/",
+        url: "https://www.bbfounders.co/",
         description:
           "Community and education for Black and Latino founders building tech businesses.",
-      },
-      {
-        name: "Rutgers Black and Latino Tech Accelerator",
-        url: "https://blackandlatinotech.com/",
-        description: "Accelerator for Black and Latino tech founders.",
       },
       {
         name: "Latino Business Action Network",
@@ -470,22 +369,6 @@ export const resourceGroups: ResourceGroup[] = [
           "Weekly newsletter on developer fundamentals like git, CI and security hygiene by Andrea Griffiths, a Colombian-born, self-taught engineer and Senior Developer Advocate at GitHub.",
       },
       {
-        name: "Latinos Who Tech",
-        url: "https://latinoswhotech.com/",
-        description: "Podcast featuring Latinos working in tech.",
-        schemaType: "PodcastSeries",
-      },
-      {
-        name: "Latinx in Power",
-        url: "https://medium.com/latinxinpower",
-        description: "Podcast and blog on Latino professionals and leadership.",
-      },
-      {
-        name: "Women in Tech Chat",
-        url: "https://witchat.github.io/",
-        description: "Community and conversations for women in tech.",
-      },
-      {
         name: "The State of Tech Diversity: The Latine Tech Ecosystem",
         url: "https://kaporfoundation.org/latine-tech-ecosystem/",
         description:
@@ -496,12 +379,6 @@ export const resourceGroups: ResourceGroup[] = [
         name: "U.S. Latinos in Engineering and Tech Report",
         url: "https://shpe.org/wp-content/uploads/2025/02/2024-SHPE-LDC-U.S.-Latinos-in-Engineering-and-Tech-Report-Final.pdf",
         description: "SHPE's 2024 report on Latino representation in engineering and tech.",
-        schemaType: "Report",
-      },
-      {
-        name: "The Equation for Equality",
-        url: "https://www.npower.org/commandshift/research/",
-        description: "NPower research on women of color in tech.",
         schemaType: "Report",
       },
     ],

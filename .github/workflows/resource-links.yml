@@ -1,12 +1,16 @@
 name: Resource links
 
-# Monthly audit of the links on /resources: broken links, redirects to another domain, and parked or
-# spam pages. Keeps one open issue up to date with what needs review, and closes it once all clear.
+# Audits the links on /resources: broken links, redirects to another domain, and parked or spam
+# pages. Monthly, it keeps one open issue up to date with what needs review and closes it once all
+# clear. On pull requests that change the list, it fails so a dead site can't be added.
 
 on:
   schedule:
     - cron: "0 14 1 * *"
   workflow_dispatch:
+  pull_request:
+    paths:
+      - lib/resources.ts
 
 permissions:
   contents: read
@@ -28,7 +32,13 @@ jobs:
       - name: Audit resource links
         id: audit
         run: npm run --silent links:resources && echo "review=false" >> "$GITHUB_OUTPUT" || echo "review=true" >> "$GITHUB_OUTPUT"
+      - name: Fail the pull request if a link needs review
+        if: github.event_name == 'pull_request' && steps.audit.outputs.review == 'true'
+        run: |
+          cat resource-audit.md >> "$GITHUB_STEP_SUMMARY"
+          exit 1
       - name: Open, update or close the review issue
+        if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
           REVIEW: ${{ steps.audit.outputs.review }}
