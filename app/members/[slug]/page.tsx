@@ -43,7 +43,7 @@ export default async function Member({ params }: Props) {
 
   const relatedMembers = getRelatedMembers(member, members);
 
-  const { name, affiliation, level, bio, countries, skills, location, openTo } = member;
+  const { name, affiliation, level, bio, countries, location, openTo } = member;
 
   const links = [
     member.linkedin && {
@@ -155,16 +155,6 @@ export default async function Member({ params }: Props) {
                   <li key={option} className={styles.openTo}>
                     {option}
                   </li>
-                ))}
-              </ul>
-            </section>
-          )}
-          {skills && (
-            <section className={styles.section}>
-              <h2 className={styles.label}>Skills</h2>
-              <ul className={styles.tags} aria-label="Skills">
-                {skills.map((skill) => (
-                  <li key={skill}>{skill}</li>
                 ))}
               </ul>
             </section>

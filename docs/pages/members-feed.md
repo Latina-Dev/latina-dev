@@ -21,7 +21,6 @@ The feed is generated at build time from the files in `data/members`, so it upda
       "level": "Individual Contributor",
       "affiliation": "Senior Software Engineer at XYZ",
       "countries": ["Peru"],
-      "skills": ["React", "TypeScript", "Accessibility"],
       "location": "San Francisco, CA",
       "openTo": ["Mentoring", "Speaking"],
       "slug": "frances-coronel",

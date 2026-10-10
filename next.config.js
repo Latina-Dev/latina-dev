@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  // /profile reads member profiles and owner files at request time, so ship them with it
+  outputFileTracingIncludes: {
+    "/profile": ["./data/members/**", "./data/owners/**"],
+  },
+};
 
 const { withSentryConfig } = require("@sentry/nextjs");
 

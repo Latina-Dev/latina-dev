@@ -41,7 +41,6 @@ const searchText = (member: MemberInterface) =>
     levelTags[member.level],
     member.location,
     ...(member.countries ?? []),
-    ...(member.skills ?? []),
   ]
     .filter(Boolean)
     .join(" ")

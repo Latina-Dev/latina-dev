@@ -303,3 +303,60 @@
     width: 100%;
   }
 }
+
+/* Sign-in, claim and status panels on /add-member and /profile */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid var(--border-default);
+  padding: clamp(24px, 4vw, 36px);
+}
+
+.panel p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  min-width: 0;
+}
+
+.notice {
+  border-left: 4px solid var(--red-700);
+  padding: 14px 18px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.secondary {
+  align-self: flex-start;
+  background: transparent;
+  color: var(--text-default);
+  border: 1px solid var(--border-input);
+  font: inherit;
+  font-size: 15px;
+  font-weight: var(--weight-medium);
+  min-height: 44px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.secondary:hover {
+  border-color: var(--red-700);
+  color: var(--text-brand);
+}
+
+.signedIn {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  font-size: 15px;
+  color: var(--text-muted);
+}
