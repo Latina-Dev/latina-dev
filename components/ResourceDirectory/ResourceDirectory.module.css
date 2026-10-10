@@ -1,0 +1,177 @@
+.group {
+  scroll-margin-top: 96px;
+}
+
+.group[hidden] {
+  display: none;
+}
+
+.group + .group {
+  margin-top: 56px;
+}
+
+.groupHeader {
+  border-bottom: 1px solid var(--border-strong);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.groupHeader h2 {
+  font-size: clamp(1.625rem, 3vw, 2.125rem);
+  margin-bottom: 6px;
+}
+
+.groupHeader p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 16px;
+  align-items: start;
+  border: 1px solid var(--border-default);
+  padding: 22px;
+  scroll-margin-top: 96px;
+  transition: var(--transition);
+}
+
+.card[hidden] {
+  display: none;
+}
+
+.card:hover,
+.card:focus-within,
+.card:target {
+  border-color: var(--red-700);
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  background: var(--white);
+  border: 1px solid var(--border-default);
+  padding: 4px;
+}
+
+.monogram {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: var(--surface-card-tint);
+  border-color: var(--border-brand-tint);
+  color: var(--text-brand);
+  font-size: 15px;
+  font-weight: var(--weight-heavy);
+  letter-spacing: 0.02em;
+}
+
+.card h3 {
+  font-size: 19px;
+  margin-bottom: 6px;
+}
+
+.card h3 a {
+  color: var(--text-brand);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.card p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.extra {
+  margin-top: 72px;
+}
+
+.extra h2,
+.faq h2 {
+  font-size: clamp(1.625rem, 3vw, 2.125rem);
+  border-bottom: 1px solid var(--border-strong);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.guides {
+  list-style: none;
+  display: grid;
+  gap: 16px;
+}
+
+.guides a {
+  display: block;
+  border: 1px solid var(--border-default);
+  padding: 20px 22px;
+  transition: var(--transition);
+}
+
+.guides a:hover {
+  border-color: var(--red-700);
+}
+
+.guides strong {
+  display: block;
+  font-size: 19px;
+  color: var(--text-brand);
+  margin-bottom: 4px;
+}
+
+.guides span {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.faq {
+  margin-top: 72px;
+}
+
+.faq details {
+  border-bottom: 1px solid var(--border-default);
+  padding: 18px 0;
+}
+
+.faq summary {
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: var(--weight-bold);
+}
+
+.faq details p {
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.faq details a {
+  color: var(--text-brand);
+  text-decoration: underline;
+}
+
+@media (max-width: 1279px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 639px) {
+  .card {
+    padding: 18px;
+    gap: 14px;
+  }
+}

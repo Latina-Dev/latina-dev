@@ -1,7 +1,14 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 
-import { resourceCount, resourceGroups, resourcesJsonLd } from "@/lib/resources";
+import {
+  resourceCount,
+  resourceFaqs,
+  resourceGroups,
+  resourcesJsonLd,
+  resourceSlug,
+} from "@/lib/resources";
 
 const all = resourceGroups.flatMap((group) => group.resources);
 
@@ -18,11 +25,41 @@ describe("resourceGroups", () => {
       assert.ok(resource.description.trim().length > 0, resource.name);
     }
   });
+
+  it("gives each resource a unique slug, used for its anchor and logo file", () => {
+    const slugs = all.map(resourceSlug);
+    assert.equal(new Set(slugs).size, slugs.length);
+    for (const slug of slugs) assert.match(slug, /^[a-z0-9]+(-[a-z0-9]+)*$/);
+    assert.equal(resourceSlug({ name: "#LatinaGeeks", url: "", description: "" }), "latinageeks");
+  });
+
+  it("links every category page from llms.txt", () => {
+    const llms = readFileSync("public/llms.txt", "utf8");
+    for (const group of resourceGroups) {
+      assert.ok(llms.includes(`https://latina.dev/resources/${group.id})`), group.id);
+    }
+  });
+});
+
+describe("resourceFaqs", () => {
+  it("answers each category's question with its resources and page", () => {
+    const faqs = resourceFaqs();
+    assert.equal(faqs.length, resourceGroups.length);
+    resourceGroups.forEach((group, i) => {
+      assert.equal(faqs[i].question, group.question);
+      for (const resource of group.resources) assert.ok(faqs[i].answer.includes(resource.name));
+      assert.ok(faqs[i].answer.endsWith(`/resources/${group.id}`));
+    });
+  });
 });
 
 describe("resourcesJsonLd", () => {
   it("lists every resource in order in an ItemList", () => {
-    const data = resourcesJsonLd("desc") as {
+    const data = resourcesJsonLd({
+      name: "Resources",
+      path: "/resources",
+      description: "desc",
+    }) as {
       "@type": string;
       mainEntity: {
         numberOfItems: number;

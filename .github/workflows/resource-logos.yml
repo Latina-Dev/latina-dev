@@ -1,0 +1,43 @@
+name: Resource logos
+
+# Fetches logos for new entries on /resources and commits them to the branch. Runs when
+# lib/resources.ts changes on a pull request branch, or by hand.
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - lib/resources.ts
+      - scripts/fetch-resource-logos.ts
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  logos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Fetch missing logos
+        run: npm run --silent logos:resources
+      - name: Commit new logos
+        run: |
+          git add public/img/resources
+          if git diff --cached --quiet; then
+            echo "No new logos"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Add logos for resources"
+          git push

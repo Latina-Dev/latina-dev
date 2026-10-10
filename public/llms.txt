@@ -13,7 +13,18 @@ Each member has a profile page at https://latina.dev/members/<slug> with their l
 
 ## Resources
 
-- [Resources and communities](https://latina.dev/resources): communities, student programs, career and leadership groups, conferences, founder support, podcasts and reports for Latina software engineers, grouped by career stage
+- [Resources and communities](https://latina.dev/resources): communities, student programs, job boards, career and leadership groups, conferences, founder support, podcasts and reports for Latina software engineers, grouped by career stage
+- [Resources as Markdown](https://latina.dev/resources.md): every resource with its link and a one-line description, in one file
+- [Resources data feed](https://latina.dev/resources.json): the same list as JSON
+- [Communities for Latinas in tech](https://latina.dev/resources/latina-communities)
+- [Latinx in tech communities](https://latina.dev/resources/latinx-communities)
+- [Coding programs for K-12 students](https://latina.dev/resources/k-12)
+- [Programs and scholarships for college students](https://latina.dev/resources/college)
+- [Job boards](https://latina.dev/resources/jobs)
+- [Career growth and leadership](https://latina.dev/resources/career-growth)
+- [Conferences](https://latina.dev/resources/conferences)
+- [Support for founders](https://latina.dev/resources/founders)
+- [Podcasts and reports](https://latina.dev/resources/listen-and-read)
 - [Advice for Latina software engineers in the workplace](https://latina.dev/guides/workplace-advice): ask for what you want, write everything down, and weigh the cost of paying it forward
 - [Helping Latina K-12 students get into coding](https://latina.dev/guides/k-12-students): why it matters and advice for parents and allies
 - [Tips for recruiters hiring diverse software engineers](https://latina.dev/guides/hiring-diverse-engineers): how to reach and support Latina and other underrepresented engineers

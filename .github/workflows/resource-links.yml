@@ -1,0 +1,47 @@
+name: Resource links
+
+# Monthly audit of the links on /resources: broken links, redirects to another domain, and parked or
+# spam pages. Keeps one open issue up to date with what needs review, and closes it once all clear.
+
+on:
+  schedule:
+    - cron: "0 14 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Audit resource links
+        id: audit
+        run: npm run --silent links:resources && echo "review=false" >> "$GITHUB_OUTPUT" || echo "review=true" >> "$GITHUB_OUTPUT"
+      - name: Open, update or close the review issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVIEW: ${{ steps.audit.outputs.review }}
+        run: |
+          gh label create resource-links --color 9e0001 --description "Stale links on /resources" --force
+          issue=$(gh issue list --label resource-links --state open --json number --jq '.[0].number')
+          if [ "$REVIEW" = "true" ]; then
+            if [ -n "$issue" ]; then
+              gh issue edit "$issue" --body-file resource-audit.md
+              gh issue comment "$issue" --body "The $(date +'%B %Y') audit updated the list above."
+            else
+              gh issue create --title "Resource links to review" --label resource-links --assignee FrancesCoronel --body-file resource-audit.md
+            fi
+          elif [ -n "$issue" ]; then
+            gh issue close "$issue" --comment "The $(date +'%B %Y') audit found nothing to review."
+          fi

@@ -13,9 +13,14 @@ export interface Resource {
 }
 
 export interface ResourceGroup {
-  id: string; // anchor on /resources
+  id: string; // anchor on /resources and the slug of its own page, /resources/<id>
   title: string;
   intro: string;
+  // h1 and meta description of /resources/<id>, phrased the way people search
+  heading: string;
+  summary: string;
+  // The question this group answers, for the FAQ on /resources and its FAQPage JSON-LD
+  question: string;
   resources: Resource[];
 }
 
@@ -24,6 +29,10 @@ export const resourceGroups: ResourceGroup[] = [
     id: "latina-communities",
     title: "Communities for Latinas in tech",
     intro: "Groups built by and for Latinas and women of color working in tech.",
+    heading: "Communities for Latinas in tech",
+    summary:
+      "Communities and nonprofits that connect, mentor and support Latina women working in tech and software engineering.",
+    question: "What communities are there for Latina software engineers?",
     resources: [
       {
         name: "Latinas in Tech",
@@ -71,6 +80,10 @@ export const resourceGroups: ResourceGroup[] = [
     id: "latinx-communities",
     title: "Latinx in tech communities",
     intro: "Wider Latinx tech communities, open to engineers of every gender.",
+    heading: "Latinx in tech communities",
+    summary:
+      "Latinx and Latino tech communities, Slack groups and nonprofits open to software engineers of every gender.",
+    question: "What are the biggest Latinx in tech communities?",
     resources: [
       {
         name: "Techqueria",
@@ -114,11 +127,21 @@ export const resourceGroups: ResourceGroup[] = [
     id: "k-12",
     title: "Students: K-12",
     intro: "Programs that introduce Latina and Latinx kids and teens to coding.",
+    heading: "Coding programs for Latina and Latinx K-12 students",
+    summary:
+      "Free and low-cost coding and STEM programs for Latina girls and Latinx kids and teens in the US.",
+    question: "Where can Latina girls and Latinx kids learn to code?",
     resources: [
       {
         name: "Latinitas",
         url: "https://latinitasonline.org/",
         description: "Nonprofit empowering girls to innovate through media and technology.",
+      },
+      {
+        name: "Girls Who Code",
+        url: "https://girlswhocode.com/",
+        description:
+          "Free coding clubs for grades 3 to 12 and summer programs for high school students in AI, cybersecurity and other emerging tech.",
       },
       {
         name: "Latinas in STEM Foundation",
@@ -203,6 +226,10 @@ export const resourceGroups: ResourceGroup[] = [
     id: "college",
     title: "Students: college",
     intro: "Communities, scholarships and career prep for university students.",
+    heading: "Programs and scholarships for Latina computer science students",
+    summary:
+      "Communities, scholarships and career prep for Latina and Latinx college students studying computer science.",
+    question: "What programs help Latina computer science students in college?",
     resources: [
       {
         name: "ColorStack",
@@ -244,7 +271,23 @@ export const resourceGroups: ResourceGroup[] = [
     title: "Find a job",
     intro:
       "Job boards and hiring platforms focused on diversity in tech, including companies that skip whiteboard interviews.",
+    heading: "Job boards for Latina software engineers",
+    summary:
+      "Job boards and hiring platforms focused on diversity in tech, including companies that skip whiteboard interviews.",
+    question: "Where can Latina software engineers find jobs?",
     resources: [
+      {
+        name: "Hire-Me",
+        url: "https://github.com/FrancesCoronel/hire-me",
+        description:
+          "Open source job search guide by Latina Dev founder Frances Coronel, covering resumes, portfolios, interview prep and salary negotiation.",
+      },
+      {
+        name: "Apprenticeships.me",
+        url: "https://apprenticeships.me/",
+        description:
+          "Free directory of paid tech apprenticeships in software engineering, design and IT, for career changers and engineers without a CS degree. Maintained by Frances Coronel.",
+      },
       {
         name: "Techqueria Job Board",
         url: "https://techqueria.org/jobs/",
@@ -308,6 +351,10 @@ export const resourceGroups: ResourceGroup[] = [
     id: "career-growth",
     title: "Career growth and leadership",
     intro: "Professional associations and programs for engineers moving up.",
+    heading: "Career growth and leadership for Latina engineers",
+    summary:
+      "Professional associations, cohorts and leadership programs for Latina and Latino engineers moving into senior and executive roles.",
+    question: "How can Latina engineers grow into senior and leadership roles?",
     resources: [
       {
         name: "#LatinaGeeks Latina Leaders in Tech",
@@ -347,6 +394,10 @@ export const resourceGroups: ResourceGroup[] = [
     id: "conferences",
     title: "Conferences",
     intro: "Gatherings where Latinx technologists meet in person.",
+    heading: "Conferences for Latina and Latinx technologists",
+    summary:
+      "Conferences and summits where Latina and Latinx engineers, cybersecurity professionals and tech leaders meet.",
+    question: "What conferences are there for Latinx people in tech?",
     resources: [
       {
         name: "LTX Connect",
@@ -375,6 +426,9 @@ export const resourceGroups: ResourceGroup[] = [
     id: "founders",
     title: "Founders",
     intro: "Support for Latinas starting their own companies.",
+    heading: "Support for Latina and Latinx tech founders",
+    summary: "Accelerators and communities for Latina and Latinx founders building tech companies.",
+    question: "Where can Latina founders find support for a tech startup?",
     resources: [
       {
         name: "Black and Brown Founders",
@@ -398,6 +452,10 @@ export const resourceGroups: ResourceGroup[] = [
     id: "listen-and-read",
     title: "Listen and read",
     intro: "Podcasts, blogs and research on Latinas and Latinx people in tech.",
+    heading: "Podcasts and reports on Latinas in tech",
+    summary:
+      "Podcasts, blogs and research reports about Latinas and Latinx people in tech and engineering.",
+    question: "What podcasts and research cover Latinas in tech?",
     resources: [
       {
         name: "Latinos Who Tech",
@@ -438,24 +496,58 @@ export const resourceGroups: ResourceGroup[] = [
   },
 ];
 
+/** URL-safe slug for a resource, used for its logo file and its anchor */
+export const resourceSlug = (resource: Resource) =>
+  resource.name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+export const getResourceGroup = (id: string) => resourceGroups.find((group) => group.id === id);
+
+/** The question each group answers, with its resources named, for FAQPage JSON-LD */
+export const resourceFaqs = () =>
+  resourceGroups.map((group) => ({
+    question: group.question,
+    answer: `${group.summary} Latina Dev recommends ${group.resources
+      .map((r) => r.name)
+      .join(", ")}. See ${siteUrl}${resourcesPath}/${group.id}`,
+  }));
+
 export const resourceCount = resourceGroups.reduce((n, group) => n + group.resources.length, 0);
 
 export const resourcesPath = "/resources";
 
-/** The page as a CollectionPage holding an ItemList of every resource, each an Organization */
-export const resourcesJsonLd = (description: string) => {
+interface CollectionOptions {
+  name: string;
+  path: string;
+  description: string;
+  groups?: ResourceGroup[]; // defaults to every group
+}
+
+/** A resources page as a CollectionPage holding an ItemList of its resources */
+export const resourcesJsonLd = ({
+  name,
+  path,
+  description,
+  groups = resourceGroups,
+}: CollectionOptions) => {
   let position = 0;
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Resources and communities for Latina software engineers",
-    url: `${siteUrl}${resourcesPath}`,
+    name,
+    url: `${siteUrl}${path}`,
     description,
+    inLanguage: "en",
+    audience: { "@type": "Audience", audienceType: "Latina software engineers" },
     isPartOf: { "@id": `${siteUrl}/#website` },
     mainEntity: {
       "@type": "ItemList",
-      numberOfItems: resourceCount,
-      itemListElement: resourceGroups.flatMap((group) =>
+      numberOfItems: groups.reduce((n, group) => n + group.resources.length, 0),
+      itemListElement: groups.flatMap((group) =>
         group.resources.map((resource) => ({
           "@type": "ListItem",
           position: ++position,
