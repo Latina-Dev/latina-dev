@@ -174,12 +174,6 @@ export const resourceGroups: ResourceGroup[] = [
         description:
           "Tech career training, mentorship and paid work experience for first-generation young people on California's Central Coast and Central Valley.",
       },
-      {
-        name: "AI4ALL",
-        url: "https://ai-4-all.org/",
-        description:
-          "Free virtual AI accelerator with mentors and projects that helps college students from historically excluded groups land AI internships.",
-      },
     ],
   },
   {
@@ -191,6 +185,12 @@ export const resourceGroups: ResourceGroup[] = [
       "Communities, scholarships and career prep for Latina college students studying computer science.",
     question: "What programs help Latina computer science students in college?",
     resources: [
+      {
+        name: "AI4ALL",
+        url: "https://ai-4-all.org/",
+        description:
+          "Free virtual AI accelerator with mentors and projects that helps college students from historically excluded groups land AI internships.",
+      },
       {
         name: "ColorStack",
         url: "https://www.colorstack.org/",

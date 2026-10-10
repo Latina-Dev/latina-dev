@@ -24,13 +24,25 @@ const blockedStatuses = new Set([401, 403, 429, 503, 999]);
 const userAgent =
   "Mozilla/5.0 (compatible; LatinaDevLinkAudit/1.0; +https://github.com/Latina-Dev/latina-dev)";
 
+// Hosts where each subdomain belongs to a different owner, so a redirect between them is a move
+const sharedHosts = new Set([
+  "substack.com",
+  "beehiiv.com",
+  "github.io",
+  "medium.com",
+  "vercel.app",
+]);
+
 // Registrable part of the hostname, so moving between subdomains (www, jobs, info) isn't flagged.
-// Keeps three labels under two-part country suffixes like .co.uk or .org.mx
+// Keeps three labels under two-part country suffixes like .co.uk or .org.mx, and the whole
+// publication name on shared hosts like Substack
 const baseDomain = (url: string) => {
-  const labels = new URL(url).hostname.split(".");
+  const hostname = new URL(url).hostname.replace(/^www\./, "");
+  const labels = hostname.split(".");
   const twoPart =
     /^(co|com|org|net|edu|gob|gov|ac)$/.test(labels.at(-2) ?? "") && labels.at(-1)?.length === 2;
-  return labels.slice(twoPart ? -3 : -2).join(".");
+  const base = labels.slice(twoPart ? -3 : -2).join(".");
+  return sharedHosts.has(base) ? hostname : base;
 };
 
 // Text a visitor would see, so URLs and words inside scripts, styles or comments don't match
