@@ -451,11 +451,18 @@ export const resourceGroups: ResourceGroup[] = [
   {
     id: "listen-and-read",
     title: "Listen and read",
-    intro: "Podcasts, blogs and research on Latinas in tech.",
-    heading: "Podcasts and reports on Latinas in tech",
-    summary: "Podcasts, blogs and research reports about Latinas in tech and engineering.",
-    question: "What podcasts and research cover Latinas in tech?",
+    intro: "Podcasts, newsletters, blogs and research on Latinas in tech.",
+    heading: "Podcasts, newsletters and reports on Latinas in tech",
+    summary:
+      "Podcasts, newsletters, blogs and research reports about Latinas in tech and engineering.",
+    question: "What podcasts, newsletters and research cover Latinas in tech?",
     resources: [
+      {
+        name: "Main Branch",
+        url: "https://mainbranch.beehiiv.com/",
+        description:
+          "Weekly newsletter on developer fundamentals like git, CI and security hygiene by Andrea Griffiths, a Colombian-born, self-taught engineer and Senior Developer Advocate at GitHub.",
+      },
       {
         name: "Latinos Who Tech",
         url: "https://latinoswhotech.com/",
