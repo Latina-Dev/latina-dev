@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { getGuides, guideJsonLd, renderGuide } from "@/lib/guides";
+import { formatGuideDate, getGuides, guideJsonLd, renderGuide } from "@/lib/guides";
 
 describe("getGuides", () => {
   it("reads every guide with a title, description and publish date", () => {
@@ -16,6 +16,13 @@ describe("getGuides", () => {
   it("renders Markdown to HTML", async () => {
     const html = await renderGuide(getGuides()[0]);
     assert.match(html, /<h2>/);
+  });
+});
+
+describe("formatGuideDate", () => {
+  it("shows the date readers see, without shifting it by time zone", () => {
+    assert.equal(formatGuideDate("2026-10-10"), "October 10, 2026");
+    assert.equal(formatGuideDate("2022-01-01"), "January 1, 2022");
   });
 });
 

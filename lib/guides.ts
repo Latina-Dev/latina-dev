@@ -18,6 +18,7 @@ export interface Guide {
   title: string;
   description: string;
   published: string; // YYYY-MM-DD
+  updated?: string; // YYYY-MM-DD, when the guide was last revised
   content: string; // Markdown body
 }
 
@@ -43,8 +44,11 @@ export const getGuides = (): Guide[] =>
         );
       }
       const published = readString(data, "published", file);
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(published)) {
-        throw new Error(`${guidesPath}/${file}: "published" must be YYYY-MM-DD`);
+      const updated = typeof data.updated === "string" ? data.updated.trim() : undefined;
+      for (const [key, date] of Object.entries({ published, updated })) {
+        if (date !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+          throw new Error(`${guidesPath}/${file}: "${key}" must be YYYY-MM-DD`);
+        }
       }
       return {
         slug,
@@ -52,10 +56,20 @@ export const getGuides = (): Guide[] =>
         title: readString(data, "title", file),
         description: readString(data, "description", file),
         published,
+        updated,
         content,
       };
     })
     .sort((a, b) => a.title.localeCompare(b.title));
+
+/** A guide date for readers, e.g. "October 10, 2026" */
+export const formatGuideDate = (date: string) =>
+  new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  });
 
 export const getGuide = (slug: string) => getGuides().find((guide) => guide.slug === slug);
 
@@ -72,6 +86,7 @@ export const guideJsonLd = (guide: Guide) => ({
   headline: guide.title,
   description: guide.description,
   datePublished: guide.published,
+  dateModified: guide.updated ?? guide.published,
   inLanguage: "en",
   author: {
     "@type": "Person",

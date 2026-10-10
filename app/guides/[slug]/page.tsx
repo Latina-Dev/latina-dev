@@ -4,7 +4,14 @@ import { notFound } from "next/navigation";
 import JsonLd from "@/components/JsonLd/JsonLd";
 import PageHero from "@/components/PageHero/PageHero";
 
-import { getGuide, getGuides, guideAuthor, guideJsonLd, renderGuide } from "@/lib/guides";
+import {
+  formatGuideDate,
+  getGuide,
+  getGuides,
+  guideAuthor,
+  guideJsonLd,
+  renderGuide,
+} from "@/lib/guides";
 import { breadcrumbJsonLd } from "@/lib/jsonLd";
 import { pageMetadata } from "@/lib/pageMetadata";
 
@@ -51,6 +58,14 @@ export default async function GuidePage({ params }: Props) {
         lede={
           <p>
             By <Link href={guideAuthor.path}>{guideAuthor.name}</Link>, founder of Latina Dev
+            <br />
+            Published <time dateTime={guide.published}>{formatGuideDate(guide.published)}</time>
+            {guide.updated && (
+              <>
+                {" "}
+                · Updated <time dateTime={guide.updated}>{formatGuideDate(guide.updated)}</time>
+              </>
+            )}
           </p>
         }
       />

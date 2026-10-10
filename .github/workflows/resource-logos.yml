@@ -1,15 +1,11 @@
 name: Resource logos
 
-# Fetches logos for new entries on /resources and commits them to the branch. Runs when
-# lib/resources.ts changes on a pull request branch, or by hand.
+# Fetches logos for entries on /resources that don't have one yet and commits them to the chosen
+# branch. Run it by hand from the Actions tab after adding resources. It doesn't run on every push
+# because commits made by this workflow don't trigger the pull request checks; push again after it
+# runs so CI checks the new logos. Until then, cards show the resource's initials.
 
 on:
-  push:
-    branches-ignore:
-      - main
-    paths:
-      - lib/resources.ts
-      - scripts/fetch-resource-logos.ts
   workflow_dispatch:
 
 permissions:

@@ -1,3 +1,4 @@
+import { createHash } from "crypto";
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from "fs";
 import path from "path";
 
@@ -10,6 +11,16 @@ import { resourceGroups, resourceSlug } from "@/lib/resources";
 // resource's initials instead.
 
 const outDir = "public/img/resources";
+
+// Sites hosted on these platforms would get the platform's logo, so they keep their initials
+const platformHosts = ["github.com", "medium.com", "eventbrite.com"];
+
+// Default icons from site builders (Wix) and blank icons, by SHA-256
+const genericIcons = new Set([
+  "295a1f6f927fd11a3842a4c9f508b4152eca150cb4c54d6cfb64736fad659b80",
+  "1bedd6a1948971f07970414717012503805309f25af0b2c542dbc3524b5880e9",
+  "6bc926da9f6e049435d4133e1733cad86a97d9ac37119a520531ba9a9812d578",
+]);
 const maxBytes = 200_000;
 const userAgent =
   "Mozilla/5.0 (compatible; LatinaDevLogoFetch/1.0; +https://github.com/Latina-Dev/latina-dev)";
@@ -57,6 +68,10 @@ async function iconCandidates(siteUrl: string): Promise<string[]> {
 }
 
 async function fetchLogo(siteUrl: string): Promise<{ bytes: Uint8Array; ext: string } | null> {
+  const host = new URL(siteUrl).hostname.replace(/^www\./, "");
+  if (platformHosts.some((platform) => host === platform || host.endsWith(`.${platform}`))) {
+    return null;
+  }
   for (const candidate of await iconCandidates(siteUrl)) {
     try {
       const response = await get(candidate);
@@ -64,7 +79,10 @@ async function fetchLogo(siteUrl: string): Promise<{ bytes: Uint8Array; ext: str
       const bytes = new Uint8Array(await response.arrayBuffer());
       const ext = sniff(bytes);
       // Tiny files are usually blank placeholders
-      if (ext && bytes.length > 200 && bytes.length <= maxBytes) return { bytes, ext };
+      const hash = createHash("sha256").update(bytes).digest("hex");
+      if (ext && bytes.length > 200 && bytes.length <= maxBytes && !genericIcons.has(hash)) {
+        return { bytes, ext };
+      }
     } catch {
       // Try the next candidate
     }

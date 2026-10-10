@@ -3,7 +3,7 @@ import Link from "next/link";
 import ResourceDirectory from "@/components/ResourceDirectory/ResourceDirectory";
 import styles from "@/components/ResourceDirectory/ResourceDirectory.module.css";
 
-import { getGuides } from "@/lib/guides";
+import { formatGuideDate, getGuides } from "@/lib/guides";
 import { faqJsonLd } from "@/lib/jsonLd";
 import { pageMetadata } from "@/lib/pageMetadata";
 import { resourceCount, resourceFaqs, resourceGroups, resourcesPath } from "@/lib/resources";
@@ -41,6 +41,10 @@ export default function ResourcesPage() {
                   <Link href={guide.path}>
                     <strong>{guide.title}</strong>
                     <span>{guide.description}</span>
+                    <time dateTime={guide.updated ?? guide.published}>
+                      {guide.updated ? "Updated" : "Published"}{" "}
+                      {formatGuideDate(guide.updated ?? guide.published)}
+                    </time>
                   </Link>
                 </li>
               ))}

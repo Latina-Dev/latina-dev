@@ -6,7 +6,7 @@ published: "2026-10-10"
 
 I've been learning how to code since 2013, started earning money from coding in 2015, and started working full-time in 2017. These are some key pieces of advice from what I've learned that I want to share.
 
-Some of these are pretty generic and can apply to anyone in my field. It's really important to me to increase the representation of Latinx software engineers in the workplace, so other pieces of advice are more personal in that sense.
+Some of these are pretty generic and can apply to anyone in my field. It's really important to me to increase the representation of Latina software engineers in the workplace, so other pieces of advice are more personal in that sense.
 
 ## Damn it, just ask
 
@@ -32,7 +32,7 @@ Some examples of when it's useful to jot things down:
 
 ## Understand the cost of paying it forward
 
-This might be a spicy take 🌶 but I truly am not interested in having Latinx folks be the diversity poster child for their tech company.
+This might be a spicy take 🌶 but I truly am not interested in having Latina engineers be the diversity poster child for their tech company.
 
 If you are just starting your software engineering career, you must focus on developing your technical skill set and avoid putting yourself in a situation where you're putting a lot of extra time and effort into things outside your main scope of work.
 

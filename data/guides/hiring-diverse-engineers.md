@@ -22,7 +22,7 @@ These takeaways come from conversations I've had with recruiters and startup tea
 ## Further resources
 
 - [Recruiting Strategies for Hiring Diverse Engineers at Early-Stage Startups](https://www.linkedin.com/pulse/recruiting-strategies-hiring-diverse-engineers-startups-coronel/), my article on LinkedIn
-- [Communities for Latina and Latinx engineers](/resources), where you can show up and provide value
+- [Communities for Latina engineers](/resources), where you can show up and provide value
 - [Job boards focused on diversity in tech](/resources#jobs)
 - [The Latina Dev directory](/members) of Latina software engineers
 - People leaders worth following: [Melonie Parker](https://www.linkedin.com/in/melonieparker/) and [Melanie Naranjo](https://www.linkedin.com/in/melanie-naranjo/)

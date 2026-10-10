@@ -136,6 +136,13 @@
   color: var(--text-muted);
 }
 
+.guides time {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
 .faq {
   margin-top: 72px;
 }
