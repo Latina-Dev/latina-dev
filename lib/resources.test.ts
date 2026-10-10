@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 
 import {
@@ -38,6 +38,18 @@ describe("resourceGroups", () => {
     for (const group of resourceGroups) {
       assert.ok(llms.includes(`https://latina.dev/resources/${group.id})`), group.id);
     }
+  });
+});
+
+describe("resource logos", () => {
+  it("has a logo for every resource", () => {
+    const logos = new Set(
+      readdirSync("public/img/resources").map((file) => file.replace(/\.\w+$/, ""))
+    );
+    const missing = resourceGroups
+      .flatMap((group) => group.resources.map(resourceSlug))
+      .filter((slug) => !logos.has(slug));
+    assert.deepEqual(missing, []);
   });
 });
 
