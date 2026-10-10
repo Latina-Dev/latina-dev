@@ -37,13 +37,18 @@ export const getGuides = (): Guide[] =>
     .map((file) => {
       const { data, content } = grayMatter(fs.readFileSync(`${guidesPath}/${file}`, "utf8"));
       const slug = file.replace(/\.md$/, "");
+      if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) {
+        throw new Error(
+          `${guidesPath}/${file}: file names must be lowercase words joined by dashes`
+        );
+      }
       const published = readString(data, "published", file);
       if (!/^\d{4}-\d{2}-\d{2}$/.test(published)) {
         throw new Error(`${guidesPath}/${file}: "published" must be YYYY-MM-DD`);
       }
       return {
         slug,
-        path: `/guides/${slug}`,
+        path: `/guides/${encodeURIComponent(slug)}`,
         title: readString(data, "title", file),
         description: readString(data, "description", file),
         published,
