@@ -38,7 +38,7 @@ export const resourceGroups: ResourceGroup[] = [
         name: "Latinas in Tech",
         url: "https://latinasintech.org/",
         description:
-          "Nonprofit with chapters across the US that connects, supports and empowers Latina women working in tech.",
+          "Nonprofit with local chapters that connects and supports Latina women working in tech.",
       },
       {
         name: "#LatinaGeeks",
@@ -55,13 +55,13 @@ export const resourceGroups: ResourceGroup[] = [
         name: "Baddies in Tech",
         url: "https://www.baddiesintech.com/",
         description:
-          "Career community for Black and brown women in tech, with a Discord server, newsletter and events.",
+          "Global career community for Black and brown women in tech, with a Discord server, events, job board and mentorship.",
       },
       {
         name: "Leopard.FYI",
         url: "https://leopard.fyi/",
         description:
-          "Curated Slack community and hiring marketplace for women and genderqueer software engineers.",
+          "Slack community for senior women, genderqueer engineers and allies, with interview prep and introductions to hiring startups.",
       },
     ],
   },
@@ -79,12 +79,13 @@ export const resourceGroups: ResourceGroup[] = [
         name: "Techqueria",
         url: "https://techqueria.org/",
         description:
-          "The largest US nonprofit for Latinos in tech, with a Slack community, job board and an annual Latiné Heritage Month Summit. Latina Dev founder Frances Coronel previously served as its executive director, a board member and a board advisor.",
+          "Nonprofit and the largest global community of Latino tech professionals, with a Slack group, job board and an annual summit. Latina Dev founder Frances Coronel previously served as its executive director, a board member and a board advisor.",
       },
       {
         name: "Latinx in AI",
         url: "https://www.latinxinai.org/",
-        description: "Nonprofit for Latino researchers and engineers in artificial intelligence.",
+        description:
+          "Global community for Latino AI researchers, engineers and students, with conference workshops, mentorship and travel grants.",
       },
       {
         name: "Somos Latinx in Tech",
@@ -104,74 +105,80 @@ export const resourceGroups: ResourceGroup[] = [
       {
         name: "Latinitas",
         url: "https://latinitasonline.org/",
-        description: "Nonprofit empowering girls to innovate through media and technology.",
+        description:
+          "Nonprofit offering culturally relevant STEAM and media programs, camps and clubs for young Latinas, plus adult workforce training.",
       },
       {
         name: "Girls Who Code",
         url: "https://girlswhocode.com/",
         description:
-          "Free coding clubs for grades 3 to 12 and summer programs for high school students in AI, cybersecurity and other emerging tech.",
+          "Free coding clubs for grades 3 to 12 and Pathways programs for high schoolers in AI, cybersecurity and other emerging tech.",
       },
       {
         name: "Latinas in STEM Foundation",
         url: "https://www.latinasinstem.com/",
         description:
-          "Volunteer-run programs for K-12 students and parents, college students and professionals.",
+          "Volunteer-run nonprofit with STEM programs for Latina K-12 students and their parents, college students and professionals.",
       },
       {
         name: "Code2College",
         url: "https://code2college.org/",
         description:
-          "Helps minority and low-income high school students enter and excel in STEM majors and careers.",
+          "Helps historically underestimated high school students enter and succeed in STEM college majors and careers.",
       },
       {
         name: "Coded By",
         url: "https://www.codedby.org/",
         description:
-          "Software development skills for young people aged 8 to 18 from underrepresented groups.",
+          "Free coding, design and career programs for underrepresented Philadelphia youth, mainly grades 6 to 12.",
       },
       {
         name: "Hack the Hood",
         url: "https://www.hackthehood.org/",
         description:
-          "Tech skill-building and career navigation for youth and communities of color.",
+          "Free tech skill-building and career navigation for underestimated youth and young adults in Oakland and the Bay Area.",
       },
       {
         name: "Mission Bit",
         url: "https://www.missionbit.org/",
         description:
-          "Free project-based computer science courses for Bay Area high school students.",
+          "Free semester-long computer science classes for Bay Area high school students.",
       },
       {
-        name: "SMASH Academy",
+        name: "SMASH",
         url: "https://www.smash.org/",
-        description: "Free three-year STEM college prep program.",
+        description:
+          "Free one-year residential STEM and computer science program for 10th and 11th graders, focused on students of color.",
       },
       {
         name: "StreetCode Academy",
         url: "https://streetcode.org/",
-        description: "Technology access and training for communities of color in Silicon Valley.",
+        description:
+          "East Palo Alto nonprofit offering tech classes and mentorship to help youth and adults, including BIPOC students, build tech skills.",
       },
       {
         name: "MITES at MIT",
         url: "https://mites.mit.edu/",
         description:
-          "MIT's science and engineering programs for middle and high school students, formerly the Office of Engineering Outreach Programs.",
+          "MIT's free STEM programs for 7th to 12th graders, formerly the Office of Engineering Outreach Programs.",
       },
       {
         name: "dev/mission",
         url: "https://devmission.org/",
-        description: "Hardware, coding and career skills training for young adults aged 16 to 24.",
+        description:
+          "Free Bay Area pre-apprenticeship in hardware, tech support, coding and workplace skills for young adults aged 16 to 24.",
       },
       {
         name: "Digital NEST",
         url: "https://digitalnest.org/",
-        description: "Skill-building community that helps Latino youth launch tech careers.",
+        description:
+          "Tech career training, mentorship and paid work experience for first-generation young people on California's Central Coast and Central Valley.",
       },
       {
         name: "AI4ALL",
         url: "https://ai-4-all.org/",
-        description: "AI education and mentorship for students from underrepresented groups.",
+        description:
+          "Free virtual AI accelerator with mentors and projects that helps college students from historically excluded groups land AI internships.",
       },
     ],
   },
@@ -187,13 +194,13 @@ export const resourceGroups: ResourceGroup[] = [
       {
         name: "ColorStack",
         url: "https://www.colorstack.org/",
-        description:
-          "Community and career support for Black, Latino and Native American computer science students.",
+        description: "Community and career support for Black and Latino computer science students.",
       },
       {
         name: "CodePath",
         url: "https://www.codepath.org/",
-        description: "No-cost coding courses, mentorship and career support for college students.",
+        description:
+          "No-cost AI, software and interview prep courses with career support for CS students and early-career engineers.",
       },
       {
         name: "SHPE",
@@ -204,7 +211,7 @@ export const resourceGroups: ResourceGroup[] = [
         name: "Latinos in Technology Scholarship",
         url: "https://www.hfsv.org/latinos-in-technology-scholarship/",
         description:
-          "Scholarships, professional development and internships for Latino college students.",
+          "Renewable scholarships, mentorship and summer internships for Latino third- and fourth-year undergraduates majoring in STEM.",
       },
     ],
   },
@@ -222,13 +229,13 @@ export const resourceGroups: ResourceGroup[] = [
         name: "Hire-Me",
         url: "https://github.com/FrancesCoronel/hire-me",
         description:
-          "Open source job search guide by Latina Dev founder Frances Coronel, covering resumes, portfolios, interview prep and salary negotiation.",
+          "Open source job search guide by Latina Dev founder Frances Coronel, with resume templates, interview prep and salary negotiation resources.",
       },
       {
         name: "Apprenticeships.me",
         url: "https://apprenticeships.me/",
         description:
-          "Free directory of paid tech apprenticeships in software engineering, design and IT, for career changers and engineers without a CS degree. Maintained by Frances Coronel.",
+          "Directory of about 80 tech apprenticeship programs in software, design, IT and more, mostly for career changers and nontraditional candidates. Maintained by Frances Coronel.",
       },
       {
         name: "Techqueria Job Board",
@@ -242,20 +249,10 @@ export const resourceGroups: ResourceGroup[] = [
           "Open source list of companies whose technical interviews skip whiteboard puzzles in favor of real work.",
       },
       {
-        name: "Key Values",
-        url: "https://www.keyvalues.com/",
-        description:
-          "Find engineering teams that share your values, from pair programming to flexible hours.",
-      },
-      {
         name: "DiversifyTech",
-        url: "https://www.diversifytech.com/job-board",
-        description: "Job board and resources for underrepresented people in tech.",
-      },
-      {
-        name: "Tribaja",
-        url: "https://www.tribaja.co/",
-        description: "Talent platform connecting underrepresented tech talent with employers.",
+        url: "https://www.diversifytech.com/",
+        description:
+          "Weekly newsletter of jobs, events and scholarships from vetted companies for underrepresented people in tech.",
       },
       {
         name: "Tech Ladies",
@@ -270,7 +267,8 @@ export const resourceGroups: ResourceGroup[] = [
       {
         name: "PowerToFly",
         url: "https://powertofly.com/",
-        description: "Job board and virtual hiring events focused on diverse talent.",
+        description:
+          "Job board and virtual job fairs, many focused on Latino, women, LGBTQIA+, veteran and other underrepresented job seekers.",
       },
       {
         name: "InHerSight",
@@ -291,23 +289,26 @@ export const resourceGroups: ResourceGroup[] = [
       {
         name: "HACE",
         url: "https://www.haceonline.org/",
-        description: "The Hispanic Alliance for Career Enhancement.",
+        description:
+          "Nonprofit offering career fairs, leadership programs, scholarships and networking for Latino professionals and students.",
       },
       {
         name: "ALPFA",
         url: "https://www.alpfa.org/",
         description:
-          "The first national Latino professional association in the US, founded in 1972.",
+          "Latino professional association founded in 1972, offering leadership development, networking and career programs.",
       },
       {
         name: "HITEC",
         url: "https://www.hitecglobal.org/",
-        description: "The Hispanic Technology Executive Council.",
+        description:
+          "The Hispanic IT Executive Council, a network offering leadership development, mentoring and awards for Hispanic technology executives.",
       },
       {
         name: "Latino Leadership Institute",
         url: "https://latinoslead.org/",
-        description: "Leadership, career and entrepreneurship programs for Latino leaders.",
+        description:
+          "Accelerator, executive networking and leadership programs that help Latino founders grow their businesses and build wealth.",
       },
     ],
   },
@@ -345,7 +346,7 @@ export const resourceGroups: ResourceGroup[] = [
         name: "Black and Brown Founders",
         url: "https://www.bbfounders.co/",
         description:
-          "Community and education for Black and Latino founders building tech businesses.",
+          "Nonprofit offering business guides, financial education and coaching for entrepreneurs from underrepresented communities building tech-enabled businesses.",
       },
       {
         name: "Latino Business Action Network",
@@ -367,7 +368,7 @@ export const resourceGroups: ResourceGroup[] = [
         name: "Main Branch",
         url: "https://mainbranch.beehiiv.com/",
         description:
-          "Weekly newsletter on developer fundamentals like git, CI and security hygiene by Andrea Griffiths, a Colombian-born, self-taught engineer and Senior Developer Advocate at GitHub.",
+          "Weekly newsletter on developer fundamentals like git, CI and security by Andrea Griffiths, a self-taught Senior Developer Advocate at GitHub from Colombia.",
       },
       {
         name: "/path2lead",
@@ -385,7 +386,8 @@ export const resourceGroups: ResourceGroup[] = [
       {
         name: "U.S. Latinos in Engineering and Tech Report",
         url: "https://shpe.org/wp-content/uploads/2025/02/2024-SHPE-LDC-U.S.-Latinos-in-Engineering-and-Tech-Report-Final.pdf",
-        description: "SHPE's 2024 report on Latino representation in engineering and tech.",
+        description:
+          "2024 report from SHPE and the Latino Donor Collaborative on Latino students and professionals in engineering and tech, with degree data and recommendations.",
         schemaType: "Report",
       },
     ],
