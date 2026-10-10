@@ -16,6 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/members",
     ...levelViews.map((view) => `/members/${view.segment}`),
     ...getCountryViews(members).map((view) => `/members/country/${view.slug}`),
+    "/resources",
     "/conference",
     "/add-member",
   ].map((path) => ({ url: `${siteUrl}${path}` }));

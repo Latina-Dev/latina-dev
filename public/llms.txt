@@ -11,6 +11,10 @@ Each member has a profile page at https://latina.dev/members/<slug> with their l
 - [About Latina Dev](https://latina.dev/#about): what the community is and who it is for
 - [Add your profile](https://latina.dev/add-member): how a Latina software engineer can join the directory
 
+## Resources
+
+- [Resources and communities](https://latina.dev/resources): communities, student programs, career and leadership groups, conferences, founder support, podcasts and reports for Latina software engineers, grouped by career stage
+
 ## Docs
 
 - [Documentation](https://docs.latina.dev): how the project works and how to contribute
