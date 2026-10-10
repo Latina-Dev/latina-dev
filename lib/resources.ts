@@ -253,11 +253,6 @@ export const resourceGroups: ResourceGroup[] = [
         description: "Job board and resources for underrepresented people in tech.",
       },
       {
-        name: "POCIT Jobs",
-        url: "https://jobs.peopleofcolorintech.com/",
-        description: "Jobs for people of color in technology.",
-      },
-      {
         name: "Tribaja",
         url: "https://www.tribaja.co/",
         description: "Talent platform connecting underrepresented tech talent with employers.",

@@ -17,9 +17,9 @@ const parkedPatterns = [
   /\b(viagra|cialis|payday loans?)\b/i,
 ];
 
-// Sites that block bots answer 403 or 429; we can't tell those apart from a real block, so they
-// are listed separately instead of being called broken
-const blockedStatuses = new Set([401, 403, 429, 999]);
+// Sites that block bots answer 403, 429 or a 503 challenge page; we can't tell those apart from a
+// real block, so they are listed separately instead of being called broken
+const blockedStatuses = new Set([401, 403, 429, 503, 999]);
 
 const userAgent =
   "Mozilla/5.0 (compatible; LatinaDevLinkAudit/1.0; +https://github.com/Latina-Dev/latina-dev)";
