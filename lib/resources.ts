@@ -77,30 +77,30 @@ export const resourceGroups: ResourceGroup[] = [
     ],
   },
   {
-    id: "latin-tech-communities",
-    title: "Latin tech communities",
+    id: "latino-tech-communities",
+    title: "Latino tech communities",
     intro:
-      "Larger Latin tech communities where Latina engineers can network, find jobs and mentors.",
-    heading: "Latin tech communities for Latina software engineers",
+      "Larger Latino tech communities where Latina engineers can network, find jobs and mentors.",
+    heading: "Latino tech communities for Latina software engineers",
     summary:
-      "Latin tech communities, Slack groups and nonprofits where Latina software engineers can network, find jobs and get mentorship.",
-    question: "What are the biggest Latin tech communities Latina engineers can join?",
+      "Latino tech communities, Slack groups and nonprofits where Latina software engineers can network, find jobs and get mentorship.",
+    question: "What are the biggest Latino tech communities Latina engineers can join?",
     resources: [
       {
         name: "Techqueria",
         url: "https://techqueria.org/",
         description:
-          "The largest US nonprofit for Latin people in tech, with a Slack community, job board and an annual Latiné Heritage Month Summit. Latina Dev founder Frances Coronel previously served as its executive director, a board member and a board advisor.",
+          "The largest US nonprofit for Latinos in tech, with a Slack community, job board and an annual Latiné Heritage Month Summit. Latina Dev founder Frances Coronel previously served as its executive director, a board member and a board advisor.",
       },
       {
         name: "Latinx in AI",
         url: "https://www.latinxinai.org/",
-        description: "Nonprofit for Latin researchers and engineers in artificial intelligence.",
+        description: "Nonprofit for Latino researchers and engineers in artificial intelligence.",
       },
       {
         name: "Somos Latinx in Tech",
         url: "https://somoslatinxintech.com/",
-        description: "Events, programs, mentorship and sponsorship for Latin tech professionals.",
+        description: "Events, programs, mentorship and sponsorship for Latino tech professionals.",
       },
       {
         name: "Latinos in Tech",
@@ -115,12 +115,12 @@ export const resourceGroups: ResourceGroup[] = [
       {
         name: "Silicon Slopes LatinX",
         url: "http://latinxut.com/",
-        description: "Community for Latin tech professionals in Utah.",
+        description: "Community for Latino tech professionals in Utah.",
       },
       {
         name: "Queer Latinxs in Tech",
         url: "https://www.eventbrite.com/o/luis-torres-34812180323",
-        description: "Events for queer Latin people working in tech, including Latina engineers.",
+        description: "Events for queer Latinos working in tech, including Latina engineers.",
       },
     ],
   },
@@ -213,7 +213,7 @@ export const resourceGroups: ResourceGroup[] = [
       {
         name: "Digital NEST",
         url: "https://digitalnest.org/",
-        description: "Skill-building community that helps Latin youth launch tech careers.",
+        description: "Skill-building community that helps Latino youth launch tech careers.",
       },
       {
         name: "AI4ALL",
@@ -235,7 +235,7 @@ export const resourceGroups: ResourceGroup[] = [
         name: "ColorStack",
         url: "https://www.colorstack.org/",
         description:
-          "Community and career support for Black, Latin and Native American computer science students.",
+          "Community and career support for Black, Latino and Native American computer science students.",
       },
       {
         name: "CodePath",
@@ -262,7 +262,7 @@ export const resourceGroups: ResourceGroup[] = [
         name: "Latinos in Technology Scholarship",
         url: "https://www.hfsv.org/latinos-in-technology-scholarship/",
         description:
-          "Scholarships, professional development and internships for Latin college students.",
+          "Scholarships, professional development and internships for Latino college students.",
       },
     ],
   },
@@ -291,7 +291,7 @@ export const resourceGroups: ResourceGroup[] = [
       {
         name: "Techqueria Job Board",
         url: "https://techqueria.org/jobs/",
-        description: "Openings from companies that want to hire Latin tech professionals.",
+        description: "Openings from companies that want to hire Latino tech professionals.",
       },
       {
         name: "Hiring Without Whiteboards",
@@ -371,7 +371,7 @@ export const resourceGroups: ResourceGroup[] = [
         name: "ALPFA",
         url: "https://www.alpfa.org/",
         description:
-          "The first national Latin professional association in the US, founded in 1972.",
+          "The first national Latino professional association in the US, founded in 1972.",
       },
       {
         name: "HITEC",
@@ -381,12 +381,12 @@ export const resourceGroups: ResourceGroup[] = [
       {
         name: "NextGen Collective",
         url: "https://hispanicexecutive.com/ngc/",
-        description: "Newsletter and job board for rising Latin leaders from Hispanic Executive.",
+        description: "Newsletter and job board for rising Latino leaders from Hispanic Executive.",
       },
       {
         name: "Latino Leadership Institute",
         url: "https://latinoslead.org/",
-        description: "Leadership, career and entrepreneurship programs for Latin leaders.",
+        description: "Leadership, career and entrepreneurship programs for Latino leaders.",
       },
     ],
   },
@@ -402,23 +402,29 @@ export const resourceGroups: ResourceGroup[] = [
       {
         name: "LTX Connect",
         url: "https://ltxconnect.org/",
-        description: "Conference connecting Latin professionals in tech.",
+        description: "Conference connecting Latino professionals in tech.",
       },
       {
         name: "Silicon Valley Latino Leadership Summit",
         url: "https://www.svlls.com/",
-        description: "Summit on the changes future Latin generations need to succeed.",
+        description: "Summit on the changes future Latino generations need to succeed.",
       },
       {
         name: "RaicesCon",
         url: "https://www.raicescyber.org/",
-        description: "Conference for Latin cybersecurity professionals, held each October.",
+        description: "Conference for Latino cybersecurity professionals, held each October.",
+      },
+      {
+        name: "Techsuyo",
+        url: "https://www.techsuyo.org/",
+        description:
+          "Tech and innovation summit run by Peruvians in Silicon Valley (PeruSV) for Latino professionals in tech, most recently held in San Francisco in September 2024.",
       },
       {
         name: "LOFT Coder Summit",
         url: "https://loftcsl.org/programs/loft-coder-summit/",
         description:
-          "Hispanic Heritage Foundation gathering of Latin software engineers who learn to teach coding to underserved students.",
+          "Hispanic Heritage Foundation gathering of Latino software engineers who learn to teach coding to underserved students.",
       },
     ],
   },
@@ -434,17 +440,17 @@ export const resourceGroups: ResourceGroup[] = [
         name: "Black and Brown Founders",
         url: "https://blackandbrownfounders.com/",
         description:
-          "Community and education for Black and Latin founders building tech businesses.",
+          "Community and education for Black and Latino founders building tech businesses.",
       },
       {
         name: "Rutgers Black and Latino Tech Accelerator",
         url: "https://blackandlatinotech.com/",
-        description: "Accelerator for Black and Latin tech founders.",
+        description: "Accelerator for Black and Latino tech founders.",
       },
       {
         name: "Latino Business Action Network",
         url: "https://www.lban.us/",
-        description: "Research, education and an accelerator for Latin entrepreneurs.",
+        description: "Research, education and an accelerator for Latino entrepreneurs.",
       },
     ],
   },
@@ -466,13 +472,13 @@ export const resourceGroups: ResourceGroup[] = [
       {
         name: "Latinos Who Tech",
         url: "https://latinoswhotech.com/",
-        description: "Podcast featuring Latin people working in tech.",
+        description: "Podcast featuring Latinos working in tech.",
         schemaType: "PodcastSeries",
       },
       {
         name: "Latinx in Power",
         url: "https://medium.com/latinxinpower",
-        description: "Podcast and blog on Latin professionals and leadership.",
+        description: "Podcast and blog on Latino professionals and leadership.",
       },
       {
         name: "Women in Tech Chat",
@@ -489,7 +495,7 @@ export const resourceGroups: ResourceGroup[] = [
       {
         name: "U.S. Latinos in Engineering and Tech Report",
         url: "https://shpe.org/wp-content/uploads/2025/02/2024-SHPE-LDC-U.S.-Latinos-in-Engineering-and-Tech-Report-Final.pdf",
-        description: "SHPE's 2024 report on Latin representation in engineering and tech.",
+        description: "SHPE's 2024 report on Latino representation in engineering and tech.",
         schemaType: "Report",
       },
       {

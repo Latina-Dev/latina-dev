@@ -17,7 +17,7 @@ Each member has a profile page at https://latina.dev/members/<slug> with their l
 - [Resources as Markdown](https://latina.dev/resources.md): every resource with its link and a one-line description, in one file
 - [Resources data feed](https://latina.dev/resources.json): the same list as JSON
 - [Communities for Latinas in tech](https://latina.dev/resources/latina-communities)
-- [Latin tech communities Latina engineers can join](https://latina.dev/resources/latin-tech-communities)
+- [Latino tech communities Latina engineers can join](https://latina.dev/resources/latino-tech-communities)
 - [Coding programs for Latina K-12 students](https://latina.dev/resources/k-12)
 - [Programs and scholarships for Latina college students](https://latina.dev/resources/college)
 - [Job boards for Latina engineers](https://latina.dev/resources/jobs)

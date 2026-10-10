@@ -14,7 +14,7 @@ To quote the [Pew Research Center (2016)](https://www.pewresearch.org/hispanic/2
 
 To quote [Brookings (2022)](https://www.brookings.edu/blog/education-plus-development/2022/07/11/investing-in-latino-children-and-youth-the-future-strength-of-the-us/), "based on sheer population size and growth, Hispanic children and youth will shape the U.S. economic and political landscapes for years to come."
 
-So from a purely statistical perspective, there are so many Latin kids in this country that if we decide not to actively support their path towards financial stability and prosperity, the entire country will be economically worse off.
+So from a purely statistical perspective, there are so many Latino kids in this country that if we decide not to actively support their path towards financial stability and prosperity, the entire country will be economically worse off.
 
 My belief is that one of the most stable paths toward financial stability and prosperity is in the tech industry. Tech remains one of the largest sources of wealth in the world and has proven to be a powerful source of intergenerational wealth.
 
