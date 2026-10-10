@@ -2,9 +2,10 @@ import { createHash } from "crypto";
 import fs from "fs";
 
 /**
- * Who may edit which profile. Each approved member has a file data/owners/<hash>.txt holding
- * their profile slug, where <hash> is the SHA-256 of their LinkedIn account id. One file per
- * member keeps concurrent sign-ups from conflicting, and the hash keeps the raw id out of the repo.
+ * Who may edit which profile. Each approved member has a file data/owners/<slug>.txt holding the
+ * SHA-256 of their LinkedIn account id. Naming the file by profile means two pending claims on
+ * the same profile touch the same path, so only one can ever merge, and the hash keeps the raw
+ * id out of the repo.
  */
 export const ownersPath = "data/owners";
 
@@ -15,6 +16,9 @@ export const ownersPath = "data/owners";
 export const ownerHash = (linkedinId: string) =>
   createHash("sha256").update(`linkedin:${linkedinId}`).digest("hex");
 
+/** Owner file for a profile, e.g. data/owners/frances-coronel.txt */
+export const ownerFile = (slug: string) => `${ownersPath}/${slug}.txt`;
+
 /**
  * Find the profile a signed-in member owns
  * @param hash owner key from ownerHash
@@ -23,8 +27,11 @@ export const ownerHash = (linkedinId: string) =>
 export const readOwnedSlug = (hash: string) => {
   if (!/^[a-f0-9]{64}$/.test(hash)) return undefined;
   try {
-    const slug = fs.readFileSync(`${ownersPath}/${hash}.txt`, "utf8").trim();
-    return slug || undefined;
+    return fs
+      .readdirSync(ownersPath)
+      .filter((file) => file.endsWith(".txt"))
+      .find((file) => fs.readFileSync(`${ownersPath}/${file}`, "utf8").trim() === hash)
+      ?.replace(/\.txt$/, "");
   } catch {
     return undefined;
   }

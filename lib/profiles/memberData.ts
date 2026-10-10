@@ -37,7 +37,7 @@ export const claimedSlugs = () => {
       fs
         .readdirSync(ownersPath)
         .filter((file) => file.endsWith(".txt"))
-        .map((file) => fs.readFileSync(`${ownersPath}/${file}`, "utf8").trim())
+        .map((file) => file.replace(/\.txt$/, ""))
     );
   } catch {
     return new Set<string>();

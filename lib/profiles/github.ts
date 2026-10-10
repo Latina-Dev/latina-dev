@@ -187,6 +187,8 @@ export const approvePull = async (number: number) => {
 export const rejectPull = async (number: number) => {
   const pull = await getProfilePull(number);
   if (pull.merged) return "already merged, so it was not closed";
+  // A stale button on an old message must not delete a branch the member has since reused
+  if (pull.state === "closed") return "already closed";
   await github(`/repos/${repo}/pulls/${number}`, { method: "PATCH", body: { state: "closed" } });
   await github(`/repos/${repo}/git/refs/heads/${pull.head.ref}`, { method: "DELETE" });
   return "closed";

@@ -15,7 +15,7 @@ import {
   serializeMemberFile,
   slugForName,
 } from "@/lib/profiles/memberFile";
-import { ownerBranch, ownersPath, readOwnedSlug } from "@/lib/profiles/owners";
+import { ownerBranch, ownerFile, readOwnedSlug } from "@/lib/profiles/owners";
 import { postReviewRequest, ReviewKind } from "@/lib/profiles/slack";
 import { siteUrl } from "@/lib/site";
 
@@ -138,8 +138,7 @@ export async function submitProfile(
     if (photo) files.push({ path: `public/img/members/${slug}.jpg`, content: photo });
     else if (!ownedSlug) note = "No LinkedIn photo was found, so add one before approving.";
   }
-  if (!ownedSlug)
-    files.push({ path: `${ownersPath}/${member.ownerHash}.txt`, content: `${slug}\n` });
+  if (!ownedSlug) files.push({ path: ownerFile(slug), content: `${member.ownerHash}\n` });
 
   try {
     await submitForReview({
@@ -195,7 +194,7 @@ export async function claimProfile(
       slug,
       profileName: frontmatter.name,
       linkedinHandle: frontmatter.linkedin,
-      files: [{ path: `${ownersPath}/${member.ownerHash}.txt`, content: `${slug}\n` }],
+      files: [{ path: ownerFile(slug), content: `${member.ownerHash}\n` }],
     });
   } catch (error) {
     console.error(error);

@@ -27,7 +27,12 @@ export async function POST(request: Request) {
 
   const raw = new URLSearchParams(body).get("payload");
   if (!raw) return new Response("Missing payload", { status: 400 });
-  const payload = JSON.parse(raw) as BlockActionPayload;
+  let payload: BlockActionPayload;
+  try {
+    payload = JSON.parse(raw) as BlockActionPayload;
+  } catch {
+    return new Response("Malformed payload", { status: 400 });
+  }
   const action = payload.actions?.[0];
   if (payload.type !== "block_actions" || !action) return new Response(null, { status: 200 });
 
