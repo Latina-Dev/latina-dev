@@ -14,6 +14,9 @@ Each member has a profile page at https://latina.dev/members/<slug> with their l
 ## Resources
 
 - [Resources and communities](https://latina.dev/resources): communities, student programs, career and leadership groups, conferences, founder support, podcasts and reports for Latina software engineers, grouped by career stage
+- [Advice for Latina software engineers in the workplace](https://latina.dev/guides/workplace-advice): ask for what you want, write everything down, and weigh the cost of paying it forward
+- [Helping Latina K-12 students get into coding](https://latina.dev/guides/k-12-students): why it matters and advice for parents and allies
+- [Tips for recruiters hiring diverse software engineers](https://latina.dev/guides/hiring-diverse-engineers): how to reach and support Latina and other underrepresented engineers
 
 ## Docs
 

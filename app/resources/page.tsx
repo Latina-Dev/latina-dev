@@ -1,6 +1,9 @@
+import Link from "next/link";
+
 import JsonLd from "@/components/JsonLd/JsonLd";
 import PageHero from "@/components/PageHero/PageHero";
 
+import { getGuides } from "@/lib/guides";
 import { breadcrumbJsonLd } from "@/lib/jsonLd";
 import { pageMetadata } from "@/lib/pageMetadata";
 import { resourceCount, resourceGroups, resourcesJsonLd, resourcesPath } from "@/lib/resources";
@@ -18,6 +21,8 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function ResourcesPage() {
+  const guides = getGuides();
+
   return (
     <>
       <JsonLd
@@ -39,6 +44,7 @@ export default function ResourcesPage() {
           </p>
         }>
         <nav aria-label="Resource categories" className={styles.jump}>
+          <a href="#guides">Guides</a>
           {resourceGroups.map((group) => (
             <a key={group.id} href={`#${group.id}`}>
               {group.title}
@@ -48,6 +54,23 @@ export default function ResourcesPage() {
       </PageHero>
 
       <div className={`page-width ${styles.groups}`}>
+        <section id="guides" className={styles.group} aria-labelledby="guides-heading">
+          <div className={styles.sectionHeader}>
+            <h2 id="guides-heading">Guides</h2>
+            <p>Advice from Latina Dev founder Frances Coronel.</p>
+          </div>
+          <ul className={styles.grid}>
+            {guides.map((guide) => (
+              <li key={guide.slug} className={styles.card}>
+                <h3>
+                  <Link href={guide.path}>{guide.title}</Link>
+                </h3>
+                <p>{guide.description}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         {resourceGroups.map((group) => (
           <section
             key={group.id}

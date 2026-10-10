@@ -240,6 +240,71 @@ export const resourceGroups: ResourceGroup[] = [
     ],
   },
   {
+    id: "jobs",
+    title: "Find a job",
+    intro:
+      "Job boards and hiring platforms focused on diversity in tech, including companies that skip whiteboard interviews.",
+    resources: [
+      {
+        name: "Techqueria Job Board",
+        url: "https://techqueria.org/jobs/",
+        description: "Openings from companies that want to hire Latinx tech professionals.",
+      },
+      {
+        name: "Hiring Without Whiteboards",
+        url: "https://github.com/poteto/hiring-without-whiteboards",
+        description:
+          "Open source list of companies whose technical interviews skip whiteboard puzzles in favor of real work.",
+      },
+      {
+        name: "Key Values",
+        url: "https://www.keyvalues.com/",
+        description:
+          "Find engineering teams that share your values, from pair programming to flexible hours.",
+      },
+      {
+        name: "DiversifyTech",
+        url: "https://www.diversifytech.com/job-board",
+        description: "Job board and resources for underrepresented people in tech.",
+      },
+      {
+        name: "POCIT Jobs",
+        url: "https://jobs.peopleofcolorintech.com/",
+        description: "Jobs for people of color in technology.",
+      },
+      {
+        name: "Tribaja",
+        url: "https://www.tribaja.co/",
+        description: "Talent platform connecting underrepresented tech talent with employers.",
+      },
+      {
+        name: "Tech Ladies",
+        url: "https://www.hiretechladies.com/",
+        description: "Community and job board for women in tech.",
+      },
+      {
+        name: "Elpha",
+        url: "https://elpha.com/",
+        description: "Professional network and job board for women in tech.",
+      },
+      {
+        name: "WomenHack",
+        url: "https://womenhack.com/",
+        description: "Invite-only hiring events and job matching for women in tech.",
+      },
+      {
+        name: "PowerToFly",
+        url: "https://powertofly.com/",
+        description: "Job board and virtual hiring events focused on diverse talent.",
+      },
+      {
+        name: "InHerSight",
+        url: "https://www.inhersight.com/",
+        description: "Anonymous ratings of how well companies support women, plus job listings.",
+      },
+    ],
+  },
+  {
     id: "career-growth",
     title: "Career growth and leadership",
     intro: "Professional associations and programs for engineers moving up.",
