@@ -24,7 +24,7 @@ export interface ResourceGroup {
   resources: Resource[];
 }
 
-export const resourceGroups: ResourceGroup[] = [
+const groups: ResourceGroup[] = [
   {
     id: "latina-communities",
     title: "Communities for Latinas in tech",
@@ -393,6 +393,17 @@ export const resourceGroups: ResourceGroup[] = [
     ],
   },
 ];
+
+// Sort key ignoring punctuation, so "#LatinaGeeks" and "/path2lead" sort by their letters
+const sortName = (name: string) => name.replace(/[^\p{L}\p{N} ]/gu, "");
+
+/** Resource categories, each listed A to Z by name */
+export const resourceGroups: ResourceGroup[] = groups.map((group) => ({
+  ...group,
+  resources: [...group.resources].sort((a, b) =>
+    sortName(a.name).localeCompare(sortName(b.name), "en", { sensitivity: "base" })
+  ),
+}));
 
 /** URL-safe slug for a resource, used for its logo file and its anchor */
 export const resourceSlug = (resource: Resource) =>
