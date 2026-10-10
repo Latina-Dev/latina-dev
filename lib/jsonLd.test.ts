@@ -71,7 +71,6 @@ describe("personJsonLd", () => {
         github: "anaex",
         twitter: "ana_ex",
         website: "https://ana.example",
-        skills: ["React"],
         location: "Austin, TX",
       })
     );
@@ -83,15 +82,13 @@ describe("personJsonLd", () => {
       "https://x.com/ana_ex",
       "https://ana.example",
     ]);
-    assert.deepEqual(person.knowsAbout, ["React"]);
     assert.deepEqual(person.homeLocation, { "@type": "Place", name: "Austin, TX" });
   });
 
   it("skips blank optional fields", () => {
-    const person = personJsonLd(member({ affiliation: "  ", github: "", skills: [] }));
+    const person = personJsonLd(member({ affiliation: "  ", github: "" }));
 
     assert.equal("jobTitle" in person, false);
-    assert.equal("knowsAbout" in person, false);
     assert.deepEqual(memberSameAs(member({ github: " " })), [
       "https://www.linkedin.com/in/ana-example",
     ]);

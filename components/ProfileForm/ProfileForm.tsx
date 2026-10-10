@@ -137,14 +137,6 @@ export default function ProfileForm({ initial, editing }: Props) {
         defaultValue={initial.bio}
       />
 
-      <Field
-        label="Skills"
-        name="skills"
-        placeholder="React, TypeScript, Accessibility"
-        hint="Up to 10, separated by commas"
-        defaultValue={initial.skills}
-      />
-
       <OpenToCheckboxes selected={initial.openTo ?? []} />
 
       <NoindexCheckbox checked={initial.noindex ?? false} />

@@ -29,7 +29,7 @@ const steps = [
     title: "Sign in with LinkedIn",
     body: "It's the only sign-in we use, so every profile is real.",
   },
-  { title: "Fill in your profile", body: "Your level, roots, skills and what you're open to." },
+  { title: "Fill in your profile", body: "Your level, roots, bio and what you're open to." },
   { title: "We review it", body: "An organizer approves every new profile and every change." },
 ];
 
@@ -150,7 +150,6 @@ function EditProfile({ slug }: { slug: string }) {
           affiliation: frontmatter.affiliation ?? "",
           location: frontmatter.location ?? "",
           countries: frontmatter.countries ?? [],
-          skills: (frontmatter.skills ?? []).join(", "),
           openTo: frontmatter.openTo ?? [],
           noindex: frontmatter.noindex ?? false,
           bio,

@@ -79,7 +79,6 @@ const personFields = (member: MemberInterface): JsonLd => {
     image: `${siteUrl}/img/members/${member.slug}.jpg`,
     ...(affiliation ? { jobTitle: affiliation } : {}),
     ...(sameAs.length > 0 ? { sameAs } : {}),
-    ...(member.skills?.length ? { knowsAbout: member.skills } : {}),
     ...(location ? { homeLocation: { "@type": "Place", name: location } } : {}),
     memberOf: organizationRef,
   };

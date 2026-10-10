@@ -20,7 +20,6 @@ const values = (overrides: Partial<ProfileFormValues> = {}): ProfileFormValues =
   website: "",
   location: "",
   countries: ["Peru"],
-  skills: "",
   openTo: [],
   noindex: false,
   bio: "Ana builds things.",
@@ -73,16 +72,6 @@ describe("buildMemberProfile", () => {
     assert.equal(result.data.noindex, undefined);
   });
 
-  it("splits skills on commas", () => {
-    const result = buildMemberProfile(
-      values({ skills: "React, , TypeScript" }),
-      undefined,
-      "2026-10-09"
-    );
-    assert.ok(result.success);
-    assert.deepEqual(result.data.skills, ["React", "TypeScript"]);
-  });
-
   it("reports schema problems", () => {
     const result = buildMemberProfile(values({ level: "CEO" }), undefined, "2026-10-09");
     assert.equal(result.success, false);
@@ -100,7 +89,6 @@ describe("serializeMemberFile", () => {
       values({
         name: 'Ana "La Dev": Example',
         countries: ["Peru", "Chile"],
-        skills: "React, TypeScript",
         openTo: ["Mentoring"],
         noindex: true,
         bio: "Line one\r\n\r\n\r\n\r\nLine two   ",

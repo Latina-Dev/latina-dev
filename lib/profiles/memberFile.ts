@@ -18,7 +18,6 @@ const keyOrder: (keyof MemberFrontmatter)[] = [
   "website",
   "affiliation",
   "countries",
-  "skills",
   "location",
   "openTo",
   "noindex",
@@ -34,7 +33,6 @@ export interface ProfileFormValues {
   website: string;
   location: string;
   countries: string[];
-  skills: string;
   openTo: string[];
   noindex: boolean;
   bio: string;
@@ -67,7 +65,6 @@ export const readProfileForm = (data: FormData): ProfileFormValues => {
     website: text("website"),
     location: text("location"),
     countries: list("countries"),
-    skills: text("skills"),
     openTo: list("openTo"),
     noindex: data.get("noindex") === "true",
     bio: text("bio"),
@@ -105,11 +102,6 @@ export const buildMemberProfile = (
     return { success: false, error: `Bio: please keep it under ${bioMaxLength} characters.` };
   }
 
-  const skills = values.skills
-    .split(",")
-    .map((skill) => skill.trim())
-    .filter(Boolean);
-
   // Empty optional fields are left out rather than saved as empty strings
   const optional = <T>(value: T, empty: boolean) => (empty ? undefined : value);
 
@@ -123,7 +115,6 @@ export const buildMemberProfile = (
     website: optional(values.website, !values.website),
     affiliation: optional(values.affiliation, !values.affiliation),
     countries: optional(values.countries, values.countries.length === 0),
-    skills: optional(skills, skills.length === 0),
     location: optional(values.location, !values.location),
     openTo: optional(values.openTo, values.openTo.length === 0),
     noindex: optional(true, !values.noindex),

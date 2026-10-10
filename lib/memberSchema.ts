@@ -38,11 +38,6 @@ export const memberFrontmatterSchema = z.strictObject({
     .optional(),
   affiliation: text.optional(),
   countries: z.array(z.enum(countryNames)).min(1, "must list at least one country").optional(),
-  skills: z
-    .array(text)
-    .min(1, "must list at least one skill")
-    .max(10, "must list at most 10 skills")
-    .optional(),
   location: text.optional(),
   openTo: z.array(z.enum(openToOptions)).min(1, "must list at least one option").optional(),
   noindex: z.boolean({ message: "must be true or false" }).optional(),
