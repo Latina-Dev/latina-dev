@@ -92,7 +92,11 @@ async function fetchLogo(siteUrl: string): Promise<{ bytes: Uint8Array; ext: str
 
 async function main() {
   mkdirSync(outDir, { recursive: true });
-  const existing = new Set(readdirSync(outDir).map((file) => file.replace(/\.[a-z]+$/, "")));
+  const existing = new Set(
+    readdirSync(outDir)
+      .filter((file) => /\.(png|jpg|webp|ico)$/.test(file))
+      .map((file) => file.replace(/\.[a-z]+$/, ""))
+  );
   const missing = resourceGroups
     .flatMap((group) => group.resources)
     .filter((resource) => !existing.has(resourceSlug(resource)));

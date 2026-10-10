@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
@@ -27,6 +29,7 @@ jobs:
       - name: Fetch missing logos
         run: npm run --silent logos:resources
       - name: Commit new logos
+        id: commit
         run: |
           git add public/img/resources
           if git diff --cached --quiet; then
@@ -36,4 +39,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Add logos for resources"
-          git push
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+      # The token is only handed to git here, after npm install and the logo script have run
+      - name: Push new logos
+        if: steps.commit.outputs.committed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push --no-verify

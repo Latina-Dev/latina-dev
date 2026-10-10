@@ -325,6 +325,12 @@ export const resourceGroups: ResourceGroup[] = [
         url: "https://www.svlls.com/",
         description: "Summit on the changes future Latino generations need to succeed.",
       },
+      {
+        name: "State of Latino Entrepreneurship Summit",
+        url: "https://www.gsb.stanford.edu/faculty-research/centers-initiatives/slei",
+        description:
+          "Annual Stanford GSB and LBAN summit each March on research about Latino founders and how they scale.",
+      },
     ],
   },
   {

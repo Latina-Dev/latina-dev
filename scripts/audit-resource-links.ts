@@ -24,8 +24,21 @@ const blockedStatuses = new Set([401, 403, 429, 503, 999]);
 const userAgent =
   "Mozilla/5.0 (compatible; LatinaDevLinkAudit/1.0; +https://github.com/Latina-Dev/latina-dev)";
 
-// Last two labels of the hostname, so moving between subdomains (www, jobs, info) isn't flagged
-const baseDomain = (url: string) => new URL(url).hostname.split(".").slice(-2).join(".");
+// Registrable part of the hostname, so moving between subdomains (www, jobs, info) isn't flagged.
+// Keeps three labels under two-part country suffixes like .co.uk or .org.mx
+const baseDomain = (url: string) => {
+  const labels = new URL(url).hostname.split(".");
+  const twoPart =
+    /^(co|com|org|net|edu|gob|gov|ac)$/.test(labels.at(-2) ?? "") && labels.at(-1)?.length === 2;
+  return labels.slice(twoPart ? -3 : -2).join(".");
+};
+
+// Text a visitor would see, so URLs and words inside scripts, styles or comments don't match
+const visibleText = (html: string) =>
+  html
+    .replace(/<!--[\s\S]*?-->/g, " ")
+    .replace(/<(script|style|noscript)\b[\s\S]*?<\/\1>/gi, " ")
+    .replace(/<[^>]+>/g, " ");
 
 interface Finding {
   name: string;
@@ -54,8 +67,8 @@ async function check(name: string, url: string, retry = true): Promise<Finding |
 
     const type = response.headers.get("content-type") ?? "";
     if (type.includes("text/html")) {
-      const html = (await response.text()).slice(0, 500_000);
-      const match = parkedPatterns.find((pattern) => pattern.test(html));
+      const text = visibleText((await response.text()).slice(0, 500_000));
+      const match = parkedPatterns.find((pattern) => pattern.test(text));
       if (match) {
         return { name, url, problem: `looks parked or spammy (matched ${match})` };
       }
