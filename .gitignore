@@ -49,3 +49,6 @@ next-env.d.ts
 /test-results
 /playwright-report
 /.lighthouseci
+
+# resource link audit report
+resource-audit.md

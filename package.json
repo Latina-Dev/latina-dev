@@ -19,7 +19,9 @@
     "prepare": "husky",
     "knip": "knip",
     "test:e2e": "playwright test",
-    "links:list": "tsx scripts/list-member-links.ts"
+    "links:list": "tsx scripts/list-member-links.ts",
+    "links:resources": "tsx scripts/audit-resource-links.ts",
+    "logos:resources": "tsx scripts/fetch-resource-logos.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",

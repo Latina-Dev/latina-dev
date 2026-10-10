@@ -1,0 +1,72 @@
+name: Resource links
+
+# Audits the links on /resources: broken links, redirects to another domain, and parked or spam
+# pages. Monthly, it keeps one open issue up to date with what needs review and closes it once all
+# clear. On pull requests that change the list, it fails so a dead site can't be added.
+
+on:
+  schedule:
+    - cron: "0 14 1 * *"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - lib/resources.ts
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Audit resource links
+        id: audit
+        # Exit 1 with a report means links need review; anything else is a crash and fails the run
+        run: |
+          set +e
+          npm run --silent links:resources
+          code=$?
+          if [ "$code" -eq 0 ]; then
+            echo "review=false" >> "$GITHUB_OUTPUT"
+          elif [ "$code" -eq 1 ] && [ -f resource-audit.md ]; then
+            echo "review=true" >> "$GITHUB_OUTPUT"
+          else
+            exit "$code"
+          fi
+      - name: Fail the pull request if a link needs review
+        if: github.event_name == 'pull_request' && steps.audit.outputs.review == 'true'
+        run: |
+          cat resource-audit.md >> "$GITHUB_STEP_SUMMARY"
+          exit 1
+      - name: Open, update or close the review issue
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVIEW: ${{ steps.audit.outputs.review }}
+        run: |
+          gh label create resource-links --color 9e0001 --description "Stale links on /resources" --force
+          issue=$(gh issue list --label resource-links --state open --json number --jq '.[0].number')
+          if [ "$REVIEW" = "true" ]; then
+            if [ -n "$issue" ]; then
+              gh issue edit "$issue" --body-file resource-audit.md
+              gh issue comment "$issue" --body "The $(date +'%B %Y') audit updated the list above."
+            else
+              gh issue create --title "Resource links to review" --label resource-links --assignee FrancesCoronel --body-file resource-audit.md
+            fi
+          elif [ -n "$issue" ]; then
+            gh issue close "$issue" --comment "The $(date +'%B %Y') audit found nothing to review."
+          fi
