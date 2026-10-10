@@ -409,6 +409,8 @@ export const getResourceGroup = (id: string) => resourceGroups.find((group) => g
 export const resourceFaqs = () =>
   resourceGroups.map((group) => ({
     question: group.question,
+    group,
+    // Plain text for FAQPage JSON-LD; the page renders the same answer with named links instead
     answer: `${group.summary} Latina Dev recommends ${group.resources
       .map((r) => r.name)
       .join(", ")}. See ${siteUrl}${resourcesPath}/${group.id}`,

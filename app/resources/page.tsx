@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Link from "next/link";
 
 import ResourceDirectory from "@/components/ResourceDirectory/ResourceDirectory";
@@ -6,7 +7,13 @@ import styles from "@/components/ResourceDirectory/ResourceDirectory.module.css"
 import { formatGuideDate, getGuides } from "@/lib/guides";
 import { faqJsonLd } from "@/lib/jsonLd";
 import { pageMetadata } from "@/lib/pageMetadata";
-import { resourceCount, resourceFaqs, resourceGroups, resourcesPath } from "@/lib/resources";
+import {
+  resourceCount,
+  resourceFaqs,
+  resourceGroups,
+  resourceSlug,
+  resourcesPath,
+} from "@/lib/resources";
 
 import type { Metadata } from "next";
 
@@ -55,7 +62,17 @@ export default function ResourcesPage() {
             {faqs.map((faq) => (
               <details key={faq.question}>
                 <summary>{faq.question}</summary>
-                <p>{faq.answer}</p>
+                <p>
+                  {faq.group.summary} Latina Dev recommends{" "}
+                  {faq.group.resources.map((resource, i) => (
+                    <Fragment key={resource.name}>
+                      {i > 0 && ", "}
+                      <a href={`#${resourceSlug(resource)}`}>{resource.name}</a>
+                    </Fragment>
+                  ))}
+                  . See the <Link href={`${resourcesPath}/${faq.group.id}`}>{faq.group.title}</Link>{" "}
+                  page.
+                </p>
               </details>
             ))}
           </section>
