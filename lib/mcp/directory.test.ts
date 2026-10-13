@@ -25,7 +25,7 @@ const members = toMcpMembers([
     location: "Austin, TX",
     countries: ["México" as never, "Peru"],
     openTo: ["Mentoring"],
-    bio: "<p>Builds <strong>design systems</strong> &amp; mentors.</p>",
+    bio: "<p>Builds <strong>design systems</strong> &amp; mentors. Writes &amp;lt;code&amp;gt;.</p>",
     skills: ["React"],
   },
   {
@@ -62,7 +62,7 @@ describe("toMcpMembers", () => {
     assert.equal(ana.url, "https://latina.dev/members/ana-perez");
     assert.equal(ana.linkedin, "https://www.linkedin.com/in/ana-perez");
     assert.equal(ana.github, "https://github.com/anap");
-    assert.equal(ana.bio, "Builds design systems & mentors.");
+    assert.equal(ana.bio, "Builds design systems & mentors. Writes &lt;code&gt;.");
     assert.equal("bio" in bea, false);
   });
 });

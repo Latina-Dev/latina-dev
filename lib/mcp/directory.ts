@@ -32,15 +32,20 @@ export interface McpResource {
   page: string;
 }
 
+const entities: Record<string, string> = {
+  "&amp;": "&",
+  "&lt;": "<",
+  "&gt;": ">",
+  "&quot;": '"',
+  "&#39;": "'",
+};
+
 /** Turn the rendered bio HTML into plain text an assistant can quote */
 const htmlToText = (html: string) =>
   html
     .replace(/<[^>]+>/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
+    // One pass, so "&amp;lt;" becomes "&lt;" rather than "<"
+    .replace(/&(?:amp|lt|gt|quot|#39);/g, (entity) => entities[entity])
     .replace(/\s+/g, " ")
     .trim();
 
