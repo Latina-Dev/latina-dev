@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  // The MCP server at /mcp reads member profiles at runtime, so ship them with that function
+  outputFileTracingIncludes: {
+    "/mcp": ["./data/members/**"],
+  },
+};
 
 const { withSentryConfig } = require("@sentry/nextjs");
 

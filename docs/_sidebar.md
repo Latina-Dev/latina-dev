@@ -10,4 +10,5 @@
 - [Search and Structured Data](/pages/seo)
 - [Branding](/pages/branding)
 - [Storybook MCP](/pages/storybook-mcp)
+- [MCP Server](/pages/mcp-server)
 - [Questions](/pages/questions)
