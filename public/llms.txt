@@ -42,6 +42,5 @@ Each member has a profile page at https://latina.dev/members/<slug> with their l
 ## Optional
 
 - [Privacy policy](https://latina.dev/privacy): what latina.dev and its MCP server collect
-
 - [Source code](https://github.com/Latina-Dev/latina-dev)
 - [Conference](https://latina.dev/conference): an idea in progress for a conference for Latina software engineers
