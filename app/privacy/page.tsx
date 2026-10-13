@@ -54,7 +54,7 @@ export default function PrivacyPage() {
             <a href="https://github.com/Latina-Dev/latina-dev">GitHub repository</a> and shown on
             the site, in the <Link href="/members.json">members feed</Link> and through the MCP
             server. To change or remove your profile, email{" "}
-            <a href="mailto:hola@latina.dev">hola@latina.dev</a> or open a pull request.
+            <a href="mailto:hello@latina.dev">hello@latina.dev</a> or open a pull request.
           </p>
 
           <h2>Visiting latina.dev</h2>
@@ -96,7 +96,7 @@ export default function PrivacyPage() {
           <h2>Contact</h2>
           <p>
             Questions or requests about your data:{" "}
-            <a href="mailto:hola@latina.dev">hola@latina.dev</a>.
+            <a href="mailto:hello@latina.dev">hello@latina.dev</a>.
           </p>
         </div>
       </article>
