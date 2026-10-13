@@ -1,9 +1,9 @@
 import fs from "fs";
-import grayMatter from "gray-matter";
 import remarkHtml from "remark-html";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
 
+import { parseFrontmatter } from "@/lib/frontmatter";
 import { siteName, siteUrl } from "@/lib/site";
 
 // Guides written by Frances Coronel, from her notes. Each is a Markdown file in data/guides.
@@ -36,7 +36,7 @@ export const getGuides = (): Guide[] =>
     .readdirSync(guidesPath)
     .filter((file) => file.endsWith(".md"))
     .map((file) => {
-      const { data, content } = grayMatter(fs.readFileSync(`${guidesPath}/${file}`, "utf8"));
+      const { data, content } = parseFrontmatter(fs.readFileSync(`${guidesPath}/${file}`, "utf8"));
       const slug = file.replace(/\.md$/, "");
       if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) {
         throw new Error(
