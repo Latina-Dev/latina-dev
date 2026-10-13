@@ -19,13 +19,16 @@
     "prepare": "husky",
     "knip": "knip",
     "test:e2e": "playwright test",
-    "links:list": "tsx scripts/list-member-links.ts"
+    "links:list": "tsx scripts/list-member-links.ts",
+    "links:resources": "tsx scripts/audit-resource-links.ts",
+    "logos:resources": "tsx scripts/fetch-resource-logos.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
     "@fortawesome/free-brands-svg-icons": "^7.2.0",
     "@fortawesome/free-solid-svg-icons": "^7.2.0",
     "@fortawesome/react-fontawesome": "^3.2.0",
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "@sentry/nextjs": "^10.43.0",
     "@tailwindcss/postcss": "^4.2.1",
     "@types/node": "26.6.4",

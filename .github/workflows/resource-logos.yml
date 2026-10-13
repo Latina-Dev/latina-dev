@@ -1,0 +1,50 @@
+name: Resource logos
+
+# Fetches logos for entries on /resources that don't have one yet and commits them to the chosen
+# branch. Run it by hand from the Actions tab after adding resources. It doesn't run on every push
+# because commits made by this workflow don't trigger the pull request checks; push again after it
+# runs so CI checks the new logos. Until then, cards show the resource's initials.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  logos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Fetch missing logos
+        run: npm run --silent logos:resources
+      - name: Commit new logos
+        id: commit
+        run: |
+          git add public/img/resources
+          if git diff --cached --quiet; then
+            echo "No new logos"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Add logos for resources"
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+      # The token is only handed to git here, after npm install and the logo script have run
+      - name: Push new logos
+        if: steps.commit.outputs.committed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push --no-verify

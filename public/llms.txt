@@ -2,20 +2,40 @@
 
 > Latina Dev is an open-source directory and community of Latina software engineers at the student, individual contributor (IC), and leadership levels. It exists to increase the visibility of Latina engineers and their access to opportunities across the tech industry.
 
-Each member has a profile page at https://latina.dev/members/<slug> with their level and LinkedIn. Profiles may also include an affiliation, countries of heritage, and links to GitHub, X and a personal site, when the member has added them. Members who opt out of indexing are left out of the feed and sitemap.
+Each member has a profile page at https://latina.dev/members/<slug> with their level and LinkedIn. Profiles may also include an affiliation, countries of heritage, and links to GitHub, X and a personal site, when the member has added them.
 
 ## Directory
 
 - [Members](https://latina.dev/members): every member in the directory, with links to their profile pages
 - [Members data feed](https://latina.dev/members.json): the same directory as JSON, built from the site's data files
 - [About Latina Dev](https://latina.dev/#about): what the community is and who it is for
+- [MCP server](https://latina.dev/mcp): a public, read-only Model Context Protocol server (Streamable HTTP, no auth) with tools to search members and resources. Setup: https://docs.latina.dev/#/pages/mcp-server
 - [Add your profile](https://latina.dev/add-member): how a Latina software engineer can join the directory
+
+## Resources
+
+- [Resources and communities](https://latina.dev/resources): communities, student programs, job boards, career and leadership groups, conferences, founder support, podcasts, newsletters and reports for Latina software engineers, grouped by career stage
+- [Resources as Markdown](https://latina.dev/resources.md): every resource with its link and a one-line description, in one file
+- [Resources data feed](https://latina.dev/resources.json): the same list as JSON
+- [Communities for Latinas in tech](https://latina.dev/resources/latina-communities)
+- [Latino tech communities Latina engineers can join](https://latina.dev/resources/latino-tech-communities)
+- [Coding programs for Latina K-12 students](https://latina.dev/resources/k-12)
+- [Programs and scholarships for Latina college students](https://latina.dev/resources/college)
+- [Job boards for Latina engineers](https://latina.dev/resources/jobs)
+- [Career growth and leadership for Latina engineers](https://latina.dev/resources/career-growth)
+- [Conferences for Latinas in tech](https://latina.dev/resources/conferences)
+- [Support for Latina founders](https://latina.dev/resources/founders)
+- [Podcasts, newsletters and reports on Latinas in tech](https://latina.dev/resources/listen-and-read)
+- [Advice for Latina software engineers in the workplace](https://latina.dev/guides/workplace-advice): ask for what you want, write everything down, and weigh the cost of paying it forward
+- [Helping Latina K-12 students get into coding](https://latina.dev/guides/k-12-students): why it matters and advice for parents and allies
+- [Tips for recruiters hiring diverse software engineers](https://latina.dev/guides/hiring-diverse-engineers): how to reach and support Latina and other underrepresented engineers
 
 ## Docs
 
 - [Documentation](https://docs.latina.dev): how the project works and how to contribute
 - [Adding a member](https://docs.latina.dev/#/pages/adding-a-member): the member data format and how to add a profile
 - [Members data feed](https://docs.latina.dev/#/pages/members-feed): the format of /members.json
+- [MCP server](https://docs.latina.dev/#/pages/mcp-server): how to add latina.dev/mcp to Claude, ChatGPT, Cursor or VS Code
 - [Member levels](https://docs.latina.dev/#/pages/member-levels): what Student, Individual Contributor and Leader mean
 - [Contributing guide](https://github.com/Latina-Dev/latina-dev/blob/main/.github/CONTRIBUTING.md)
 
