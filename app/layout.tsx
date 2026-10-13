@@ -40,7 +40,8 @@ export const metadata: Metadata = {
     images: [defaultSocialImage],
   },
   icons: {
-    shortcut: "/favicon.png",
+    icon: "/img/favicons/favicon-32.png",
+    apple: "/img/favicons/favicon-180-precomposed.png",
   },
   manifest: "/manifest.json",
 };

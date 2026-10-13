@@ -30,7 +30,7 @@ Here's an example of how that can be done by posting under "Experience" or "Volu
 ## Credibility
 
 - You can tell people you've contributed to an open source project - [not many developers do](https://www.digitalocean.com/currents/june-2022)!
-- You can tell people you have contributed to the largest community for Latinx in Tech
+- You can tell people you have contributed to a directory and community for Latina software engineers
 - You can also tell people you've worked on a project that uses the cutting edge of front end technology (Next.js with App Router)
 
 > And there are [many more reasons](https://opensource.guide/how-to-contribute/) why contributing to open source is great!
