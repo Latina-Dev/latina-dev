@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import JsonLd from "@/components/JsonLd/JsonLd";
 import PageHero from "@/components/PageHero/PageHero";
 
@@ -52,8 +50,8 @@ export default function PrivacyPage() {
             location, countries of heritage and links to LinkedIn, GitHub, X and a personal site.
             Profiles are stored in our public{" "}
             <a href="https://github.com/Latina-Dev/latina-dev">GitHub repository</a> and shown on
-            the site, in the <Link href="/members.json">members feed</Link> and through the MCP
-            server. To change or remove your profile, email{" "}
+            the site, in the <a href="/members.json">members feed</a> and through the MCP server. To
+            change or remove your profile, email{" "}
             <a href="mailto:hola@latina.dev">hola@latina.dev</a> or open a pull request.
           </p>
 
