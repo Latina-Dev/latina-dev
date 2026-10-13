@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const defaultSocialImage = {
   url: "/img/featured-image.png",
   width: 1200,
-  height: 630,
+  height: 675,
   alt: siteName,
 };
 

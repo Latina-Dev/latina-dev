@@ -51,7 +51,7 @@ export default function DirectorySearch({ gridId, countId, total }: Props) {
         id="directory-search"
         name="q"
         type="search"
-        placeholder="Name, role, country or skill"
+        placeholder="Name, role or country"
         autoComplete="off"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
