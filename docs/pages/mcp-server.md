@@ -58,6 +58,12 @@ Then ask something like "Find Latina engineering leaders open to mentoring" or "
 - Member data comes from `data/members`, the same files as the site and [`/members.json`](/pages/members-feed). Resources come from `lib/resources.ts`. Both update whenever the site is redeployed.
 - Results include each member's public profile fields and profile URL.
 
+## Listings
+
+The server is listed in the [official MCP Registry](https://registry.modelcontextprotocol.io) as `io.github.Latina-Dev/latina-dev`, from `server.json` at the root of the repo. The `Publish to MCP Registry` workflow publishes it whenever `server.json` changes on `main`. Bump `version` in `server.json` with every change, because the registry won't accept the same version twice.
+
+See the [privacy policy](https://latina.dev/privacy) for what the server and site collect.
+
 ## Try it locally
 
 Run `npm run dev`, then open the [MCP Inspector](https://github.com/modelcontextprotocol/inspector) and connect to `http://localhost:3000/mcp` with the Streamable HTTP transport:
