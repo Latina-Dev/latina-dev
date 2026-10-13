@@ -14,6 +14,8 @@ permissions:
 
 jobs:
   publish:
+    # Manual runs can pick any branch; only publish what's on main
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
