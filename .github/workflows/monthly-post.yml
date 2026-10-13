@@ -1,0 +1,66 @@
+name: Monthly post
+
+# Drafts the monthly LinkedIn post for the Latina Dev page from last month's new members, resources
+# and guides, renders a share image, and opens an issue assigned to Frances with both. On pull
+# requests that change the generator, it builds last month's draft without opening an issue.
+
+on:
+  schedule:
+    - cron: "0 15 1 * *"
+  workflow_dispatch:
+    inputs:
+      month:
+        description: "Month to draft, as YYYY-MM (default: last month)"
+        required: false
+  pull_request:
+    paths:
+      - .github/workflows/monthly-post.yml
+      - lib/monthlyPost.ts
+      - scripts/monthly-post.ts
+
+permissions:
+  contents: read
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          # Full history, to tell which resources were added during the month
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Draft the post
+        env:
+          MONTH: ${{ inputs.month }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: npx tsx scripts/monthly-post.ts "$MONTH"
+      - name: Upload the share image
+        uses: actions/upload-artifact@v4
+        with:
+          name: share-image
+          path: monthly-post/share-image.png
+          retention-days: 90
+      - name: Show the draft
+        run: cat monthly-post/issue.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Open the issue
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create monthly-post --color 9e0001 --description "Monthly LinkedIn post draft" --force
+          title="LinkedIn post for $(head -1 monthly-post/post.txt | sed 's/ on Latina Dev:.*//')"
+          gh issue create --title "$title" --label monthly-post --assignee FrancesCoronel --body-file monthly-post/issue.md
