@@ -1,6 +1,9 @@
-import { POST } from "@/app/mcp/route";
+import { DELETE, GET, OPTIONS, POST } from "@/app/mcp/route";
 
 import assert from "node:assert/strict";
+import { mkdtempSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, it } from "node:test";
 
 // Talks to the /mcp route handler the way a remote MCP client does, over Streamable HTTP
@@ -20,6 +23,44 @@ const call = async (method: string, params: Record<string, unknown> = {}) => {
   assert.equal(response.headers.get("access-control-allow-origin"), "*");
   return (await response.json()).result;
 };
+
+describe("/mcp HTTP handling", () => {
+  // Runs first: members are cached once loaded, so a failed load has to come before any other call
+  it("retries loading members after a failed load instead of caching the error", async () => {
+    // Member profiles are read from data/members relative to the working directory
+    const cwd = process.cwd();
+    process.chdir(mkdtempSync(join(tmpdir(), "mcp-")));
+    try {
+      await assert.rejects(call("tools/list"));
+    } finally {
+      process.chdir(cwd);
+    }
+    const { tools } = await call("tools/list");
+    assert.equal(tools.length, 4);
+  });
+
+  it("answers CORS preflight requests", () => {
+    const response = OPTIONS();
+    assert.equal(response.status, 204);
+    assert.equal(response.headers.get("access-control-allow-origin"), "*");
+    assert.match(
+      response.headers.get("access-control-allow-headers") ?? "",
+      /Mcp-Protocol-Version/
+    );
+  });
+
+  it("accepts a session DELETE as a no-op, since the server is stateless", async () => {
+    const response = await DELETE(new Request("https://latina.dev/mcp", { method: "DELETE" }));
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("access-control-allow-origin"), "*");
+  });
+
+  it("rejects a GET that doesn't accept an event stream, still with CORS headers", async () => {
+    const response = await GET(new Request("https://latina.dev/mcp"));
+    assert.equal(response.status, 406);
+    assert.equal(response.headers.get("access-control-allow-origin"), "*");
+  });
+});
 
 describe("/mcp", () => {
   it("initializes with instructions about Latina engineers", async () => {
@@ -67,5 +108,15 @@ describe("/mcp", () => {
       arguments: { category: "conferences" },
     });
     assert.ok(result.structuredContent.total > 0);
+  });
+
+  it("lists resource categories with counts", async () => {
+    const { structuredContent } = await call("tools/call", {
+      name: "list_resource_categories",
+      arguments: {},
+    });
+    const jobs = structuredContent.categories.find((c: { id: string }) => c.id === "jobs");
+    assert.equal(jobs.url, "https://latina.dev/resources/jobs");
+    assert.ok(jobs.count > 0);
   });
 });
