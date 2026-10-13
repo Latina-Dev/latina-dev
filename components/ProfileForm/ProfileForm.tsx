@@ -14,11 +14,12 @@ import styles from "./ProfileForm.module.css";
 
 interface Props {
   initial: Partial<ProfileFormValues>;
-  editing: boolean; // true when the member is changing a profile they own
+  editing: boolean; // true when the member is changing an existing profile
+  claim?: string; // profile slug from the member's personal link, claimed along with the changes
 }
 
 /** The profile form members use to join the directory or update their profile */
-export default function ProfileForm({ initial, editing }: Props) {
+export default function ProfileForm({ initial, editing, claim }: Props) {
   const [state, formAction, pending] = useActionState<ProfileActionState, FormData>(submitProfile, {
     status: "idle",
   });
@@ -62,6 +63,7 @@ export default function ProfileForm({ initial, editing }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
+      {claim && <input type="hidden" name="claim" value={claim} />}
       <div className={styles.grid}>
         <Field
           label="Full name"
@@ -138,8 +140,6 @@ export default function ProfileForm({ initial, editing }: Props) {
       />
 
       <OpenToCheckboxes selected={initial.openTo ?? []} />
-
-      <NoindexCheckbox checked={initial.noindex ?? false} />
 
       {editing && <PhotoCheckbox />}
 
@@ -302,21 +302,6 @@ function OpenToCheckboxes({ selected }: { selected: string[] }) {
           </label>
         ))}
       </div>
-    </fieldset>
-  );
-}
-
-function NoindexCheckbox({ checked }: { checked: boolean }) {
-  return (
-    <fieldset className={styles.fieldset}>
-      <legend className={styles.label}>Search engines</legend>
-      <label className={styles.check}>
-        <input type="checkbox" name="noindex" value="true" defaultChecked={checked} />
-        Keep my profile page out of search engines and AI search
-      </label>
-      <span className={styles.hint}>
-        Your profile still appears in the directory on latina.dev.
-      </span>
     </fieldset>
   );
 }

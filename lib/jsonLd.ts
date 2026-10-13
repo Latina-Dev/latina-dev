@@ -113,18 +113,17 @@ interface CollectionOptions {
 }
 
 /**
- * A directory page: a CollectionPage holding an ItemList of every indexable member it shows.
+ * A directory page: a CollectionPage holding an ItemList of every member it shows.
  * Defaults describe the full directory at /members.
  */
 export const membersCollectionJsonLd = (
   members: MemberInterface[],
   options?: CollectionOptions
 ): JsonLd => {
-  const listed = members.filter((member) => !member.noindex);
   const { name, path, description } = options ?? {
     name: "Latina Dev members",
     path: "/members",
-    description: `A directory of ${listed.length} Latina software engineers, from students to engineering leaders.`,
+    description: `A directory of ${members.length} Latina software engineers, from students to engineering leaders.`,
   };
 
   return {
@@ -136,8 +135,8 @@ export const membersCollectionJsonLd = (
     isPartOf: { "@id": websiteId },
     mainEntity: {
       "@type": "ItemList",
-      numberOfItems: listed.length,
-      itemListElement: listed.map((member, index) => ({
+      numberOfItems: members.length,
+      itemListElement: members.map((member, index) => ({
         "@type": "ListItem",
         position: index + 1,
         url: absolute(member.path),

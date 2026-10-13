@@ -11,7 +11,7 @@ const hash = (value: string) => {
 
 /**
  * Pick other members to link from a profile page: same level first, preferring members who
- * share a country of heritage. Members with `noindex: true` are never suggested.
+ * share a country of heritage.
  * @param member the member whose profile is being rendered
  * @param members every member
  * @param count how many to return
@@ -27,7 +27,7 @@ export const getRelatedMembers = (
     (other.countries ?? []).filter((country) => countries.has(country)).length;
 
   return members
-    .filter((other) => other.slug !== member.slug && !other.noindex && other.level === member.level)
+    .filter((other) => other.slug !== member.slug && other.level === member.level)
     .map((other) => ({
       other,
       shared: sharedCountries(other),

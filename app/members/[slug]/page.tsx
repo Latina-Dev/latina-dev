@@ -75,18 +75,16 @@ export default async function Member({ params }: Props) {
 
   return (
     <>
-      {!member.noindex && (
-        <JsonLd
-          data={[
-            profilePageJsonLd(member, memberLastModified(member)),
-            breadcrumbJsonLd([
-              { name: "Home", path: "/" },
-              { name: "Members", path: "/members" },
-              { name, path: member.path },
-            ]),
-          ]}
-        />
-      )}
+      <JsonLd
+        data={[
+          profilePageJsonLd(member, memberLastModified(member)),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Members", path: "/members" },
+            { name, path: member.path },
+          ]),
+        ]}
+      />
       <PageHero
         before={
           <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
@@ -200,7 +198,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       defaultImage: false,
       type: "profile",
     }),
-    // Members who opt out stay reachable from the directory but out of search results
-    ...(member.noindex ? { robots: { index: false } } : {}),
   };
 }

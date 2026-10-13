@@ -29,7 +29,6 @@ export interface MemberInterface {
   countries?: CountryName[]; // optional: Country or countries of origin, e.g. ['Peru']
   location?: string; // optional: where the member is based now, e.g. San Francisco, CA
   openTo?: OpenToOption[]; // optional: what the member is open to, e.g. ['Mentoring', 'Speaking']
-  noindex?: boolean; // optional: true leaves the member out of the /members.json feed
 }
 
 export const exampleMember: MemberInterface = {

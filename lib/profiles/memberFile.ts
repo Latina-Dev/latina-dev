@@ -20,7 +20,6 @@ const keyOrder: (keyof MemberFrontmatter)[] = [
   "countries",
   "location",
   "openTo",
-  "noindex",
 ];
 
 /** Profile fields a member fills in on the profile form */
@@ -34,7 +33,6 @@ export interface ProfileFormValues {
   location: string;
   countries: string[];
   openTo: string[];
-  noindex: boolean;
   bio: string;
 }
 
@@ -66,7 +64,6 @@ export const readProfileForm = (data: FormData): ProfileFormValues => {
     location: text("location"),
     countries: list("countries"),
     openTo: list("openTo"),
-    noindex: data.get("noindex") === "true",
     bio: text("bio"),
   };
 };
@@ -117,7 +114,6 @@ export const buildMemberProfile = (
     countries: optional(values.countries, values.countries.length === 0),
     location: optional(values.location, !values.location),
     openTo: optional(values.openTo, values.openTo.length === 0),
-    noindex: optional(true, !values.noindex),
   };
 
   const result = memberFrontmatterSchema.safeParse(candidate);

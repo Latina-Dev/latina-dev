@@ -7,19 +7,17 @@ export const dynamic = "force-static";
 
 const siteUrl = "https://latina.dev";
 
-type PublicMember = Omit<MemberInterface, "noindex"> & { url: string };
+type PublicMember = MemberInterface & { url: string };
 
 /**
- * Public, machine-readable list of members for agents and integrations.
- * Members with `noindex: true` are left out.
+ * Public, machine-readable list of every member for agents and integrations.
  */
 export async function GET() {
   const members = await getMembers();
 
   const publicMembers: PublicMember[] = members
-    .filter((member) => !member.noindex)
     .sort((a, b) => a.slug.localeCompare(b.slug))
-    .map(({ noindex: _noindex, ...member }) => ({
+    .map((member) => ({
       ...member,
       url: `${siteUrl}${member.path}`,
     }));

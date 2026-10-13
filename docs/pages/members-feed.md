@@ -38,17 +38,6 @@ The feed is generated at build time from the files in `data/members`, so it upda
 - `bio` is the member's Markdown bio rendered as HTML. It is an empty string when the member has no bio.
 - Optional fields the member has not filled in are left out rather than set to `null`.
 
-## Opting out
-
-Members who add `noindex: true` to their front matter are left out of the feed:
-
-```md
----
-name: Frances Coronel
-noindex: true
----
-```
-
 ## Example
 
 ```sh

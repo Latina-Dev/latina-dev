@@ -21,7 +21,6 @@ const values = (overrides: Partial<ProfileFormValues> = {}): ProfileFormValues =
   location: "",
   countries: ["Peru"],
   openTo: [],
-  noindex: false,
   bio: "Ana builds things.",
   ...overrides,
 });
@@ -34,14 +33,12 @@ describe("readProfileForm", () => {
     data.set("github", "@ana");
     data.append("countries", "Peru");
     data.append("countries", "Chile");
-    data.set("noindex", "true");
 
     const form = readProfileForm(data);
     assert.equal(form.name, "Ana Example");
     assert.equal(form.linkedin, "ana-example");
     assert.equal(form.github, "ana");
     assert.deepEqual(form.countries, ["Peru", "Chile"]);
-    assert.equal(form.noindex, true);
   });
 });
 
@@ -51,7 +48,6 @@ describe("buildMemberProfile", () => {
     assert.ok(result.success);
     assert.equal(result.data.added, "2026-10-09");
     assert.equal(result.data.github, undefined);
-    assert.equal(result.data.noindex, undefined);
   });
 
   it("keeps the original date and fields the form doesn't show when editing", () => {
@@ -61,15 +57,12 @@ describe("buildMemberProfile", () => {
       level: "Student" as const,
       linkedin: "ana-example",
       twitter: "ana",
-      noindex: true,
     };
     const result = buildMemberProfile(values({ level: "Leader" }), existing, "2026-10-09");
     assert.ok(result.success);
     assert.equal(result.data.added, "2023-01-01");
     assert.equal(result.data.twitter, "ana");
     assert.equal(result.data.level, "Leader");
-    // Unchecking the box removes noindex
-    assert.equal(result.data.noindex, undefined);
   });
 
   it("reports schema problems", () => {
@@ -90,7 +83,6 @@ describe("serializeMemberFile", () => {
         name: 'Ana "La Dev": Example',
         countries: ["Peru", "Chile"],
         openTo: ["Mentoring"],
-        noindex: true,
         bio: "Line one\r\n\r\n\r\n\r\nLine two   ",
       }),
       undefined,
@@ -105,7 +97,6 @@ describe("serializeMemberFile", () => {
     assert.deepEqual(parsed.data, result.data);
     assert.equal(content.trim(), "Line one\n\nLine two");
     assert.match(file, /^countries: \["Peru", "Chile"\]$/m);
-    assert.match(file, /^noindex: true$/m);
   });
 });
 

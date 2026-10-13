@@ -4,6 +4,7 @@ import { auth, signIn, signOut } from "@/auth";
 
 import { commitToBranch, openOrUpdatePull, RepoFile } from "@/lib/profiles/github";
 import {
+  claimableSlug,
   claimedSlugs,
   memberPath,
   memberSlugs,
@@ -120,29 +121,40 @@ export async function submitProfile(
   if (!member) return { status: "error", message: "Please sign in with LinkedIn first." };
 
   const ownedSlug = readOwnedSlug(member.ownerHash);
-  const current = ownedSlug ? readMemberProfile(ownedSlug) : undefined;
+  // A member who came from their personal link claims and updates their profile in one review
+  const claimSlug = ownedSlug ? undefined : claimableSlug(formData.get("claim"));
+  if (!ownedSlug && formData.has("claim") && !claimSlug) {
+    return {
+      status: "error",
+      message: "That profile is already linked to an account. Email hola@latina.dev for help.",
+    };
+  }
+  const existingSlug = ownedSlug ?? claimSlug;
+  const current = existingSlug ? readMemberProfile(existingSlug) : undefined;
   const values = readProfileForm(formData);
   const today = new Date().toISOString().slice(0, 10);
 
   const profile = buildMemberProfile(values, current?.frontmatter, today);
   if (!profile.success) return { status: "error", message: profile.error };
 
-  const slug = ownedSlug ?? slugForName(profile.data.name, memberSlugs());
+  const slug = existingSlug ?? slugForName(profile.data.name, memberSlugs());
   const files: RepoFile[] = [
     { path: `${memberPath}/${slug}.md`, content: serializeMemberFile(profile.data, profile.bio) },
   ];
 
-  let note: string | undefined;
-  if (!ownedSlug || formData.get("usePhoto") === "true") {
+  let note: string | undefined = claimSlug
+    ? "Came from their personal link. Check the LinkedIn account matches the profile."
+    : undefined;
+  if (!existingSlug || formData.get("usePhoto") === "true") {
     const photo = await fetchLinkedInPhoto(member.user.image);
     if (photo) files.push({ path: `public/img/members/${slug}.jpg`, content: photo });
-    else if (!ownedSlug) note = "No LinkedIn photo was found, so add one before approving.";
+    else if (!existingSlug) note = "No LinkedIn photo was found, so add one before approving.";
   }
   if (!ownedSlug) files.push({ path: ownerFile(slug), content: `${member.ownerHash}\n` });
 
   try {
     await submitForReview({
-      kind: ownedSlug ? "edit" : "new",
+      kind: ownedSlug ? "edit" : claimSlug ? "claim" : "new",
       ownerHash: member.ownerHash,
       user: member.user,
       slug,
@@ -206,8 +218,16 @@ export async function claimProfile(
   return { status: "submitted" };
 }
 
-export async function signInWithLinkedIn() {
-  await signIn("linkedin", { redirectTo: "/profile" });
+/**
+ * Sign in with LinkedIn, coming back to the member's personal claim link if they used one
+ */
+export async function signInWithLinkedIn(formData: FormData) {
+  const claim = formData.get("claim");
+  const redirectTo =
+    typeof claim === "string" && /^[a-z0-9-]+$/.test(claim)
+      ? `/profile?claim=${claim}`
+      : "/profile";
+  await signIn("linkedin", { redirectTo });
 }
 
 export async function signOutMember() {

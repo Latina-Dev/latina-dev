@@ -49,11 +49,6 @@ Every page sets Open Graph and Twitter card tags through `pageMetadata()` in `li
 
 Most pages share `/img/featured-image.png`. Profile pages get their own 1200×630 image from `app/members/[slug]/opengraph-image.tsx`, generated at build time with the member's photo, name, level and affiliation (when they have one) on Latina Dev branding. To preview one, run the site and open `/members/<slug>/opengraph-image`.
 
-## Opting out
+## Every member is discoverable
 
-A member with `noindex: true` in their front matter:
-
-- gets a `noindex` robots tag on their profile page
-- is left out of the sitemap, `/members.json`, the structured data and the related members on other profiles
-
-Their card still appears in the directory on latina.dev.
+Every profile is in the sitemap, `/members.json`, the structured data and the related members on other profiles, and every page is open to search engines and AI crawlers. There is no opt-out: the directory exists so members get found. The member schema rejects a `noindex` field.

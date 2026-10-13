@@ -49,17 +49,7 @@ Leave out any field you don't want to share. Location and open to are shown on y
 
 Every member gets a profile page at `https://latina.dev/members/firstname-lastname`, using the same name as your Markdown file. Member cards on the home page and the members page link to it, and it shows your links (LinkedIn, GitHub, X and website), your level, affiliation and countries, and a few other members at the same level.
 
-Profile pages are listed in the [sitemap](https://latina.dev/sitemap.xml) so search engines and AI search tools can find and cite them.
-
-### Opting out of search engines
-
-If you would rather your profile page not appear in search results, add this to your front matter:
-
-```md
-noindex: true
-```
-
-Your profile stays in the directory on latina.dev, but its page tells search engines not to index it, and it is left out of the sitemap, the [members data feed](/pages/members-feed) and the "more members" suggestions on other profiles. You can also tick "Keep my profile page out of search engines" on the [Add Your Profile](https://latina.dev/add-member) form.
+Profile pages are listed in the [sitemap](https://latina.dev/sitemap.xml) and the [members data feed](/pages/members-feed) so search engines and AI search tools can find and cite them. Every profile is included, so there is no opt-out.
 
 ### 3. Check your file
 

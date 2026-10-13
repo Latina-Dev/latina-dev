@@ -12,6 +12,12 @@ Members sign in at [latina.dev/profile](https://latina.dev/profile) with LinkedI
 
 Ownership lives in [`data/owners`](https://github.com/Latina-Dev/latina-dev/tree/main/data/owners): one file per profile, named by its slug and holding a hash of the owner's LinkedIn account id. Because the file is named by profile, two pending claims on the same profile conflict and only one can merge. A new profile adds its owner file in the same pull request; a claim adds only the owner file. Delete a file to unlink an account.
 
+## Personal links for existing members
+
+Each existing member has a personal link: `https://latina.dev/profile?claim=<slug>`, where the slug is their profile's filename without `.md` (for example `https://latina.dev/profile?claim=frances-coronel`). Opening it asks them to sign in with LinkedIn, then shows their own profile ready to edit. Sending it claims the profile and updates it in one review; the Slack message notes that it came from their personal link, so check the LinkedIn account matches the profile before approving.
+
+The link isn't secret. It only skips the "pick your name" step, and every claim is still approved in Slack. Once a profile is claimed, its link just shows a note to email hola@latina.dev.
+
 New profiles use the member's LinkedIn photo as `public/img/members/<slug>.jpg`. When editing, members can tick a box to refresh it from LinkedIn.
 
 ## Setup

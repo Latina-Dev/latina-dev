@@ -96,10 +96,9 @@ describe("personJsonLd", () => {
 });
 
 describe("membersCollectionJsonLd", () => {
-  it("lists every member except those with noindex, in order", () => {
+  it("lists every member in order", () => {
     const collection = membersCollectionJsonLd([
       member(),
-      member({ name: "Hidden", slug: "hidden", path: "/members/hidden", noindex: true }),
       member({ name: "Bea", slug: "bea", path: "/members/bea" }),
     ]);
     const list = collection.mainEntity as {

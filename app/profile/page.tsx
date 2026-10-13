@@ -8,7 +8,12 @@ import SignInButton from "@/components/ProfileForm/SignInButton";
 
 import { pageMetadata } from "@/lib/pageMetadata";
 import { findOpenPull } from "@/lib/profiles/github";
-import { readMemberProfile, unclaimedProfiles } from "@/lib/profiles/memberData";
+import {
+  claimableSlug,
+  claimedSlugs,
+  readMemberProfile,
+  unclaimedProfiles,
+} from "@/lib/profiles/memberData";
 import { ownerBranch, readOwnedSlug } from "@/lib/profiles/owners";
 
 import type { Metadata } from "next";
@@ -55,9 +60,12 @@ const normalizeName = (name: string) =>
 export default async function ProfilePage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; claim?: string }>;
 }) {
-  const { error } = await searchParams;
+  const { error, claim: claimParam } = await searchParams;
+  // Personal link from an organizer, e.g. latina.dev/profile?claim=frances-coronel
+  const claim = claimableSlug(claimParam);
+  const claimName = claim ? readMemberProfile(claim).frontmatter.name : undefined;
   // Until the LinkedIn and auth secrets are set (local development, new previews), auth()
   // throws, so show the signed-out page instead of an error
   const session = await auth().catch((authError: unknown) => {
@@ -89,10 +97,19 @@ export default async function ProfilePage({
         </ol>
         <div className={styles.stack}>
           {session?.ownerHash && session.user ? (
-            <SignedIn hash={session.ownerHash} name={session.user.name ?? ""} />
+            <SignedIn
+              hash={session.ownerHash}
+              name={session.user.name ?? ""}
+              claim={claim}
+              claimTaken={Boolean(claimParam && claimedSlugs().has(claimParam))}
+            />
           ) : (
             <div className={styles.panel}>
-              <h2>Sign in</h2>
+              <h2>
+                {claimName
+                  ? `Hi ${claimName.split(" ")[0]}! Sign in to update your profile`
+                  : "Sign in"}
+              </h2>
               {error && (
                 <p className={styles.error} role="alert">
                   Signing in with LinkedIn didn&apos;t work. Please try again.
@@ -102,7 +119,7 @@ export default async function ProfilePage({
                 We only support signing in with LinkedIn. We use your name, email and photo from
                 LinkedIn, and never post anything to your account.
               </p>
-              <SignInButton />
+              <SignInButton claim={claim} />
             </div>
           )}
         </div>
@@ -111,7 +128,17 @@ export default async function ProfilePage({
   );
 }
 
-async function SignedIn({ hash, name }: { hash: string; name: string }) {
+async function SignedIn({
+  hash,
+  name,
+  claim,
+  claimTaken,
+}: {
+  hash: string;
+  name: string;
+  claim?: string;
+  claimTaken: boolean;
+}) {
   const ownedSlug = readOwnedSlug(hash);
   const pending = await hasPendingChange(hash);
 
@@ -130,19 +157,40 @@ async function SignedIn({ hash, name }: { hash: string; name: string }) {
           Your last change is waiting for review. Sending another one replaces it.
         </p>
       )}
-      {ownedSlug ? <EditProfile slug={ownedSlug} /> : <JoinOrClaim name={name} />}
+      {!ownedSlug && claimTaken && (
+        <p className={styles.notice} role="status">
+          That profile is already linked to an account. Email hola@latina.dev if it&apos;s yours.
+        </p>
+      )}
+      {ownedSlug ? (
+        <EditProfile slug={ownedSlug} />
+      ) : claim ? (
+        <EditProfile slug={claim} claim />
+      ) : (
+        <JoinOrClaim name={name} />
+      )}
     </>
   );
 }
 
-function EditProfile({ slug }: { slug: string }) {
+/**
+ * The edit form for a profile the member owns, or one they're claiming from their personal link
+ */
+function EditProfile({ slug, claim = false }: { slug: string; claim?: boolean }) {
   const { frontmatter, bio } = readMemberProfile(slug);
 
   return (
     <>
       <h2>Edit your profile</h2>
+      {claim && (
+        <p>
+          Update anything that&apos;s changed and send it. Once an organizer approves, this profile
+          is linked to your LinkedIn sign-in and you can edit it any time.
+        </p>
+      )}
       <ProfileForm
         editing
+        claim={claim ? slug : undefined}
         initial={{
           ...frontmatter,
           github: frontmatter.github ?? "",
@@ -151,7 +199,6 @@ function EditProfile({ slug }: { slug: string }) {
           location: frontmatter.location ?? "",
           countries: frontmatter.countries ?? [],
           openTo: frontmatter.openTo ?? [],
-          noindex: frontmatter.noindex ?? false,
           bio,
         }}
       />

@@ -55,3 +55,13 @@ export const unclaimedProfiles = () => {
     .map((slug) => ({ slug, name: readMemberProfile(slug).frontmatter.name }))
     .sort((a, b) => a.name.localeCompare(b.name));
 };
+
+/**
+ * Check a profile slug from a personal claim link (latina.dev/profile?claim=<slug>)
+ * @param value the claim query parameter or form field
+ * @returns the slug when it names an existing profile nobody has claimed yet
+ */
+export const claimableSlug = (value: unknown) =>
+  typeof value === "string" && memberSlugs().has(value) && !claimedSlugs().has(value)
+    ? value
+    : undefined;
