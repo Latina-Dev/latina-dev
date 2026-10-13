@@ -137,14 +137,13 @@ export default function AddMemberPage() {
               />
 
               {/* Maps to MemberInterface.github */}
-              <Field label="GitHub username" name="github" required placeholder="FrancesCoronel" />
+              <Field label="GitHub username" name="github" placeholder="FrancesCoronel" />
 
               {/* Maps to MemberInterface.website */}
               <Field
                 label="Personal website"
                 name="website"
                 type="url"
-                required
                 placeholder="https://francescoronel.com"
               />
 
@@ -173,19 +172,8 @@ export default function AddMemberPage() {
               placeholder="A short bio about yourself…"
             />
 
-            {/* Maps to MemberInterface.skills */}
-            <Field
-              label="Skills"
-              name="skills"
-              placeholder="React, TypeScript, Accessibility"
-              hint="Up to 10, separated by commas"
-            />
-
             {/* Maps to MemberInterface.openTo */}
             <OpenToCheckboxes />
-
-            {/* Maps to MemberInterface.noindex */}
-            <NoindexCheckbox />
 
             {countryError && (
               <p className={styles.error} role="alert">
@@ -332,21 +320,6 @@ function OpenToCheckboxes() {
           </label>
         ))}
       </div>
-    </fieldset>
-  );
-}
-
-function NoindexCheckbox() {
-  return (
-    <fieldset className={styles.fieldset}>
-      <legend className={styles.label}>Search engines</legend>
-      <label className={styles.check}>
-        <input type="checkbox" name="noindex" value="true" />
-        Keep my profile page out of search engines and AI search
-      </label>
-      <span className={styles.hint}>
-        Your profile still appears in the directory on latina.dev.
-      </span>
     </fieldset>
   );
 }
