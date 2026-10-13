@@ -75,7 +75,11 @@ export const toMcpMembers = (members: MemberInterface[]): McpMember[] =>
     });
 
 // Lowercase and strip accents, so "mexico" finds "México" and the other way round
-const normalize = (text: string) => text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const normalize = (text: string) =>
+  text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 
 // Words that describe everyone here, or carry no meaning, so they would only filter results out
 const ignoredWords = new Set(

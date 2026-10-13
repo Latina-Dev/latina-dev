@@ -17,6 +17,8 @@ Every keyword in a query must match. Matching ignores case and accents, so `mexi
 
 ## Add it to your assistant
 
+Custom connectors depend on your plan: Claude and ChatGPT only offer them on some plans, and in a ChatGPT workspace an admin may need to allow developer mode.
+
 **Claude (claude.ai and the desktop app):** go to Settings → Connectors → Add custom connector, name it Latina Dev and paste `https://latina.dev/mcp`.
 
 **Claude Code:**

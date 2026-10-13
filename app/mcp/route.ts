@@ -10,7 +10,14 @@ import { createMcpServer } from "@/lib/mcp/server";
 let members: Promise<McpMember[]> | undefined;
 
 // Read the profiles once per server instance; they only change on a redeploy
-const loadMembers = () => (members ??= getMembers().then(toMcpMembers));
+const loadMembers = () =>
+  (members ??= getMembers()
+    .then(toMcpMembers)
+    .catch((error) => {
+      // Let the next request try again instead of caching the failure
+      members = undefined;
+      throw error;
+    }));
 
 // The data is public, so any site or browser-based client may call it
 const corsHeaders = {
