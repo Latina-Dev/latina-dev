@@ -65,7 +65,9 @@ export default function PrivacyPage() {
             <li>
               <strong>Error monitoring:</strong> we use Sentry to find and fix errors. When an error
               happens, and for a small sample of visits, Sentry records a replay of the page with
-              all text masked and all images and media blocked.
+              all text masked and all images and media blocked. It also records performance traces
+              of requests to our server, such as the address requested, how long it took and whether
+              it failed. It doesn&apos;t record what was sent in a request.
             </li>
             <li>
               <strong>Forms:</strong> when you ask to join the directory, what you type in the form
@@ -78,9 +80,10 @@ export default function PrivacyPage() {
             The <a href="https://docs.latina.dev/#/pages/mcp-server">Latina Dev MCP server</a> at
             latina.dev/mcp lets AI assistants search the directory and resources. It is read-only
             and needs no account. It only returns information that is already public on latina.dev.
-            We don&apos;t store the searches assistants send, and we don&apos;t link them to any
-            person. Like any website, our host (Vercel) keeps short-lived request logs, such as IP
-            addresses and timestamps, to run and protect the service.
+            We don&apos;t store the searches assistants send, don&apos;t send them to Sentry, and
+            don&apos;t link them to any person. Like any website, our host (Vercel) keeps
+            short-lived request logs, such as IP addresses and timestamps, to run and protect the
+            service.
           </p>
 
           <h2>Sharing and retention</h2>
