@@ -49,10 +49,9 @@ const htmlToText = (html: string) =>
     .replace(/\s+/g, " ")
     .trim();
 
-/** The public view of a member, without fields the site doesn't show (members opting out are dropped) */
+/** The public view of every member, without fields the site doesn't show */
 export const toMcpMembers = (members: MemberInterface[]): McpMember[] =>
   members
-    .filter((member) => !member.noindex)
     .sort((a, b) => a.slug.localeCompare(b.slug))
     .map((member) => {
       const bio = member.bio ? htmlToText(member.bio) : "";

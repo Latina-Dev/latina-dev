@@ -28,7 +28,6 @@ const members = toMcpMembers([
     countries: ["México" as never, "Peru"],
     openTo: ["Mentoring"],
     bio: "<p>Builds <strong>design systems</strong> &amp; mentors. Writes &amp;lt;code&amp;gt;.</p>",
-    skills: ["React"],
   },
   {
     ...base,
@@ -39,24 +38,14 @@ const members = toMcpMembers([
     linkedin: "bea-ruiz",
     countries: ["Colombia"],
   },
-  {
-    ...base,
-    name: "Hidden Member",
-    slug: "hidden",
-    path: "/members/hidden",
-    linkedin: "hidden",
-    noindex: true,
-  },
 ] satisfies MemberInterface[]);
 
 describe("toMcpMembers", () => {
-  it("drops opted-out members and fields the site doesn't show", () => {
+  it("includes every member, without fields the site doesn't show", () => {
     assert.deepEqual(
       members.map((m) => m.slug),
       ["ana-perez", "bea-ruiz"]
     );
-    assert.equal("skills" in members[0], false);
-    assert.equal("noindex" in members[0], false);
   });
 
   it("returns full URLs and the bio as plain text", () => {

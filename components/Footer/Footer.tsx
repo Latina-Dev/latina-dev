@@ -7,6 +7,7 @@ const links = [
   { href: "https://github.com/Latina-Dev/latina-dev", label: "GitHub", external: true },
   { href: "/add-member", label: "Slack" },
   { href: "https://www.linkedin.com/company/latina-dev/", label: "LinkedIn", external: true },
+  { href: "/profile", label: "Edit your profile" },
   { href: "https://docs.latina.dev", label: "Contribute", external: true },
   {
     href: "https://6472ce8643c60096810af8c0-xxywyuqilq.chromatic.com/",
