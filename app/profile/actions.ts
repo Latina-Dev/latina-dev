@@ -105,8 +105,10 @@ const submitForReview = async ({
       note,
     });
   } catch (error) {
-    // The pull request is the source of truth, so a Slack outage shouldn't fail the submission
+    // Slack is the only place organizers see review requests, so tell the member to retry.
+    // Sending again updates the same pull request and posts a fresh review message.
     console.error(error);
+    throw error;
   }
 };
 

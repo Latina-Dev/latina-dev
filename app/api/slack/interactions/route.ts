@@ -51,6 +51,9 @@ export async function POST(request: Request) {
   }
 
   const pullNumber = Number(action.value);
+  if (!Number.isInteger(pullNumber) || pullNumber <= 0) {
+    return new Response("Invalid pull request", { status: 400 });
+  }
   const summary = payload.message.blocks?.find((block) => block.type === "section")?.text?.text;
 
   after(async () => {

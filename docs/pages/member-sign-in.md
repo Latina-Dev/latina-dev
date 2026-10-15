@@ -22,7 +22,7 @@ New profiles use the member's LinkedIn photo as `public/img/members/<slug>.jpg`.
 
 ## Setup
 
-These are set as environment variables in Vercel (Production, plus Preview if you want to test on previews).
+These are set as environment variables in Vercel for Production. Sign-in doesn't work on preview deployments, because LinkedIn only redirects back to the `latina.dev` callback URL registered below.
 
 ### LinkedIn
 
