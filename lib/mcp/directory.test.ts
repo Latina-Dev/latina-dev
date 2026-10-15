@@ -21,6 +21,8 @@ const members = toMcpMembers([
     path: "/members/ana-perez",
     linkedin: "ana-perez",
     github: "anap",
+    twitter: "anap_dev",
+    website: "https://anaperez.dev",
     affiliation: "Staff Engineer at Acme",
     location: "Austin, TX",
     countries: ["México" as never, "Peru"],
@@ -51,8 +53,13 @@ describe("toMcpMembers", () => {
     assert.equal(ana.url, "https://latina.dev/members/ana-perez");
     assert.equal(ana.linkedin, "https://www.linkedin.com/in/ana-perez");
     assert.equal(ana.github, "https://github.com/anap");
+    assert.equal(ana.twitter, "https://x.com/anap_dev");
+    assert.equal(ana.website, "https://anaperez.dev");
     assert.equal(ana.bio, "Builds design systems & mentors. Writes &lt;code&gt;.");
     assert.equal("bio" in bea, false);
+    for (const field of ["github", "twitter", "website", "affiliation", "location", "openTo"]) {
+      assert.equal(field in bea, false, field);
+    }
   });
 });
 
@@ -102,5 +109,22 @@ describe("searchResources", () => {
     const jobs = searchResources({ category: "jobs", limit: 50 });
     assert.ok(jobs.total > 0);
     assert.ok(jobs.resources.every((r) => r.category === "jobs"));
+  });
+});
+
+describe("searchResources edge cases", () => {
+  it("returns nothing when no resource matches every keyword", () => {
+    assert.deepEqual(searchResources({ query: "zzzz-no-such-resource" }), {
+      total: 0,
+      resources: [],
+    });
+  });
+
+  it("ignores generic words and respects the limit", () => {
+    assert.equal(
+      searchResources({ query: "Latina software engineers" }).total,
+      allResources.length
+    );
+    assert.equal(searchResources({ limit: 2 }).resources.length, 2);
   });
 });

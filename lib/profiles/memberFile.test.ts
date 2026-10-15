@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import grayMatter from "gray-matter";
 
+import { parseFrontmatter } from "@/lib/frontmatter";
 import { validateMemberFrontmatter } from "@/lib/memberSchema";
 import {
   buildMemberProfile,
@@ -91,7 +91,7 @@ describe("serializeMemberFile", () => {
     assert.ok(result.success);
 
     const file = serializeMemberFile(result.data, result.bio);
-    const { data, content } = grayMatter(file);
+    const { data, content } = parseFrontmatter(file);
     const parsed = validateMemberFrontmatter("ana-example.md", data);
     assert.ok(parsed.success);
     assert.deepEqual(parsed.data, result.data);

@@ -1,9 +1,9 @@
 import fs from "fs";
-import grayMatter from "gray-matter";
 import remarkHtml from "remark-html";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
 
+import { parseFrontmatter } from "@/lib/frontmatter";
 import { MemberFrontmatter, validateMemberFrontmatter } from "@/lib/memberSchema";
 
 import { MemberInterface } from "@/types/members";
@@ -40,7 +40,7 @@ export const readMemberFiles = () => {
     const markdownWithMetadata = fs.readFileSync(`${memberPath}/${filename}`).toString();
 
     // Parse markdown, grab front matter
-    const { data, content } = grayMatter(markdownWithMetadata);
+    const { data, content } = parseFrontmatter(markdownWithMetadata);
 
     const result = validateMemberFrontmatter(filename, data);
     if (!result.success) {

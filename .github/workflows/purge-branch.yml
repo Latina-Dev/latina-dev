@@ -4,11 +4,13 @@ on:
     - cron: "0 10 * * *" # every day @ 10 AM UTC
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   purgeBranches:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Delete merged branches older than 7 days
         env:

@@ -47,7 +47,7 @@ export type MemberFrontmatter = z.infer<typeof memberFrontmatterSchema>;
 /**
  * Validate the frontmatter of one member profile
  * @param filename e.g. frances-coronel.md
- * @param data frontmatter parsed by gray-matter
+ * @param data frontmatter parsed from the profile file
  * @returns validated frontmatter, or a readable list of problems
  */
 export const validateMemberFrontmatter = (

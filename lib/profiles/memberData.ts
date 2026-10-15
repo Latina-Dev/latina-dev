@@ -1,6 +1,6 @@
 import fs from "fs";
-import grayMatter from "gray-matter";
 
+import { parseFrontmatter } from "@/lib/frontmatter";
 import { validateMemberFrontmatter } from "@/lib/memberSchema";
 import { ownersPath } from "@/lib/profiles/owners";
 
@@ -24,7 +24,7 @@ export const memberSlugs = () =>
  */
 export const readMemberProfile = (slug: string) => {
   if (!slugPattern.test(slug)) throw new Error(`Invalid profile slug: ${slug}`);
-  const { data, content } = grayMatter(fs.readFileSync(`${memberPath}/${slug}.md`, "utf8"));
+  const { data, content } = parseFrontmatter(fs.readFileSync(`${memberPath}/${slug}.md`, "utf8"));
   const result = validateMemberFrontmatter(`${slug}.md`, data);
   if (!result.success) throw new Error(result.error);
   return { frontmatter: result.data, bio: content.trim() };

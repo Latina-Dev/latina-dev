@@ -29,7 +29,7 @@
     "@fortawesome/free-solid-svg-icons": "^7.2.0",
     "@fortawesome/react-fontawesome": "^3.2.0",
     "@modelcontextprotocol/sdk": "^1.32.1",
-    "@sentry/nextjs": "^10.43.0",
+    "@sentry/nextjs": "^10.76.2",
     "@tailwindcss/postcss": "^4.2.1",
     "@types/node": "26.6.4",
     "@types/react": "^19.2.14",
@@ -37,7 +37,7 @@
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "eslint-config-next": "16.2.3",
-    "gray-matter": "4.0.3",
+    "js-yaml": "^5.4.3",
     "next": "^16.4.0",
     "next-auth": "5.0.0-beta.32",
     "react": "^19.2.4",
@@ -79,5 +79,13 @@
     "storybook": "^10.3.5",
     "tailwindcss": "^4.2.1",
     "tsx": "^4.23.15"
+  },
+  "overrides": {
+    "figlet": "^1.11.3",
+    "image-size": "^2.0.4",
+    "livereload": "^0.10.3",
+    "pbkdf2": "^3.1.7",
+    "valibot": "^1.5.0",
+    "webpack-dev-middleware": "^7.4.5"
   }
 }
