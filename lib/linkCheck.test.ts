@@ -121,6 +121,8 @@ describe("checkPage", () => {
       "https://nodomain.dev/": "ENOTFOUND",
       "https://expired.dev/": "CERT_HAS_EXPIRED",
       "https://parked.dev/": page("<h1>This domain is for sale</h1>"),
+      "https://sedo.dev/": page("<p>Make an offer at www.sedo.com</p>"),
+      "https://afternic.dev/": page("<p>Listed on Afternic</p>"),
     };
     for (const url of Object.keys(cases)) {
       assert.equal((await checkPage(url, fakeFetch(cases))).status, "dead", url);

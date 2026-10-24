@@ -42,7 +42,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         # HEAD is the merge commit, so HEAD^1 is the base branch
         run: |
-          git diff -z --name-only --diff-filter=AM HEAD^1 HEAD -- 'data/members/*.md' > changed
+          git diff -z --name-only --diff-filter=ACMR HEAD^1 HEAD -- 'data/members/*.md' > changed
           if [ ! -s changed ]; then
             echo "No added or edited profiles"
             exit 0

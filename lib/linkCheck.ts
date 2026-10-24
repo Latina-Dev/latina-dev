@@ -9,7 +9,7 @@ const forSalePatterns = [
   /buy this domain/i,
   /this domain (name )?(has expired|may be for sale|is parked)/i,
   /parked (free|domain)/i,
-  /(?<![\w.@-])(hugedomains|sedo|dan|afternic)\.com\b|godaddy\.com\/domains/i,
+  /\b(hugedomains|afternic)\b|(?<![\w@-])(sedo|dan)\.com\b|godaddy\.com\/domains/i,
 ];
 
 // Includes spam words, which are fine for a report a person reads but too loose to remove a member's
