@@ -93,9 +93,10 @@ async function main() {
   const dead = byStatus("dead");
   const unsure = byStatus("unsure");
 
-  // Text from members' sites goes in code spans, so a URL or @mention can't render as a link or ping
+  // Text from profiles and members' sites goes in code spans, so a URL, markup or @mention can't
+  // render as a link or ping anyone
   const code = (text: string) => `\`${text.replaceAll("`", "'").slice(0, 300)}\``;
-  const label = (f: Finding) => `**${f.name}** (\`${f.file}\`) ${f.field} ${code(f.value)}`;
+  const label = (f: Finding) => `${code(f.name)} (${code(f.file)}) ${f.field} ${code(f.value)}`;
   const why = (f: Finding) => ("reason" in f.result ? code(f.result.reason) : "");
   const section = (title: string, intro: string, rows: string[]) =>
     rows.length ? `## ${title} (${rows.length})\n\n${intro}\n\n${rows.join("\n")}\n` : "";

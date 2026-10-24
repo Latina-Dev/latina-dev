@@ -80,8 +80,15 @@ jobs:
       - name: Pass on the edits
         id: diff
         run: |
-          echo "patch=$(git diff -- data/members | base64 -w0)" >> "$GITHUB_OUTPUT"
-          echo "report=$(base64 -w0 member-links.md)" >> "$GITHUB_OUTPUT"
+          patch=$(git diff -- data/members | base64 -w0)
+          report=$(base64 -w0 member-links.md)
+          # Job outputs are capped at 1 MB in total, and anything over it would be dropped silently
+          if [ $(( ${#patch} + ${#report} )) -gt 900000 ]; then
+            echo "::error::The edits are too large to hand to the publish job"
+            exit 1
+          fi
+          echo "patch=$patch" >> "$GITHUB_OUTPUT"
+          echo "report=$report" >> "$GITHUB_OUTPUT"
 
   # Holds the write token but runs no repo code: it applies the patch with git and calls gh
   publish:
@@ -114,6 +121,12 @@ jobs:
           fi
           echo "$REPORT" | base64 -d > "$RUNNER_TEMP/member-links.md"
           echo "$PATCH" | base64 -d | git apply --include='data/members/*'
+          # Only edits to existing profiles: no new, deleted, renamed or non-regular files
+          if git status --porcelain --untracked-files=all | grep -qvE '^ M data/members/[^/]+\.md$' \
+            || [ -n "$(git diff --summary)" ]; then
+            echo "::error::The edits touch more than existing member profiles"
+            exit 1
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c automation/member-links

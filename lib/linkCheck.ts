@@ -27,6 +27,14 @@ const sharedHosts = new Set([
   "github.io",
   "medium.com",
   "vercel.app",
+  "netlify.app",
+  "pages.dev",
+  "web.app",
+  "wordpress.com",
+  "wixsite.com",
+  "carrd.co",
+  "notion.site",
+  "onrender.com",
 ]);
 
 // Registrable part of the hostname, so moving between subdomains (www, jobs, info) isn't flagged.

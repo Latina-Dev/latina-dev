@@ -62,6 +62,17 @@ describe("checkPage", () => {
     });
   });
 
+  it("treats each site on a shared host like Netlify as its own site", async () => {
+    const result = await checkPage(
+      "https://ana.netlify.app/",
+      fakeFetch({
+        "https://ana.netlify.app/": redirect(301, "https://spam.netlify.app/"),
+        "https://spam.netlify.app/": page(),
+      })
+    );
+    assert.equal(result.status, "unsure");
+  });
+
   it("only reports a deep link that now redirects to the homepage", async () => {
     const result = await checkPage(
       "https://a.dev/portfolio",
