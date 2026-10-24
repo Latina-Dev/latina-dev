@@ -209,15 +209,18 @@ export async function confirmDead(
  * @param key frontmatter key, e.g. website
  * @param value new value, or null to remove the key
  * @returns updated file contents
- * @throws if the key isn't in the frontmatter
+ * @throws if the key isn't in the frontmatter as a one-line value
  */
 export const setFrontmatterField = (markdown: string, key: string, value: string | null) => {
-  const end = markdown.indexOf("\n---", 3);
-  if (!markdown.startsWith("---") || end === -1) throw new Error("no frontmatter");
+  const close = /\n---[ \t]*(?:\r?\n|$)/.exec(markdown.slice(3));
+  if (!markdown.startsWith("---") || !close) throw new Error("no frontmatter");
+  const end = close.index + 3;
   const frontmatter = markdown.slice(0, end + 1);
   const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const line = new RegExp(`^${escaped}:.*(?:\\r?\\n|$)`, "m");
-  if (!line.test(frontmatter)) throw new Error(`no ${key} in frontmatter`);
+  // One line with a value, not a | or > block and not followed by indented continuation lines
+  // The frontmatter slice ends in a newline, so every line does
+  const line = new RegExp(`^${escaped}:[ \\t]*(?![|>])\\S.*\\r?\\n(?![ \\t])`, "m");
+  if (!line.test(frontmatter)) throw new Error(`no one-line ${key} in frontmatter`);
   const replacement = value === null ? "" : `${key}: ${JSON.stringify(value)}\n`;
   // A function, so $ in a URL isn't read as a replacement pattern
   return frontmatter.replace(line, () => replacement) + markdown.slice(end + 1);

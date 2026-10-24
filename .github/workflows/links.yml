@@ -48,13 +48,16 @@ jobs:
           fi
           xargs -0 npm run --silent links:members -- < changed
 
+  # Runs the repo's code and npm packages, so it gets only a read-only token. It hands the edits and
+  # the report to the publish job through job outputs.
   fix:
     # The fix branch is cut from the ref that ran, so only run it on main
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
+    outputs:
+      patch: ${{ steps.diff.outputs.patch }}
+      report: ${{ steps.diff.outputs.report }}
+      held: ${{ steps.fix.outputs.held }}
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -72,41 +75,52 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: npm run --silent links:members -- --fix
-      - name: Commit fixes
-        id: commit
+      - name: Pass on the edits
+        id: diff
         run: |
-          if git diff --quiet -- data/members; then
-            echo "Nothing to fix"
+          echo "patch=$(git diff -- data/members | base64 -w0)" >> "$GITHUB_OUTPUT"
+          echo "report=$(base64 -w0 member-links.md)" >> "$GITHUB_OUTPUT"
+
+  # Holds the write token but runs no repo code: it applies the patch with git and calls gh
+  publish:
+    needs: fix
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ secrets.MEMBER_LINKS_TOKEN || github.token }}
+      PATCH: ${{ needs.fix.outputs.patch }}
+      REPORT: ${{ needs.fix.outputs.report }}
+      HELD: ${{ needs.fix.outputs.held }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Open, update or close the pull request
+        run: |
+          pr=$(gh pr list --head automation/member-links --state open --json number --jq '.[0].number')
+          if [ -z "$PATCH" ]; then
+            # A link that came back since the last run would otherwise stay on an open pull request,
+            # unless this run held back removals because too many links looked dead at once
+            if [ -n "$pr" ] && [ "$HELD" != "true" ]; then
+              gh pr close "$pr" --delete-branch --comment "This week's check found nothing to fix, so these changes are no longer needed."
+            fi
             exit 0
           fi
+          echo "$REPORT" | base64 -d > "$RUNNER_TEMP/member-links.md"
+          echo "$PATCH" | base64 -d | git apply --include='data/members/*'
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c automation/member-links
           git commit -m "Fix broken member links" -- data/members
-          echo "committed=true" >> "$GITHUB_OUTPUT"
-      # The token is only handed to git and gh here, after npm install and the check have run
-      - name: Open or update the pull request
-        if: steps.commit.outputs.committed == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.MEMBER_LINKS_TOKEN || github.token }}
-        run: |
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git push --force --no-verify origin automation/member-links
           gh label create links --color 9e0001 --description "Broken member links" --force
-          pr=$(gh pr list --head automation/member-links --state open --json number --jq '.[0].number')
           if [ -n "$pr" ]; then
-            gh pr edit "$pr" --body-file member-links.md
+            gh pr edit "$pr" --body-file "$RUNNER_TEMP/member-links.md"
           else
             gh pr create --base main --head automation/member-links --title "Fix broken member links" \
-              --label links --assignee FrancesCoronel --body-file member-links.md
-          fi
-      # A link that came back since the last run would otherwise stay on an open pull request
-      - name: Close an outdated pull request
-        if: steps.commit.outputs.committed != 'true' && steps.fix.outputs.held != 'true'
-        env:
-          GH_TOKEN: ${{ secrets.MEMBER_LINKS_TOKEN || github.token }}
-        run: |
-          pr=$(gh pr list --head automation/member-links --state open --json number --jq '.[0].number')
-          if [ -n "$pr" ]; then
-            gh pr close "$pr" --delete-branch --comment "This week's check found nothing to fix, so these changes are no longer needed."
+              --label links --assignee FrancesCoronel --body-file "$RUNNER_TEMP/member-links.md"
           fi

@@ -199,6 +199,21 @@ describe("setFrontmatterField", () => {
     );
   });
 
+  it("refuses a value that spans several lines, rather than breaking the file", () => {
+    const folded = `---\nname: Ana\nwebsite: >-\n  https://ana.dev\n---\n`;
+    assert.throws(() => setFrontmatterField(folded, "website", null));
+    const continued = `---\nname: Ana\nwebsite: https://ana.dev/a\n  /b\n---\n`;
+    assert.throws(() => setFrontmatterField(continued, "website", null));
+  });
+
+  it("finds the closing --- line exactly", () => {
+    const ruled = `---\nname: Ana\nwebsite: "https://ana.dev"\n---\n\n----\nwebsite: in the bio\n`;
+    assert.equal(
+      setFrontmatterField(ruled, "website", null),
+      `---\nname: Ana\n---\n\n----\nwebsite: in the bio\n`
+    );
+  });
+
   it("throws when the key isn't in the frontmatter", () => {
     assert.throws(() => setFrontmatterField(profile, "github", null));
   });
