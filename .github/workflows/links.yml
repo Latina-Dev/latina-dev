@@ -19,6 +19,11 @@ on:
 permissions:
   contents: read
 
+# One weekly run at a time, so two never push the fix branch at once; pull requests by branch
+concurrency:
+  group: member-links-${{ github.event_name == 'pull_request' && github.ref || 'weekly' }}
+  cancel-in-progress: false
+
 jobs:
   check:
     if: github.event_name == 'pull_request'

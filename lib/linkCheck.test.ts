@@ -81,6 +81,13 @@ describe("checkPage", () => {
     assert.equal(result.status, "unsure");
   });
 
+  it("only reports a move to http or to an address with a query", async () => {
+    const result = (from: string, to: string) =>
+      checkPage(from, fakeFetch({ [from]: redirect(301, to), [to]: page() }));
+    assert.equal((await result("https://a.dev/", "http://a.dev/")).status, "unsure");
+    assert.equal((await result("https://a.dev/", "https://a.dev/?session=1")).status, "unsure");
+  });
+
   it("checks the page a redirect lands on", async () => {
     const result = await checkPage(
       "https://a.dev/",

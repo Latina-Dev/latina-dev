@@ -173,6 +173,16 @@ export async function checkPage(url: string, fetchImpl: Fetch = fetch): Promise<
       if (new URL(url).pathname !== "/" && new URL(current).pathname === "/") {
         return { status: "unsure", reason: `redirects to the homepage: ${current}` };
       }
+      // Never downgrade to http, and don't save a query or fragment, which may hold a session or
+      // tracking token
+      const from = new URL(url);
+      const to = new URL(current);
+      if (from.protocol === "https:" && to.protocol !== "https:") {
+        return { status: "unsure", reason: `redirects to an insecure address: ${current}` };
+      }
+      if ((to.search && to.search !== from.search) || (to.hash && to.hash !== from.hash)) {
+        return { status: "unsure", reason: `redirects to an address with a query: ${current}` };
+      }
       return { status: "moved", to: current };
     }
     return { status: "unsure", reason: "too many redirects" };
