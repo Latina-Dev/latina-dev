@@ -25,7 +25,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  check:
+  # Not named "check", which is the required CI job's name
+  member-links:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -137,7 +138,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c automation/member-links
           git commit -m "Fix broken member links" -- data/members
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          # Lets git push with GH_TOKEN through gh, without writing the token into .git/config
+          gh auth setup-git
           git push --force --no-verify origin automation/member-links
           gh label create links --color 9e0001 --description "Broken member links" --force
           if [ -n "$pr" ]; then

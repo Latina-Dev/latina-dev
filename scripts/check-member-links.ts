@@ -145,4 +145,7 @@ async function main() {
   process.exitCode = !fix && dead.length ? 1 : 0;
 }
 
-main();
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
