@@ -1,6 +1,6 @@
 import { writeFileSync } from "fs";
 
-import { baseDomain, parkedPatterns, userAgent, visibleText } from "@/lib/linkCheck";
+import { baseDomain, parkedPatterns, readStart, userAgent, visibleText } from "@/lib/linkCheck";
 import { resourceGroups } from "@/lib/resources";
 
 // Monthly audit of every link on /resources. A plain link checker only catches errors, so this also
@@ -39,7 +39,7 @@ async function check(name: string, url: string, retry = true): Promise<Finding |
 
     const type = response.headers.get("content-type") ?? "";
     if (type.includes("text/html")) {
-      const text = visibleText((await response.text()).slice(0, 500_000));
+      const text = visibleText(await readStart(response));
       const match = parkedPatterns.find((pattern) => pattern.test(text));
       if (match) {
         return { name, url, problem: `looks parked or spammy (matched ${match})` };

@@ -49,6 +49,27 @@ export const visibleText = (html: string) =>
     .replace(/<[^>]+>/g, " ");
 
 /**
+ * Read only the start of a page, so a huge one isn't held in memory
+ * @param response page response
+ * @param limit bytes to read
+ */
+export async function readStart(response: Response, limit = 500_000) {
+  const reader = response.body?.getReader();
+  if (!reader) return "";
+  const decoder = new TextDecoder();
+  let text = "";
+  let read = 0;
+  while (read < limit) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    read += value.length;
+    text += decoder.decode(value, { stream: true });
+  }
+  await reader.cancel();
+  return text;
+}
+
+/**
  * What a member link check found
  * - ok: the page loads
  * - moved: every redirect was permanent (301 or 308) and stayed on the same site, so the link
@@ -122,7 +143,7 @@ export async function checkPage(url: string, fetchImpl: Fetch = fetch): Promise<
 
       const type = response.headers.get("content-type") ?? "";
       if (type.includes("text/html")) {
-        const text = visibleText((await response.text()).slice(0, 500_000));
+        const text = visibleText(await readStart(response));
         // Parking pages are a few lines long; a real site that mentions buying a domain is not
         const short = text.replace(/\s+/g, " ").trim().length < 2_000;
         if (short && forSalePatterns.some((pattern) => pattern.test(text))) {
