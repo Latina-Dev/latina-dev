@@ -117,6 +117,8 @@ async function main() {
 
   writeFileSync("member-links.md", report);
   if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, report);
+  // Tells the workflow not to close an open fix pull request after a run that held back removals
+  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `held=${tooMany}\n`);
   console.log(report);
   process.exitCode = !fix && dead.length ? 1 : 0;
 }

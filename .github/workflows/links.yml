@@ -49,7 +49,8 @@ jobs:
           xargs -0 npm run --silent links:members -- < changed
 
   fix:
-    if: github.event_name != 'pull_request'
+    # The fix branch is cut from the ref that ran, so only run it on main
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -67,6 +68,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Fix member links
+        id: fix
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: npm run --silent links:members -- --fix
@@ -100,7 +102,7 @@ jobs:
           fi
       # A link that came back since the last run would otherwise stay on an open pull request
       - name: Close an outdated pull request
-        if: steps.commit.outputs.committed != 'true'
+        if: steps.commit.outputs.committed != 'true' && steps.fix.outputs.held != 'true'
         env:
           GH_TOKEN: ${{ secrets.MEMBER_LINKS_TOKEN || github.token }}
         run: |
