@@ -160,14 +160,17 @@ export async function checkGitHubUser(
   fetchImpl: Fetch = fetch
 ): Promise<LinkResult> {
   try {
-    const response = await fetchImpl(`https://api.github.com/users/${username}`, {
-      headers: {
-        "user-agent": userAgent,
-        accept: "application/vnd.github+json",
-        ...(token ? { authorization: `Bearer ${token}` } : {}),
-      },
-      signal: AbortSignal.timeout(20_000),
-    });
+    const response = await fetchImpl(
+      `https://api.github.com/users/${encodeURIComponent(username)}`,
+      {
+        headers: {
+          "user-agent": userAgent,
+          accept: "application/vnd.github+json",
+          ...(token ? { authorization: `Bearer ${token}` } : {}),
+        },
+        signal: AbortSignal.timeout(20_000),
+      }
+    );
     if (response.status === 404) {
       return { status: "dead", reason: "no GitHub account has this username anymore" };
     }

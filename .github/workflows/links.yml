@@ -41,13 +41,12 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         # HEAD is the merge commit, so HEAD^1 is the base branch
         run: |
-          files=$(git diff --name-only --diff-filter=AM HEAD^1 HEAD -- 'data/members/*.md')
-          if [ -z "$files" ]; then
+          git diff -z --name-only --diff-filter=AM HEAD^1 HEAD -- 'data/members/*.md' > changed
+          if [ ! -s changed ]; then
             echo "No added or edited profiles"
             exit 0
           fi
-          # shellcheck disable=SC2086
-          npm run --silent links:members -- $files
+          xargs -0 npm run --silent links:members -- < changed
 
   fix:
     if: github.event_name != 'pull_request'
@@ -98,4 +97,14 @@ jobs:
           else
             gh pr create --base main --head automation/member-links --title "Fix broken member links" \
               --label links --assignee FrancesCoronel --body-file member-links.md
+          fi
+      # A link that came back since the last run would otherwise stay on an open pull request
+      - name: Close an outdated pull request
+        if: steps.commit.outputs.committed != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.MEMBER_LINKS_TOKEN || github.token }}
+        run: |
+          pr=$(gh pr list --head automation/member-links --state open --json number --jq '.[0].number')
+          if [ -n "$pr" ]; then
+            gh pr close "$pr" --delete-branch --comment "This week's check found nothing to fix, so these changes are no longer needed."
           fi
