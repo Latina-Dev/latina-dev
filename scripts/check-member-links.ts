@@ -123,6 +123,9 @@ async function main() {
       unsure.map((f) => `- ${label(f)}: ${why(f)}`)
     ),
     findings.length ? "" : "All links work.",
+    fix && findings.length
+      ? "\n_This branch is rebuilt from main each week, so a commit pushed to it will be replaced. Make other changes in a separate pull request._"
+      : "",
   ]
     .filter(Boolean)
     .join("\n");

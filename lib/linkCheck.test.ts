@@ -98,6 +98,18 @@ describe("checkPage", () => {
     assert.deepEqual(result, { status: "ok" });
   });
 
+  it("doesn't call a short page dead because its text mentions a domain for sale", async () => {
+    const result = await checkPage(
+      "https://ana.dev/",
+      fakeFetch({
+        "https://ana.dev/": page(
+          "<h1>Ana López</h1><p>I bought this name on dan.com. Buy this domain? No.</p>"
+        ),
+      })
+    );
+    assert.deepEqual(result, { status: "ok" });
+  });
+
   it("doesn't mistake a name or an address for a parked domain", async () => {
     const result = await checkPage(
       "https://judi.dev/",
@@ -132,8 +144,8 @@ describe("checkPage", () => {
       "https://nodomain.dev/": "ENOTFOUND",
       "https://expired.dev/": "CERT_HAS_EXPIRED",
       "https://parked.dev/": page("<h1>This domain is for sale</h1>"),
-      "https://sedo.dev/": page("<p>Make an offer at www.sedo.com</p>"),
-      "https://afternic.dev/": page("<p>Listed on Afternic</p>"),
+      "https://sedo.dev/": page("<title>Make an offer at www.sedo.com</title>"),
+      "https://afternic.dev/": page("<h1>Listed on Afternic</h1><p>Contact us</p>"),
     };
     for (const url of Object.keys(cases)) {
       assert.equal((await checkPage(url, fakeFetch(cases))).status, "dead", url);

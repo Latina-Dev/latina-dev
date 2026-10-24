@@ -151,10 +151,14 @@ export async function checkPage(url: string, fetchImpl: Fetch = fetch): Promise<
 
       const type = response.headers.get("content-type") ?? "";
       if (type.includes("text/html")) {
-        const text = visibleText(await readStart(response));
-        // Parking pages are a few lines long; a real site that mentions buying a domain is not
-        const short = text.replace(/\s+/g, " ").trim().length < 2_000;
-        if (short && forSalePatterns.some((pattern) => pattern.test(text))) {
+        const html = await readStart(response);
+        // Parking pages are a few lines long and say so in the title or main heading; a real site
+        // that mentions buying a domain in passing is not removed
+        const short = visibleText(html).replace(/\s+/g, " ").trim().length < 2_000;
+        const headline = [...html.matchAll(/<(title|h1|h2)\b[^>]*>([\s\S]*?)<\/\1>/gi)]
+          .map((match) => visibleText(match[2]))
+          .join(" ");
+        if (short && forSalePatterns.some((pattern) => pattern.test(headline))) {
           return { status: "dead", reason: "the domain is parked or for sale" };
         }
       }
