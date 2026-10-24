@@ -118,6 +118,30 @@ export const sameUrl = (a: string, b: string) => {
 type Fetch = typeof fetch;
 
 /**
+ * Whether a URL is an ordinary public web address, so the checker never requests the runner's own
+ * network (localhost, private ranges, cloud metadata) from a link someone put in a profile
+ * @param href absolute URL
+ */
+export const isPublicWebUrl = (href: string) => {
+  const { protocol, hostname } = new URL(href);
+  if (protocol !== "https:" && protocol !== "http:") return false;
+  if (hostname.startsWith("[")) return false; // IPv6 literals; members link to domain names
+  if (hostname === "localhost" || /\.(localhost|local|internal)$/.test(hostname)) return false;
+  const ip = hostname.split(".").map(Number);
+  if (ip.length !== 4 || ip.some((part) => !Number.isInteger(part))) return true;
+  const [a, b] = ip;
+  return !(
+    a === 0 ||
+    a === 10 ||
+    a === 127 ||
+    (a === 100 && b >= 64 && b < 128) ||
+    (a === 169 && b === 254) ||
+    (a === 172 && b >= 16 && b < 32) ||
+    (a === 192 && b === 168)
+  );
+};
+
+/**
  * Open a page the way a visitor would, following redirects by hand to see whether they're permanent
  * @param url page to check
  * @param fetchImpl fetch, swappable in tests
@@ -128,6 +152,9 @@ export async function checkPage(url: string, fetchImpl: Fetch = fetch): Promise<
 
   try {
     for (let hop = 0; hop < 10; hop++) {
+      if (!isPublicWebUrl(current)) {
+        return { status: "unsure", reason: `not a public web address: ${current}` };
+      }
       const response = await fetchImpl(current, {
         redirect: "manual",
         headers: { "user-agent": userAgent, accept: "text/html,*/*" },
@@ -142,8 +169,16 @@ export async function checkPage(url: string, fetchImpl: Fetch = fetch): Promise<
         continue;
       }
 
+      // A page on another site that a lapsed domain now sends visitors to says nothing certain
+      // about the member's own link, so it's only reported
+      const elsewhere = baseDomain(url) !== baseDomain(current);
+      const gone = (reason: string): LinkResult =>
+        elsewhere
+          ? { status: "unsure", reason: `redirects to another site, where ${reason}: ${current}` }
+          : { status: "dead", reason };
+
       if ([404, 410].includes(response.status)) {
-        return { status: "dead", reason: `the page answered ${response.status} (not found)` };
+        return gone(`the page answered ${response.status} (not found)`);
       }
       if (!response.ok) {
         return { status: "unsure", reason: `the site answered ${response.status}` };
@@ -159,14 +194,14 @@ export async function checkPage(url: string, fetchImpl: Fetch = fetch): Promise<
           .map((match) => visibleText(match[2]))
           .join(" ");
         if (short && forSalePatterns.some((pattern) => pattern.test(headline))) {
-          return { status: "dead", reason: "the domain is parked or for sale" };
+          return gone("the domain is parked or for sale");
         }
       }
 
       if (sameUrl(url, current) || !allPermanent) return { status: "ok" };
       // A lapsed domain can redirect anywhere once someone else buys it, so only moves within the
       // same site are applied automatically
-      if (baseDomain(url) !== baseDomain(current)) {
+      if (elsewhere) {
         return { status: "unsure", reason: `redirects to another site: ${current}` };
       }
       // A page that now sends visitors to the homepage has usually been removed, not moved

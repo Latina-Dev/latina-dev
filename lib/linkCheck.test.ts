@@ -5,6 +5,7 @@ import {
   checkGitHubUser,
   checkPage,
   confirmDead,
+  isPublicWebUrl,
   LinkResult,
   sameUrl,
   setFrontmatterField,
@@ -86,6 +87,25 @@ describe("checkPage", () => {
       checkPage(from, fakeFetch({ [from]: redirect(301, to), [to]: page() }));
     assert.equal((await result("https://a.dev/", "http://a.dev/")).status, "unsure");
     assert.equal((await result("https://a.dev/", "https://a.dev/?session=1")).status, "unsure");
+  });
+
+  it("only reports a redirect to another site that is gone", async () => {
+    const result = await checkPage(
+      "https://a.dev/",
+      fakeFetch({
+        "https://a.dev/": redirect(301, "https://other.dev/gone"),
+        "https://other.dev/gone": page("", 404),
+      })
+    );
+    assert.equal(result.status, "unsure");
+  });
+
+  it("never requests a private or local address", async () => {
+    const result = await checkPage(
+      "https://a.dev/",
+      fakeFetch({ "https://a.dev/": redirect(302, "http://169.254.169.254/latest/meta-data") })
+    );
+    assert.equal(result.status, "unsure");
   });
 
   it("checks the page a redirect lands on", async () => {
@@ -183,6 +203,26 @@ describe("checkGitHubUser", () => {
     assert.equal((await checkGitHubUser("gone", undefined, fetchImpl)).status, "dead");
     assert.equal((await checkGitHubUser("here", undefined, fetchImpl)).status, "ok");
     assert.equal((await checkGitHubUser("limited", undefined, fetchImpl)).status, "unsure");
+  });
+});
+
+describe("isPublicWebUrl", () => {
+  it("allows public sites and refuses local, private and non-web addresses", () => {
+    assert.ok(isPublicWebUrl("https://ana.dev/"));
+    assert.ok(isPublicWebUrl("http://8.8.8.8/"));
+    for (const url of [
+      "http://localhost:3000/",
+      "http://127.0.0.1/",
+      "http://10.0.0.5/",
+      "http://172.20.1.1/",
+      "http://192.168.1.1/",
+      "http://169.254.169.254/",
+      "http://[::1]/",
+      "http://printer.local/",
+      "ftp://ana.dev/",
+    ]) {
+      assert.ok(!isPublicWebUrl(url), url);
+    }
   });
 });
 
