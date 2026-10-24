@@ -30,6 +30,8 @@ interface Finding {
 
 const args = process.argv.slice(2);
 const fix = args.includes("--fix");
+const unknown = args.filter((arg) => arg !== "--fix" && !arg.endsWith(".md"));
+if (unknown.length) throw new Error(`Not a profile file: ${unknown.join(", ")}`);
 const only = new Set(args.filter((arg) => arg.endsWith(".md")).map((file) => basename(file)));
 const token = process.env.GITHUB_TOKEN;
 const maxRemovals = 10;
