@@ -55,7 +55,7 @@ jobs:
     # The fix branch is cut from the ref that ran, so only run it on main
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     outputs:
       patch: ${{ steps.diff.outputs.patch }}
       report: ${{ steps.diff.outputs.report }}
