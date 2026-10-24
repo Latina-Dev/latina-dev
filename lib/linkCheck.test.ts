@@ -100,6 +100,17 @@ describe("checkPage", () => {
     assert.equal(result.status, "unsure");
   });
 
+  it("only reports a redirect to another site that can't be reached", async () => {
+    const result = await checkPage(
+      "https://a.dev/",
+      fakeFetch({
+        "https://a.dev/": redirect(301, "https://other.dev/"),
+        "https://other.dev/": "ENOTFOUND",
+      })
+    );
+    assert.equal(result.status, "unsure");
+  });
+
   it("never requests a private or local address", async () => {
     const result = await checkPage(
       "https://a.dev/",

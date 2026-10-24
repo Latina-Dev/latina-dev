@@ -230,6 +230,13 @@ export async function checkPage(url: string, fetchImpl: Fetch = fetch): Promise<
   } catch (error) {
     const code = errorCode(error);
     if (code && deadErrorCodes.has(code)) {
+      // Same rule as above: another site failing says nothing certain about the member's link
+      if (baseDomain(url) !== baseDomain(current)) {
+        return {
+          status: "unsure",
+          reason: `redirects to another site, which can't be reached (${code}): ${current}`,
+        };
+      }
       return { status: "dead", reason: `the site can't be reached (${code})` };
     }
     const reason = code ?? (error instanceof Error ? error.message : String(error));
