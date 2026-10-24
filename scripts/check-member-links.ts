@@ -70,19 +70,28 @@ async function main() {
     findings.push(...results.flat());
   }
 
-  const moved = findings.filter((f) => f.result.status === "moved");
-  const dead = findings.filter((f) => f.result.status === "dead");
-  const unsure = findings.filter((f) => f.result.status === "unsure");
+  const byStatus = (status: LinkResult["status"]) =>
+    findings.filter((f) => f.result.status === status);
 
   // Many dead links at once is more likely a network problem on the runner than members' sites
   // all going down, so only list them
-  const tooMany = fix && dead.length > maxRemovals;
+  const tooMany = fix && byStatus("dead").length > maxRemovals;
   if (fix) {
-    for (const f of tooMany ? moved : [...moved, ...dead]) {
+    for (const f of tooMany ? byStatus("moved") : [...byStatus("moved"), ...byStatus("dead")]) {
       const value = f.result.status === "moved" ? f.result.to : null;
-      writeFileSync(f.file, setFrontmatterField(readFileSync(f.file, "utf8"), f.field, value));
+      try {
+        writeFileSync(f.file, setFrontmatterField(readFileSync(f.file, "utf8"), f.field, value));
+      } catch (error) {
+        // Leave a profile laid out in an unexpected way for a person, and keep fixing the rest
+        const reason = error instanceof Error ? error.message : String(error);
+        f.result = { status: "unsure", reason: `couldn't edit the profile (${reason})` };
+      }
     }
   }
+
+  const moved = byStatus("moved");
+  const dead = byStatus("dead");
+  const unsure = byStatus("unsure");
 
   const label = (f: Finding) => `**${f.name}** (\`${f.file}\`) ${f.field} ${f.value}`;
   const why = (f: Finding) => ("reason" in f.result ? f.result.reason : "");
