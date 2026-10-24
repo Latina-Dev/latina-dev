@@ -192,12 +192,12 @@ export async function checkGitHubUser(
  * Check again before calling a link dead, so a one-off network blip never removes a link
  * @param check runs one check
  * @param attempts total tries while the result stays dead
- * @param delayMs wait between tries
+ * @param delayMs wait between tries, long enough for a host restart or DNS blip to pass
  */
 export async function confirmDead(
   check: () => Promise<LinkResult>,
   attempts = 3,
-  delayMs = 5_000
+  delayMs = 30_000
 ): Promise<LinkResult> {
   let result = await check();
   for (let i = 1; i < attempts && result.status === "dead"; i++) {
