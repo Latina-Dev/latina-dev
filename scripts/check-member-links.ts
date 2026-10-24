@@ -58,6 +58,9 @@ async function main() {
   const members = readMemberFiles()
     .map(({ slug, data }) => ({ file: `data/members/${slug}.md`, data }))
     .filter(({ file }) => only.size === 0 || only.has(basename(file)));
+  if (members.length < only.size) {
+    throw new Error(`No member profile for some of: ${[...only].join(", ")}`);
+  }
 
   const findings: Finding[] = [];
   // A few at a time, to be polite to small personal sites
