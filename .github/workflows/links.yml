@@ -82,8 +82,9 @@ jobs:
         run: |
           patch=$(git diff -- data/members | base64 -w0)
           report=$(base64 -w0 member-links.md)
-          # Job outputs are capped at 1 MB in total, and anything over it would be dropped silently
-          if [ $(( ${#patch} + ${#report} )) -gt 900000 ]; then
+          # The publish job reads each one from an environment variable, which Linux caps at 128 KB.
+          # Job outputs have their own 1 MB cap, over which they'd be dropped silently
+          if [ ${#patch} -gt 120000 ] || [ ${#report} -gt 120000 ]; then
             echo "::error::The edits are too large to hand to the publish job"
             exit 1
           fi
