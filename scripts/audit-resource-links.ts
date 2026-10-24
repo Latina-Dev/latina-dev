@@ -1,5 +1,6 @@
 import { writeFileSync } from "fs";
 
+import { parkedPatterns, userAgent, visibleText } from "@/lib/linkCheck";
 import { resourceGroups } from "@/lib/resources";
 
 // Monthly audit of every link on /resources. A plain link checker only catches errors, so this also
@@ -7,22 +8,9 @@ import { resourceGroups } from "@/lib/resources";
 // (rebrands, acquisitions, shutdowns) and parked or spam pages (an expired domain someone bought).
 // Writes a Markdown report to resource-audit.md and exits 1 when anything needs review.
 
-const parkedPatterns = [
-  /domain (is )?for sale/i,
-  /buy this domain/i,
-  /this domain (name )?(has expired|may be for sale|is parked)/i,
-  /parked (free|domain)/i,
-  /hugedomains|sedo\.com|dan\.com|afternic|godaddy\.com\/domains/i,
-  /\b(casino|slot ?gacor|judi|togel|sportsbook|betting|poker online|bandar)\b/i,
-  /\b(viagra|cialis|payday loans?)\b/i,
-];
-
 // Sites that block bots answer 403, 429 or a 503 challenge page; we can't tell those apart from a
 // real block, so they are listed separately instead of being called broken
 const blockedStatuses = new Set([401, 403, 429, 503, 999]);
-
-const userAgent =
-  "Mozilla/5.0 (compatible; LatinaDevLinkAudit/1.0; +https://github.com/Latina-Dev/latina-dev)";
 
 // Hosts where each subdomain belongs to a different owner, so a redirect between them is a move
 const sharedHosts = new Set([
@@ -44,13 +32,6 @@ const baseDomain = (url: string) => {
   const base = labels.slice(twoPart ? -3 : -2).join(".");
   return sharedHosts.has(base) ? hostname : base;
 };
-
-// Text a visitor would see, so URLs and words inside scripts, styles or comments don't match
-const visibleText = (html: string) =>
-  html
-    .replace(/<!--[\s\S]*?-->/g, " ")
-    .replace(/<(script|style|noscript)\b[\s\S]*?<\/\1>/gi, " ")
-    .replace(/<[^>]+>/g, " ");
 
 interface Finding {
   name: string;
