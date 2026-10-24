@@ -114,6 +114,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          # The commit the fix job read, so the patch always applies
+          ref: ${{ github.sha }}
           persist-credentials: false
       - name: Open, update or close the pull request
         run: |
