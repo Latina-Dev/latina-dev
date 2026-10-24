@@ -119,7 +119,9 @@ type Fetch = typeof fetch;
 
 /**
  * Whether a URL is an ordinary public web address, so the checker never requests the runner's own
- * network (localhost, private ranges, cloud metadata) from a link someone put in a profile
+ * network (localhost, private ranges, cloud metadata) from a link someone put in a profile.
+ * Only the literal hostname is checked, not what it resolves to. That's an accepted limit: the check
+ * runs on a throwaway GitHub-hosted runner and reports only a status, never a page's content.
  * @param href absolute URL
  */
 export const isPublicWebUrl = (href: string) => {
