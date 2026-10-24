@@ -41,11 +41,41 @@ describe("checkPage", () => {
       "http://a.dev/",
       fakeFetch({
         "http://a.dev/": redirect(301, "https://a.dev/"),
-        "https://a.dev/": redirect(308, "https://new.dev/me"),
-        "https://new.dev/me": page(),
+        "https://a.dev/": redirect(308, "https://www.a.dev/me"),
+        "https://www.a.dev/me": page(),
       })
     );
-    assert.deepEqual(result, { status: "moved", to: "https://new.dev/me" });
+    assert.deepEqual(result, { status: "moved", to: "https://www.a.dev/me" });
+  });
+
+  it("only reports a permanent redirect to another site, since a lapsed domain can go anywhere", async () => {
+    const result = await checkPage(
+      "https://a.dev/",
+      fakeFetch({
+        "https://a.dev/": redirect(301, "https://other.dev/"),
+        "https://other.dev/": page(),
+      })
+    );
+    assert.deepEqual(result, {
+      status: "unsure",
+      reason: "redirects to another site: https://other.dev/",
+    });
+  });
+
+  it("checks the page a redirect lands on", async () => {
+    const result = await checkPage(
+      "https://a.dev/",
+      fakeFetch({ "https://a.dev/": redirect(301, "/me"), "https://a.dev/me": page("", 404) })
+    );
+    assert.equal(result.status, "dead");
+  });
+
+  it("doesn't mistake a name or an address for a parked domain", async () => {
+    const result = await checkPage(
+      "https://judi.dev/",
+      fakeFetch({ "https://judi.dev/": page("<p>Hi, I'm Judi. Email me at hi@brendan.com</p>") })
+    );
+    assert.deepEqual(result, { status: "ok" });
   });
 
   it("leaves a link alone when any redirect is temporary", async () => {

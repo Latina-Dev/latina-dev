@@ -3,15 +3,43 @@
 export const userAgent =
   "Mozilla/5.0 (compatible; LatinaDevLinkAudit/1.0; +https://github.com/Latina-Dev/latina-dev)";
 
-export const parkedPatterns = [
+// Pages a registrar or domain marketplace shows on a domain nobody owns anymore
+const forSalePatterns = [
   /domain (is )?for sale/i,
   /buy this domain/i,
   /this domain (name )?(has expired|may be for sale|is parked)/i,
   /parked (free|domain)/i,
-  /hugedomains|sedo\.com|dan\.com|afternic|godaddy\.com\/domains/i,
+  /(?<![\w.@-])(hugedomains|sedo|dan|afternic)\.com\b|godaddy\.com\/domains/i,
+];
+
+// Includes spam words, which are fine for a report a person reads but too loose to remove a member's
+// link on their own (Judi is also a first name)
+export const parkedPatterns = [
+  ...forSalePatterns,
   /\b(casino|slot ?gacor|judi|togel|sportsbook|betting|poker online|bandar)\b/i,
   /\b(viagra|cialis|payday loans?)\b/i,
 ];
+
+// Hosts where each subdomain belongs to a different owner, so a redirect between them is a move
+const sharedHosts = new Set([
+  "substack.com",
+  "beehiiv.com",
+  "github.io",
+  "medium.com",
+  "vercel.app",
+]);
+
+// Registrable part of the hostname, so moving between subdomains (www, jobs, info) isn't flagged.
+// Keeps three labels under two-part country suffixes like .co.uk or .org.mx, and the whole
+// publication name on shared hosts like Substack
+export const baseDomain = (url: string) => {
+  const hostname = new URL(url).hostname.replace(/^www\./, "");
+  const labels = hostname.split(".");
+  const twoPart =
+    /^(co|com|org|net|edu|gob|gov|ac)$/.test(labels.at(-2) ?? "") && labels.at(-1)?.length === 2;
+  const base = labels.slice(twoPart ? -3 : -2).join(".");
+  return sharedHosts.has(base) ? hostname : base;
+};
 
 // Text a visitor would see, so URLs and words inside scripts, styles or comments don't match
 export const visibleText = (html: string) =>
@@ -23,11 +51,12 @@ export const visibleText = (html: string) =>
 /**
  * What a member link check found
  * - ok: the page loads
- * - moved: every redirect was permanent (301 or 308), so the link should point at `to`
+ * - moved: every redirect was permanent (301 or 308) and stayed on the same site, so the link
+ *   should point at `to`
  * - dead: the page is gone for every visitor (no such domain, refused, bad certificate, 404, 410,
- *   or a parked domain)
- * - unsure: a timeout, a bot block (401, 403, 429, 999) or a server error; could be temporary, so
- *   it is reported but never fails a check or removes a link
+ *   or a domain for sale)
+ * - unsure: a timeout, a bot block (401, 403, 429, 999), a server error or a move to another site;
+ *   could be temporary or fine, so it is reported but never fails a check or removes a link
  */
 export type LinkResult =
   | { status: "ok" }
@@ -94,13 +123,18 @@ export async function checkPage(url: string, fetchImpl: Fetch = fetch): Promise<
       const type = response.headers.get("content-type") ?? "";
       if (type.includes("text/html")) {
         const text = visibleText((await response.text()).slice(0, 500_000));
-        if (parkedPatterns.some((pattern) => pattern.test(text))) {
-          return { status: "dead", reason: "the domain looks parked or taken over by spam" };
+        if (forSalePatterns.some((pattern) => pattern.test(text))) {
+          return { status: "dead", reason: "the domain is parked or for sale" };
         }
       }
 
-      if (allPermanent && !sameUrl(url, current)) return { status: "moved", to: current };
-      return { status: "ok" };
+      if (sameUrl(url, current) || !allPermanent) return { status: "ok" };
+      // A lapsed domain can redirect anywhere once someone else buys it, so only moves within the
+      // same site are applied automatically
+      if (baseDomain(url) !== baseDomain(current)) {
+        return { status: "unsure", reason: `redirects to another site: ${current}` };
+      }
+      return { status: "moved", to: current };
     }
     return { status: "unsure", reason: "too many redirects" };
   } catch (error) {

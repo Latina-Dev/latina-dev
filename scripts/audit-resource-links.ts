@@ -1,6 +1,6 @@
 import { writeFileSync } from "fs";
 
-import { parkedPatterns, userAgent, visibleText } from "@/lib/linkCheck";
+import { baseDomain, parkedPatterns, userAgent, visibleText } from "@/lib/linkCheck";
 import { resourceGroups } from "@/lib/resources";
 
 // Monthly audit of every link on /resources. A plain link checker only catches errors, so this also
@@ -11,27 +11,6 @@ import { resourceGroups } from "@/lib/resources";
 // Sites that block bots answer 403, 429 or a 503 challenge page; we can't tell those apart from a
 // real block, so they are listed separately instead of being called broken
 const blockedStatuses = new Set([401, 403, 429, 503, 999]);
-
-// Hosts where each subdomain belongs to a different owner, so a redirect between them is a move
-const sharedHosts = new Set([
-  "substack.com",
-  "beehiiv.com",
-  "github.io",
-  "medium.com",
-  "vercel.app",
-]);
-
-// Registrable part of the hostname, so moving between subdomains (www, jobs, info) isn't flagged.
-// Keeps three labels under two-part country suffixes like .co.uk or .org.mx, and the whole
-// publication name on shared hosts like Substack
-const baseDomain = (url: string) => {
-  const hostname = new URL(url).hostname.replace(/^www\./, "");
-  const labels = hostname.split(".");
-  const twoPart =
-    /^(co|com|org|net|edu|gob|gov|ac)$/.test(labels.at(-2) ?? "") && labels.at(-1)?.length === 2;
-  const base = labels.slice(twoPart ? -3 : -2).join(".");
-  return sharedHosts.has(base) ? hostname : base;
-};
 
 interface Finding {
   name: string;
