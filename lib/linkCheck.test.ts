@@ -70,6 +70,15 @@ describe("checkPage", () => {
     assert.equal(result.status, "dead");
   });
 
+  it("doesn't call a full page dead because it mentions buying a domain", async () => {
+    const post = `<h1>How I named my startup</h1><p>${"I looked at a domain for sale on dan.com. ".repeat(60)}</p>`;
+    const result = await checkPage(
+      "https://blog.dev/",
+      fakeFetch({ "https://blog.dev/": page(post) })
+    );
+    assert.deepEqual(result, { status: "ok" });
+  });
+
   it("doesn't mistake a name or an address for a parked domain", async () => {
     const result = await checkPage(
       "https://judi.dev/",
@@ -180,6 +189,13 @@ describe("setFrontmatterField", () => {
     assert.equal(
       setFrontmatterField(profile, "website", null),
       `---\nname: Ana\nlinkedin: "ana"\n---\n\nwebsite: in the bio\n`
+    );
+  });
+
+  it("writes a URL with $ in it as is", () => {
+    assert.match(
+      setFrontmatterField(profile, "website", "https://ana.dev/?x=$1&y=$&"),
+      /^website: "https:\/\/ana\.dev\/\?x=\$1&y=\$&"$/m
     );
   });
 

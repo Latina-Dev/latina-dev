@@ -123,7 +123,9 @@ export async function checkPage(url: string, fetchImpl: Fetch = fetch): Promise<
       const type = response.headers.get("content-type") ?? "";
       if (type.includes("text/html")) {
         const text = visibleText((await response.text()).slice(0, 500_000));
-        if (forSalePatterns.some((pattern) => pattern.test(text))) {
+        // Parking pages are a few lines long; a real site that mentions buying a domain is not
+        const short = text.replace(/\s+/g, " ").trim().length < 2_000;
+        if (short && forSalePatterns.some((pattern) => pattern.test(text))) {
           return { status: "dead", reason: "the domain is parked or for sale" };
         }
       }
@@ -213,8 +215,10 @@ export const setFrontmatterField = (markdown: string, key: string, value: string
   const end = markdown.indexOf("\n---", 3);
   if (!markdown.startsWith("---") || end === -1) throw new Error("no frontmatter");
   const frontmatter = markdown.slice(0, end + 1);
-  const line = new RegExp(`^${key}:.*(?:\\r?\\n|$)`, "m");
+  const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const line = new RegExp(`^${escaped}:.*(?:\\r?\\n|$)`, "m");
   if (!line.test(frontmatter)) throw new Error(`no ${key} in frontmatter`);
   const replacement = value === null ? "" : `${key}: ${JSON.stringify(value)}\n`;
-  return frontmatter.replace(line, replacement) + markdown.slice(end + 1);
+  // A function, so $ in a URL isn't read as a replacement pattern
+  return frontmatter.replace(line, () => replacement) + markdown.slice(end + 1);
 };

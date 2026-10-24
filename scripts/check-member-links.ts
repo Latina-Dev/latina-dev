@@ -32,6 +32,7 @@ const args = process.argv.slice(2);
 const fix = args.includes("--fix");
 const only = new Set(args.filter((arg) => arg.endsWith(".md")).map((file) => basename(file)));
 const token = process.env.GITHUB_TOKEN;
+const maxRemovals = 10;
 
 async function checkMember(
   file: string,
@@ -70,8 +71,11 @@ async function main() {
   const dead = findings.filter((f) => f.result.status === "dead");
   const unsure = findings.filter((f) => f.result.status === "unsure");
 
+  // Many dead links at once is more likely a network problem on the runner than members' sites
+  // all going down, so only list them
+  const tooMany = fix && dead.length > maxRemovals;
   if (fix) {
-    for (const f of [...moved, ...dead]) {
+    for (const f of tooMany ? moved : [...moved, ...dead]) {
       const value = f.result.status === "moved" ? f.result.to : null;
       writeFileSync(f.file, setFrontmatterField(readFileSync(f.file, "utf8"), f.field, value));
     }
@@ -90,10 +94,12 @@ async function main() {
       moved.map((f) => `- ${label(f)} → ${"to" in f.result ? f.result.to : ""}`)
     ),
     section(
-      fix ? "Removed" : "Dead",
-      fix
-        ? "These links are gone, so they were taken off the profile. Website and GitHub are optional."
-        : "Fix the link, or remove it from the profile. Website and GitHub are optional.",
+      fix && !tooMany ? "Removed" : "Dead",
+      tooMany
+        ? `More than ${maxRemovals} links look dead at once, which usually means a network problem on the checker, so none were removed. Run the check again later.`
+        : fix
+          ? "These links are gone, so they were taken off the profile. Website and GitHub are optional."
+          : "Fix the link, or remove it from the profile. Website and GitHub are optional.",
       dead.map((f) => `- ${label(f)}: ${why(f)}`)
     ),
     section(
