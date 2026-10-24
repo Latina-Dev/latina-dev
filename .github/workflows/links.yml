@@ -23,6 +23,7 @@ jobs:
   check:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -54,6 +55,7 @@ jobs:
     # The fix branch is cut from the ref that ran, so only run it on main
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     outputs:
       patch: ${{ steps.diff.outputs.patch }}
       report: ${{ steps.diff.outputs.report }}
@@ -85,6 +87,7 @@ jobs:
   publish:
     needs: fix
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: write
       pull-requests: write

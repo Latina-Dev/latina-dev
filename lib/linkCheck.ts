@@ -136,6 +136,10 @@ export async function checkPage(url: string, fetchImpl: Fetch = fetch): Promise<
       if (baseDomain(url) !== baseDomain(current)) {
         return { status: "unsure", reason: `redirects to another site: ${current}` };
       }
+      // A page that now sends visitors to the homepage has usually been removed, not moved
+      if (new URL(url).pathname !== "/" && new URL(current).pathname === "/") {
+        return { status: "unsure", reason: `redirects to the homepage: ${current}` };
+      }
       return { status: "moved", to: current };
     }
     return { status: "unsure", reason: "too many redirects" };
@@ -219,9 +223,10 @@ export const setFrontmatterField = (markdown: string, key: string, value: string
   const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   // One line with a value, not a | or > block and not followed by indented continuation lines
   // The frontmatter slice ends in a newline, so every line does
-  const line = new RegExp(`^${escaped}:[ \\t]*(?![|>])\\S.*\\r?\\n(?![ \\t])`, "m");
+  const line = new RegExp(`^${escaped}:[ \\t]*(?![|>])\\S.*(\\r?\\n)(?![ \\t])`, "m");
   if (!line.test(frontmatter)) throw new Error(`no one-line ${key} in frontmatter`);
-  const replacement = value === null ? "" : `${key}: ${JSON.stringify(value)}\n`;
-  // A function, so $ in a URL isn't read as a replacement pattern
-  return frontmatter.replace(line, () => replacement) + markdown.slice(end + 1);
+  // A function, so $ in a URL isn't read as a replacement pattern; keeps the line's own ending
+  const replace = (_: string, newline: string) =>
+    value === null ? "" : `${key}: ${JSON.stringify(value)}${newline}`;
+  return frontmatter.replace(line, replace) + markdown.slice(end + 1);
 };

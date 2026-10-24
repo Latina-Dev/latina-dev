@@ -62,6 +62,14 @@ describe("checkPage", () => {
     });
   });
 
+  it("only reports a deep link that now redirects to the homepage", async () => {
+    const result = await checkPage(
+      "https://a.dev/portfolio",
+      fakeFetch({ "https://a.dev/portfolio": redirect(301, "/"), "https://a.dev/": page() })
+    );
+    assert.equal(result.status, "unsure");
+  });
+
   it("checks the page a redirect lands on", async () => {
     const result = await checkPage(
       "https://a.dev/",
@@ -204,6 +212,14 @@ describe("setFrontmatterField", () => {
     assert.throws(() => setFrontmatterField(folded, "website", null));
     const continued = `---\nname: Ana\nwebsite: https://ana.dev/a\n  /b\n---\n`;
     assert.throws(() => setFrontmatterField(continued, "website", null));
+  });
+
+  it("keeps Windows line endings", () => {
+    const crlf = `---\r\nname: Ana\r\nwebsite: "http://ana.dev"\r\n---\r\n`;
+    assert.equal(
+      setFrontmatterField(crlf, "website", "https://ana.dev/"),
+      `---\r\nname: Ana\r\nwebsite: "https://ana.dev/"\r\n---\r\n`
+    );
   });
 
   it("finds the closing --- line exactly", () => {
