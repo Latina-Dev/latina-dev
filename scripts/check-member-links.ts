@@ -102,7 +102,7 @@ async function main() {
   const section = (title: string, intro: string, rows: string[]) =>
     rows.length ? `## ${title} (${rows.length})\n\n${intro}\n\n${rows.join("\n")}\n` : "";
 
-  const report = [
+  const full = [
     `Checked the website and GitHub links of ${members.length} member profile(s).\n`,
     section(
       fix ? "Updated to the new address" : "Moved",
@@ -130,9 +130,15 @@ async function main() {
   ]
     .filter(Boolean)
     .join("\n");
+  // Pull request bodies hold 65,536 characters, and the workflow passes the report on in an
+  // environment variable, so cut a very long one rather than fail the run
+  const report =
+    full.length > 60_000
+      ? `${full.slice(0, 60_000)}\n\n_The list is cut short here. The full report is in the workflow run's summary._`
+      : full;
 
   writeFileSync("member-links.md", report);
-  if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, report);
+  if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, full);
   // Tells the workflow not to close an open fix pull request after a run that held back removals
   if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `held=${tooMany}\n`);
   console.log(report);
