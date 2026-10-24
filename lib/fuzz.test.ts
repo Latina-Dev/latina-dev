@@ -6,7 +6,7 @@ import fc from "fast-check";
 import { dump } from "js-yaml";
 
 import { parseFrontmatter } from "@/lib/frontmatter";
-import { validateMemberFrontmatter } from "@/lib/memberSchema";
+import { memberFrontmatterSchema, validateMemberFrontmatter } from "@/lib/memberSchema";
 
 // Plain YAML values that survive a dump and load unchanged
 const yamlValue = fc.oneof(
@@ -28,7 +28,14 @@ describe("parseFrontmatter (fuzzed)", () => {
           assert.deepEqual(parsed.data, data);
           assert.equal(parsed.content, body);
         }
-      )
+      ),
+      // Always try an empty body and a body that itself opens with ---
+      {
+        examples: [
+          [{ a: "x" }, ""],
+          [{ a: "x" }, "---\nnot frontmatter\n---\n"],
+        ],
+      }
     );
   });
 
@@ -43,6 +50,8 @@ describe("parseFrontmatter (fuzzed)", () => {
     );
   });
 });
+
+const knownKeys = Object.keys(memberFrontmatterSchema.shape);
 
 const validProfile = {
   name: "Ana",
@@ -65,24 +74,7 @@ describe("validateMemberFrontmatter (fuzzed)", () => {
     assert.equal(validateMemberFrontmatter("fuzz.md", validProfile).success, true);
     fc.assert(
       fc.property(
-        yamlKey.filter(
-          (key) =>
-            ![
-              "name",
-              "added",
-              "level",
-              "linkedin",
-              "github",
-              "twitter",
-              "website",
-              "affiliation",
-              "countries",
-              "skills",
-              "location",
-              "openTo",
-              "noindex",
-            ].includes(key)
-        ),
+        yamlKey.filter((key) => !knownKeys.includes(key)),
         (key) => {
           const result = validateMemberFrontmatter("fuzz.md", { ...validProfile, [key]: "x" });
           assert.equal(result.success, false);
