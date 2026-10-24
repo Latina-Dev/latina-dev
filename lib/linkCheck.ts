@@ -177,6 +177,12 @@ export async function checkPage(url: string, fetchImpl: Fetch = fetch): Promise<
           ? { status: "unsure", reason: `redirects to another site, where ${reason}: ${current}` }
           : { status: "dead", reason };
 
+      // Read the start of a page that loaded and let go of any other body, so no connection is
+      // left open
+      const type = response.headers.get("content-type") ?? "";
+      const html = response.ok && type.includes("text/html") ? await readStart(response) : "";
+      if (!html) await response.body?.cancel().catch(() => {});
+
       if ([404, 410].includes(response.status)) {
         return gone(`the page answered ${response.status} (not found)`);
       }
@@ -184,9 +190,7 @@ export async function checkPage(url: string, fetchImpl: Fetch = fetch): Promise<
         return { status: "unsure", reason: `the site answered ${response.status}` };
       }
 
-      const type = response.headers.get("content-type") ?? "";
-      if (type.includes("text/html")) {
-        const html = await readStart(response);
+      if (html) {
         // Parking pages are a few lines long and say so in the title or main heading; a real site
         // that mentions buying a domain in passing is not removed
         const short = visibleText(html).replace(/\s+/g, " ").trim().length < 2_000;
