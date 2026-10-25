@@ -5,6 +5,15 @@ const repo = "Latina-Dev/latina-dev";
 const baseBranch = "main";
 const api = "https://api.github.com";
 
+/** A Slack button was pressed on a review message for a commit the member has since replaced */
+export class OutdatedReviewError extends Error {
+  constructor() {
+    super(
+      "The member changed this after it was reviewed, so nothing was done. Review the newer message"
+    );
+  }
+}
+
 class GitHubError extends Error {
   constructor(
     message: string,
@@ -156,7 +165,7 @@ export const approvePull = async (number: number, headSha: string) => {
   if (pull.merged) return "already merged";
   if (pull.state === "closed") return "closed, so it was not merged";
   if (pull.head.sha !== headSha) {
-    return "not merged, because the member changed it after this review. Review the newer message";
+    throw new OutdatedReviewError();
   }
 
   // Merge only the reviewed commit, and only once checks pass. There's deliberately no
@@ -169,7 +178,9 @@ export const approvePull = async (number: number, headSha: string) => {
   } catch (error) {
     // 405: required checks are still running or failed
     if (error instanceof GitHubError && error.status === 405) {
-      throw new Error("its checks haven't passed yet. Press Approve again once they're green");
+      throw new Error(
+        "GitHub can't merge it yet: checks are still running or failed, or it has a merge conflict. Press Approve again once the pull request is green"
+      );
     }
     throw error;
   }
@@ -187,7 +198,7 @@ export const rejectPull = async (number: number, headSha: string) => {
   // A stale button on an old message must not delete a branch the member has since reused
   if (pull.state === "closed") return "already closed";
   if (pull.head.sha !== headSha) {
-    return "not closed, because the member changed it after this review. Review the newer message";
+    throw new OutdatedReviewError();
   }
   await github(`/repos/${repo}/pulls/${number}`, { method: "PATCH", body: { state: "closed" } });
   await github(`/repos/${repo}/git/refs/heads/${pull.head.ref}`, { method: "DELETE" });

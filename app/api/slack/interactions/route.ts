@@ -1,6 +1,6 @@
 import { after } from "next/server";
 
-import { approvePull, rejectPull } from "@/lib/profiles/github";
+import { approvePull, OutdatedReviewError, rejectPull } from "@/lib/profiles/github";
 import {
   closeReviewMessage,
   isApprover,
@@ -69,6 +69,16 @@ export async function POST(request: Request) {
       }
       await closeReviewMessage(channel, ts, summary ?? `Pull request #${pullNumber}`, outcome);
     } catch (error) {
+      // A stale message can never act, so retire its buttons rather than keep offering them
+      if (error instanceof OutdatedReviewError) {
+        await closeReviewMessage(
+          channel,
+          ts,
+          summary ?? `Pull request #${pullNumber}`,
+          error.message
+        );
+        return;
+      }
       console.error(error);
       await replyInThread(
         channel,

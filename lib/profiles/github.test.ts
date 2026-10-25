@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { afterEach, beforeEach, describe, it } from "node:test";
 
-import { approvePull, rejectPull } from "@/lib/profiles/github";
+import { approvePull, OutdatedReviewError, rejectPull } from "@/lib/profiles/github";
 
 interface Call {
   method: string;
@@ -64,13 +64,13 @@ describe("approvePull", () => {
 
   it("doesn't merge when the member resubmitted after the review", async () => {
     mockGitHub({ [get]: pull({ head: { ...pull().head, sha: sha("b") } }) });
-    assert.match(await approvePull(7, sha("a")), /changed it after this review/);
+    await assert.rejects(approvePull(7, sha("a")), OutdatedReviewError);
     assert.equal(calls.length, 1);
   });
 
   it("asks to approve again while checks are pending, without queueing auto-merge", async () => {
     mockGitHub({ [get]: pull(), [merge]: { status: 405 } });
-    await assert.rejects(approvePull(7, sha("a")), /checks haven't passed yet/);
+    await assert.rejects(approvePull(7, sha("a")), /can't merge it yet/);
     assert.deepEqual(
       calls.map((c) => c.method),
       ["GET", "PUT"]
@@ -83,8 +83,7 @@ describe("rejectPull", () => {
 
   it("leaves the pull request open when the member resubmitted after the review", async () => {
     mockGitHub({ [get]: pull({ head: { ...pull().head, sha: sha("b") } }) });
-    const outcome = await rejectPull(7, sha("a"));
-    assert.match(outcome, /changed it after this review/);
+    await assert.rejects(rejectPull(7, sha("a")), OutdatedReviewError);
     assert.deepEqual(
       calls.map((c) => c.method),
       ["GET"]
