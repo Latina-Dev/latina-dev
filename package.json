@@ -19,7 +19,7 @@
     "prepare": "husky",
     "knip": "knip",
     "test:e2e": "playwright test",
-    "links:list": "tsx scripts/list-member-links.ts",
+    "links:members": "tsx scripts/check-member-links.ts",
     "links:resources": "tsx scripts/audit-resource-links.ts",
     "logos:resources": "tsx scripts/fetch-resource-logos.ts"
   },
@@ -71,6 +71,7 @@
     "eslint": "^9.39.5",
     "eslint-plugin-storybook": "^10.6.3",
     "eslint-plugin-unused-imports": "4.4.1",
+    "fast-check": "^4.10.2",
     "husky": "^9.1.7",
     "knip": "^6.40.0",
     "lint-staged": "^16.4.0",

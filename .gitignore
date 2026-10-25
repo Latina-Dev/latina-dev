@@ -50,6 +50,7 @@ next-env.d.ts
 /playwright-report
 /.lighthouseci
 
-# resource link audit report
+# link check reports
 resource-audit.md
+member-links.md
 monthly-post/

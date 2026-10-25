@@ -1,20 +1,41 @@
 name: Member links
 
+# Checks member websites and GitHub accounts.
+# - On pull requests that add or edit a profile, fails if one of its links is dead.
+# - Weekly, opens (or updates) one pull request that points moved websites at their new address and
+#   drops dead links, which are optional. Timeouts and sites that block bots are only listed.
+# Pull requests opened with the default token don't start the required checks. Add a fine-grained
+# token with contents and pull request write access as the MEMBER_LINKS_TOKEN secret so they do;
+# without it, close and reopen the pull request to start them.
+
 on:
   schedule:
     - cron: "0 14 * * 1"
   workflow_dispatch:
+  pull_request:
+    paths:
+      - data/members/**
 
 permissions:
   contents: read
-  issues: write
+
+# One weekly run at a time, so two never push the fix branch at once; pull requests by branch
+concurrency:
+  group: member-links-${{ github.event_name == 'pull_request' && github.ref || 'weekly' }}
+  cancel-in-progress: false
 
 jobs:
-  lychee:
+  # Not named "check", which is the required CI job's name
+  member-links:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
       - name: Setup Node
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
@@ -22,18 +43,110 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: List member links
-        run: npm run --silent links:list > member-links.txt
-      - name: Check links
-        id: lychee
-        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+      - name: Check links in added or edited profiles
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        # HEAD is the merge commit, so HEAD^1 is the base branch
+        run: |
+          git diff -z --name-only --diff-filter=ACMR HEAD^1 HEAD -- 'data/members/*.md' > changed
+          if [ ! -s changed ]; then
+            echo "No added or edited profiles"
+            exit 0
+          fi
+          xargs -0 npm run --silent links:members -- < changed
+
+  # Runs the repo's code and npm packages, so it gets only a read-only token. It hands the edits and
+  # the report to the publish job through job outputs.
+  fix:
+    # The fix branch is cut from the ref that ran, so only run it on main
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    outputs:
+      patch: ${{ steps.diff.outputs.patch }}
+      report: ${{ steps.diff.outputs.report }}
+      held: ${{ steps.fix.outputs.held }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          args: --no-progress --max-retries 3 --accept 200..=299,403,429 member-links.txt README.md
-          fail: false
-      - name: Open an issue for broken links
-        if: steps.lychee.outputs.exit_code != 0
-        uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e460ebb3b5d4ef3a9cd # v5.0.1
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          title: Broken member links
-          content-filepath: ./lychee/out.md
-          labels: links
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Fix member links
+        id: fix
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: npm run --silent links:members -- --fix
+      - name: Pass on the edits
+        id: diff
+        run: |
+          patch=$(git diff -- data/members | base64 -w0)
+          report=$(base64 -w0 member-links.md)
+          # The publish job reads each one from an environment variable, which Linux caps at 128 KB.
+          # Job outputs have their own 1 MB cap, over which they'd be dropped silently
+          if [ ${#patch} -gt 120000 ] || [ ${#report} -gt 120000 ]; then
+            echo "::error::The edits are too large to hand to the publish job"
+            exit 1
+          fi
+          echo "patch=$patch" >> "$GITHUB_OUTPUT"
+          echo "report=$report" >> "$GITHUB_OUTPUT"
+
+  # Holds the write token but runs no repo code: it applies the patch with git and calls gh
+  publish:
+    needs: fix
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ secrets.MEMBER_LINKS_TOKEN || github.token }}
+      PATCH: ${{ needs.fix.outputs.patch }}
+      REPORT: ${{ needs.fix.outputs.report }}
+      HELD: ${{ needs.fix.outputs.held }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # The commit the fix job read, so the patch always applies
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Open, update or close the pull request
+        run: |
+          pr=$(gh pr list --head automation/member-links --state open --json number --jq '.[0].number')
+          if [ -z "$PATCH" ]; then
+            # A link that came back since the last run would otherwise stay on an open pull request,
+            # unless this run held back removals because too many links looked dead at once
+            if [ -n "$pr" ] && [ "$HELD" != "true" ]; then
+              gh pr close "$pr" --delete-branch --comment "This week's check found nothing to fix, so these changes are no longer needed."
+            fi
+            exit 0
+          fi
+          echo "$REPORT" | base64 -d > "$RUNNER_TEMP/member-links.md"
+          echo "$PATCH" | base64 -d | git apply --include='data/members/*'
+          # Only edits to existing profiles: no new, deleted, renamed or non-regular files
+          if git status --porcelain --untracked-files=all | grep -qvE '^ M data/members/[^/]+\.md$' \
+            || [ -n "$(git diff --summary)" ]; then
+            echo "::error::The edits touch more than existing member profiles"
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c automation/member-links
+          git commit -m "Fix broken member links" -- data/members
+          # Lets git push with GH_TOKEN through gh, without writing the token into .git/config
+          gh auth setup-git
+          git push --force --no-verify origin automation/member-links
+          gh label create links --color 9e0001 --description "Broken member links" --force
+          if [ -n "$pr" ]; then
+            gh pr edit "$pr" --body-file "$RUNNER_TEMP/member-links.md"
+          else
+            gh pr create --base main --head automation/member-links --title "Fix broken member links" \
+              --label links --assignee FrancesCoronel --body-file "$RUNNER_TEMP/member-links.md"
+          fi
