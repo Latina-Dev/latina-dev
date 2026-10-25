@@ -28,7 +28,9 @@ const mockGitHub = (responses: Record<string, unknown>) => {
     if (!(key in responses)) return new Response("not mocked", { status: 500 });
     const response = responses[key] as { status?: number };
     if (response?.status && response.status >= 400) {
-      return new Response("error", { status: response.status });
+      return new Response(JSON.stringify({ message: "Required status check is expected" }), {
+        status: response.status,
+      });
     }
     return Response.json(response);
   }) as typeof fetch;
@@ -75,7 +77,11 @@ describe("approvePull", () => {
 
   it("asks to approve again while checks are pending, without queueing auto-merge", async () => {
     mockGitHub({ [get]: pull(), [merge]: { status: 405 } });
-    await assert.rejects(approvePull(7, sha("a")), NotMergeableError);
+    await assert.rejects(approvePull(7, sha("a")), (error: unknown) => {
+      assert.ok(error instanceof NotMergeableError);
+      assert.match(error.message, /\(Required status check is expected\)/);
+      return true;
+    });
     assert.deepEqual(
       calls.map((c) => c.method),
       ["GET", "PUT"]

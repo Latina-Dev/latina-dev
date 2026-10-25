@@ -74,27 +74,32 @@ export async function POST(request: Request) {
       }
       await closeReviewMessage(channel, ts, summary ?? `Pull request #${pullNumber}`, outcome);
     } catch (error) {
-      // A stale message can never act, so retire its buttons rather than keep offering them
-      if (error instanceof OutdatedReviewError) {
-        await closeReviewMessage(
+      try {
+        // A stale message can never act, so retire its buttons rather than keep offering them
+        if (error instanceof OutdatedReviewError) {
+          await closeReviewMessage(
+            channel,
+            ts,
+            summary ?? `Pull request #${pullNumber}`,
+            error.message
+          );
+          return;
+        }
+        // Expected while checks run; keep the buttons so the organizer can press Approve again
+        if (error instanceof NotMergeableError) {
+          await replyInThread(channel, ts, error.message);
+          return;
+        }
+        console.error(error);
+        await replyInThread(
           channel,
           ts,
-          summary ?? `Pull request #${pullNumber}`,
-          error.message
+          `That didn't work: ${error instanceof Error ? error.message.slice(0, 300) : "unknown error"}`
         );
-        return;
+      } catch (slackError) {
+        // Slack itself failed, so there's nowhere to tell the organizer; keep it in the logs
+        console.error(slackError);
       }
-      // Expected while checks run; keep the buttons so the organizer can press Approve again
-      if (error instanceof NotMergeableError) {
-        await replyInThread(channel, ts, error.message);
-        return;
-      }
-      console.error(error);
-      await replyInThread(
-        channel,
-        ts,
-        `That didn't work: ${error instanceof Error ? error.message.slice(0, 300) : "unknown error"}`
-      );
     }
   });
 

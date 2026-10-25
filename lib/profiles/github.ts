@@ -14,11 +14,12 @@ export class OutdatedReviewError extends Error {
   }
 }
 
-/** GitHub refused the merge for now: checks pending or failing, or a merge conflict */
+/** GitHub refused the merge: checks pending or failing, a conflict, or another branch rule */
 export class NotMergeableError extends Error {
-  constructor() {
+  /** @param reason GitHub's own explanation, when it gave one */
+  constructor(reason?: string) {
     super(
-      "GitHub can't merge it yet. If checks are still running, press Approve again once they pass. If a check failed or it has a merge conflict, that needs fixing first"
+      `GitHub can't merge it yet${reason ? ` (${reason})` : ""}. If checks are still running, press Approve again once they pass. Anything else needs fixing first`
     );
   }
 }
@@ -26,11 +27,22 @@ export class NotMergeableError extends Error {
 class GitHubError extends Error {
   constructor(
     message: string,
-    readonly status: number
+    readonly status: number,
+    readonly reason?: string
   ) {
     super(message);
   }
 }
+
+/** GitHub's `message` field from an error response body, if it has one */
+const errorReason = (body: string) => {
+  try {
+    const parsed = JSON.parse(body) as { message?: unknown };
+    return typeof parsed.message === "string" ? parsed.message : undefined;
+  } catch {
+    return undefined;
+  }
+};
 
 const github = async <T>(path: string, init: { method?: string; body?: unknown } = {}) => {
   const token = process.env.PROFILE_BOT_GITHUB_TOKEN;
@@ -47,9 +59,11 @@ const github = async <T>(path: string, init: { method?: string; body?: unknown }
     cache: "no-store",
   });
   if (!response.ok) {
+    const body = await response.text();
     throw new GitHubError(
-      `GitHub ${init.method ?? "GET"} ${path} failed: ${response.status} ${await response.text()}`,
-      response.status
+      `GitHub ${init.method ?? "GET"} ${path} failed: ${response.status} ${body}`,
+      response.status,
+      errorReason(body)
     );
   }
   return (response.status === 204 ? undefined : await response.json()) as T;
@@ -185,9 +199,9 @@ export const approvePull = async (number: number, headSha: string) => {
       body: { merge_method: "squash", sha: headSha },
     });
   } catch (error) {
-    // 405: required checks are still running or failed
+    // 405: GitHub won't merge it yet, e.g. required checks are running or failed
     if (error instanceof GitHubError && error.status === 405) {
-      throw new NotMergeableError();
+      throw new NotMergeableError(error.reason);
     }
     throw error;
   }
