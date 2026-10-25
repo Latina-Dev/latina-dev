@@ -14,6 +14,15 @@ export class OutdatedReviewError extends Error {
   }
 }
 
+/** GitHub refused the merge for now: checks pending or failing, or a merge conflict */
+export class NotMergeableError extends Error {
+  constructor() {
+    super(
+      "GitHub can't merge it yet. If checks are still running, press Approve again once they pass. If a check failed or it has a merge conflict, that needs fixing first"
+    );
+  }
+}
+
 class GitHubError extends Error {
   constructor(
     message: string,
@@ -178,9 +187,7 @@ export const approvePull = async (number: number, headSha: string) => {
   } catch (error) {
     // 405: required checks are still running or failed
     if (error instanceof GitHubError && error.status === 405) {
-      throw new Error(
-        "GitHub can't merge it yet: checks are still running or failed, or it has a merge conflict. Press Approve again once the pull request is green"
-      );
+      throw new NotMergeableError();
     }
     throw error;
   }

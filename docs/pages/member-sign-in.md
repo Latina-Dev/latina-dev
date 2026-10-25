@@ -8,7 +8,7 @@ Members sign in at [latina.dev/profile](https://latina.dev/profile) with LinkedI
 2. They either fill in the profile form (new members), pick their name from the list of existing profiles (claiming), or edit the profile they own.
 3. The site commits the change to a branch named `profile/<id>` and opens a pull request, so CI validates the profile and Vercel builds a preview. Each member has one branch, so sending another change replaces the pending one.
 4. A message with **Approve** and **Reject** buttons is posted to the review channel in Slack. It shows the LinkedIn name and email the member signed in with, their LinkedIn handle, and links to the pull request.
-5. **Approve** merges the pull request once its required checks pass. If they are still running, the bot replies in the thread and the buttons stay, so press **Approve** again when they finish. **Reject** closes it and deletes the branch.
+5. **Approve** merges the pull request once its required checks pass. If they are still running, the bot replies in the thread and the buttons stay, so press **Approve** again when they finish. This relies on branch protection for `main` requiring the CI checks: without required checks, GitHub merges right away. **Reject** closes it and deletes the branch.
 
 Ownership lives in [`data/owners`](https://github.com/Latina-Dev/latina-dev/tree/main/data/owners): one file per profile, named by its slug and holding a hash of the owner's LinkedIn account id. Because the file is named by profile, two pending claims on the same profile conflict and only one can merge. A new profile adds its owner file in the same pull request; a claim adds only the owner file. Delete a file to unlink an account.
 

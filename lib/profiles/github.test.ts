@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import { afterEach, beforeEach, describe, it } from "node:test";
 
-import { approvePull, OutdatedReviewError, rejectPull } from "@/lib/profiles/github";
+import {
+  approvePull,
+  NotMergeableError,
+  OutdatedReviewError,
+  rejectPull,
+} from "@/lib/profiles/github";
 
 interface Call {
   method: string;
@@ -70,7 +75,7 @@ describe("approvePull", () => {
 
   it("asks to approve again while checks are pending, without queueing auto-merge", async () => {
     mockGitHub({ [get]: pull(), [merge]: { status: 405 } });
-    await assert.rejects(approvePull(7, sha("a")), /can't merge it yet/);
+    await assert.rejects(approvePull(7, sha("a")), NotMergeableError);
     assert.deepEqual(
       calls.map((c) => c.method),
       ["GET", "PUT"]

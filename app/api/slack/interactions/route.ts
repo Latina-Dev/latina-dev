@@ -1,6 +1,11 @@
 import { after } from "next/server";
 
-import { approvePull, OutdatedReviewError, rejectPull } from "@/lib/profiles/github";
+import {
+  approvePull,
+  NotMergeableError,
+  OutdatedReviewError,
+  rejectPull,
+} from "@/lib/profiles/github";
 import {
   closeReviewMessage,
   isApprover,
@@ -77,6 +82,11 @@ export async function POST(request: Request) {
           summary ?? `Pull request #${pullNumber}`,
           error.message
         );
+        return;
+      }
+      // Expected while checks run; keep the buttons so the organizer can press Approve again
+      if (error instanceof NotMergeableError) {
+        await replyInThread(channel, ts, error.message);
         return;
       }
       console.error(error);
