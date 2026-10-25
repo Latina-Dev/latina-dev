@@ -75,6 +75,11 @@ describe("approvePull", () => {
     assert.equal(calls.length, 1);
   });
 
+  it("treats a resubmission between the check and the merge as outdated", async () => {
+    mockGitHub({ [get]: pull(), [merge]: { status: 409 } });
+    await assert.rejects(approvePull(7, sha("a")), OutdatedReviewError);
+  });
+
   it("asks to approve again while checks are pending, without queueing auto-merge", async () => {
     mockGitHub({ [get]: pull(), [merge]: { status: 405 } });
     await assert.rejects(approvePull(7, sha("a")), (error: unknown) => {

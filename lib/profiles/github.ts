@@ -203,6 +203,10 @@ export const approvePull = async (number: number, headSha: string) => {
     if (error instanceof GitHubError && error.status === 405) {
       throw new NotMergeableError(error.reason);
     }
+    // 409: the head moved past `sha`, i.e. the member resubmitted after the check above
+    if (error instanceof GitHubError && error.status === 409) {
+      throw new OutdatedReviewError();
+    }
     throw error;
   }
   return "merged";
@@ -221,6 +225,8 @@ export const rejectPull = async (number: number, headSha: string) => {
   if (pull.head.sha !== headSha) {
     throw new OutdatedReviewError();
   }
+  // Unlike the merge, closing takes no sha, so a resubmission in the moment between the
+  // check above and these calls is closed too. The member can resubmit, so that's accepted
   await github(`/repos/${repo}/pulls/${number}`, { method: "PATCH", body: { state: "closed" } });
   await github(`/repos/${repo}/git/refs/heads/${pull.head.ref}`, { method: "DELETE" });
   return "closed";
