@@ -99,6 +99,7 @@ interface PullRequest {
   state: "open" | "closed";
   merged: boolean;
   head: { ref: string; sha: string; repo: { full_name: string } | null };
+  auto_merge: object | null;
 }
 
 /**
@@ -111,6 +112,28 @@ export const findOpenPull = async (branch: string) => {
     `/repos/${repo}/pulls?state=open&head=${encodeURIComponent(`${owner}:${branch}`)}`
   );
   return pulls[0];
+};
+
+/**
+ * Turn off auto-merge on the branch's open pull request, so a resubmission can't merge under
+ * an approval given for an earlier commit
+ * @param branch e.g. profile/0123456789ab
+ */
+export const cancelAutoMerge = async (branch: string) => {
+  const pull = await findOpenPull(branch);
+  if (!pull?.auto_merge) return;
+  const result = await github<{ errors?: { message: string }[] }>(`/graphql`, {
+    method: "POST",
+    body: {
+      query: `mutation ($id: ID!) {
+        disablePullRequestAutoMerge(input: { pullRequestId: $id }) {
+          clientMutationId
+        }
+      }`,
+      variables: { id: pull.node_id },
+    },
+  });
+  if (result.errors?.length) throw new Error(result.errors.map((e) => e.message).join("; "));
 };
 
 /**
@@ -191,12 +214,16 @@ export const approvePull = async (number: number, headSha: string) => {
 /**
  * Close a rejected profile pull request and delete its branch
  * @param number pull request number
+ * @param headSha the commit the reviewer saw; a resubmission since then is left open
  */
-export const rejectPull = async (number: number) => {
+export const rejectPull = async (number: number, headSha: string) => {
   const pull = await getProfilePull(number);
   if (pull.merged) return "already merged, so it was not closed";
   // A stale button on an old message must not delete a branch the member has since reused
   if (pull.state === "closed") return "already closed";
+  if (pull.head.sha !== headSha) {
+    return "not closed, because the member changed it after this review. Review the newer message";
+  }
   await github(`/repos/${repo}/pulls/${number}`, { method: "PATCH", body: { state: "closed" } });
   await github(`/repos/${repo}/git/refs/heads/${pull.head.ref}`, { method: "DELETE" });
   return "closed";

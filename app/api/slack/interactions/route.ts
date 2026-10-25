@@ -36,14 +36,14 @@ export async function POST(request: Request) {
   const action = payload.actions?.[0];
   if (payload.type !== "block_actions" || !action) return new Response(null, { status: 200 });
 
-  // Optional allowlist of Slack user ids who may approve, comma separated
+  // Slack user ids who may approve or reject, comma separated. Required: with no list, nobody can
   const approvers = (process.env.SLACK_APPROVER_IDS ?? "")
     .split(",")
     .map((id) => id.trim())
     .filter(Boolean);
   const channel = payload.channel.id;
   const ts = payload.message.ts;
-  if (approvers.length > 0 && !approvers.includes(payload.user.id)) {
+  if (!approvers.includes(payload.user.id)) {
     after(() =>
       replyInThread(channel, ts, `<@${payload.user.id}> isn't set up to review profiles.`)
     );
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
       if (action.action_id === "approve_profile") {
         outcome = `Approved by <@${payload.user.id}>: ${await approvePull(pullNumber, headSha)}.`;
       } else if (action.action_id === "reject_profile") {
-        outcome = `Rejected by <@${payload.user.id}>: ${await rejectPull(pullNumber)}.`;
+        outcome = `Rejected by <@${payload.user.id}>: ${await rejectPull(pullNumber, headSha)}.`;
       } else {
         return;
       }

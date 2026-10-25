@@ -45,6 +45,6 @@ So that **Approve** can queue a pull request whose checks are still running, tur
 3. Under **Basic Information**, set `SLACK_SIGNING_SECRET` to the signing secret.
 4. Under **Interactivity & Shortcuts**, turn interactivity on with the request URL `https://latina.dev/api/slack/interactions`.
 5. Invite the app to a private review channel and set `SLACK_REVIEW_CHANNEL_ID` to that channel's id.
-6. Optional: set `SLACK_APPROVER_IDS` to a comma-separated list of Slack member ids allowed to press the buttons. Without it, anyone in the channel can.
+6. Set `SLACK_APPROVER_IDS` to a comma-separated list of Slack member ids allowed to press the buttons. Without it, nobody can approve or reject.
 
 Until these are set, the sign-in page shows but signing in fails, and nothing else on the site is affected.

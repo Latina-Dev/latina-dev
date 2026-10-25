@@ -2,7 +2,7 @@
 
 import { auth, signIn, signOut } from "@/auth";
 
-import { commitToBranch, openOrUpdatePull, RepoFile } from "@/lib/profiles/github";
+import { cancelAutoMerge, commitToBranch, openOrUpdatePull, RepoFile } from "@/lib/profiles/github";
 import {
   claimableSlug,
   claimedSlugs,
@@ -85,6 +85,8 @@ const submitForReview = async ({
   const verb = { new: "Add", claim: "Claim", edit: "Update" }[kind];
   const title = `${verb} profile: ${profileName}`;
 
+  // An earlier approval may have queued auto-merge; it must not carry over to this new commit
+  await cancelAutoMerge(branch);
   const headSha = await commitToBranch(branch, files, title);
   const pull = await openOrUpdatePull(
     branch,
