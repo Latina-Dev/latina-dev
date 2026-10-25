@@ -2,7 +2,7 @@
 
 import { auth, signIn, signOut } from "@/auth";
 
-import { cancelAutoMerge, commitToBranch, openOrUpdatePull, RepoFile } from "@/lib/profiles/github";
+import { commitToBranch, openOrUpdatePull, RepoFile } from "@/lib/profiles/github";
 import {
   claimableSlug,
   claimedSlugs,
@@ -85,18 +85,14 @@ const submitForReview = async ({
   const verb = { new: "Add", claim: "Claim", edit: "Update" }[kind];
   const title = `${verb} profile: ${profileName}`;
 
-  // An earlier approval may have queued auto-merge; it must not carry over to this new commit.
-  // Cancel again after pushing, in case an approval landed in between
-  await cancelAutoMerge(branch);
   const headSha = await commitToBranch(branch, files, title);
-  await cancelAutoMerge(branch);
   const pull = await openOrUpdatePull(
     branch,
     title,
     [
       `${verb} the profile for **${profileName}**, submitted through latina.dev/profile.`,
       "",
-      "Approve or reject it from the review message in Slack. Approving merges it once checks pass.",
+      "Approve or reject it from the review message in Slack. Approve merges it once checks pass.",
       note ? `\nNote: ${note}` : "",
     ].join("\n")
   );

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { afterEach, beforeEach, describe, it } from "node:test";
 
-import { cancelAutoMerge, rejectPull } from "@/lib/profiles/github";
+import { approvePull, rejectPull } from "@/lib/profiles/github";
 
 interface Call {
   method: string;
@@ -21,7 +21,11 @@ const mockGitHub = (responses: Record<string, unknown>) => {
     calls.push({ method, path, body: init?.body ? JSON.parse(String(init.body)) : undefined });
     const key = `${method} ${path}`;
     if (!(key in responses)) return new Response("not mocked", { status: 500 });
-    return Response.json(responses[key]);
+    const response = responses[key] as { status?: number };
+    if (response?.status && response.status >= 400) {
+      return new Response("error", { status: response.status });
+    }
+    return Response.json(response);
   }) as typeof fetch;
 };
 
@@ -29,15 +33,11 @@ const sha = (c: string) => c.repeat(40);
 const pull = (overrides: Record<string, unknown> = {}) => ({
   number: 7,
   html_url: "https://github.com/Latina-Dev/latina-dev/pull/7",
-  node_id: "PR_7",
   state: "open",
   merged: false,
   head: { ref: "profile/abc", sha: sha("a"), repo: { full_name: "Latina-Dev/latina-dev" } },
-  auto_merge: null,
   ...overrides,
 });
-const openPulls =
-  "GET /repos/Latina-Dev/latina-dev/pulls?state=open&head=Latina-Dev%3Aprofile%2Fabc";
 
 beforeEach(() => {
   calls = [];
@@ -48,34 +48,33 @@ afterEach(() => {
   globalThis.fetch = realFetch;
 });
 
-describe("cancelAutoMerge", () => {
-  it("does nothing when the branch has no open pull request", async () => {
-    mockGitHub({ [openPulls]: [] });
-    await cancelAutoMerge("profile/abc");
-    assert.equal(calls.length, 1);
-  });
+describe("approvePull", () => {
+  const get = "GET /repos/Latina-Dev/latina-dev/pulls/7";
+  const merge = "PUT /repos/Latina-Dev/latina-dev/pulls/7/merge";
 
-  it("does nothing when auto-merge isn't queued", async () => {
-    mockGitHub({ [openPulls]: [pull()] });
-    await cancelAutoMerge("profile/abc");
-    assert.equal(calls.length, 1);
-  });
-
-  it("disables queued auto-merge", async () => {
-    mockGitHub({ [openPulls]: [pull({ auto_merge: {} })], "POST /graphql": { data: {} } });
-    await cancelAutoMerge("profile/abc");
-    assert.equal(calls.length, 2);
-    const body = calls[1].body as { query: string; variables: { id: string } };
-    assert.match(body.query, /disablePullRequestAutoMerge/);
-    assert.equal(body.variables.id, "PR_7");
-  });
-
-  it("throws when GitHub reports an error", async () => {
-    mockGitHub({
-      [openPulls]: [pull({ auto_merge: {} })],
-      "POST /graphql": { errors: [{ message: "nope" }] },
+  it("merges only the reviewed commit", async () => {
+    mockGitHub({ [get]: pull(), [merge]: { merged: true } });
+    assert.equal(await approvePull(7, sha("a")), "merged");
+    assert.deepEqual(calls[1], {
+      method: "PUT",
+      path: "/repos/Latina-Dev/latina-dev/pulls/7/merge",
+      body: { merge_method: "squash", sha: sha("a") },
     });
-    await assert.rejects(cancelAutoMerge("profile/abc"), /nope/);
+  });
+
+  it("doesn't merge when the member resubmitted after the review", async () => {
+    mockGitHub({ [get]: pull({ head: { ...pull().head, sha: sha("b") } }) });
+    assert.match(await approvePull(7, sha("a")), /changed it after this review/);
+    assert.equal(calls.length, 1);
+  });
+
+  it("asks to approve again while checks are pending, without queueing auto-merge", async () => {
+    mockGitHub({ [get]: pull(), [merge]: { status: 405 } });
+    await assert.rejects(approvePull(7, sha("a")), /checks haven't passed yet/);
+    assert.deepEqual(
+      calls.map((c) => c.method),
+      ["GET", "PUT"]
+    );
   });
 });
 

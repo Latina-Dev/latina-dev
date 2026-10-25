@@ -95,11 +95,9 @@ export const commitToBranch = async (branch: string, files: RepoFile[], message:
 interface PullRequest {
   number: number;
   html_url: string;
-  node_id: string;
   state: "open" | "closed";
   merged: boolean;
   head: { ref: string; sha: string; repo: { full_name: string } | null };
-  auto_merge: object | null;
 }
 
 /**
@@ -112,28 +110,6 @@ export const findOpenPull = async (branch: string) => {
     `/repos/${repo}/pulls?state=open&head=${encodeURIComponent(`${owner}:${branch}`)}`
   );
   return pulls[0];
-};
-
-/**
- * Turn off auto-merge on the branch's open pull request, so a resubmission can't merge under
- * an approval given for an earlier commit
- * @param branch e.g. profile/0123456789ab
- */
-export const cancelAutoMerge = async (branch: string) => {
-  const pull = await findOpenPull(branch);
-  if (!pull?.auto_merge) return;
-  const result = await github<{ errors?: { message: string }[] }>(`/graphql`, {
-    method: "POST",
-    body: {
-      query: `mutation ($id: ID!) {
-        disablePullRequestAutoMerge(input: { pullRequestId: $id }) {
-          clientMutationId
-        }
-      }`,
-      variables: { id: pull.node_id },
-    },
-  });
-  if (result.errors?.length) throw new Error(result.errors.map((e) => e.message).join("; "));
 };
 
 /**
@@ -170,7 +146,7 @@ const getProfilePull = async (number: number) => {
 };
 
 /**
- * Merge an approved profile pull request, or set it to merge once required checks pass
+ * Merge an approved profile pull request once its required checks pass
  * @param number pull request number
  * @param headSha the commit the reviewer saw; a resubmission since then is not merged
  * @returns what happened
@@ -183,32 +159,21 @@ export const approvePull = async (number: number, headSha: string) => {
     return "not merged, because the member changed it after this review. Review the newer message";
   }
 
+  // Merge only the reviewed commit, and only once checks pass. There's deliberately no
+  // auto-merge: a queued merge could carry over to a resubmission nobody reviewed
   try {
     await github(`/repos/${repo}/pulls/${number}/merge`, {
       method: "PUT",
       body: { merge_method: "squash", sha: headSha },
     });
-    return "merged";
   } catch (error) {
-    // 405 means checks are still running or required checks failed, so queue it instead
-    if (!(error instanceof GitHubError) || error.status !== 405) throw error;
+    // 405: required checks are still running or failed
+    if (error instanceof GitHubError && error.status === 405) {
+      throw new Error("its checks haven't passed yet. Press Approve again once they're green");
+    }
+    throw error;
   }
-
-  const result = await github<{ errors?: { message: string }[] }>(`/graphql`, {
-    method: "POST",
-    body: {
-      query: `mutation ($id: ID!, $sha: GitObjectID!) {
-        enablePullRequestAutoMerge(
-          input: { pullRequestId: $id, mergeMethod: SQUASH, expectedHeadOid: $sha }
-        ) {
-          clientMutationId
-        }
-      }`,
-      variables: { id: pull.node_id, sha: headSha },
-    },
-  });
-  if (result.errors?.length) throw new Error(result.errors.map((e) => e.message).join("; "));
-  return "set to merge once checks pass";
+  return "merged";
 };
 
 /**
