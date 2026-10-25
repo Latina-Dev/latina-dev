@@ -23,10 +23,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...getGuides().map((guide) => guide.path),
     "/conference",
     "/add-member",
+    "/privacy",
   ].map((path) => ({ url: `${siteUrl}${path}` }));
 
   const memberPages: MetadataRoute.Sitemap = members
-    .filter((member) => !member.noindex)
     .sort((a, b) => a.slug.localeCompare(b.slug))
     .map((member) => ({
       url: `${siteUrl}${member.path}`,

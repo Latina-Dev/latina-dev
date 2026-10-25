@@ -41,6 +41,20 @@ describe("resourceGroups", () => {
   });
 });
 
+describe("resource order", () => {
+  it("lists each category A to Z, ignoring punctuation", () => {
+    for (const group of resourceGroups) {
+      const names = group.resources.map((r) =>
+        r.name.replace(/[^\p{L}\p{N} ]/gu, "").toLowerCase()
+      );
+      assert.deepEqual(
+        names,
+        [...names].sort((a, b) => a.localeCompare(b, "en"))
+      );
+    }
+  });
+});
+
 describe("resource logos", () => {
   it("has a logo for every resource", () => {
     const logos = new Set(

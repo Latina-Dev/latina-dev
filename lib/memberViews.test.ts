@@ -6,7 +6,7 @@ import { countrySlug, getCountryViews, levelViewFor, levelViews } from "@/lib/me
 import { CountryName } from "@/types/countries";
 import { MemberInterface } from "@/types/members";
 
-const member = (slug: string, countries?: CountryName[], noindex?: boolean): MemberInterface => ({
+const member = (slug: string, countries?: CountryName[]): MemberInterface => ({
   name: slug,
   added: "2024-01-01",
   level: "Student",
@@ -14,7 +14,6 @@ const member = (slug: string, countries?: CountryName[], noindex?: boolean): Mem
   slug,
   path: `/members/${slug}`,
   countries,
-  noindex,
 });
 
 describe("countrySlug", () => {
@@ -26,14 +25,13 @@ describe("countrySlug", () => {
 });
 
 describe("getCountryViews", () => {
-  it("only includes countries with at least two indexable members, biggest first", () => {
+  it("only includes countries with at least two members, biggest first", () => {
     const views = getCountryViews([
       member("a", ["Mexico"]),
       member("b", ["Mexico", "Peru"]),
       member("c", ["Mexico"]),
       member("d", ["Peru"]),
       member("e", ["Chile"]),
-      member("f", ["Chile"], true),
       member("g"),
     ]);
 

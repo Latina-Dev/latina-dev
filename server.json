@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Latina-Dev/latina-dev",
+  "title": "Latina Dev",
+  "description": "Search a directory of Latina software engineers, plus communities, programs and job boards for them.",
+  "websiteUrl": "https://latina.dev",
+  "repository": {
+    "url": "https://github.com/Latina-Dev/latina-dev",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://latina.dev/mcp"
+    }
+  ]
+}

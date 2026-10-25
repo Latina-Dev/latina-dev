@@ -43,7 +43,7 @@ export default async function Member({ params }: Props) {
 
   const relatedMembers = getRelatedMembers(member, members);
 
-  const { name, affiliation, level, bio, countries, skills, location, openTo } = member;
+  const { name, affiliation, level, bio, countries, location, openTo } = member;
 
   const links = [
     member.linkedin && {
@@ -75,18 +75,16 @@ export default async function Member({ params }: Props) {
 
   return (
     <>
-      {!member.noindex && (
-        <JsonLd
-          data={[
-            profilePageJsonLd(member, memberLastModified(member)),
-            breadcrumbJsonLd([
-              { name: "Home", path: "/" },
-              { name: "Members", path: "/members" },
-              { name, path: member.path },
-            ]),
-          ]}
-        />
-      )}
+      <JsonLd
+        data={[
+          profilePageJsonLd(member, memberLastModified(member)),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Members", path: "/members" },
+            { name, path: member.path },
+          ]),
+        ]}
+      />
       <PageHero
         before={
           <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
@@ -159,16 +157,6 @@ export default async function Member({ params }: Props) {
               </ul>
             </section>
           )}
-          {skills && (
-            <section className={styles.section}>
-              <h2 className={styles.label}>Skills</h2>
-              <ul className={styles.tags} aria-label="Skills">
-                {skills.map((skill) => (
-                  <li key={skill}>{skill}</li>
-                ))}
-              </ul>
-            </section>
-          )}
         </div>
       </article>
       {relatedMembers.length > 0 && (
@@ -210,7 +198,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       defaultImage: false,
       type: "profile",
     }),
-    // Members who opt out stay reachable from the directory but out of search results
-    ...(member.noindex ? { robots: { index: false } } : {}),
   };
 }

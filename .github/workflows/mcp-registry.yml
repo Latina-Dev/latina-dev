@@ -1,0 +1,37 @@
+name: Publish to MCP Registry
+
+# Lists the MCP server at https://latina.dev/mcp in the official MCP Registry
+# (registry.modelcontextprotocol.io). Runs when server.json changes on main; bump its "version"
+# for every change, since the registry won't accept the same version twice.
+on:
+  push:
+    branches: ["main"]
+    paths: ["server.json"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    # Manual runs can pick any branch; only publish what's on main
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # GitHub OIDC proves we own the io.github.Latina-Dev namespace, no secret needed
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install mcp-publisher
+        # SHA-256 from the v1.8.1 release's registry_1.8.1_checksums.txt; update both together
+        run: |
+          curl -sSfL -o mcp-publisher.tar.gz "https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz"
+          echo "a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc  mcp-publisher.tar.gz" | sha256sum --check
+          tar xzf mcp-publisher.tar.gz mcp-publisher
+      - name: Log in with GitHub OIDC
+        run: ./mcp-publisher login github-oidc
+      - name: Publish server.json
+        run: ./mcp-publisher publish

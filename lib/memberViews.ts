@@ -61,12 +61,10 @@ export interface CountryView {
 
 /**
  * Countries of origin with enough members for their own page, most members first.
- * Members with `noindex: true` don't count towards a country.
  */
 export const getCountryViews = (members: MemberInterface[]): CountryView[] => {
   const byCountry = new Map<CountryName, MemberInterface[]>();
   for (const member of members) {
-    if (member.noindex) continue;
     for (const country of member.countries ?? []) {
       byCountry.set(country, [...(byCountry.get(country) ?? []), member]);
     }
