@@ -4,3 +4,10 @@
 # These owners will be the default owners for everything in the repo. Unless a later match takes precedence, @Latina-Dev/reviewers will be requested for review when someone opens a pull request.
 
 *       @Latina-Dev/reviewers
+
+# Member profile changes from the sign-in flow are reviewed in Slack, where Approve merges
+# them once CI passes. These paths have no code owner so the bot can merge them; a pull
+# request that also touches any other file still needs @Latina-Dev/reviewers
+/data/members/
+/data/owners/
+/public/img/members/

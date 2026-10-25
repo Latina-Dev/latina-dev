@@ -8,7 +8,7 @@ Members sign in at [latina.dev/profile](https://latina.dev/profile) with LinkedI
 2. They either fill in the profile form (new members), pick their name from the list of existing profiles (claiming), or edit the profile they own.
 3. The site commits the change to a branch named `profile/<id>` and opens a pull request, so CI validates the profile and Vercel builds a preview. Each member has one branch, so sending another change replaces the pending one.
 4. A message with **Approve** and **Reject** buttons is posted to the review channel in Slack. It shows the LinkedIn name and email the member signed in with, their LinkedIn handle, and links to the pull request.
-5. **Approve** merges the pull request once its required checks pass. If they are still running, the bot replies in the thread and the buttons stay, so press **Approve** again when they finish. This relies on branch protection for `main` requiring the CI checks: without required checks, GitHub merges right away. **Reject** closes it and deletes the branch.
+5. **Approve** merges the pull request once its required checks pass. If they are still running, the bot replies in the thread and the buttons stay, so press **Approve** again when they finish. This relies on branch protection for `main` requiring the CI checks: without required checks, GitHub merges right away. Profile files have no code owner in [`.github/CODEOWNERS`](https://github.com/Latina-Dev/latina-dev/blob/main/.github/CODEOWNERS), so Approve doesn't also need a GitHub review, as long as `main` requires no minimum number of approvals. That exemption covers any pull request that only touches profile files, not just the bot's. It's safe while only admins can merge and nothing merges automatically, so revisit it before giving anyone write access or adding auto-merge. **Reject** closes it and deletes the branch.
 
 Ownership lives in [`data/owners`](https://github.com/Latina-Dev/latina-dev/tree/main/data/owners): one file per profile, named by its slug and holding a hash of the owner's LinkedIn account id. Because the file is named by profile, two pending claims on the same profile conflict and only one can merge. A new profile adds its owner file in the same pull request; a claim adds only the owner file. Delete a file to unlink an account.
 
@@ -34,7 +34,7 @@ These are set as environment variables in Vercel for Production. Sign-in doesn't
 
 ### GitHub
 
-Create a [fine-grained personal access token](https://github.com/settings/personal-access-tokens/new) for `Latina-Dev/latina-dev` only, with **Contents** and **Pull requests** set to read and write. Set it as `PROFILE_BOT_GITHUB_TOKEN`.
+Create a [fine-grained personal access token](https://github.com/settings/personal-access-tokens/new) for `Latina-Dev/latina-dev` only, with **Contents** and **Pull requests** set to read and write. Set it as `PROFILE_BOT_GITHUB_TOKEN`. Create it from an account that can't bypass branch protection, such as a bot account with write access: the bot merges as that account, and an admin's token can skip the required checks unless branch protection blocks bypassing.
 
 ### Slack
 
