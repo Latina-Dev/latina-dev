@@ -39,7 +39,7 @@ Pages include [schema.org](https://schema.org) data in a `<script type="applicat
 | Profile pages                | `ProfilePage` whose `mainEntity` is a `Person` (with `memberOf` Latina Dev), and `BreadcrumbList` |
 | Conference, Add Your Profile | `BreadcrumbList`                                                                                  |
 
-Google shows profile pages as a "Profile page" rich result. The `ProfilePage` carries `dateCreated` (the member's `added` date) and `dateModified` (the last commit to their file). A `Person` only includes fields the member has filled in: `jobTitle` comes from `affiliation`, `sameAs` from their LinkedIn, GitHub, X and website, `knowsAbout` from `skills`, and `homeLocation` from `location`. Nothing is inferred or made up.
+Google shows profile pages as a "Profile page" rich result. The `ProfilePage` carries `dateCreated` (the member's `added` date) and `dateModified` (the last commit to their file). A `Person` only includes fields the member has filled in: `jobTitle` comes from `affiliation`, `sameAs` from their LinkedIn, GitHub, X and website, and `homeLocation` from `location`. Nothing is inferred or made up.
 
 To check a page, paste its URL into Google's [Rich Results Test](https://search.google.com/test/rich-results) or the [Schema.org validator](https://validator.schema.org). Run the helper tests with `npm test`.
 
@@ -49,11 +49,6 @@ Every page sets Open Graph and Twitter card tags through `pageMetadata()` in `li
 
 Most pages share `/img/featured-image.png`. Profile pages get their own 1200×630 image from `app/members/[slug]/opengraph-image.tsx`, generated at build time with the member's photo, name, level and affiliation (when they have one) on Latina Dev branding. To preview one, run the site and open `/members/<slug>/opengraph-image`.
 
-## Opting out
+## Every member is discoverable
 
-A member with `noindex: true` in their front matter:
-
-- gets a `noindex` robots tag on their profile page
-- is left out of the sitemap, `/members.json`, the structured data and the related members on other profiles
-
-Their card still appears in the directory on latina.dev.
+Every profile is in the sitemap, `/members.json`, the structured data and the related members on other profiles, and every page is open to search engines and AI crawlers. There is no opt-out: the directory exists so members get found. The member schema rejects a `noindex` field.

@@ -21,7 +21,6 @@ The feed is generated at build time from the files in `data/members`, so it upda
       "level": "Individual Contributor",
       "affiliation": "Senior Software Engineer at XYZ",
       "countries": ["Peru"],
-      "skills": ["React", "TypeScript", "Accessibility"],
       "location": "San Francisco, CA",
       "openTo": ["Mentoring", "Speaking"],
       "slug": "frances-coronel",
@@ -38,17 +37,6 @@ The feed is generated at build time from the files in `data/members`, so it upda
 - Each member has the fields from their Markdown file (see [Adding a Member](/pages/adding-a-member)), plus `slug`, `path` and `url` for their profile page.
 - `bio` is the member's Markdown bio rendered as HTML. It is an empty string when the member has no bio.
 - Optional fields the member has not filled in are left out rather than set to `null`.
-
-## Opting out
-
-Members who add `noindex: true` to their front matter are left out of the feed:
-
-```md
----
-name: Frances Coronel
-noindex: true
----
-```
 
 ## Example
 
