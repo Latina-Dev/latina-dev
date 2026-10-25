@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { createHmac } from "node:crypto";
 import { describe, it } from "node:test";
 
-import { isValidSlackSignature, reviewMessage } from "@/lib/profiles/slack";
+import { isApprover, isValidSlackSignature, reviewMessage } from "@/lib/profiles/slack";
 
 const secret = "test-secret";
 const sign = (timestamp: string, body: string) =>
@@ -53,5 +53,18 @@ describe("reviewMessage", () => {
       actions.elements.map((button) => button.value),
       [`42:${"a".repeat(40)}`, `42:${"a".repeat(40)}`]
     );
+  });
+});
+
+describe("isApprover", () => {
+  it("allows only listed Slack users", () => {
+    assert.equal(isApprover("U1", "U1, U2"), true);
+    assert.equal(isApprover("U2", "U1, U2"), true);
+    assert.equal(isApprover("U3", "U1, U2"), false);
+  });
+
+  it("allows nobody when the list is empty", () => {
+    assert.equal(isApprover("U1", ""), false);
+    assert.equal(isApprover("", " , "), false);
   });
 });

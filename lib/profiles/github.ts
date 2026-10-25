@@ -5,14 +5,44 @@ const repo = "Latina-Dev/latina-dev";
 const baseBranch = "main";
 const api = "https://api.github.com";
 
+/** A Slack button was pressed on a review message for a commit the member has since replaced */
+export class OutdatedReviewError extends Error {
+  constructor() {
+    super(
+      "The member changed this after it was reviewed, so nothing was done. Review the newer message"
+    );
+  }
+}
+
+/** GitHub refused the merge: checks pending or failing, a conflict, or another branch rule */
+export class NotMergeableError extends Error {
+  /** @param reason GitHub's own explanation, when it gave one */
+  constructor(reason?: string) {
+    super(
+      `GitHub can't merge it yet${reason ? ` (${reason})` : ""}. If checks are still running, press Approve again once they pass. Anything else needs fixing first`
+    );
+  }
+}
+
 class GitHubError extends Error {
   constructor(
     message: string,
-    readonly status: number
+    readonly status: number,
+    readonly reason?: string
   ) {
     super(message);
   }
 }
+
+/** GitHub's `message` field from an error response body, if it has one */
+const errorReason = (body: string) => {
+  try {
+    const parsed = JSON.parse(body) as { message?: unknown };
+    return typeof parsed.message === "string" ? parsed.message : undefined;
+  } catch {
+    return undefined;
+  }
+};
 
 const github = async <T>(path: string, init: { method?: string; body?: unknown } = {}) => {
   const token = process.env.PROFILE_BOT_GITHUB_TOKEN;
@@ -29,9 +59,11 @@ const github = async <T>(path: string, init: { method?: string; body?: unknown }
     cache: "no-store",
   });
   if (!response.ok) {
+    const body = await response.text();
     throw new GitHubError(
-      `GitHub ${init.method ?? "GET"} ${path} failed: ${response.status} ${await response.text()}`,
-      response.status
+      `GitHub ${init.method ?? "GET"} ${path} failed: ${response.status} ${body}`,
+      response.status,
+      errorReason(body)
     );
   }
   return (response.status === 204 ? undefined : await response.json()) as T;
@@ -95,7 +127,6 @@ export const commitToBranch = async (branch: string, files: RepoFile[], message:
 interface PullRequest {
   number: number;
   html_url: string;
-  node_id: string;
   state: "open" | "closed";
   merged: boolean;
   head: { ref: string; sha: string; repo: { full_name: string } | null };
@@ -147,7 +178,7 @@ const getProfilePull = async (number: number) => {
 };
 
 /**
- * Merge an approved profile pull request, or set it to merge once required checks pass
+ * Merge an approved profile pull request once its required checks pass
  * @param number pull request number
  * @param headSha the commit the reviewer saw; a resubmission since then is not merged
  * @returns what happened
@@ -157,46 +188,45 @@ export const approvePull = async (number: number, headSha: string) => {
   if (pull.merged) return "already merged";
   if (pull.state === "closed") return "closed, so it was not merged";
   if (pull.head.sha !== headSha) {
-    return "not merged, because the member changed it after this review. Review the newer message";
+    throw new OutdatedReviewError();
   }
 
+  // Merge only the reviewed commit, and only once checks pass. There's deliberately no
+  // auto-merge: a queued merge could carry over to a resubmission nobody reviewed
   try {
     await github(`/repos/${repo}/pulls/${number}/merge`, {
       method: "PUT",
       body: { merge_method: "squash", sha: headSha },
     });
-    return "merged";
   } catch (error) {
-    // 405 means checks are still running or required checks failed, so queue it instead
-    if (!(error instanceof GitHubError) || error.status !== 405) throw error;
+    // 405: GitHub won't merge it yet, e.g. required checks are running or failed
+    if (error instanceof GitHubError && error.status === 405) {
+      throw new NotMergeableError(error.reason);
+    }
+    // 409: the head moved past `sha`, i.e. the member resubmitted after the check above
+    if (error instanceof GitHubError && error.status === 409) {
+      throw new OutdatedReviewError();
+    }
+    throw error;
   }
-
-  const result = await github<{ errors?: { message: string }[] }>(`/graphql`, {
-    method: "POST",
-    body: {
-      query: `mutation ($id: ID!, $sha: GitObjectID!) {
-        enablePullRequestAutoMerge(
-          input: { pullRequestId: $id, mergeMethod: SQUASH, expectedHeadOid: $sha }
-        ) {
-          clientMutationId
-        }
-      }`,
-      variables: { id: pull.node_id, sha: headSha },
-    },
-  });
-  if (result.errors?.length) throw new Error(result.errors.map((e) => e.message).join("; "));
-  return "set to merge once checks pass";
+  return "merged";
 };
 
 /**
  * Close a rejected profile pull request and delete its branch
  * @param number pull request number
+ * @param headSha the commit the reviewer saw; a resubmission since then is left open
  */
-export const rejectPull = async (number: number) => {
+export const rejectPull = async (number: number, headSha: string) => {
   const pull = await getProfilePull(number);
   if (pull.merged) return "already merged, so it was not closed";
   // A stale button on an old message must not delete a branch the member has since reused
   if (pull.state === "closed") return "already closed";
+  if (pull.head.sha !== headSha) {
+    throw new OutdatedReviewError();
+  }
+  // Unlike the merge, closing takes no sha, so a resubmission in the moment between the
+  // check above and these calls is closed too. The member can resubmit, so that's accepted
   await github(`/repos/${repo}/pulls/${number}`, { method: "PATCH", body: { state: "closed" } });
   await github(`/repos/${repo}/git/refs/heads/${pull.head.ref}`, { method: "DELETE" });
   return "closed";

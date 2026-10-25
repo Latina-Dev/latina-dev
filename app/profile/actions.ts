@@ -92,7 +92,7 @@ const submitForReview = async ({
     [
       `${verb} the profile for **${profileName}**, submitted through latina.dev/profile.`,
       "",
-      "Approve or reject it from the review message in Slack. Approving merges it once checks pass.",
+      "Approve or reject it from the review message in Slack. Approve merges it if its checks have passed.",
       note ? `\nNote: ${note}` : "",
     ].join("\n")
   );
