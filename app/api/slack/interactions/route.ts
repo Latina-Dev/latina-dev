@@ -1,7 +1,12 @@
 import { after } from "next/server";
 
 import { approvePull, rejectPull } from "@/lib/profiles/github";
-import { closeReviewMessage, isValidSlackSignature, replyInThread } from "@/lib/profiles/slack";
+import {
+  closeReviewMessage,
+  isApprover,
+  isValidSlackSignature,
+  replyInThread,
+} from "@/lib/profiles/slack";
 
 interface BlockActionPayload {
   type: string;
@@ -36,14 +41,9 @@ export async function POST(request: Request) {
   const action = payload.actions?.[0];
   if (payload.type !== "block_actions" || !action) return new Response(null, { status: 200 });
 
-  // Slack user ids who may approve or reject, comma separated. Required: with no list, nobody can
-  const approvers = (process.env.SLACK_APPROVER_IDS ?? "")
-    .split(",")
-    .map((id) => id.trim())
-    .filter(Boolean);
   const channel = payload.channel.id;
   const ts = payload.message.ts;
-  if (!approvers.includes(payload.user.id)) {
+  if (!isApprover(payload.user.id)) {
     after(() =>
       replyInThread(channel, ts, `<@${payload.user.id}> isn't set up to review profiles.`)
     );

@@ -85,9 +85,11 @@ const submitForReview = async ({
   const verb = { new: "Add", claim: "Claim", edit: "Update" }[kind];
   const title = `${verb} profile: ${profileName}`;
 
-  // An earlier approval may have queued auto-merge; it must not carry over to this new commit
+  // An earlier approval may have queued auto-merge; it must not carry over to this new commit.
+  // Cancel again after pushing, in case an approval landed in between
   await cancelAutoMerge(branch);
   const headSha = await commitToBranch(branch, files, title);
+  await cancelAutoMerge(branch);
   const pull = await openOrUpdatePull(
     branch,
     title,

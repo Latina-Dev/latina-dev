@@ -29,6 +29,19 @@ export const isValidSlackSignature = (
   return a.length === b.length && timingSafeEqual(a, b);
 };
 
+/**
+ * Whether a Slack user may press Approve or Reject. SLACK_APPROVER_IDS is required:
+ * with no list, nobody can, so a missing setting never opens review to the whole channel
+ * @param userId Slack user id from the button press
+ * @param allowlist comma-separated Slack user ids
+ */
+export const isApprover = (userId: string, allowlist = process.env.SLACK_APPROVER_IDS ?? "") =>
+  allowlist
+    .split(",")
+    .map((id) => id.trim())
+    .filter(Boolean)
+    .includes(userId);
+
 export type ReviewKind = "new" | "claim" | "edit";
 
 export interface ReviewRequest {
