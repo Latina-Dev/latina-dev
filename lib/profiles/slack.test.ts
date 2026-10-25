@@ -36,10 +36,11 @@ describe("isValidSlackSignature", () => {
 });
 
 describe("reviewMessage", () => {
-  it("escapes member text and carries the pull request number on both buttons", () => {
+  it("escapes member text and carries the pull request and reviewed commit on both buttons", () => {
     const message = reviewMessage({
       kind: "new",
       pullNumber: 42,
+      headSha: "a".repeat(40),
       pullUrl: "https://github.com/Latina-Dev/latina-dev/pull/42",
       profileName: "Ana <script>",
       linkedinName: "Ana",
@@ -50,7 +51,7 @@ describe("reviewMessage", () => {
     const actions = message.blocks[1] as { elements: { value: string }[] };
     assert.deepEqual(
       actions.elements.map((button) => button.value),
-      ["42", "42"]
+      [`42:${"a".repeat(40)}`, `42:${"a".repeat(40)}`]
     );
   });
 });

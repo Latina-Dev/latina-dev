@@ -44,7 +44,12 @@ const fetchLinkedInPhoto = async (url: string | null | undefined) => {
     const parsed = new URL(url);
     // Only LinkedIn's own image CDN, so a crafted URL can't make the server fetch anything else
     if (parsed.protocol !== "https:" || !parsed.hostname.endsWith(".licdn.com")) return undefined;
-    const response = await fetch(parsed, { cache: "no-store" });
+    // No redirects, so the host check above holds, and a deadline so a slow CDN falls back to no photo
+    const response = await fetch(parsed, {
+      cache: "no-store",
+      redirect: "error",
+      signal: AbortSignal.timeout(5000),
+    });
     if (!response.ok) return undefined;
     const bytes = Buffer.from(await response.arrayBuffer());
     const isJpeg = bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
@@ -80,7 +85,7 @@ const submitForReview = async ({
   const verb = { new: "Add", claim: "Claim", edit: "Update" }[kind];
   const title = `${verb} profile: ${profileName}`;
 
-  await commitToBranch(branch, files, title);
+  const headSha = await commitToBranch(branch, files, title);
   const pull = await openOrUpdatePull(
     branch,
     title,
@@ -96,6 +101,7 @@ const submitForReview = async ({
     await postReviewRequest({
       kind,
       pullNumber: pull.number,
+      headSha,
       pullUrl: pull.html_url,
       profileName,
       profileUrl: kind === "new" ? undefined : `${siteUrl}/members/${slug}`,

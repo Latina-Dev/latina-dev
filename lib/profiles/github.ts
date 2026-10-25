@@ -47,6 +47,7 @@ export interface RepoFile {
  * @param branch e.g. profile/0123456789ab
  * @param files files to add or overwrite
  * @param message commit message
+ * @returns the new commit's sha, which is the branch head
  */
 export const commitToBranch = async (branch: string, files: RepoFile[], message: string) => {
   const ref = await github<{ object: { sha: string } }>(
@@ -88,6 +89,7 @@ export const commitToBranch = async (branch: string, files: RepoFile[], message:
       body: { ref: `refs/heads/${branch}`, sha: commit.sha },
     });
   }
+  return commit.sha;
 };
 
 interface PullRequest {
@@ -96,7 +98,7 @@ interface PullRequest {
   node_id: string;
   state: "open" | "closed";
   merged: boolean;
-  head: { ref: string; repo: { full_name: string } | null };
+  head: { ref: string; sha: string; repo: { full_name: string } | null };
 }
 
 /**
@@ -147,17 +149,21 @@ const getProfilePull = async (number: number) => {
 /**
  * Merge an approved profile pull request, or set it to merge once required checks pass
  * @param number pull request number
+ * @param headSha the commit the reviewer saw; a resubmission since then is not merged
  * @returns what happened
  */
-export const approvePull = async (number: number) => {
+export const approvePull = async (number: number, headSha: string) => {
   const pull = await getProfilePull(number);
   if (pull.merged) return "already merged";
   if (pull.state === "closed") return "closed, so it was not merged";
+  if (pull.head.sha !== headSha) {
+    return "not merged, because the member changed it after this review. Review the newer message";
+  }
 
   try {
     await github(`/repos/${repo}/pulls/${number}/merge`, {
       method: "PUT",
-      body: { merge_method: "squash" },
+      body: { merge_method: "squash", sha: headSha },
     });
     return "merged";
   } catch (error) {
@@ -168,12 +174,14 @@ export const approvePull = async (number: number) => {
   const result = await github<{ errors?: { message: string }[] }>(`/graphql`, {
     method: "POST",
     body: {
-      query: `mutation ($id: ID!) {
-        enablePullRequestAutoMerge(input: { pullRequestId: $id, mergeMethod: SQUASH }) {
+      query: `mutation ($id: ID!, $sha: GitObjectID!) {
+        enablePullRequestAutoMerge(
+          input: { pullRequestId: $id, mergeMethod: SQUASH, expectedHeadOid: $sha }
+        ) {
           clientMutationId
         }
       }`,
-      variables: { id: pull.node_id },
+      variables: { id: pull.node_id, sha: headSha },
     },
   });
   if (result.errors?.length) throw new Error(result.errors.map((e) => e.message).join("; "));

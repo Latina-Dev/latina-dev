@@ -50,17 +50,18 @@ export async function POST(request: Request) {
     return new Response(null, { status: 200 });
   }
 
-  const pullNumber = Number(action.value);
-  if (!Number.isInteger(pullNumber) || pullNumber <= 0) {
-    return new Response("Invalid pull request", { status: 400 });
-  }
+  // Buttons carry "<pull number>:<head sha>" for the commit the reviewer was shown
+  const match = /^([1-9]\d*):([0-9a-f]{40})$/.exec(action.value ?? "");
+  if (!match) return new Response("Invalid pull request", { status: 400 });
+  const pullNumber = Number(match[1]);
+  const headSha = match[2];
   const summary = payload.message.blocks?.find((block) => block.type === "section")?.text?.text;
 
   after(async () => {
     try {
       let outcome: string;
       if (action.action_id === "approve_profile") {
-        outcome = `Approved by <@${payload.user.id}>: ${await approvePull(pullNumber)}.`;
+        outcome = `Approved by <@${payload.user.id}>: ${await approvePull(pullNumber, headSha)}.`;
       } else if (action.action_id === "reject_profile") {
         outcome = `Rejected by <@${payload.user.id}>: ${await rejectPull(pullNumber)}.`;
       } else {

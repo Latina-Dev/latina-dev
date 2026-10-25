@@ -34,6 +34,7 @@ export type ReviewKind = "new" | "claim" | "edit";
 export interface ReviewRequest {
   kind: ReviewKind;
   pullNumber: number;
+  headSha: string; // commit under review, so Approve can't merge a later resubmission
   pullUrl: string;
   profileName: string;
   profileUrl?: string; // the live profile, for claims and edits
@@ -82,14 +83,14 @@ export const reviewMessage = (request: ReviewRequest) => {
             text: { type: "plain_text", text: "Approve" },
             style: "primary",
             action_id: "approve_profile",
-            value: String(request.pullNumber),
+            value: `${request.pullNumber}:${request.headSha}`,
           },
           {
             type: "button",
             text: { type: "plain_text", text: "Reject" },
             style: "danger",
             action_id: "reject_profile",
-            value: String(request.pullNumber),
+            value: `${request.pullNumber}:${request.headSha}`,
           },
         ],
       },
