@@ -54,7 +54,7 @@
     "@babel/core": "^7.29.7",
     "@babel/preset-env": "^7.29.0",
     "@babel/preset-react": "^7.28.5",
-    "@babel/preset-typescript": "^7.28.5",
+    "@babel/preset-typescript": "^8.0.7",
     "@chromatic-com/storybook": "^5.1.1",
     "@ianvs/prettier-plugin-sort-imports": "4.7.1",
     "@playwright/test": "^1.64.0",
