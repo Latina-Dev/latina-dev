@@ -12,8 +12,8 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-      - uses: actions/first-interaction@3c71ce730280171fd1cfb57c00c774f8998586f7 # v1
+      - uses: actions/first-interaction@1c4688942c71f71d4f5502a26ea67c331730fa4d # v3.1.0
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          issue-message: "Thank you for raising an issue! Please make sure you have given us enough context and we will review it as soon as possible. ⏲️ If you don't hear back from anyone within the next week, feel free to reach out to one of the maintainers. 💛"
-          pr-message: "Thanks for opening this pull request! Please make sure you have followed our contributing guidelines and we will review it as soon as possible. ⏲️ If you don't hear back from anyone within the next week, feel free to reach out to one of the maintainers. 💛"
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_message: "Thank you for raising an issue! Please make sure you have given us enough context and we will review it as soon as possible. ⏲️ If you don't hear back from anyone within the next week, feel free to reach out to one of the maintainers. 💛"
+          pr_message: "Thanks for opening this pull request! Please make sure you have followed our contributing guidelines and we will review it as soon as possible. ⏲️ If you don't hear back from anyone within the next week, feel free to reach out to one of the maintainers. 💛"
