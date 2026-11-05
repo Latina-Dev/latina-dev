@@ -21,9 +21,7 @@ import { postReviewRequest, ReviewKind } from "@/lib/profiles/slack";
 import { siteUrl } from "@/lib/site";
 
 export type ProfileActionState =
-  | { status: "idle" }
-  | { status: "error"; message: string }
-  | { status: "submitted" };
+  { status: "idle" } | { status: "error"; message: string } | { status: "submitted" };
 
 const photoMaxBytes = 5 * 1024 * 1024;
 
