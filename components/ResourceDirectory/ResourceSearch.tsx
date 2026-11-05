@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Same look as the member directory's search box
 import styles from "@/components/MemberDirectory/DirectorySearch.module.css";
 
+import { useUrlQuery } from "@/lib/hooks/useUrlQuery";
+
 interface Props {
   listId: string; // wrapper whose sections hold items with a data-search attribute
   countId: string; // element showing how many resources match
@@ -19,12 +21,10 @@ interface Props {
  * Without JavaScript the full list still shows. A ?q= in the URL fills the box on load.
  */
 export default function ResourceSearch({ listId, countId, total }: Props) {
-  const [query, setQuery] = useState("");
-
-  useEffect(() => {
-    const q = new URLSearchParams(window.location.search).get("q");
-    if (q) setQuery(q);
-  }, []);
+  // The ?q= fills the box after hydration, then typing takes over.
+  const urlQuery = useUrlQuery();
+  const [typed, setQuery] = useState<string | null>(null);
+  const query = typed ?? urlQuery;
 
   useEffect(() => {
     const terms = query.toLowerCase().split(/\s+/).filter(Boolean);

@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { useUrlQuery } from "@/lib/hooks/useUrlQuery";
+
 import styles from "./DirectorySearch.module.css";
 
 interface Props {
@@ -18,12 +20,10 @@ interface Props {
  * shows. A ?q= in the URL (the homepage search) fills the box on load.
  */
 export default function DirectorySearch({ gridId, countId, total }: Props) {
-  const [query, setQuery] = useState("");
-
-  useEffect(() => {
-    const q = new URLSearchParams(window.location.search).get("q");
-    if (q) setQuery(q);
-  }, []);
+  // The ?q= fills the box after hydration, then typing takes over.
+  const urlQuery = useUrlQuery();
+  const [typed, setQuery] = useState<string | null>(null);
+  const query = typed ?? urlQuery;
 
   useEffect(() => {
     const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
