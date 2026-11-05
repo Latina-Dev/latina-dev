@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { useUrlQuery } from "@/lib/hooks/useUrlQuery";
 
 import styles from "./DirectorySearch.module.css";
 
@@ -18,8 +20,8 @@ interface Props {
  * shows. A ?q= in the URL (the homepage search) fills the box on load.
  */
 export default function DirectorySearch({ gridId, countId, total }: Props) {
-  // The ?q= is read after hydration (the server snapshot is empty), then typing takes over.
-  const urlQuery = useSyncExternalStore(subscribeToNothing, readUrlQuery, () => "");
+  // The ?q= fills the box after hydration, then typing takes over.
+  const urlQuery = useUrlQuery();
   const [typed, setQuery] = useState<string | null>(null);
   const query = typed ?? urlQuery;
 
@@ -56,13 +58,4 @@ export default function DirectorySearch({ gridId, countId, total }: Props) {
       />
     </form>
   );
-}
-
-// The URL's query doesn't change while the page is open, so there is nothing to subscribe to.
-function subscribeToNothing() {
-  return () => {};
-}
-
-function readUrlQuery() {
-  return new URLSearchParams(window.location.search).get("q") ?? "";
 }

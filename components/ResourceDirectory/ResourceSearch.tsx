@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Same look as the member directory's search box
 import styles from "@/components/MemberDirectory/DirectorySearch.module.css";
+
+import { useUrlQuery } from "@/lib/hooks/useUrlQuery";
 
 interface Props {
   listId: string; // wrapper whose sections hold items with a data-search attribute
@@ -19,8 +21,8 @@ interface Props {
  * Without JavaScript the full list still shows. A ?q= in the URL fills the box on load.
  */
 export default function ResourceSearch({ listId, countId, total }: Props) {
-  // The ?q= is read after hydration (the server snapshot is empty), then typing takes over.
-  const urlQuery = useSyncExternalStore(subscribeToNothing, readUrlQuery, () => "");
+  // The ?q= fills the box after hydration, then typing takes over.
+  const urlQuery = useUrlQuery();
   const [typed, setQuery] = useState<string | null>(null);
   const query = typed ?? urlQuery;
 
@@ -63,13 +65,4 @@ export default function ResourceSearch({ listId, countId, total }: Props) {
       />
     </form>
   );
-}
-
-// The URL's query doesn't change while the page is open, so there is nothing to subscribe to.
-function subscribeToNothing() {
-  return () => {};
-}
-
-function readUrlQuery() {
-  return new URLSearchParams(window.location.search).get("q") ?? "";
 }
