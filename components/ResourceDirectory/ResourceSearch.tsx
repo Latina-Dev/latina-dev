@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,12 +19,10 @@ interface Props {
  * Without JavaScript the full list still shows. A ?q= in the URL fills the box on load.
  */
 export default function ResourceSearch({ listId, countId, total }: Props) {
-  const [query, setQuery] = useState("");
-
-  useEffect(() => {
-    const q = new URLSearchParams(window.location.search).get("q");
-    if (q) setQuery(q);
-  }, []);
+  // The ?q= is read after hydration (the server snapshot is empty), then typing takes over.
+  const urlQuery = useSyncExternalStore(subscribeToNothing, readUrlQuery, () => "");
+  const [typed, setQuery] = useState<string | null>(null);
+  const query = typed ?? urlQuery;
 
   useEffect(() => {
     const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
@@ -65,4 +63,13 @@ export default function ResourceSearch({ listId, countId, total }: Props) {
       />
     </form>
   );
+}
+
+// The URL's query doesn't change while the page is open, so there is nothing to subscribe to.
+function subscribeToNothing() {
+  return () => {};
+}
+
+function readUrlQuery() {
+  return new URLSearchParams(window.location.search).get("q") ?? "";
 }
