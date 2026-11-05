@@ -45,7 +45,7 @@
     "remark-html": "16.0.1",
     "remark-parse": "11.0.0",
     "swr": "^2.5.1",
-    "typescript": "6.0.3",
+    "typescript": "7.0.2",
     "unified": "11.0.5",
     "zod": "^4.6.7"
   },
