@@ -11,7 +11,7 @@ const nextConfig = {
 const { withSentryConfig } = require("@sentry/nextjs");
 
 module.exports = withSentryConfig(nextConfig, {
-  org: "latina-dev",
+  org: "fvcproductions",
   project: "latina-dev",
 
   // Only print logs for uploading source maps in CI
