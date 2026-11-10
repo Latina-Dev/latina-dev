@@ -33,4 +33,4 @@ checked: "2026-11-10"
 
 ## Logo
 
-Cards show the company's initials until it has a logo. To fetch one, run the **Resource logos** workflow from the Actions tab on your branch, then push again so the checks run.
+Cards show the company's initials until it has a logo. To fetch one, run the **Resource logos** workflow from the Actions tab on your branch, then push again so the checks run. `npm test` fails while an ERG has no logo.

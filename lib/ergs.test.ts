@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 
 import { ergGuidePath, ergs, ergsJsonLd, ergSlug, ergsMarkdown, membersAt } from "@/lib/ergs";
@@ -27,6 +27,16 @@ describe("ergs", () => {
       assert.match(erg.website, /^https:\/\//, erg.company);
       assert.match(erg.checked, /^\d{4}-\d{2}-\d{2}$/, erg.company);
     }
+  });
+
+  it("has a company logo for every ERG", () => {
+    const logos = new Set(
+      readdirSync("public/img/ergs").map((file) => file.replace(/\.[a-z]+$/, ""))
+    );
+    assert.deepEqual(
+      ergs.map((erg) => erg.slug).filter((slug) => !logos.has(slug)),
+      []
+    );
   });
 
   it("stays out of the menu and off the home page", () => {
