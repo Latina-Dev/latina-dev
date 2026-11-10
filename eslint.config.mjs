@@ -28,14 +28,7 @@ const eslintConfig = [
   },
   {
     // apps/ holds standalone projects (like the Madrina Slack app) with their own tooling
-    ignores: [
-      ".next/**",
-      "out/**",
-      "build/**",
-      "storybook-static/**",
-      "next-env.d.ts",
-      "apps/**",
-    ],
+    ignores: [".next/**", "out/**", "build/**", "storybook-static/**", "next-env.d.ts", "apps/**"],
   },
 ];
 
