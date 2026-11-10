@@ -26,10 +26,12 @@ const LEVEL_ORDER: Record<string, string[]> = {
   Management: ["Senior", "Engineering Manager", "Senior Engineering Manager"],
 };
 
+const isKnownLevel = (level: string) =>
+  Object.values(LEVEL_ORDER).some((order) => order.includes(level));
+
 /**
  * Where a level sits on a track. A level from the other track (say "Staff" on a Management
- * profile) counts as its equivalent rung, and an unknown level counts as the first rung, so
- * neither inflates a gap.
+ * profile) counts as its equivalent rung, so it doesn't inflate a gap.
  */
 const levelRank = (track: string, level: string) => {
   const onTrack = (LEVEL_ORDER[track] ?? LEVEL_ORDER.IC).indexOf(level);
@@ -76,7 +78,10 @@ export const getGaps = (profile: Profile = getProfile()): Gap[] => {
 
   return ladder.competencies
     .map((competency) => {
-      const current = selfAssessment[competency] ?? profile.current_level;
+      // A missing or unrecognized self-assessment falls back to her current level.
+      const assessed = selfAssessment[competency];
+      const current =
+        assessed && isKnownLevel(assessed) ? assessed : profile.current_level;
       const size = targetRank - levelRank(track, current);
       return {
         competency,
