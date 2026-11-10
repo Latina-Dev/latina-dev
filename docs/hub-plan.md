@@ -2,7 +2,7 @@
 
 One community hub instead of three builds. This plan folds two older ideas, **The BLT Hub** (a directory of resources for Black and Latinx people in tech) and **ERG HQ** (a home for employee resource group leads), into latina.dev.
 
-Status: **proposal, waiting on a decision between option A and option B.** Nothing here is built yet.
+Status: **option A chosen on November 9, 2026.** Phase 1 is in progress.
 
 ## Where we are today
 
@@ -24,7 +24,7 @@ The three ideas overlap more than they differ:
 
 ## The decision: one brand or three
 
-### Option A: one site, one brand (recommended)
+### Option A: one site, one brand (chosen)
 
 Everything lives on latina.dev. BLT Hub becomes a better `/resources`. ERG HQ becomes `/ergs` and `/events`, scoped to Latinx ERGs to start.
 
@@ -38,7 +38,7 @@ One Next.js app serves latina.dev, a BLT Hub domain and erghq.com. Each domain i
 - **For:** keeps all three brands and the wider audiences.
 - **Against:** three navs, three themes, three sets of SEO and three half-empty sites to fill, on about five hours a week. Host-based routing also touches every page, the sitemap, auth callbacks and the MCP server.
 
-### Recommendation
+### Decision
 
 **Option A, built so option B stays cheap.** The content model below tags every item with who it serves, and never hardcodes "Latina" into a schema. If a second brand earns its keep later, it is a filter and a theme, not a rewrite.
 
@@ -177,8 +177,11 @@ These were in the original ERG HQ idea. Each is a product of its own, not a page
 - Separate BLT Hub and ERG HQ sites (option B)
 - A database
 
-## Open questions
+## Decisions
 
-1. Option A or option B?
-2. Should `/resources` list resources that serve Black people in tech but not Latinas? Suggested: include the ones that serve both, or women of color broadly, and leave the rest for later.
-3. Should `/ergs` start with Latinx ERGs only? Suggested: yes.
+Made by Frances on November 9, 2026:
+
+1. **Option A.** One site, one brand.
+2. **The ERG HQ product pieces stay parked:** management tools, paid tiers, forum and course.
+3. **Resources are for Latinas.** A BLT Hub entry comes over only if it serves Latinas: Latina, Latinx, or women of color broadly. Entries that only serve other groups are left out.
+4. **`/ergs` starts with Latinx ERGs only.**
