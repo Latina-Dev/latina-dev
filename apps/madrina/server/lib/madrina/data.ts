@@ -29,8 +29,15 @@ const LEVEL_ORDER: Record<string, string[]> = {
 const levelRank = (track: string, level: string) =>
   (LEVEL_ORDER[track] ?? LEVEL_ORDER.IC).indexOf(level);
 
-export const ladderText = (track: string, level: string, competency: string) => {
-  const tracks = ladder.tracks as Record<string, Record<string, Record<string, string>>>;
+export const ladderText = (
+  track: string,
+  level: string,
+  competency: string,
+) => {
+  const tracks = ladder.tracks as Record<
+    string,
+    Record<string, Record<string, string>>
+  >;
   return tracks[track]?.[level]?.[competency] ?? "";
 };
 
@@ -49,7 +56,10 @@ export type Gap = {
 export const getGaps = (profile: Profile = getProfile()): Gap[] => {
   const track = profile.track in LEVEL_ORDER ? profile.track : "IC";
   const targetRank = levelRank(track, profile.target_level);
-  const focus = feedback.find((f) => f.profile_id === profile.id)?.focus_map.flatMap((f) => f.competencies) ?? [];
+  const focus =
+    feedback
+      .find((f) => f.profile_id === profile.id)
+      ?.focus_map.flatMap((f) => f.competencies) ?? [];
   const selfAssessment = profile.self_assessment as Record<string, string>;
 
   return ladder.competencies
@@ -76,11 +86,17 @@ export const getGaps = (profile: Profile = getProfile()): Gap[] => {
 };
 
 /** One resource from the curated shelf, matched to her biggest gap. */
-export const matchResource = (profile: Profile = getProfile(), gap = getGaps(profile)[0]): Resource | undefined => {
+export const matchResource = (
+  profile: Profile = getProfile(),
+  gap = getGaps(profile)[0],
+): Resource | undefined => {
   const shelf = resources.resources;
   const fits = (r: Resource) => r.tracks.includes(profile.track);
-  const atLevel = (r: Resource) => r.levels.includes(profile.target_level) || r.levels.includes(profile.current_level);
-  const forGap = (r: Resource) => (gap ? r.competencies.includes(gap.competency) : true);
+  const atLevel = (r: Resource) =>
+    r.levels.includes(profile.target_level) ||
+    r.levels.includes(profile.current_level);
+  const forGap = (r: Resource) =>
+    gap ? r.competencies.includes(gap.competency) : true;
   return (
     shelf.find((r) => fits(r) && atLevel(r) && forGap(r)) ??
     shelf.find((r) => fits(r) && forGap(r)) ??
@@ -93,7 +109,9 @@ export type ShelfItem = { resource: Resource; gap?: Gap };
 /** Resources on her track that speak to one of her top gaps, biggest gap first, then the rest of her track. */
 export const matchedShelf = (profile: Profile = getProfile()): ShelfItem[] => {
   const gaps = getGaps(profile).slice(0, 3);
-  const onTrack = resources.resources.filter((r) => r.tracks.includes(profile.track));
+  const onTrack = resources.resources.filter((r) =>
+    r.tracks.includes(profile.track),
+  );
   const seen = new Set<string>();
   const items: ShelfItem[] = [];
   for (const gap of gaps) {

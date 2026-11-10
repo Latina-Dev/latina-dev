@@ -24,7 +24,11 @@ const TRACK_LABEL: Record<string, string> = {
 
 const SUPPORT_ROLES: { key: string; label: string; hint: string }[] = [
   { key: "mentor", label: "Mentor", hint: "advice" },
-  { key: "sponsor", label: "Sponsor", hint: "says your name in rooms you're not in" },
+  {
+    key: "sponsor",
+    label: "Sponsor",
+    hint: "says your name in rooms you're not in",
+  },
   { key: "advocate", label: "Advocate", hint: "backs you in the moment" },
   { key: "coach", label: "Coach", hint: "helps you see your own patterns" },
 ];
@@ -33,7 +37,9 @@ export const buildHomeBlocks = (userId = ""): KnownBlock[] => {
   const profile = getProfile();
   const gaps = getGaps(profile).slice(0, 3);
   const shelf = matchedShelf(profile);
-  const pick = shelf.length ? shelf[getShelfCursor(userId) % shelf.length] : undefined;
+  const pick = shelf.length
+    ? shelf[getShelfCursor(userId) % shelf.length]
+    : undefined;
   const wins = listWins(profile.id);
   const glue = listGlue(profile.id);
   const support = profile.support_system as Record<string, string>;
@@ -57,7 +63,11 @@ export const buildHomeBlocks = (userId = ""): KnownBlock[] => {
   const blocks: KnownBlock[] = [
     {
       type: "header",
-      text: { type: "plain_text", text: `Hi ${firstName}, it's Madrina :madrina:`, emoji: true },
+      text: {
+        type: "plain_text",
+        text: `Hi ${firstName}, it's Madrina :madrina:`,
+        emoji: true,
+      },
     },
     {
       type: "section",
@@ -73,7 +83,11 @@ export const buildHomeBlocks = (userId = ""): KnownBlock[] => {
           type: "button",
           action_id: RUN_CHECKIN_ACTION,
           style: "primary",
-          text: { type: "plain_text", text: "Run my weekly check-in", emoji: true },
+          text: {
+            type: "plain_text",
+            text: "Run my weekly check-in",
+            emoji: true,
+          },
           value: profile.id,
         },
         {
@@ -87,7 +101,10 @@ export const buildHomeBlocks = (userId = ""): KnownBlock[] => {
     { type: "divider" },
     {
       type: "section",
-      text: { type: "mrkdwn", text: `*🎯 Your top ${gaps.length} gaps to ${profile.target_level}*` },
+      text: {
+        type: "mrkdwn",
+        text: `*🎯 Your top ${gaps.length} gaps to ${profile.target_level}*`,
+      },
     },
     { type: "section", text: { type: "mrkdwn", text: gapLines } },
     { type: "divider" },
@@ -121,7 +138,11 @@ export const buildHomeBlocks = (userId = ""): KnownBlock[] => {
               {
                 type: "button",
                 action_id: SHELF_NEXT_ACTION,
-                text: { type: "plain_text", text: "Show me another", emoji: true },
+                text: {
+                  type: "plain_text",
+                  text: "Show me another",
+                  emoji: true,
+                },
               },
             ],
           },
@@ -135,7 +156,12 @@ export const buildHomeBlocks = (userId = ""): KnownBlock[] => {
             ],
           },
         ] as KnownBlock[])
-      : ([{ type: "section", text: { type: "mrkdwn", text: "Nothing on the shelf matches yet." } }] as KnownBlock[])),
+      : ([
+          {
+            type: "section",
+            text: { type: "mrkdwn", text: "Nothing on the shelf matches yet." },
+          },
+        ] as KnownBlock[])),
     { type: "divider" },
     {
       type: "section",
@@ -188,11 +214,19 @@ export const buildHomeBlocks = (userId = ""): KnownBlock[] => {
 
   blocks.push({
     type: "context",
-    elements: [{ type: "mrkdwn", text: "Demo profile: Ana Rivera (synthetic). Ladder is a simplified public-style example." }],
+    elements: [
+      {
+        type: "mrkdwn",
+        text: "Demo profile: Ana Rivera (synthetic). Ladder is a simplified public-style example.",
+      },
+    ],
   });
 
   return blocks;
 };
 
 export const publishHome = async (client: WebClient, userId: string) =>
-  client.views.publish({ user_id: userId, view: { type: "home", blocks: buildHomeBlocks(userId) } });
+  client.views.publish({
+    user_id: userId,
+    view: { type: "home", blocks: buildHomeBlocks(userId) },
+  });

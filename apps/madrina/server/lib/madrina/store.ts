@@ -15,7 +15,10 @@ const wins = new Map<string, Win[]>();
 // A month of synthetic wins for Ana so the brag-doc export has something to show.
 // MADRINA_SEED_WINS=0 starts with an empty store instead.
 if (process.env.MADRINA_SEED_WINS !== "0") {
-  wins.set(winsSeed.profile_id, winsSeed.wins.map((w) => ({ ...w })));
+  wins.set(
+    winsSeed.profile_id,
+    winsSeed.wins.map((w) => ({ ...w })),
+  );
 }
 
 export const listWins = (profileId: string): Win[] => wins.get(profileId) ?? [];
@@ -41,4 +44,5 @@ export const getDemoUser = () => process.env.MADRINA_DEMO_USER_ID ?? demoUser;
 /** Which shelf card each user is looking at in App Home. */
 const shelfCursor = new Map<string, number>();
 export const getShelfCursor = (userId: string) => shelfCursor.get(userId) ?? 0;
-export const nextShelfCursor = (userId: string) => shelfCursor.set(userId, getShelfCursor(userId) + 1);
+export const nextShelfCursor = (userId: string) =>
+  shelfCursor.set(userId, getShelfCursor(userId) + 1);

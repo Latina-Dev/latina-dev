@@ -1,21 +1,29 @@
-import { askClaude, MADRINA_VOICE } from "./claude";
 import { getGaps, getProfile, resources } from "~/lib/madrina/data";
 import { computeFocus, focusSummary } from "~/lib/madrina/focus";
 import { listWins } from "~/lib/madrina/store";
+import { askClaude, MADRINA_VOICE } from "./claude";
 
 /** Everything Madrina knows about the (synthetic) demo profile, for coaching answers. */
 export const coachSystemPrompt = () => {
   const profile = getProfile();
   const gaps = getGaps(profile)
     .slice(0, 3)
-    .map((g) => `- ${g.competency}: self-assessed ${g.current}; ${g.target} expects "${g.expectation}"${g.managerFocus ? " (her manager named this)" : ""}`)
+    .map(
+      (g) =>
+        `- ${g.competency}: self-assessed ${g.current}; ${g.target} expects "${g.expectation}"${g.managerFocus ? " (her manager named this)" : ""}`,
+    )
     .join("\n");
-  const support = Object.entries(profile.support_system as Record<string, string>)
+  const support = Object.entries(
+    profile.support_system as Record<string, string>,
+  )
     .map(([role, state]) => `${role}: ${state}`)
     .join(", ");
   const wins = listWins(profile.id);
   const shelf = resources.resources
-    .map((r) => `- "${r.title}" by ${r.author} (${r.type}) <${r.url}> | tracks: ${r.tracks.join("/")} | competencies: ${r.competencies.join(", ")}`)
+    .map(
+      (r) =>
+        `- "${r.title}" by ${r.author} (${r.type}) <${r.url}> | tracks: ${r.tracks.join("/")} | competencies: ${r.competencies.join(", ")}`,
+    )
     .join("\n");
 
   return `${MADRINA_VOICE}
@@ -37,4 +45,7 @@ Ground every answer in her profile, gaps and focus map above. If a resource fits
 };
 
 export const askCoach = (question: string) =>
-  askClaude({ system: coachSystemPrompt(), prompt: question || "Say hi briefly and offer one thing you can help with." });
+  askClaude({
+    system: coachSystemPrompt(),
+    prompt: question || "Say hi briefly and offer one thing you can help with.",
+  });

@@ -16,7 +16,11 @@ export default defineEventHandler(async (event) => {
 
   const user = getDemoUser();
   if (!user) {
-    return { ok: true, skipped: "No user yet. Open Madrina's Home tab once, or set MADRINA_DEMO_USER_ID." };
+    return {
+      ok: true,
+      skipped:
+        "No user yet. Open Madrina's Home tab once, or set MADRINA_DEMO_USER_ID.",
+    };
   }
 
   const token = process.env.SLACK_BOT_TOKEN ?? process.env.SLACK_CLI_XOXB;

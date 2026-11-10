@@ -1,4 +1,8 @@
-import type { AllMiddlewareArgs, BlockAction, SlackActionMiddlewareArgs } from "@slack/bolt";
+import type {
+  AllMiddlewareArgs,
+  BlockAction,
+  SlackActionMiddlewareArgs,
+} from "@slack/bolt";
 import type { KnownBlock } from "@slack/web-api";
 
 export const FEEDBACK_ACTION = "madrina_reply_feedback";
@@ -26,7 +30,8 @@ export const feedbackBlock = (): KnownBlock => ({
 
 const THANKS = {
   positive: ":seedling: Glad that helped. Keep going.",
-  negative: ":compass: Thanks for telling me. Reply in this thread with what missed and I'll try again.",
+  negative:
+    ":compass: Thanks for telling me. Reply in this thread with what missed and I'll try again.",
 } as const;
 
 /** Ack fast, then a private thank-you in the same thread. */

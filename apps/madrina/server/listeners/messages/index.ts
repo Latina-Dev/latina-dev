@@ -2,9 +2,14 @@ import type { App } from "@slack/bolt";
 import { askCoach } from "~/lib/ai/coach";
 import { rewriteWin } from "~/lib/ai/wins";
 import { DEMO_PROFILE_ID } from "~/lib/madrina/data";
-import { addWin, getLastCheckin, listWins, rememberDemoUser } from "~/lib/madrina/store";
-import { markdownToBlocks } from "~/lib/slack/format";
+import {
+  addWin,
+  getLastCheckin,
+  listWins,
+  rememberDemoUser,
+} from "~/lib/madrina/store";
 import { feedbackBlock } from "~/lib/slack/feedback";
+import { markdownToBlocks } from "~/lib/slack/format";
 import { type GroupMessage, maybeFlagGlue } from "~/lib/slack/glue";
 import { publishHome } from "~/lib/slack/home";
 
@@ -33,9 +38,12 @@ const register = (app: App) => {
       // Log a win: a reply in the check-in thread, or a one-line DM that reads like a win.
       const checkin = user ? getLastCheckin(user) : undefined;
       const inCheckinThread = !!thread_ts && checkin?.ts === thread_ts;
-      const looksShort = message.text.length <= 280 && !message.text.trim().endsWith("?");
+      const looksShort =
+        message.text.length <= 280 && !message.text.trim().endsWith("?");
       if (inCheckinThread || looksShort) {
-        const win = await rewriteWin(message.text, { assumeWin: inCheckinThread });
+        const win = await rewriteWin(message.text, {
+          assumeWin: inCheckinThread,
+        });
         if (win.is_win) {
           addWin(DEMO_PROFILE_ID, {
             raw: message.text,
@@ -49,23 +57,42 @@ const register = (app: App) => {
             text,
             thread_ts,
             blocks: [
-              { type: "section", text: { type: "mrkdwn", text: `:madrina-vouched: *Logged. Here's your promo-ready bullet:*\n>${win.bullet}` } },
+              {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: `:madrina-vouched: *Logged. Here's your promo-ready bullet:*\n>${win.bullet}`,
+                },
+              },
               {
                 type: "context",
                 elements: [
-                  { type: "mrkdwn", text: `*${win.competency}*  ·  ${win.coach_note}` },
-                  { type: "mrkdwn", text: `${count} ${count === 1 ? "win" : "wins"} logged. Your Home tab is updated.` },
+                  {
+                    type: "mrkdwn",
+                    text: `*${win.competency}*  ·  ${win.coach_note}`,
+                  },
+                  {
+                    type: "mrkdwn",
+                    text: `${count} ${count === 1 ? "win" : "wins"} logged. Your Home tab is updated.`,
+                  },
                 ],
               },
             ],
           });
-          if (user) await publishHome(client, user).catch((e) => logger.warn("Home refresh failed", e));
+          if (user)
+            await publishHome(client, user).catch((e) =>
+              logger.warn("Home refresh failed", e),
+            );
           return;
         }
       }
 
       const reply = await askCoach(message.text);
-      await say({ text: reply, blocks: [...markdownToBlocks(reply), feedbackBlock()], thread_ts });
+      await say({
+        text: reply,
+        blocks: [...markdownToBlocks(reply), feedbackBlock()],
+        thread_ts,
+      });
     } catch (error) {
       logger.error("DM handler failed:", error);
       await say("Sorry, I hit a snag. Try me again in a moment?");

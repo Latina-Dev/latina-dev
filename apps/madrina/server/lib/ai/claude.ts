@@ -4,7 +4,12 @@ import { MADRINA_EMOJI } from "~/lib/slack/format";
 
 // Claude Opus 5.5 at medium effort by default. Override with ANTHROPIC_MODEL / ANTHROPIC_EFFORT.
 export const MODEL_ID = process.env.ANTHROPIC_MODEL ?? "claude-opus-5-5";
-export const EFFORT = (process.env.ANTHROPIC_EFFORT ?? "medium") as "low" | "medium" | "high" | "xhigh" | "max";
+export const EFFORT = (process.env.ANTHROPIC_EFFORT ?? "medium") as
+  | "low"
+  | "medium"
+  | "high"
+  | "xhigh"
+  | "max";
 
 // Org-level (non-workspace-scoped) keys must name a workspace on every request.
 const workspaceId = process.env.ANTHROPIC_WORKSPACE_ID;

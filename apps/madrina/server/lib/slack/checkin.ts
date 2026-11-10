@@ -27,7 +27,10 @@ export const focusCheckBlocks = (): { text: string; blocks: KnownBlock[] } => {
 
   if (f.drift <= DRIFT_THRESHOLD) {
     const text = `Weekly check-in :focus-check: ${f.priorityPrs} of your ${f.totalPrs} pull requests went to ${priority}, which is what your manager said matters most. Nice focus. Got a win from this week? Reply here and I'll make it promo-ready.`;
-    return { text, blocks: [{ type: "section", text: { type: "mrkdwn", text } }] };
+    return {
+      text,
+      blocks: [{ type: "section", text: { type: "mrkdwn", text } }],
+    };
   }
 
   const main = `*Quick focus check* :focus-check:\nIn your last 1:1, your manager said *${priority}* is your top priority for the Staff case. This week, *${f.topOtherPrs} of your ${f.totalPrs} pull requests* went to *${f.topOther}*.\n\nWant to redirect next week, or let your manager know about the competing asks?`;
@@ -47,7 +50,8 @@ export const focusCheckBlocks = (): { text: string; blocks: KnownBlock[] } => {
       ],
     },
   ];
-  if (dmNote) blocks.push({ type: "section", text: { type: "mrkdwn", text: dmNote } });
+  if (dmNote)
+    blocks.push({ type: "section", text: { type: "mrkdwn", text: dmNote } });
   blocks.push(
     {
       type: "actions",
@@ -56,23 +60,40 @@ export const focusCheckBlocks = (): { text: string; blocks: KnownBlock[] } => {
           type: "button",
           action_id: ACTIONS.draftNote,
           style: "primary",
-          text: { type: "plain_text", text: "Draft a note to my manager", emoji: true },
+          text: {
+            type: "plain_text",
+            text: "Draft a note to my manager",
+            emoji: true,
+          },
         },
         {
           type: "button",
           action_id: ACTIONS.planWeek,
-          text: { type: "plain_text", text: `Plan next week around ${priority}`, emoji: true },
+          text: {
+            type: "plain_text",
+            text: `Plan next week around ${priority}`,
+            emoji: true,
+          },
         },
         {
           type: "button",
           action_id: ACTIONS.onPurpose,
-          text: { type: "plain_text", text: "This was on purpose", emoji: true },
+          text: {
+            type: "plain_text",
+            text: "This was on purpose",
+            emoji: true,
+          },
         },
       ],
     },
     {
       type: "context",
-      elements: [{ type: "mrkdwn", text: "Got a win from this week? Reply in this thread with one line and I'll make it promo-ready." }],
+      elements: [
+        {
+          type: "mrkdwn",
+          text: "Got a win from this week? Reply in this thread with one line and I'll make it promo-ready.",
+        },
+      ],
     },
   );
 
@@ -91,7 +112,9 @@ export const runFocusCheck = async (client: WebClient, userId: string) => {
 
 const context = () => {
   const profile = getProfile();
-  const gaps = getGaps(profile).slice(0, 3).map((g) => `${g.competency} (Staff expects: ${g.expectation})`);
+  const gaps = getGaps(profile)
+    .slice(0, 3)
+    .map((g) => `${g.competency} (Staff expects: ${g.expectation})`);
   return `Profile (synthetic): ${profile.name}, ${profile.current_level} engineer on ${profile.team}, targeting ${profile.target_level} on the ${profile.track} track.\nTop gaps: ${gaps.join("; ")}.\n${focusSummary(computeFocus())}`;
 };
 
@@ -103,10 +126,19 @@ const replyInThread = async (
   placeholder: string,
   produce: () => Promise<{ text: string; blocks: KnownBlock[] }>,
 ) => {
-  const pending = await client.chat.postMessage({ channel, thread_ts, text: placeholder });
+  const pending = await client.chat.postMessage({
+    channel,
+    thread_ts,
+    text: placeholder,
+  });
   try {
     const { text, blocks } = await produce();
-    await client.chat.update({ channel, ts: pending.ts as string, text, blocks });
+    await client.chat.update({
+      channel,
+      ts: pending.ts as string,
+      text,
+      blocks,
+    });
   } catch (error) {
     await client.chat.update({
       channel,
@@ -124,69 +156,119 @@ const oneOnOneLink = async (client: WebClient): Promise<string | undefined> => {
   try {
     const [{ team_id }, list] = await Promise.all([
       client.auth.test(),
-      client.conversations.list({ types: "private_channel,public_channel", limit: 200, exclude_archived: true }),
+      client.conversations.list({
+        types: "private_channel,public_channel",
+        limit: 200,
+        exclude_archived: true,
+      }),
     ]);
     const ch = list.channels?.find((c) => c.name === ONE_ON_ONE_CHANNEL);
-    return ch?.id && team_id ? `https://slack.com/app_redirect?team=${team_id}&channel=${ch.id}` : undefined;
+    return ch?.id && team_id
+      ? `https://slack.com/app_redirect?team=${team_id}&channel=${ch.id}`
+      : undefined;
   } catch {
     return undefined;
   }
 };
 
-export const draftManagerNote = (client: WebClient, channel: string, thread_ts: string) =>
-  replyInThread(client, channel, thread_ts, "✍️ Drafting a note you can send your manager...", async () => {
-    const [draft, link] = await Promise.all([
-      askClaude({
-        system: `You write short Slack messages that an engineer sends to her manager herself. Write as Ana, first person, to her manager Dana. Exactly 3 sentences, under 60 words total, plain text: no greeting line, no sign-off, no emoji, no bold, no bullets, no headings, no em dashes. Sentence 1: Gateway is her Staff priority but most of this week went to Billing asks that came in by DM. Sentence 2: she wants Billing asks to go through #team-billing so the load is visible. Sentence 3: one concrete question for Dana. Confident, not apologetic. Use only facts from the context. Output only the message.`,
-        prompt: context(),
-      }),
-      oneOnOneLink(client),
-    ]);
-    const quoted = draft
-      .trim()
-      .split("\n")
-      .map((l) => `>${l}`)
-      .join("\n");
-    return {
-      text: `Here's a draft for Dana. I won't send it.\n\n${draft}`,
-      blocks: [
-        { type: "section", text: { type: "mrkdwn", text: "*Here's a draft for Dana.* Make it yours. I won't send it." } },
-        { type: "section", text: { type: "mrkdwn", text: quoted } },
-        ...(link
-          ? ([
+export const draftManagerNote = (
+  client: WebClient,
+  channel: string,
+  thread_ts: string,
+) =>
+  replyInThread(
+    client,
+    channel,
+    thread_ts,
+    "✍️ Drafting a note you can send your manager...",
+    async () => {
+      const [draft, link] = await Promise.all([
+        askClaude({
+          system: `You write short Slack messages that an engineer sends to her manager herself. Write as Ana, first person, to her manager Dana. Exactly 3 sentences, under 60 words total, plain text: no greeting line, no sign-off, no emoji, no bold, no bullets, no headings, no em dashes. Sentence 1: Gateway is her Staff priority but most of this week went to Billing asks that came in by DM. Sentence 2: she wants Billing asks to go through #team-billing so the load is visible. Sentence 3: one concrete question for Dana. Confident, not apologetic. Use only facts from the context. Output only the message.`,
+          prompt: context(),
+        }),
+        oneOnOneLink(client),
+      ]);
+      const quoted = draft
+        .trim()
+        .split("\n")
+        .map((l) => `>${l}`)
+        .join("\n");
+      return {
+        text: `Here's a draft for Dana. I won't send it.\n\n${draft}`,
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "*Here's a draft for Dana.* Make it yours. I won't send it.",
+            },
+          },
+          { type: "section", text: { type: "mrkdwn", text: quoted } },
+          ...(link
+            ? ([
+                {
+                  type: "actions",
+                  elements: [
+                    {
+                      type: "button",
+                      action_id: "open_one_on_one",
+                      style: "primary",
+                      text: {
+                        type: "plain_text",
+                        text: `Open #${ONE_ON_ONE_CHANNEL}`,
+                        emoji: true,
+                      },
+                      url: link,
+                    },
+                  ],
+                },
+              ] as KnownBlock[])
+            : []),
+          {
+            type: "context",
+            elements: [
               {
-                type: "actions",
-                elements: [
-                  {
-                    type: "button",
-                    action_id: "open_one_on_one",
-                    style: "primary",
-                    text: { type: "plain_text", text: `Open #${ONE_ON_ONE_CHANNEL}`, emoji: true },
-                    url: link,
-                  },
-                ],
+                type: "mrkdwn",
+                text: "📝 Draft only. Copy it into your 1:1 channel and send it yourself if it feels right.",
               },
-            ] as KnownBlock[])
-          : []),
-        {
-          type: "context",
-          elements: [{ type: "mrkdwn", text: "📝 Draft only. Copy it into your 1:1 channel and send it yourself if it feels right." }],
-        },
-      ],
-    };
-  });
+            ],
+          },
+        ],
+      };
+    },
+  );
 
-export const planNextWeek = (client: WebClient, channel: string, thread_ts: string) =>
-  replyInThread(client, channel, thread_ts, "🗺️ Sketching next week around Gateway...", async () => {
-    const plan = await askClaude({
-      system: `${MADRINA_VOICE}\n\nTask: a plan for Ana's next week centered on Gateway. 4 or 5 bullets, Monday to Friday, each tied to a Staff competency (Technical scope, Influence, Direction). Include getting the Gateway RFC in front of the two partner teams, one way to redirect or hand off the Billing asks, and moving requests out of DMs into a channel. End with one clear next step.`,
-      prompt: context(),
-    });
-    return { text: plan, blocks: markdownToBlocks(plan) };
-  });
+export const planNextWeek = (
+  client: WebClient,
+  channel: string,
+  thread_ts: string,
+) =>
+  replyInThread(
+    client,
+    channel,
+    thread_ts,
+    "🗺️ Sketching next week around Gateway...",
+    async () => {
+      const plan = await askClaude({
+        system: `${MADRINA_VOICE}\n\nTask: a plan for Ana's next week centered on Gateway. 4 or 5 bullets, Monday to Friday, each tied to a Staff competency (Technical scope, Influence, Direction). Include getting the Gateway RFC in front of the two partner teams, one way to redirect or hand off the Billing asks, and moving requests out of DMs into a channel. End with one clear next step.`,
+        prompt: context(),
+      });
+      return { text: plan, blocks: markdownToBlocks(plan) };
+    },
+  );
 
-export const confirmOnPurpose = async (client: WebClient, channel: string, thread_ts: string) => {
+export const confirmOnPurpose = async (
+  client: WebClient,
+  channel: string,
+  thread_ts: string,
+) => {
   const f = computeFocus();
   const text = `Got it, sometimes ${f.topOther} really is the right call 💪 Let's make sure it counts. Reply here with one line about what that work unlocked and I'll turn it into a promo-ready bullet.${f.glue.length ? `\n\nAlso, you did glue work this week (${f.glue.join("; ").toLowerCase()}). That's real Staff-level work when it's visible. Want to log one of those as a win too?` : ""}`;
-  await client.chat.postMessage({ channel, thread_ts, text, blocks: [{ type: "section", text: { type: "mrkdwn", text } }] });
+  await client.chat.postMessage({
+    channel,
+    thread_ts,
+    text,
+    blocks: [{ type: "section", text: { type: "mrkdwn", text } }],
+  });
 };

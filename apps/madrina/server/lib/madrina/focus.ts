@@ -11,10 +11,13 @@ const PROJECT_CHANNELS: Record<string, string> = {
   Gateway: "proj-gateway-migration",
   Billing: "team-billing",
 };
-export const channelFor = (project: string) => PROJECT_CHANNELS[project] ?? `${project.toLowerCase()}-requests`;
+export const channelFor = (project: string) =>
+  PROJECT_CHANNELS[project] ?? `${project.toLowerCase()}-requests`;
 
 const repoProject = (repo: string) =>
-  Object.entries(PROJECT_REPOS).find(([, repos]) => repos.includes(repo))?.[0] ?? repo;
+  Object.entries(PROJECT_REPOS).find(([, repos]) =>
+    repos.includes(repo),
+  )?.[0] ?? repo;
 
 export type FocusReport = {
   priority: string;
@@ -39,13 +42,21 @@ export const computeFocus = (profileId = getProfile().id): FocusReport => {
   if (!fb) throw new Error(`No feedback for ${profileId}`);
   const top = [...fb.focus_map].sort((a, b) => b.weight - a.weight)[0];
 
-  const prs = activity.pull_requests.map((pr) => ({ ...pr, project: repoProject(pr.repo) }));
+  const prs = activity.pull_requests.map((pr) => ({
+    ...pr,
+    project: repoProject(pr.repo),
+  }));
   const priorityPrs = prs.filter((p) => p.project === top.project).length;
 
   const counts = new Map<string, number>();
-  for (const p of prs) if (p.project !== top.project) counts.set(p.project, (counts.get(p.project) ?? 0) + 1);
-  const [topOther = "other work", topOtherPrs = 0] = [...counts.entries()].sort((a, b) => b[1] - a[1])[0] ?? [];
-  const topOtherByDm = prs.filter((p) => p.project === topOther && p.requested_by.startsWith("DM")).length;
+  for (const p of prs)
+    if (p.project !== top.project)
+      counts.set(p.project, (counts.get(p.project) ?? 0) + 1);
+  const [topOther = "other work", topOtherPrs = 0] =
+    [...counts.entries()].sort((a, b) => b[1] - a[1])[0] ?? [];
+  const topOtherByDm = prs.filter(
+    (p) => p.project === topOther && p.requested_by.startsWith("DM"),
+  ).length;
 
   return {
     priority: top.project,
@@ -58,7 +69,9 @@ export const computeFocus = (profileId = getProfile().id): FocusReport => {
     topOtherPrs,
     topOtherByDm,
     drift: prs.length ? (prs.length - priorityPrs) / prs.length : 0,
-    glue: activity.other_work.filter((w) => w.type === "glue").map((w) => w.title),
+    glue: activity.other_work
+      .filter((w) => w.type === "glue")
+      .map((w) => w.title),
     prs,
   };
 };
