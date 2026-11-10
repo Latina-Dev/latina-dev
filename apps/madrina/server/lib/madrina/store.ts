@@ -1,4 +1,5 @@
-// In-memory state for the demo. No database: this resets when the server restarts.
+// In-memory state for the synthetic demo profile. This resets when the server restarts.
+// Weekly check-in opt-ins and check-in threads are saved for real in ./subscribers.ts.
 import winsSeed from "../../../data/wins-seed.json";
 
 export type Win = {
@@ -27,14 +28,7 @@ export const addWin = (profileId: string, win: Win) => {
   wins.set(profileId, [...listWins(profileId), win]);
 };
 
-/** DM channel + thread of the last focus check, so replies there can be read as wins. */
-const lastCheckin = new Map<string, { channel: string; ts: string }>();
-
-export const setLastCheckin = (userId: string, channel: string, ts: string) =>
-  lastCheckin.set(userId, { channel, ts });
-export const getLastCheckin = (userId: string) => lastCheckin.get(userId);
-
-/** Last Slack user who used Madrina, so the cron knows whom to check in with. */
+/** Last Slack user who used Madrina: in the demo workspace, that person is treated as Ana. */
 let demoUser: string | undefined = process.env.MADRINA_DEMO_USER_ID;
 export const rememberDemoUser = (userId: string) => {
   demoUser = userId;

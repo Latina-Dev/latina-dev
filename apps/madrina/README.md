@@ -39,7 +39,7 @@ Promotion is an economic mobility lever: level sets pay, equity and who gets the
 | 🗺️ **Plan next week** | A Monday-to-Friday plan around the priority, each day tied to a Staff competency |
 | 🏆 **Log a win** | Reply with one line. Claude rewrites it as a promo-ready bullet mapped to a ladder competency, and the App Home count updates |
 | 💬 **Coach** | DM or @mention Madrina with a question. Answers use her profile, gaps, focus map and only the curated resource shelf |
-| ⏰ **Cron** | A Vercel cron runs the same focus check every Friday at 23:00 UTC (3 PM Pacific in winter), so the nudge shows up on its own |
+| ⏰ **Cron** | Turn on weekly check-ins in App Home and a Vercel cron sends you the same focus check every Friday at 23:00 UTC (3 PM Pacific in winter). It goes to everyone who opted in, and you can turn it off any time |
 | 🔌 **MCP connector** | Your own Claude can read your Madrina profile, gaps, wins and matched resources through `get_profile`, `list_wins` and `recommend`, so "am I on track for Staff?" gets answered from the same data as Slack |
 
 The IC track and management are treated as equally valid. Madrina never infers anyone's gender.
@@ -97,7 +97,11 @@ slack run
 
 `slack run` creates the app from `manifest.json`, installs it in the workspace you pick, and tunnels Slack events to your machine. Open Madrina's **Home** tab and click **Run my weekly check-in**.
 
-To deploy, create a separate Vercel project for this folder (set **Root Directory** to `apps/madrina`; the Latina Dev website keeps its own project), set the same env vars plus `SLACK_BOT_TOKEN`, a long random `CRON_SECRET` and `MADRINA_DEMO_USER_ID` (your Slack member ID; without it the weekly cron has nobody to check in with, because the last App Home visitor is only kept in memory), and point the manifest URLs at `https://<your-app>.vercel.app/api/slack/events`.
+To deploy, create a separate Vercel project for this folder (set **Root Directory** to `apps/madrina`; the Latina Dev website keeps its own project), set the same env vars plus `SLACK_BOT_TOKEN`, a long random `CRON_SECRET` and Redis credentials (add Upstash Redis from the Vercel Marketplace, which sets `KV_REST_API_URL` and `KV_REST_API_TOKEN`), and point the manifest URLs at `https://<your-app>.vercel.app/api/slack/events`.
+
+The weekly cron checks in with everyone who clicked **Turn on weekly check-ins** in App Home. Those opt-ins, and each person's last check-in thread, are saved in Redis in production and in `.data/madrina` in local dev. Without Redis credentials a deployed Madrina only remembers them in memory, so the cron will usually find nobody. `MADRINA_DEMO_USER_ID` is optional: if set, that Slack member always gets the check-in too.
+
+Wins and the profile are still the synthetic Ana demo data and are not saved per person yet.
 
 ### Connect your Claude 🔌
 

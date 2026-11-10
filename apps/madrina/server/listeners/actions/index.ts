@@ -1,5 +1,6 @@
 import type { App, BlockAction } from "@slack/bolt";
 import { nextShelfCursor, rememberDemoUser } from "~/lib/madrina/store";
+import { subscribe, unsubscribe } from "~/lib/madrina/subscribers";
 import { EXPORT_BRAG_ACTION, exportBragDoc } from "~/lib/slack/brag";
 import {
   ACTIONS,
@@ -20,6 +21,7 @@ import {
   publishHome,
   RUN_CHECKIN_ACTION,
   SHELF_NEXT_ACTION,
+  TOGGLE_WEEKLY_ACTION,
 } from "~/lib/slack/home";
 
 type GlueHandler = (
@@ -94,6 +96,18 @@ const register = (app: App) => {
     await publishHome(client, body.user.id).catch((e) =>
       logger.error("shelf_next failed:", e),
     );
+  });
+  app.action(TOGGLE_WEEKLY_ACTION, async ({ ack, body, client, logger }) => {
+    await ack();
+    const action = (body as BlockAction).actions[0];
+    const turnOn = action && "value" in action && action.value === "on";
+    try {
+      if (turnOn) await subscribe(body.user.id);
+      else await unsubscribe(body.user.id);
+      await publishHome(client, body.user.id);
+    } catch (error) {
+      logger.error("toggle_weekly_checkin failed:", error);
+    }
   });
   // URL buttons still send an action; ack it so Slack doesn't show an error.
   app.action("open_one_on_one", async ({ ack }) => {

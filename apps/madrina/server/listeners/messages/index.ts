@@ -2,12 +2,8 @@ import type { App } from "@slack/bolt";
 import { askCoach } from "~/lib/ai/coach";
 import { rewriteWin } from "~/lib/ai/wins";
 import { DEMO_PROFILE_ID } from "~/lib/madrina/data";
-import {
-  addWin,
-  getLastCheckin,
-  listWins,
-  rememberDemoUser,
-} from "~/lib/madrina/store";
+import { addWin, listWins, rememberDemoUser } from "~/lib/madrina/store";
+import { getLastCheckin } from "~/lib/madrina/subscribers";
 import { feedbackBlock } from "~/lib/slack/feedback";
 import { markdownToBlocks } from "~/lib/slack/format";
 import { type GroupMessage, maybeFlagGlue } from "~/lib/slack/glue";
@@ -36,7 +32,7 @@ const register = (app: App) => {
 
     try {
       // Log a win: a reply in the check-in thread, or a one-line DM that reads like a win.
-      const checkin = user ? getLastCheckin(user) : undefined;
+      const checkin = user ? await getLastCheckin(user) : undefined;
       const inCheckinThread = !!thread_ts && checkin?.ts === thread_ts;
       const looksShort =
         message.text.length <= 280 && !message.text.trim().endsWith("?");

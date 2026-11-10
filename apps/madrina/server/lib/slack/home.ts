@@ -2,10 +2,12 @@ import type { KnownBlock, WebClient } from "@slack/web-api";
 import { getGaps, getProfile, matchedShelf } from "~/lib/madrina/data";
 import { listGlue } from "~/lib/madrina/glue";
 import { getShelfCursor, listWins } from "~/lib/madrina/store";
+import { isSubscribed } from "~/lib/madrina/subscribers";
 import { EXPORT_BRAG_ACTION } from "~/lib/slack/brag";
 
 export const RUN_CHECKIN_ACTION = "run_weekly_checkin";
 export const SHELF_NEXT_ACTION = "shelf_next";
+export const TOGGLE_WEEKLY_ACTION = "toggle_weekly_checkin";
 
 const TYPE_EMOJI: Record<string, string> = {
   book: "📖",
@@ -33,7 +35,10 @@ const SUPPORT_ROLES: { key: string; label: string; hint: string }[] = [
   { key: "coach", label: "Coach", hint: "helps you see your own patterns" },
 ];
 
-export const buildHomeBlocks = (userId = ""): KnownBlock[] => {
+export const buildHomeBlocks = (
+  userId = "",
+  weeklyOn = false,
+): KnownBlock[] => {
   const profile = getProfile();
   const gaps = getGaps(profile).slice(0, 3);
   const shelf = matchedShelf(profile);
@@ -95,6 +100,29 @@ export const buildHomeBlocks = (userId = ""): KnownBlock[] => {
           action_id: EXPORT_BRAG_ACTION,
           text: { type: "plain_text", text: "Export my brag doc", emoji: true },
           value: profile.id,
+        },
+        {
+          type: "button",
+          action_id: TOGGLE_WEEKLY_ACTION,
+          text: {
+            type: "plain_text",
+            text: weeklyOn
+              ? "Turn off weekly check-ins"
+              : "Turn on weekly check-ins",
+            emoji: true,
+          },
+          value: weeklyOn ? "off" : "on",
+        },
+      ],
+    },
+    {
+      type: "context",
+      elements: [
+        {
+          type: "mrkdwn",
+          text: weeklyOn
+            ? "⏰ Weekly check-ins are *on*. I'll DM you every Friday afternoon."
+            : "⏰ Weekly check-ins are *off*. Turn them on and I'll DM you every Friday afternoon.",
         },
       ],
     },
@@ -225,8 +253,11 @@ export const buildHomeBlocks = (userId = ""): KnownBlock[] => {
   return blocks;
 };
 
-export const publishHome = async (client: WebClient, userId: string) =>
-  client.views.publish({
+export const publishHome = async (client: WebClient, userId: string) => {
+  // If saved state can't be read, still show Home (with check-ins shown as off).
+  const weeklyOn = await isSubscribed(userId).catch(() => false);
+  return client.views.publish({
     user_id: userId,
-    view: { type: "home", blocks: buildHomeBlocks(userId) },
+    view: { type: "home", blocks: buildHomeBlocks(userId, weeklyOn) },
   });
+};

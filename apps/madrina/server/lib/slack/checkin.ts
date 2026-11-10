@@ -2,7 +2,7 @@ import type { KnownBlock, WebClient } from "@slack/web-api";
 import { askClaude, MADRINA_VOICE } from "~/lib/ai/claude";
 import { getGaps, getProfile } from "~/lib/madrina/data";
 import { channelFor, computeFocus, focusSummary } from "~/lib/madrina/focus";
-import { setLastCheckin } from "~/lib/madrina/store";
+import { setLastCheckin } from "~/lib/madrina/subscribers";
 import { markdownToBlocks } from "~/lib/slack/format";
 
 export const ACTIONS = {
@@ -106,7 +106,7 @@ export const runFocusCheck = async (client: WebClient, userId: string) => {
   const channel = await openDm(client, userId);
   const { text, blocks } = focusCheckBlocks();
   const res = await client.chat.postMessage({ channel, text, blocks });
-  if (res.ts) setLastCheckin(userId, channel, res.ts);
+  if (res.ts) await setLastCheckin(userId, channel, res.ts);
   return { channel, ts: res.ts };
 };
 
