@@ -37,12 +37,13 @@ const newErgUrl =
 
 const logoDir = "public/img/ergs";
 
-// Company logos fetched by scripts/fetch-resource-logos.ts, keyed by ERG slug
-const logos: Map<string, string> = new Map(
-  (fs.existsSync(logoDir) ? fs.readdirSync(logoDir) : [])
-    .filter((file) => /\.(png|jpe?g|webp|ico)$/.test(file))
-    .map((file) => [file.replace(/\.[a-z]+$/, ""), `/img/ergs/${file}`])
-);
+// Company logos fetched by scripts/fetch-resource-logos.ts, named by ERG slug. The path is built
+// from the slug and a fixed list of extensions, never from a filename read off the disk
+const logoExtensions = ["png", "jpg", "webp", "ico"] as const;
+const logoFor = (slug: string) => {
+  const ext = logoExtensions.find((ext) => fs.existsSync(`${logoDir}/${slug}.${ext}`));
+  return ext ? `/img/ergs/${slug}.${ext}` : undefined;
+};
 
 const initials = (company: string) =>
   company
@@ -105,17 +106,18 @@ export default async function ErgsPage() {
         <ul id="erg-list" className={`${cards.grid} ${styles.grid}`}>
           {ergs.map((erg) => {
             const colleagues = membersAt(erg, members);
+            const logo = logoFor(erg.slug);
             return (
               <li
                 key={erg.slug}
                 id={erg.slug}
                 className={cards.card}
                 data-search={`${erg.company} ${erg.name}`.toLowerCase()}>
-                {logos.has(erg.slug) ? (
+                {logo ? (
                   // Small, already-sized images; next/image would need every source domain configured
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={logos.get(erg.slug)}
+                    src={logo}
                     alt=""
                     width={44}
                     height={44}
