@@ -128,6 +128,18 @@ The nine resource groups on `/resources` today become saved filters with their o
 | `/mcp`                             | Change    | Adds `search_ergs` and `search_events`, and filters on `search_resources` |
 | `/ergs.json`, `/events.json`       | New       | Same pattern as `/members.json`                                           |
 
+## Built for agents and search from day one
+
+The hub should help a Latina engineer wherever she asks her question: Google, ChatGPT, Claude or Gemini. So every content type ships with all of these, in the same phase as its pages:
+
+1. Server-rendered pages with a title and intro phrased the way people ask, one per useful filter (for resources: category, career stage and type)
+2. Structured data (JSON-LD) on those pages
+3. Entries in `/sitemap.xml` and `llms.txt`
+4. A JSON feed and a Markdown feed
+5. A search tool on the MCP server
+
+Resources follow this as of phase 1. ERGs and events are not done until they do too.
+
 ## How the pieces fit
 
 ```mermaid
