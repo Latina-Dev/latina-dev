@@ -1,12 +1,12 @@
 const repoUrl =
-  "https://github.com/vercel-partner-solutions/slack-agent-template";
+  "https://github.com/Latina-Dev/latina-dev/tree/main/apps/madrina";
 
 export const html = `<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Repository Documentation</title>
+        <title>Madrina</title>
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <style>
             * {
@@ -166,7 +166,7 @@ export const html = `<!DOCTYPE html>
     <body>
         <header class="header">
             <div class="header-content">
-                <h1>Repository Documentation</h1>
+                <h1>Madrina</h1>
                 <a href="#" id="github-link" class="github-link" style="display: none;">View on GitHub →</a>
             </div>
         </header>
@@ -181,7 +181,7 @@ export const html = `<!DOCTYPE html>
         <script>
             async function fetchReadmeContent() {
                 try {
-                    const response = await fetch('https://api.github.com/repos/vercel-partner-solutions/slack-agent-template/readme', {
+                    const response = await fetch('https://api.github.com/repos/Latina-Dev/latina-dev/readme/apps/madrina', {
                         headers: {
                             'Accept': 'application/vnd.github.v3+json',
                         }
@@ -192,7 +192,9 @@ export const html = `<!DOCTYPE html>
                     }
     
                     const data = await response.json();
-                    const content = atob(data.content);
+                    // atob alone garbles UTF-8 (the README has emoji), so decode the bytes.
+                    const bytes = Uint8Array.from(atob(data.content.replace(/\\s/g, '')), (c) => c.charCodeAt(0));
+                    const content = new TextDecoder().decode(bytes);
     
                     const htmlContent = marked.parse(content);
     

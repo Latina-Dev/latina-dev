@@ -97,7 +97,7 @@ slack run
 
 `slack run` creates the app from `manifest.json`, installs it in the workspace you pick, and tunnels Slack events to your machine. Open Madrina's **Home** tab and click **Run my weekly check-in**.
 
-To deploy, create a separate Vercel project for this folder (set **Root Directory** to `apps/madrina`; the Latina Dev website keeps its own project), set the same env vars plus `SLACK_BOT_TOKEN` and a long random `CRON_SECRET`, and point the manifest URLs at `https://<your-app>.vercel.app/api/slack/events`.
+To deploy, create a separate Vercel project for this folder (set **Root Directory** to `apps/madrina`; the Latina Dev website keeps its own project), set the same env vars plus `SLACK_BOT_TOKEN`, a long random `CRON_SECRET` and `MADRINA_DEMO_USER_ID` (your Slack member ID; without it the weekly cron has nobody to check in with, because the last App Home visitor is only kept in memory), and point the manifest URLs at `https://<your-app>.vercel.app/api/slack/events`.
 
 ### Connect your Claude 🔌
 
