@@ -295,15 +295,20 @@ async function promptValueOrOpen(
   }
 }
 
-function openUrl(url: string): boolean {
+function openUrl(rawUrl: string): boolean {
   try {
+    // Only ever hand a parsed http(s) URL to the OS, never raw input.
+    const parsed = new URL(rawUrl);
+    if (parsed.protocol !== "https:" && parsed.protocol !== "http:") return false;
+    const url = parsed.href;
     if (process.platform === "darwin") {
       const p = spawn("open", [url], { stdio: "ignore", detached: true });
       p.unref();
       return true;
     }
     if (process.platform === "win32") {
-      const p = spawn("cmd", ["/c", "start", "", url], {
+      // explorer.exe opens the default browser without going through a shell.
+      const p = spawn("explorer.exe", [url], {
         stdio: "ignore",
         detached: true,
       });
