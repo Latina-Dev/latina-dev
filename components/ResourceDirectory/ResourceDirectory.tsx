@@ -9,6 +9,7 @@ import JsonLd from "@/components/JsonLd/JsonLd";
 import PageHero from "@/components/PageHero/PageHero";
 import ResourceSearch from "@/components/ResourceDirectory/ResourceSearch";
 
+import { ergs, ergsPath } from "@/lib/ergs";
 import { breadcrumbJsonLd } from "@/lib/jsonLd";
 import {
   Resource,
@@ -164,6 +165,12 @@ const ResourceDirectory = ({
             <li>
               <Link href={`${resourcesPath}#guides`}>
                 <span>Guides</span>
+              </Link>
+            </li>
+            <li>
+              <Link href={ergsPath}>
+                <span>ERGs at companies</span>
+                <span className={directory.count}>{ergs.length}</span>
               </Link>
             </li>
           </ul>

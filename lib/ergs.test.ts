@@ -21,13 +21,26 @@ describe("ergs", () => {
     assert.equal(ergSlug("Warner Bros."), "warner-bros");
   });
 
+  it("backs every ERG with a public source and the date it was checked", () => {
+    for (const erg of ergs) {
+      assert.match(erg.url, /^https:\/\//, erg.company);
+      assert.match(erg.website, /^https:\/\//, erg.company);
+      assert.match(erg.checked, /^\d{4}-\d{2}-\d{2}$/, erg.company);
+    }
+  });
+
+  it("stays out of the menu and off the home page", () => {
+    assert.ok(!readFileSync("components/Navbar/Navbar.tsx", "utf8").includes("ergs"));
+    assert.ok(!readFileSync("app/page.tsx", "utf8").includes("ergs"));
+  });
+
   it("links to a guide that exists", () => {
     assert.ok(existsSync(`data${ergGuidePath}.md`));
   });
 
   it("is listed in llms.txt and the sitemap source", () => {
     const llms = readFileSync("public/llms.txt", "utf8");
-    for (const path of ["/ergs", "/ergs.md", "/ergs.json", ergGuidePath]) {
+    for (const path of ["/resources/ergs", "/ergs.md", "/ergs.json", ergGuidePath]) {
       assert.ok(llms.includes(`https://latina.dev${path})`), path);
     }
   });
@@ -58,7 +71,9 @@ describe("ergsJsonLd", () => {
 describe("ergsMarkdown", () => {
   it("has a row per company and a link to the guide", () => {
     const markdown = ergsMarkdown();
-    for (const erg of ergs) assert.ok(markdown.includes(`| ${erg.company} | ${erg.name} |`));
+    for (const erg of ergs) {
+      assert.ok(markdown.includes(`| ${erg.company} | ${erg.name} | ${erg.url} |`));
+    }
     assert.ok(markdown.includes(`https://latina.dev${ergGuidePath}`));
   });
 });
@@ -67,10 +82,10 @@ describe("searchErgs", () => {
   it("finds by company or group name, ignoring words every entry shares", () => {
     assert.equal(searchErgs({}).total, ergs.length);
     assert.deepEqual(
-      searchErgs({ query: "Latinx ERG at Zillow" }).ergs.map((erg) => erg.name),
-      ["Latinos Unidos"]
+      searchErgs({ query: "Latinx ERG at Uber" }).ergs.map((erg) => erg.name),
+      ["Los Ubers"]
     );
-    assert.ok(searchErgs({ query: "somos" }).total >= 2);
+    assert.ok(searchErgs({ query: "hola" }).total >= 2);
     assert.equal(searchErgs({ query: "no such company" }).total, 0);
   });
 });

@@ -2,15 +2,15 @@ import { createHash } from "crypto";
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from "fs";
 import path from "path";
 
+import { ergs } from "@/lib/ergs";
 import { resourceGroups, resourceSlug } from "@/lib/resources";
 
-// Downloads a small logo for each resource on /resources into public/img/resources/<slug>.<ext>.
-// Only resources without a logo are fetched, so a logo replaced by hand stays put. Tries the icons a
+// Downloads a small logo for each resource on /resources into public/img/resources/<slug>.<ext>,
+// and each company on /resources/ergs into public/img/ergs/<slug>.<ext>.
+// Only entries without a logo are fetched, so a logo replaced by hand stays put. Tries the icons a
 // site declares (apple-touch-icon first, since it is the largest), then /favicon.ico, then Google's
 // favicon service. SVGs are skipped because they can carry scripts. Cards without a logo show the
 // resource's initials instead.
-
-const outDir = "public/img/resources";
 
 // Sites hosted on these platforms would get the platform's logo, so they keep their initials
 const platformHosts = ["github.com", "medium.com", "eventbrite.com"];
@@ -90,28 +90,38 @@ async function fetchLogo(siteUrl: string): Promise<{ bytes: Uint8Array; ext: str
   return null;
 }
 
-async function main() {
+/** Fetch a logo for each item that has none in outDir */
+async function fetchMissing(outDir: string, items: { name: string; slug: string; url: string }[]) {
   mkdirSync(outDir, { recursive: true });
   const existing = new Set(
     readdirSync(outDir)
       .filter((file) => /\.(png|jpg|webp|ico)$/.test(file))
       .map((file) => file.replace(/\.[a-z]+$/, ""))
   );
-  const missing = resourceGroups
-    .flatMap((group) => group.resources)
-    .filter((resource) => !existing.has(resourceSlug(resource)));
-
-  for (const resource of missing) {
-    const slug = resourceSlug(resource);
-    const logo = await fetchLogo(resource.url);
+  for (const item of items.filter((item) => !existing.has(item.slug))) {
+    const logo = await fetchLogo(item.url);
     if (!logo) {
-      console.log(`no logo: ${resource.name}`);
+      console.log(`no logo: ${item.name}`);
       continue;
     }
-    const file = path.join(outDir, `${slug}.${logo.ext}`);
+    const file = path.join(outDir, `${item.slug}.${logo.ext}`);
     if (!existsSync(file)) writeFileSync(file, logo.bytes);
     console.log(`saved ${file}`);
   }
+}
+
+async function main() {
+  await fetchMissing(
+    "public/img/resources",
+    resourceGroups
+      .flatMap((group) => group.resources)
+      .map((resource) => ({ name: resource.name, slug: resourceSlug(resource), url: resource.url }))
+  );
+  // An ERG card shows its company's logo, taken from the company's home page
+  await fetchMissing(
+    "public/img/ergs",
+    ergs.map((erg) => ({ name: erg.company, slug: erg.slug, url: erg.website }))
+  );
 }
 
 main();

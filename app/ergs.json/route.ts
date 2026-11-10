@@ -15,7 +15,8 @@ export async function GET() {
       company: erg.company,
       name: erg.name,
       description: ergDescription(erg),
-      ...(erg.url && { url: erg.url }),
+      source: erg.url,
+      checked: erg.checked,
       page: ergPage(erg),
     })),
   });

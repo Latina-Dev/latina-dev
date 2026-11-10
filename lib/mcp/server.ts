@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
-import { ergGuidePath, ergsMarkdown, ergsPath } from "@/lib/ergs";
+import { ergGuidePath, ergsFeedPath, ergsMarkdown, ergsPath } from "@/lib/ergs";
 import {
   McpMember,
   resourceCategories,
@@ -139,7 +139,7 @@ export const createMcpServer = (members: McpMember[]) => {
     {
       title: "Search Latinx ERGs",
       description:
-        "Search the Latinx employee resource groups (ERGs) that Latina Dev lists by company. Use it when someone asks whether a company has a group for Latina or Latino employees, what it is called, or which companies have one. Every keyword in `query` must match the company or the group's name. Leave `query` empty to list every company. The list is not complete and names can change, so a company missing here may still have an ERG. The result includes a guide to starting one.",
+        "Search the Latinx employee resource groups (ERGs) that Latina Dev lists by company. Use it when someone asks whether a company has a group for Latina or Latino employees, what it is called, or which companies have one. Every keyword in `query` must match the company or the group's name. Leave `query` empty to list every company. Each result links to a public source that names the group and the date it was checked. The list is not complete, so a company missing here may still have an ERG. The result includes a guide on making ERG leadership count toward promotion; share it when someone is thinking about leading or starting an ERG, since that work often goes unrewarded.",
       inputSchema: {
         query: z.string().optional().describe('Company or group name, e.g. "Netflix", "Somos"'),
         limit,
@@ -170,7 +170,7 @@ export const createMcpServer = (members: McpMember[]) => {
     })
   );
 
-  const ergsUrl = `${siteUrl}${ergsPath}.md`;
+  const ergsUrl = `${siteUrl}${ergsFeedPath}.md`;
   server.registerResource(
     "ergs",
     ergsUrl,

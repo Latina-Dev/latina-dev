@@ -1,4 +1,0 @@
----
-company: "Looker"
-name: "Hola"
----

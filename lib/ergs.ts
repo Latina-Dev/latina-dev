@@ -7,27 +7,35 @@ import { siteUrl } from "@/lib/site";
 import { MemberInterface } from "@/types/members";
 
 // Employee resource groups (ERGs) for Latinas and Latinos inside companies. Each one is a file in
-// data/ergs, named after the company. The list started from Frances Coronel's notes and has not
-// been checked against each company since, so the page asks readers for corrections.
+// data/ergs, named after the company, and links to a public page that names the group. The list
+// started from Frances Coronel's notes; only groups confirmed by such a page are kept.
 
 const ergPath = "data/ergs";
 
-export const ergsPath = "/ergs";
+// ERGs sit under Resources, not in the menu or on the home page: joining one helps, but running
+// one is often work that does not lead to promotion, so the site does not push it
+export const ergsPath = "/resources/ergs";
 
-// The guide on starting an ERG, linked from the page and the feeds
-export const ergGuidePath = "/guides/starting-a-latinx-erg";
+// The feeds, next to /resources.json and /resources.md
+export const ergsFeedPath = "/ergs";
+
+// The guide on making ERG work count toward promotion, linked from the page and the feeds
+export const ergGuidePath = "/guides/erg-work-and-promotion";
 
 const text = z
   .string()
   .min(1, "must not be empty")
   .refine((value) => value === value.trim(), "must not start or end with a space");
 
+const link = text.pipe(z.url({ protocol: /^https?$/, message: "must be a full http(s) URL" }));
+
 /** Frontmatter of each file in data/ergs. Unknown keys are rejected so typos fail the build */
 const ergSchema = z.strictObject({
   company: text,
   name: text, // what the group calls itself, e.g. "Somos"
-  // A public page about the group, when the company has one
-  url: text.pipe(z.url({ protocol: /^https?$/, message: "must be a full http(s) URL" })).optional(),
+  website: link, // the company's home page, where its logo is fetched from
+  url: link, // a public page that names the group, as proof it exists
+  checked: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "must be YYYY-MM-DD"), // when that page was last read
   description: text.optional(),
 });
 
@@ -98,7 +106,7 @@ export const membersAt = (erg: Erg, members: MemberInterface[]) => {
 };
 
 export const ergsTitle = "Latinx employee resource groups (ERGs) at tech companies";
-export const ergsDescription = `${ergs.length} companies with an employee resource group for Latina and Latino employees, with the name each group goes by, plus a guide to starting one where you work.`;
+export const ergsDescription = `${ergs.length} companies with an employee resource group for Latina and Latino employees, each confirmed by a public source, plus a guide to making ERG work count toward promotion.`;
 
 /** The ERG page as a CollectionPage holding an ItemList of the groups */
 export const ergsJsonLd = () => ({
@@ -120,7 +128,7 @@ export const ergsJsonLd = () => ({
         "@type": "Organization",
         name: `${erg.name} (${erg.company})`,
         description: ergDescription(erg),
-        url: erg.url ?? ergPage(erg),
+        url: erg.url,
         parentOrganization: { "@type": "Organization", name: erg.company },
         keywords: "Employee resource group, ERG, Latinx, Latina, Latino, Hispanic",
       },
@@ -136,14 +144,14 @@ export const ergsMarkdown = () =>
   [
     "# Latinx employee resource groups (ERGs) at tech companies",
     "",
-    `${ergs.length} companies with an employee resource group for Latina and Latino employees, listed by Latina Dev (${siteUrl}${ergsPath}). An ERG is an employee-led group inside a company. This list started from notes by Frances Coronel, founder of Latina Dev, and group names can change, so confirm with the company.`,
+    `${ergs.length} companies with an employee resource group for Latina and Latino employees, listed by Latina Dev (${siteUrl}${ergsPath}). An ERG is an employee-led group inside a company. Each entry links to a public page that names the group, with the date it was last checked. The list is not complete, so a company missing here may still have one.`,
     "",
-    "| Company | ERG name | More |",
-    "| --- | --- | --- |",
-    ...ergs.map((erg) => `| ${erg.company} | ${erg.name} | ${erg.url ?? ergPage(erg)} |`),
+    "| Company | ERG name | Source | Checked |",
+    "| --- | --- | --- | --- |",
+    ...ergs.map((erg) => `| ${erg.company} | ${erg.name} | ${erg.url} | ${erg.checked} |`),
     "",
-    "## Starting one",
+    "## Joining and leading",
     "",
-    `No Latinx ERG where you work? Read [How to start a Latinx ERG at your company](${siteUrl}${ergGuidePath}).`,
+    `Joining an ERG is a low-cost way to find peers, mentors and sponsors. Leading one is often work that does not count toward promotion, and women are asked to do it more often. Before agreeing to lead, read [Should you lead an ERG? Make sure it counts toward your promotion](${siteUrl}${ergGuidePath}).`,
     "",
   ].join("\n");

@@ -5,7 +5,7 @@ const pages = [
   "/",
   "/members",
   "/members/frances-coronel",
-  "/ergs",
+  "/resources/ergs",
   "/add-member",
   "/profile",
   "/privacy",

@@ -1,4 +1,0 @@
----
-company: "Mixpanel"
-name: "Mezcla"
----

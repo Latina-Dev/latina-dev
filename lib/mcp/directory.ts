@@ -204,7 +204,8 @@ interface McpErg {
   company: string;
   name: string;
   description: string;
-  url?: string;
+  source: string; // public page that names the group
+  checked: string; // when the source was last read
   page: string;
 }
 
@@ -213,7 +214,8 @@ const allErgs: McpErg[] = ergs.map((erg) => ({
   company: erg.company,
   name: erg.name,
   description: ergDescription(erg),
-  ...(erg.url && { url: erg.url }),
+  source: erg.url,
+  checked: erg.checked,
   page: ergPage(erg),
 }));
 

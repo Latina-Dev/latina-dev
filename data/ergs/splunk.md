@@ -1,4 +1,0 @@
----
-company: "Splunk"
-name: "Somos"
----

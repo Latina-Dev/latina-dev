@@ -129,9 +129,9 @@ describe("/mcp", () => {
       arguments: { query: "Netflix ERG" },
     });
     assert.equal(structuredContent.total, 1);
-    assert.equal(structuredContent.ergs[0].name, "Somos");
-    assert.equal(structuredContent.ergs[0].page, "https://latina.dev/ergs#netflix");
-    assert.equal(structuredContent.guide, "https://latina.dev/guides/starting-a-latinx-erg");
+    assert.equal(structuredContent.ergs[0].name, "SOMOS@");
+    assert.equal(structuredContent.ergs[0].page, "https://latina.dev/resources/ergs#netflix");
+    assert.equal(structuredContent.guide, "https://latina.dev/guides/erg-work-and-promotion");
   });
 
   it("serves every ERG as one Markdown document", async () => {
@@ -139,7 +139,7 @@ describe("/mcp", () => {
     const uri = "https://latina.dev/ergs.md";
     assert.ok(resources.some((r: { uri: string }) => r.uri === uri));
     const { contents } = await call("resources/read", { uri });
-    assert.match(contents[0].text, /\| Netflix \| Somos \|/);
+    assert.match(contents[0].text, /\| Netflix \| SOMOS@ \|/);
   });
 
   it("serves every resource as one Markdown document", async () => {
