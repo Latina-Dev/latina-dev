@@ -43,6 +43,10 @@ export default defineEventHandler(async (event) => {
   }
 
   const token = process.env.SLACK_BOT_TOKEN ?? process.env.SLACK_CLI_XOXB;
+  if (!token) {
+    setResponseStatus(event, 500);
+    return { ok: false, error: "SLACK_BOT_TOKEN is not set" };
+  }
   // The default policy retries for about half an hour, far past a function's time limit.
   const client = new WebClient(token, {
     retryConfig: { retries: 2 },

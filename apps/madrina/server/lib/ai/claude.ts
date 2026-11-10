@@ -4,12 +4,21 @@ import { MADRINA_EMOJI } from "~/lib/slack/format";
 
 // Claude Opus 5.5 at medium effort by default. Override with ANTHROPIC_MODEL / ANTHROPIC_EFFORT.
 export const MODEL_ID = process.env.ANTHROPIC_MODEL ?? "claude-opus-5-5";
-export const EFFORT = (process.env.ANTHROPIC_EFFORT ?? "medium") as
-  | "low"
-  | "medium"
-  | "high"
-  | "xhigh"
-  | "max";
+const EFFORTS = ["low", "medium", "high", "xhigh", "max"] as const;
+export type Effort = (typeof EFFORTS)[number];
+
+/** Reads an effort level from the environment, falling back when it is unset or misspelled. */
+export const effortFromEnv = (name: string, fallback: Effort): Effort => {
+  const value = process.env[name];
+  if (!value) return fallback;
+  if ((EFFORTS as readonly string[]).includes(value)) return value as Effort;
+  console.warn(
+    `[madrina] ${name}="${value}" is not one of ${EFFORTS.join(", ")}. Using "${fallback}".`,
+  );
+  return fallback;
+};
+
+export const EFFORT = effortFromEnv("ANTHROPIC_EFFORT", "medium");
 
 // Org-level (non-workspace-scoped) keys must name a workspace on every request.
 const workspaceId = process.env.ANTHROPIC_WORKSPACE_ID;

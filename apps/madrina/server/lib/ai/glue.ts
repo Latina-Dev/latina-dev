@@ -4,7 +4,7 @@ import { z } from "zod";
 import { getGaps, getProfile, ladder, ladderText } from "~/lib/madrina/data";
 import { computeFocus } from "~/lib/madrina/focus";
 import type { GlueAsk } from "~/lib/madrina/glue";
-import { askClaude, type EFFORT, MADRINA_VOICE, MODEL_ID } from "./claude";
+import { askClaude, effortFromEnv, MADRINA_VOICE, MODEL_ID } from "./claude";
 
 const workspaceId = process.env.ANTHROPIC_WORKSPACE_ID;
 const anthropic = createAnthropic({
@@ -12,8 +12,7 @@ const anthropic = createAnthropic({
 });
 
 // Classification sits between the ask landing and Ana seeing the flag, so favor speed.
-const CLASSIFY_EFFORT = (process.env.ANTHROPIC_CLASSIFY_EFFORT ??
-  "low") as typeof EFFORT;
+const CLASSIFY_EFFORT = effortFromEnv("ANTHROPIC_CLASSIFY_EFFORT", "low");
 
 const AskSchema = z.object({
   isAsk: z

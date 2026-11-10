@@ -107,6 +107,12 @@ Wins and the profile are still the synthetic Ana demo data and are not saved per
 
 The MCP connector runs in the same server as the Slack app. Add `MCP_TOKEN` (any long random string) to `.env`, run `slack run`, and point your Claude at `http://localhost:3000/api/mcp`.
 
+The commands below read the token from your shell, and `.env` is not loaded there, so export it first (use the same value as in `.env`):
+
+```bash
+export MCP_TOKEN=your-token-from-.env
+```
+
 **Claude Code:**
 
 ```bash

@@ -26,8 +26,20 @@ const LEVEL_ORDER: Record<string, string[]> = {
   Management: ["Senior", "Engineering Manager", "Senior Engineering Manager"],
 };
 
-const levelRank = (track: string, level: string) =>
-  (LEVEL_ORDER[track] ?? LEVEL_ORDER.IC).indexOf(level);
+/**
+ * Where a level sits on a track. A level from the other track (say "Staff" on a Management
+ * profile) counts as its equivalent rung, and an unknown level counts as the first rung, so
+ * neither inflates a gap.
+ */
+const levelRank = (track: string, level: string) => {
+  const onTrack = (LEVEL_ORDER[track] ?? LEVEL_ORDER.IC).indexOf(level);
+  if (onTrack !== -1) return onTrack;
+  for (const order of Object.values(LEVEL_ORDER)) {
+    const rank = order.indexOf(level);
+    if (rank !== -1) return rank;
+  }
+  return 0;
+};
 
 export const ladderText = (
   track: string,

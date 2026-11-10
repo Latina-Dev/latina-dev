@@ -1,12 +1,12 @@
 // This is a WIP script to configure the Slack app for local development.
 
-import { spawn, spawnSync, type ChildProcess } from "node:child_process";
+import { type ChildProcess, spawn, spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import input from "@inquirer/input";
 import boxen from "boxen";
 import chalk from "chalk";
-import input from "@inquirer/input";
 import ora from "ora";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -32,8 +32,8 @@ type SlackCreateAppResponse = {
 
 async function main(): Promise<void> {
   console.warn(
-    '\x1b[33m\x1b[3m%s\x1b[0m',
-    '⚠  This script is a work in progress and may not work as expected.',
+    "\x1b[33m\x1b[3m%s\x1b[0m",
+    "⚠  This script is a work in progress and may not work as expected.",
   );
   try {
     const configToken = await getAppConfigToken();
@@ -43,13 +43,14 @@ async function main(): Promise<void> {
     await ensureSigningSecret(result);
     await configureAIGateway();
     await setManifestSourceLocal();
+    await ensureNgrokToken();
     await startTunnel();
 
     console.log(
       boxen(
         `${colors.success("🎉 Setup Complete!")}\n\n` +
-        `Your Slack app is now configured and ready for development.\n` +
-        `The development tunnel is starting...`,
+          `Your Slack app is now configured and ready for development.\n` +
+          `The development tunnel is starting...`,
         {
           padding: 1,
           margin: 1,
@@ -155,7 +156,9 @@ async function linkApp(appId?: string): Promise<void> {
   }
 }
 
-async function ensureSigningSecret(result: SlackCreateAppResponse): Promise<void> {
+async function ensureSigningSecret(
+  result: SlackCreateAppResponse,
+): Promise<void> {
   const signingSecret = result?.credentials?.signing_secret;
   if (signingSecret) {
     const spinner = ora("Adding signing secret to .env...").start();
@@ -168,7 +171,9 @@ async function ensureSigningSecret(result: SlackCreateAppResponse): Promise<void
   const value = await promptValueOrOpen(
     "SLACK_SIGNING_SECRET",
     "Press ENTER to open app settings or paste your signing secret here:",
-    appId ? `https://api.slack.com/apps/${appId}` : "https://api.slack.com/apps",
+    appId
+      ? `https://api.slack.com/apps/${appId}`
+      : "https://api.slack.com/apps",
   );
 
   const spinner = ora("Adding signing secret to environment...").start();
@@ -195,6 +200,24 @@ async function configureAIGateway(): Promise<void> {
   const spinner = ora("Adding AI Gateway key to environment...").start();
   addToEnv("AI_GATEWAY_API_KEY", token);
   spinner.succeed("AI Gateway configured!");
+}
+
+/** Without an ngrok token the tunnel step falls back to plain `pnpm dev` and Slack can't reach it. */
+async function ensureNgrokToken(): Promise<void> {
+  if (process.env.NGROK_AUTH_TOKEN || envFileHas("NGROK_AUTH_TOKEN")) return;
+
+  console.log(
+    `\n${colors.primary("🚇 Step 3:")} ${colors.highlight("Setup the local tunnel")}`,
+  );
+  const token = await promptValueOrOpen(
+    "NGROK_AUTH_TOKEN",
+    "Press ENTER to open the ngrok dashboard or paste your authtoken here:",
+    "https://dashboard.ngrok.com/get-started/your-authtoken",
+  );
+
+  const spinner = ora("Adding ngrok token to .env...").start();
+  addToEnv("NGROK_AUTH_TOKEN", token);
+  spinner.succeed("ngrok token added to .env!");
 }
 
 async function startTunnel(): Promise<ChildProcess> {
@@ -283,7 +306,8 @@ async function promptValueOrOpen(
       message: `${colors.highlight(label)}:`,
       validate: (val: string) => {
         const t = String(val ?? "").trim();
-        if (t.length === 0) return `${label} cannot be empty. Please try again.`;
+        if (t.length === 0)
+          return `${label} cannot be empty. Please try again.`;
         if (typeof validate === "string" && !t.startsWith(validate))
           return `Invalid ${label}. Please try again.`;
         if (typeof validate === "function" && !validate(t))
@@ -299,7 +323,8 @@ function openUrl(rawUrl: string): boolean {
   try {
     // Only ever hand a parsed http(s) URL to the OS, never raw input.
     const parsed = new URL(rawUrl);
-    if (parsed.protocol !== "https:" && parsed.protocol !== "http:") return false;
+    if (parsed.protocol !== "https:" && parsed.protocol !== "http:")
+      return false;
     const url = parsed.href;
     if (process.platform === "darwin") {
       const p = spawn("open", [url], { stdio: "ignore", detached: true });
@@ -364,6 +389,15 @@ function linkSlackApp(appId: string): boolean {
   }
 }
 
+function envFileHas(key: string): boolean {
+  const envPath = path.join(__dirname, "..", ".env");
+  if (!fs.existsSync(envPath)) return false;
+  return fs
+    .readFileSync(envPath, "utf8")
+    .split("\n")
+    .some((line) => new RegExp(`^${key}=["']?[^"'\\s]`).test(line));
+}
+
 function addToEnv(key: string, value: string): void {
   const envPath = path.join(__dirname, "..", ".env");
   let envContent = "";
@@ -386,7 +420,7 @@ function handleError(err: any): void {
   console.log(
     boxen(
       `${colors.error("❌ Configuration Failed")}\n\n` +
-      `${colors.muted("Error:")} ${message}`,
+        `${colors.muted("Error:")} ${message}`,
       {
         padding: 1,
         margin: 1,
@@ -425,5 +459,3 @@ function handleSlackApiError(resp?: SlackCreateAppResponse): void {
     }
   }
 }
-
-
