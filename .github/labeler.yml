@@ -13,3 +13,6 @@ public:
 styles:
   - changed-files:
       - any-glob-to-any-file: styles/**/*
+madrina:
+  - changed-files:
+      - any-glob-to-any-file: apps/madrina/**/*

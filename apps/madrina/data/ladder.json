@@ -1,0 +1,45 @@
+{
+  "_note": "Synthetic, simplified ladder for the demo, inspired by public frameworks (sdras/career-ladders MIT, Dropbox). Not any company's real ladder.",
+  "competencies": ["Technical scope", "Impact", "Influence", "Direction", "Growing others"],
+  "tracks": {
+    "IC": {
+      "Senior": {
+        "Technical scope": "Owns features and services within one team",
+        "Impact": "Delivers team goals reliably",
+        "Influence": "Trusted reviewer and go-to person on the team",
+        "Direction": "Breaks down projects the team has already chosen",
+        "Growing others": "Mentors juniors on the team"
+      },
+      "Staff": {
+        "Technical scope": "Owns systems that span multiple teams",
+        "Impact": "Delivers outcomes leadership tracks by name",
+        "Influence": "Aligns several teams without authority; writes decisions others follow",
+        "Direction": "Identifies the right problems to work on, not just how to solve them",
+        "Growing others": "Grows senior engineers; sponsors people for opportunities"
+      },
+      "Principal": {
+        "Technical scope": "Shapes architecture across an organization",
+        "Impact": "Moves company-level metrics",
+        "Influence": "Recognized voice inside and outside the company",
+        "Direction": "Sets multi-year technical strategy",
+        "Growing others": "Builds the next generation of Staff engineers"
+      }
+    },
+    "Management": {
+      "Engineering Manager": {
+        "Technical scope": "Understands the team's systems well enough to make tradeoffs",
+        "Impact": "Team delivers predictably and improves over time",
+        "Influence": "Represents the team to partners and leadership",
+        "Direction": "Sets team roadmap with product partners",
+        "Growing others": "Hires, coaches and promotes engineers; gives clear feedback"
+      },
+      "Senior Engineering Manager": {
+        "Technical scope": "Oversees multiple teams' systems",
+        "Impact": "Multiple teams hit org goals",
+        "Influence": "Shapes org priorities with directors",
+        "Direction": "Plans across teams and quarters",
+        "Growing others": "Develops managers and tech leads"
+      }
+    }
+  }
+}

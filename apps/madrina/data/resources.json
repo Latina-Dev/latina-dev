@@ -1,0 +1,17 @@
+{
+  "_note": "Women authors who publicly identify as women. Re-check every link before the demo.",
+  "resources": [
+    {"title": "The Staff Engineer's Path", "author": "Tanya Reilly", "type": "book", "url": "https://www.oreilly.com/library/view/-/9781098118723/", "tracks": ["IC"], "levels": ["Senior", "Staff"], "competencies": ["Direction", "Influence", "Technical scope"]},
+    {"title": "Being Glue", "author": "Tanya Reilly", "type": "talk", "url": "https://noidea.dog/glue", "tracks": ["IC", "Management"], "levels": ["Senior"], "competencies": ["Impact", "Influence"]},
+    {"title": "The Manager's Path", "author": "Camille Fournier", "type": "book", "url": "https://www.oreilly.com/library/view/the-managers-path/9781491973882/", "tracks": ["Management", "IC"], "levels": ["Senior", "Engineering Manager"], "competencies": ["Growing others", "Direction"]},
+    {"title": "Resilient Management", "author": "Lara Hogan", "type": "book", "url": "https://larahogan.me", "tracks": ["Management"], "levels": ["Engineering Manager"], "competencies": ["Growing others", "Influence"]},
+    {"title": "Engineering Management for the Rest of Us", "author": "Sarah Drasner", "type": "book", "url": "https://www.engmanagement.dev", "tracks": ["Management"], "levels": ["Engineering Manager", "Senior Engineering Manager"], "competencies": ["Growing others", "Direction"]},
+    {"title": "The Engineering Leader", "author": "Cate Huston", "type": "book", "url": "https://driyourcareer.com/", "tracks": ["Management", "IC"], "levels": ["Staff", "Engineering Manager"], "competencies": ["Influence", "Direction"]},
+    {"title": "DRI Your Career", "author": "Cate Huston and Jean Hsu", "type": "course", "url": "https://driyourcareer.com/", "tracks": ["IC", "Management", "Not sure yet"], "levels": ["Senior", "Staff", "Engineering Manager"], "competencies": ["Direction", "Impact"]},
+    {"title": "Get your work recognized: write a brag document", "author": "Julia Evans", "type": "blog post", "url": "https://jvns.ca/blog/brag-documents/", "tracks": ["IC", "Management", "Not sure yet"], "levels": ["Senior", "Staff"], "competencies": ["Impact"]},
+    {"title": "The Engineer/Manager Pendulum", "author": "Charity Majors", "type": "blog post", "url": "https://charity.wtf/2017/05/11/the-engineer-manager-pendulum/", "tracks": ["Not sure yet", "IC", "Management"], "levels": ["Senior", "Staff"], "competencies": ["Direction"]},
+    {"title": "The No Club", "author": "Linda Babcock, Brenda Peyser, Lise Vesterlund and Laurie Weingart", "type": "book", "url": "https://www.thenoclub.com", "tracks": ["IC", "Management"], "levels": ["Senior", "Staff"], "competencies": ["Impact"]},
+    {"title": "From a Woman to a Leader", "author": "Limor Bergman Gross", "type": "newsletter", "url": "https://reletter.com/publications/limor-bergman-gross", "tracks": ["IC", "Management"], "levels": ["Senior", "Staff", "Engineering Manager"], "competencies": ["Influence"]},
+    {"title": "Latina.dev directory and resources", "author": "Latina.dev community", "type": "community", "url": "https://latina.dev", "tracks": ["IC", "Management", "Not sure yet"], "levels": ["Senior", "Staff", "Engineering Manager"], "competencies": ["Growing others", "Influence"]}
+  ]
+}

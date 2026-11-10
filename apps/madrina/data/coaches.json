@@ -1,0 +1,7 @@
+{
+  "_note": "Synthetic coach cards for the demo only. Not real people.",
+  "coaches": [
+    {"name": "Coach Lucia M.", "_synthetic": true, "focus": "IC track to Staff and Principal", "booking_url": "https://example.com/book/lucia"},
+    {"name": "Coach Priya S.", "_synthetic": true, "focus": "First-time engineering managers", "booking_url": "https://example.com/book/priya"}
+  ]
+}

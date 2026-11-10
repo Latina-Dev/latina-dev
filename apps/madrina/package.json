@@ -1,0 +1,42 @@
+{
+  "name": "madrina",
+  "description": "Madrina: a career coach Slack app for women software engineers, built on Claude",
+  "version": "0.0.1",
+  "author": "Frances Coronel",
+  "license": "MIT",
+  "scripts": {
+    "build": "nitro build",
+    "dev": "nitro dev",
+    "dev:tunnel": "tsx scripts/dev.tunnel.ts",
+    "configure": "tsx scripts/configure.ts",
+    "prepare": "nitro prepare",
+    "preview": "node .output/server/index.mjs",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --write",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.0",
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "@slack/bolt": "^4.6.0",
+    "@slack/web-api": "^7.13.0",
+    "@vercel/slack-bolt": "latest",
+    "ai": "^6.0.27",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.6",
+    "@inquirer/input": "^4.3.1",
+    "@ngrok/ngrok": "^1.7.0",
+    "@slack/cli-hooks": "^1.2.1",
+    "@types/node": "^24.10.7",
+    "boxen": "^8.0.1",
+    "chalk": "^5.6.2",
+    "dotenv": "^17.2.3",
+    "nitropack": "^2.13.0",
+    "ora": "^8.2.0",
+    "tsx": "^4.21.0",
+    "typescript": "^7.0.2"
+  },
+  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
+}

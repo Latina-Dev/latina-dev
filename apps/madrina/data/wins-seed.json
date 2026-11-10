@@ -1,0 +1,63 @@
+{
+  "_synthetic": true,
+  "_note": "Synthetic demo wins for Ana Rivera (a made-up person), one month of one-line wins already rewritten as promo bullets. Loaded into the in-memory store at startup so the brag-doc export has something to show. Direction is left empty on purpose so the export shows a gap. Set MADRINA_SEED_WINS=0 to start with an empty store.",
+  "profile_id": "ana",
+  "wins": [
+    {
+      "_synthetic": true,
+      "at": "2026-10-06T17:10:00Z",
+      "competency": "Technical scope",
+      "raw": "wrote the gateway retry design doc and got payments and checkout to review it",
+      "bullet": "Wrote the Gateway retry design doc and brought the Payments and Checkout teams into its review."
+    },
+    {
+      "_synthetic": true,
+      "at": "2026-10-09T21:30:00Z",
+      "competency": "Growing others",
+      "raw": "onboarded the new engineer on my team, paired with them on their first deploy",
+      "bullet": "Onboarded a new engineer on Payments Platform and paired with them through their first production deploy."
+    },
+    {
+      "_synthetic": true,
+      "at": "2026-10-14T18:05:00Z",
+      "competency": "Impact",
+      "raw": "shipped idempotency keys for refunds, duplicate refund tickets stopped coming in",
+      "bullet": "Shipped idempotency keys for refunds, which stopped the duplicate-refund support tickets."
+    },
+    {
+      "_synthetic": true,
+      "at": "2026-10-17T16:45:00Z",
+      "competency": "Influence",
+      "raw": "ran the cross-team sync on gateway timeouts, billing and checkout agreed on one default",
+      "bullet": "Led the cross-team sync on Gateway timeouts, where Billing and Checkout agreed on one shared default."
+    },
+    {
+      "_synthetic": true,
+      "at": "2026-10-22T19:20:00Z",
+      "competency": "Technical scope",
+      "raw": "migrated the checkout and billing clients onto the new gateway sdk",
+      "bullet": "Migrated the Checkout and Billing clients onto the new Gateway SDK, moving two teams onto the shared system."
+    },
+    {
+      "_synthetic": true,
+      "at": "2026-10-27T17:00:00Z",
+      "competency": "Growing others",
+      "raw": "recommended a senior on my team to lead the incident review and coached them through it",
+      "bullet": "Put a Senior engineer forward to lead the incident review and coached them through running it."
+    },
+    {
+      "_synthetic": true,
+      "at": "2026-10-30T20:15:00Z",
+      "competency": "Impact",
+      "raw": "gateway p99 latency was on the leadership dashboard and we hit the target for october",
+      "bullet": "Hit October's Gateway p99 latency target, a goal leadership tracks on its dashboard."
+    },
+    {
+      "_synthetic": true,
+      "at": "2026-11-04T18:40:00Z",
+      "competency": "Influence",
+      "raw": "my gateway rfc decision on retries got adopted by the checkout team",
+      "bullet": "Wrote the Gateway retries decision in the RFC, which the Checkout team adopted for their service."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "ana", "name": "Ana Rivera", "_synthetic": true,
+    "current_level": "Senior", "target_level": "Staff", "track": "IC",
+    "company_size": "2,000 people", "team": "Payments Platform",
+    "backstory": "Senior Engineer on Payments Platform, four years at the company, going for Staff on the IC track. Leads the API Gateway migration design. She is also the person the team leans on for the work nobody gets promoted for: onboarding buddy for every new hire, the one who takes retro notes, and the one who writes the on-call handoff each week.",
+    "glue_work": [
+      {"_synthetic": true, "title": "Onboarding buddy for Sam Ortiz, wrote the Payments codebase onboarding guide", "date": "2026-10-26", "where": "#team-payments-platform"},
+      {"_synthetic": true, "title": "Wrote the weekly on-call handoff notes for the Payments rotation", "date": "2026-10-30", "where": "#team-payments-platform"},
+      {"_synthetic": true, "title": "Ran the retro and took the notes for the Nov 3 Billing outage", "date": "2026-11-05", "where": "#team-billing"}
+    ],
+    "self_assessment": {"Technical scope": "Senior", "Impact": "Staff", "Influence": "Senior", "Direction": "Senior", "Growing others": "Staff"},
+    "support_system": {"mentor": "filled", "sponsor": "empty", "advocate": "filled", "coach": "empty"},
+    "wins": []
+  },
+  {
+    "id": "mei", "name": "Mei Chen", "_synthetic": true,
+    "current_level": "Senior", "target_level": "Engineering Manager", "track": "Management",
+    "company_size": "400 people", "team": "Mobile",
+    "glue_work": [],
+    "self_assessment": {"Technical scope": "Senior", "Impact": "Senior", "Influence": "Senior", "Direction": "Senior", "Growing others": "Staff"},
+    "support_system": {"mentor": "empty", "sponsor": "empty", "advocate": "filled", "coach": "empty"},
+    "wins": []
+  },
+  {
+    "id": "jordan", "name": "Jordan Okafor", "_synthetic": true,
+    "current_level": "Senior", "target_level": "Not sure yet", "track": "Not sure yet",
+    "company_size": "15,000 people", "team": "Search",
+    "glue_work": [],
+    "self_assessment": {"Technical scope": "Staff", "Impact": "Senior", "Influence": "Senior", "Direction": "Senior", "Growing others": "Senior"},
+    "support_system": {"mentor": "filled", "sponsor": "empty", "advocate": "empty", "coach": "empty"},
+    "wins": []
+  }
+]

@@ -26,6 +26,10 @@ Our goal is to increase visibility and access to valuable opportunities.
 
 Latina Dev is free and run by volunteers. If the directory helped you, or you want more Latina engineers to be seen, please [star the repo](https://github.com/Latina-Dev/latina-dev). Stars help us qualify for open source programs that give free tools and credits to projects like this one.
 
+## Madrina 🦉
+
+[Madrina](apps/madrina) is a career coach Slack app for women software engineers, built on Claude. It lives in `apps/madrina` as its own project with its own tooling, and it's being rebuilt for the Latina Dev Slack community.
+
 ## Contributing
 
 > To get started...
