@@ -1,10 +1,12 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
+import { ergGuidePath, ergsMarkdown, ergsPath } from "@/lib/ergs";
 import {
   McpMember,
   resourceCategories,
   resourceTags,
+  searchErgs,
   searchMembers,
   searchResources,
 } from "@/lib/mcp/directory";
@@ -16,8 +18,8 @@ import { countryNames } from "@/types/countries";
 import { memberLevels, openToOptions } from "@/types/members";
 import { resourceAudiences, resourceStages, resourceTypes } from "@/types/resources";
 
-const instructions = `${siteName} (${siteUrl}) is a directory of Latina software engineers at the student, individual contributor and leadership levels, plus a curated list of communities, programs, job boards, conferences and reads for Latina engineers.
-Use search_members to find Latina engineers by name, company, school, location, country of heritage or what they are open to (mentoring, speaking, job opportunities and more), and get_member for one full profile. Use search_resources when someone asks for help with a career as a Latina in tech: learning to code, college and scholarships, finding a job, growing into leadership or starting a company. Filter by \`stage\` (where they are in their career) and \`type\` (community, program, scholarship, job board and more); list_resource_categories shows every category, stage and type with counts. Link people to the profile or resource URLs in the results.`;
+const instructions = `${siteName} (${siteUrl}) is a directory of Latina software engineers at the student, individual contributor and leadership levels, plus a curated list of communities, programs, job boards, conferences and reads for Latina engineers, and a list of Latinx employee resource groups (ERGs) by company.
+Use search_members to find Latina engineers by name, company, school, location, country of heritage or what they are open to (mentoring, speaking, job opportunities and more), and get_member for one full profile. Use search_resources when someone asks for help with a career as a Latina in tech: learning to code, college and scholarships, finding a job, growing into leadership or starting a company. Filter by \`stage\` (where they are in their career) and \`type\` (community, program, scholarship, job board and more); list_resource_categories shows every category, stage and type with counts. Use search_ergs when someone asks whether a company has a Latinx ERG, or which companies do. Link people to the profile, resource or ERG URLs in the results.`;
 
 // Every tool only reads public data from latina.dev
 const readOnly = { readOnlyHint: true, openWorldHint: false } as const;
@@ -38,7 +40,7 @@ const limit = z
 /** A new MCP server over the given members; one is made per request, since the endpoint is stateless */
 export const createMcpServer = (members: McpMember[]) => {
   const server = new McpServer(
-    { name: "latina-dev", title: siteName, version: "1.1.0", websiteUrl: siteUrl },
+    { name: "latina-dev", title: siteName, version: "1.2.0", websiteUrl: siteUrl },
     { instructions }
   );
 
@@ -132,6 +134,26 @@ export const createMcpServer = (members: McpMember[]) => {
     () => asResult({ categories: resourceCategories, ...resourceTags })
   );
 
+  server.registerTool(
+    "search_ergs",
+    {
+      title: "Search Latinx ERGs",
+      description:
+        "Search the Latinx employee resource groups (ERGs) that Latina Dev lists by company. Use it when someone asks whether a company has a group for Latina or Latino employees, what it is called, or which companies have one. Every keyword in `query` must match the company or the group's name. Leave `query` empty to list every company. The list is not complete and names can change, so a company missing here may still have an ERG. The result includes a guide to starting one.",
+      inputSchema: {
+        query: z.string().optional().describe('Company or group name, e.g. "Netflix", "Somos"'),
+        limit,
+      },
+      annotations: { title: "Search Latinx ERGs", ...readOnly },
+    },
+    ({ query, limit }) =>
+      asResult({
+        ...searchErgs({ query, limit }),
+        page: `${siteUrl}${ergsPath}`,
+        guide: `${siteUrl}${ergGuidePath}`,
+      })
+  );
+
   // The whole list in one read, for assistants that load context instead of calling tools
   const markdownUrl = `${siteUrl}${resourcesPath}.md`;
   server.registerResource(
@@ -146,6 +168,19 @@ export const createMcpServer = (members: McpMember[]) => {
     () => ({
       contents: [{ uri: markdownUrl, mimeType: "text/markdown", text: resourcesMarkdown() }],
     })
+  );
+
+  const ergsUrl = `${siteUrl}${ergsPath}.md`;
+  server.registerResource(
+    "ergs",
+    ergsUrl,
+    {
+      title: "Latinx employee resource groups at tech companies",
+      description:
+        "Every company Latina Dev lists with an employee resource group for Latina and Latino employees, as Markdown, with the name each group goes by.",
+      mimeType: "text/markdown",
+    },
+    () => ({ contents: [{ uri: ergsUrl, mimeType: "text/markdown", text: ergsMarkdown() }] })
   );
 
   return server;

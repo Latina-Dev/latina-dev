@@ -1,13 +1,16 @@
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import About from "@/components/Homepage/About/About";
+import Doors from "@/components/Homepage/Doors/Doors";
 import Faq from "@/components/Homepage/Faq/Faq";
 import Hero from "@/components/Homepage/Hero/Hero";
 import MemberPreview from "@/components/Homepage/MemberPreview/MemberPreview";
 import JsonLd from "@/components/JsonLd/JsonLd";
 
+import { ergs } from "@/lib/ergs";
 import { getMembers } from "@/lib/getMembers";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonLd";
 import { pageMetadata } from "@/lib/pageMetadata";
+import { resourceCount } from "@/lib/resources";
 import { siteDescription } from "@/lib/site";
 
 import type { Metadata } from "next";
@@ -30,6 +33,7 @@ export default async function Home() {
     <>
       <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
       <Hero memberCount={members.length} countryCount={countryCount} />
+      <Doors memberCount={members.length} resourceCount={resourceCount} ergCount={ergs.length} />
       <About />
       <MemberPreview members={members} />
       <Faq />

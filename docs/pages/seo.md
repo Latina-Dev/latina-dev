@@ -12,6 +12,8 @@ Latina Dev is built so search engines (Google, Bing) and AI search tools (ChatGP
 | [`/members.json`](https://latina.dev/members.json) | The directory as JSON (see [Members Data Feed](/pages/members-feed))                         |
 
 | [`/resources.md`](https://latina.dev/resources.md) | Every resource as Markdown, with its type, career stage and audience |
+| [`/ergs.json`](https://latina.dev/ergs.json) | Every ERG as JSON |
+| [`/ergs.md`](https://latina.dev/ergs.md) | Every ERG as Markdown |
 | [`/resources.json`](https://latina.dev/resources.json) | The same list as JSON, plus counts per type and stage |
 
 The code lives in `app/robots.ts`, `app/sitemap.ts` and `public/llms.txt`.

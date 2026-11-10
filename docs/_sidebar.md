@@ -8,6 +8,7 @@
 - [Adding a Member](/pages/adding-a-member)
 - [Member Sign-in](/pages/member-sign-in)
 - [Adding a Resource](/pages/adding-a-resource)
+- [Adding an ERG](/pages/adding-an-erg)
 - [Members Data Feed](/pages/members-feed)
 - [Search and Structured Data](/pages/seo)
 - [Branding](/pages/branding)
