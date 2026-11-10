@@ -10,6 +10,8 @@ import {
   resourceSlug,
 } from "@/lib/resources";
 import { validateResourceFrontmatter } from "@/lib/resourceSchema";
+import { resourcesMarkdown } from "@/lib/resourcesMarkdown";
+import { resourceViewPages, stageViews, typeViews } from "@/lib/resourceViews";
 
 import { resourceStages, resourceTypes } from "@/types/resources";
 
@@ -41,6 +43,51 @@ describe("resourceGroups", () => {
     for (const group of resourceGroups) {
       assert.ok(llms.includes(`https://latina.dev/resources/${group.id})`), group.id);
     }
+  });
+});
+
+describe("type and stage pages", () => {
+  it("gives a page to every view with enough resources that no category already covers", () => {
+    const paths = resourceViewPages.map((view) => view.path);
+    assert.ok(paths.includes("/resources/stage/leadership"));
+    assert.ok(paths.includes("/resources/type/job-board"));
+    assert.equal(new Set(paths).size, paths.length);
+    for (const view of resourceViewPages) assert.ok(view.count >= 3, view.value);
+  });
+
+  it("points a view at the category page when both list the same resources", () => {
+    const k12 = stageViews.find((view) => view.value === "K-12");
+    assert.equal(k12?.ownPage, false);
+    assert.equal(k12?.path, "/resources/k-12");
+  });
+
+  it("only lists resources that carry the tag", () => {
+    for (const view of typeViews) {
+      const listed = view.groups.flatMap((group) => group.resources);
+      assert.equal(listed.length, view.count);
+      assert.ok(listed.every((resource) => (resource.types as string[]).includes(view.value)));
+    }
+  });
+
+  it("uses a heading no category page already has", () => {
+    const headings = [...resourceGroups, ...resourceViewPages].map((page) => page.heading);
+    assert.equal(new Set(headings).size, headings.length);
+  });
+
+  it("links every type and stage page from llms.txt, by its heading", () => {
+    const llms = readFileSync("public/llms.txt", "utf8");
+    for (const view of resourceViewPages) {
+      assert.ok(llms.includes(`[${view.heading}](https://latina.dev${view.path})`), view.path);
+    }
+  });
+
+  it("puts type, stage and audience in the Markdown feed", () => {
+    const markdown = resourcesMarkdown();
+    assert.match(
+      markdown,
+      /- \[Techqueria\]\(https:\/\/techqueria\.org\/\): .+ \(Type: .*Community.*\. Stage: .+\. Built for: Latinos\.\)/
+    );
+    for (const view of resourceViewPages) assert.ok(markdown.includes(view.path), view.path);
   });
 });
 

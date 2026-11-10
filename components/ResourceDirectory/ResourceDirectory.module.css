@@ -200,3 +200,29 @@
   background: var(--surface-card-tint);
   color: var(--text-brand);
 }
+
+.tags a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tags a:hover,
+.tags a:focus-visible {
+  text-decoration: underline;
+}
+
+/* Second and third headings in the filter rail */
+.nextFilter {
+  margin-top: 32px;
+}
+
+/* Three lists are taller than most windows, so this rail scrolls with the page instead of sticking */
+.rail {
+  position: static;
+}
+
+@media (max-width: 1023px) {
+  .nextFilter {
+    margin-top: 0;
+  }
+}

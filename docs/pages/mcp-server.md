@@ -6,12 +6,14 @@ No sign-in or API key is needed. It only returns what is already public on latin
 
 ## Tools
 
-| Tool                       | What it does                                                                                                                                                       |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `search_members`           | Find Latina engineers by keywords (name, title and company or school, location, countries of heritage, bio) and filter by level, country, or what they are open to |
-| `get_member`               | Get one member's full public profile by slug, e.g. `frances-coronel`                                                                                               |
-| `search_resources`         | Find communities, student programs, scholarships, job boards, conferences, founder support, podcasts, newsletters and reports by keyword or category               |
-| `list_resource_categories` | List the resource categories and how many resources each has                                                                                                       |
+| Tool                       | What it does                                                                                                                                                                       |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `search_members`           | Find Latina engineers by keywords (name, title and company or school, location, countries of heritage, bio) and filter by level, country, or what they are open to                 |
+| `get_member`               | Get one member's full public profile by slug, e.g. `frances-coronel`                                                                                                               |
+| `search_resources`         | Find communities, student programs, scholarships, job boards, conferences, founder support, podcasts, newsletters and reports by keyword, category, type, career stage or audience |
+| `list_resource_categories` | List the resource categories, career stages and types, with how many resources each has and the page that lists them                                                               |
+
+The server also offers one MCP resource, `https://latina.dev/resources.md`: every resource in one Markdown document, for assistants that load context instead of calling tools.
 
 Every keyword in a query must match. Matching ignores case and accents, so `mexico` finds `México`.
 
@@ -49,7 +51,7 @@ claude mcp add --transport http latina-dev https://latina.dev/mcp
 }
 ```
 
-Then ask something like "Find Latina engineering leaders open to mentoring" or "What scholarships are there for Latina college students in computer science?"
+Then ask something like "Find Latina engineering leaders open to mentoring" or "What scholarships are there for Latina college students in computer science?" or "I'm a Latina engineer moving into management, what should I join?"
 
 ## How it works
 

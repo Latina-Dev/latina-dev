@@ -1,3 +1,4 @@
+import { resourceTags } from "@/lib/mcp/directory";
 import { resourceCount, resourceGroups, resourceSlug, resourcesPath } from "@/lib/resources";
 import { siteUrl } from "@/lib/site";
 
@@ -10,6 +11,8 @@ export async function GET() {
     site: siteUrl,
     url: `${siteUrl}${resourcesPath}`,
     count: resourceCount,
+    // How many resources carry each tag, with the page that lists them when there is one
+    ...resourceTags,
     categories: resourceGroups.map((group) => ({
       id: group.id,
       title: group.title,

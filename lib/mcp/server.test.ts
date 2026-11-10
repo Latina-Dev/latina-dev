@@ -118,5 +118,15 @@ describe("/mcp", () => {
     const jobs = structuredContent.categories.find((c: { id: string }) => c.id === "jobs");
     assert.equal(jobs.url, "https://latina.dev/resources/jobs");
     assert.ok(jobs.count > 0);
+    assert.ok(structuredContent.stages.some((s: { name: string }) => s.name === "College"));
+    assert.ok(structuredContent.types.some((t: { name: string }) => t.name === "Community"));
+  });
+
+  it("serves every resource as one Markdown document", async () => {
+    const { resources } = await call("resources/list");
+    assert.equal(resources[0].uri, "https://latina.dev/resources.md");
+    const { contents } = await call("resources/read", { uri: resources[0].uri });
+    assert.equal(contents[0].mimeType, "text/markdown");
+    assert.match(contents[0].text, /Techqueria/);
   });
 });

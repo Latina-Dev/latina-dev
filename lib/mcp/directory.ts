@@ -1,4 +1,5 @@
 import { resourceGroups, resourceSlug, resourcesPath } from "@/lib/resources";
+import { ResourceView, stageViews, typeViews } from "@/lib/resourceViews";
 import { siteUrl } from "@/lib/site";
 
 import { MemberInterface } from "@/types/members";
@@ -156,11 +157,25 @@ export const resourceCategories = resourceGroups.map((group) => ({
   url: `${siteUrl}${resourcesPath}/${group.id}`,
 }));
 
+// How many resources carry a tag, with the page that lists them when there is one
+const tagSummary = (view: ResourceView) => ({
+  name: view.value,
+  count: view.count,
+  ...(view.path && { url: `${siteUrl}${view.path}` }),
+});
+
+/** The career stages and types resources are tagged with, for the feed and the MCP tools */
+export const resourceTags = {
+  stages: stageViews.map(tagSummary),
+  types: typeViews.map(tagSummary),
+};
+
 export interface ResourceSearch {
   query?: string;
   category?: string;
   type?: string;
   stage?: string;
+  serves?: string;
   limit?: number;
 }
 
@@ -171,12 +186,14 @@ export const searchResources = (search: ResourceSearch) => {
       (!search.category || resource.category === search.category) &&
       (!search.type || resource.types.some((t) => sameText(t, search.type!))) &&
       (!search.stage || resource.stages.some((s) => sameText(s, search.stage!))) &&
+      (!search.serves || resource.serves.some((s) => sameText(s, search.serves!))) &&
       matchesAll(words, [
         resource.name,
         resource.description,
         resource.categoryTitle,
         resource.types.join(" "),
         resource.stages.join(" "),
+        resource.serves.join(" "),
       ])
   );
   return { total: matches.length, resources: matches.slice(0, search.limit ?? 20) };

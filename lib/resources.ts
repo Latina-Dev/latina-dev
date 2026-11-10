@@ -229,6 +229,8 @@ export const resourcesJsonLd = ({
             name: resource.name,
             url: resource.url,
             description: resource.description,
+            // What it is and the career stages it helps, so a filtered question can match it
+            keywords: [...resource.types, ...resource.stages].join(", "),
           },
         }))
       ),

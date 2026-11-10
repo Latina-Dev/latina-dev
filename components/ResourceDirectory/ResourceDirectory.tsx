@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Link from "next/link";
 // Layout and filter rail are shared with the member directory
 import directory from "@/app/members/page.module.css";
@@ -18,6 +19,7 @@ import {
   resourceSlug,
   resourcesPath,
 } from "@/lib/resources";
+import { stageViews, typeViews } from "@/lib/resourceViews";
 
 import { resourceStages, resourceTypes } from "@/types/resources";
 
@@ -71,6 +73,16 @@ const searchText = (resource: Resource, group: ResourceGroup) =>
     .join(" ")
     .toLowerCase();
 
+// Links to the pages that list one career stage or one type, shown under the categories. A view
+// without a page (too few resources) is left out
+const withPath = (views: typeof typeViews) =>
+  views.flatMap((view) => (view.path ? [{ ...view, path: view.path }] : []));
+const viewFilters = [
+  { label: "Career stage", views: withPath(stageViews) },
+  { label: "Type", views: withPath(typeViews) },
+];
+const typePaths = new Map(withPath(typeViews).map((view) => [view.value, view.path]));
+
 interface Props {
   heading: string; // the page's h1
   title: string; // collection name for structured data
@@ -84,7 +96,7 @@ interface Props {
 
 /**
  * The resources page and its category pages. Everything is rendered on the server so crawlers and
- * AI agents see every resource; the category filters are plain links to their own URLs, and the
+ * AI agents see every resource; the category, career stage and type filters are plain links to their own URLs, and the
  * search box and the type and stage menus only hide cards already on the page.
  */
 const ResourceDirectory = ({
@@ -135,7 +147,7 @@ const ResourceDirectory = ({
         />
       </PageHero>
       <div className={`page-width ${directory.layout}`}>
-        <nav aria-label="Filter resources" className={directory.filters}>
+        <nav aria-label="Filter resources" className={`${directory.filters} ${styles.rail}`}>
           <h2 className={directory.filterLabel}>Category</h2>
           <ul>
             {filters.map((filter) => (
@@ -155,6 +167,24 @@ const ResourceDirectory = ({
               </Link>
             </li>
           </ul>
+          {viewFilters.map(({ label, views }) => (
+            <Fragment key={label}>
+              <h2 className={`${directory.filterLabel} ${styles.nextFilter}`}>{label}</h2>
+              <ul>
+                {views.map((view) => (
+                  <li key={view.slug}>
+                    <Link
+                      href={view.path}
+                      aria-current={view.path === path ? "page" : undefined}
+                      className={view.path === path ? directory.current : undefined}>
+                      <span>{view.title}</span>
+                      <span className={directory.count}>{view.count}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Fragment>
+          ))}
         </nav>
         <div>
           <div className={directory.resultsBar}>
@@ -197,7 +227,13 @@ const ResourceDirectory = ({
                         <p>{resource.description}</p>
                         <ul className={styles.tags} aria-label="Type">
                           {resource.types.map((type) => (
-                            <li key={type}>{type}</li>
+                            <li key={type}>
+                              {typePaths.has(type) ? (
+                                <Link href={typePaths.get(type)!}>{type}</Link>
+                              ) : (
+                                type
+                              )}
+                            </li>
                           ))}
                         </ul>
                       </div>
