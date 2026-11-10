@@ -140,7 +140,14 @@ const readResourceFiles = () => {
       fail("filename must be a lowercase slug ending in .md, e.g. latinas-in-tech.md");
       continue;
     }
-    const { data } = parseFrontmatter(fs.readFileSync(`${resourcePath}/${filename}`, "utf8"));
+    // Malformed YAML throws; report it with the file's path and keep checking the rest
+    let data: Record<string, unknown>;
+    try {
+      ({ data } = parseFrontmatter(fs.readFileSync(`${resourcePath}/${filename}`, "utf8")));
+    } catch (error) {
+      fail(error instanceof Error ? error.message : String(error));
+      continue;
+    }
     const result = validateResourceFrontmatter(filename, data);
     if (!result.success) {
       errors.push(result.error);
