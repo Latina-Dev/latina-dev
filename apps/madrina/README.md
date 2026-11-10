@@ -15,8 +15,8 @@ A career coach in Slack for women software engineers, built on Claude. Madrina s
 | **Goal** | Get more women promoted into senior engineering roles, and make the IC track (Staff, Principal) as normal a path as management |
 | **Started at** | Code with Claude: Women in AI Hackathon, 2026-11-06. The hackathon version is archived at [FrancesCoronel/madrina](https://github.com/FrancesCoronel/madrina) |
 | **Built by** | Frances Coronel |
-| **Status** | Demo, being rebuilt for [Latina Dev](https://latina.dev) members. Not yet installed in the Latina Dev Slack workspace |
-| **Data** | 100% synthetic for now. Ana Rivera, her manager Dana and everyone else in `data/` are made up. Real onboarding replaces them before members are invited |
+| **Status** | Demo and side project. Not installed in the Latina Dev Slack workspace, and there is no launch date. Bringing it to [Latina Dev](https://latina.dev) members is an aspiration |
+| **Data** | 100% synthetic for now. Ana Rivera, her manager Dana and everyone else in `data/` are made up. Real onboarding would have to replace them before anyone real uses it |
 | **Where it lives** | `apps/madrina` in this repo, as a standalone project with its own dependencies (pnpm), linter (Biome) and deploy |
 
 ## The problem 📉
@@ -161,13 +161,13 @@ assets/            app icon and custom emoji
 
 ## Roadmap 🗺️
 
-Madrina is meant to live in the Slack workspace you use for work, where your 1:1s, asks and pull requests already are. She speaks up while things are happening, when there's still time to change course. The Latina Dev launch is early access. Members try Madrina, help get it approved at their companies, and become the first pool of mentors and sponsors.
+Madrina is meant to live in the Slack workspace you use for work, where your 1:1s, asks and pull requests already are. She speaks up while things are happening, when there's still time to change course. If Madrina ever comes to Latina Dev, it would be early access: members try it, help get it approved at their companies, and become the first pool of mentors and sponsors.
 
 We'll measure success by how satisfied people are with Madrina and by their time to next promotion.
 
 | | Idea | Why |
 | --- | --- | --- |
-| **Now** | Real multi-user onboarding: current level, target level, track, self-assessment | Latina.dev members can't be demo Ana |
+| **Now** | Real multi-user onboarding: current level, target level, track, self-assessment | Real people can't be demo Ana |
 | | Persistent per-user storage, plus "delete my data" | A long-running coach has to remember |
 | | Privacy promise: your data is yours, never your manager's or HR's | Trust now, and the first thing a workspace admin will ask |
 | | Satisfaction pulse, plus last promotion date at onboarding | Starts measuring success on day one |
