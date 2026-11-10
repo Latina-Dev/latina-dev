@@ -28,7 +28,10 @@ export const addWin = (profileId: string, win: Win) => {
   wins.set(profileId, [...listWins(profileId), win]);
 };
 
-/** Last Slack user who used Madrina: in the demo workspace, that person is treated as Ana. */
+/**
+ * Last Slack user who used Madrina: in the demo workspace, that person is treated as Ana.
+ * MADRINA_DEMO_USER_ID wins when it is set, so rememberDemoUser has no effect then.
+ */
 let demoUser: string | undefined = process.env.MADRINA_DEMO_USER_ID;
 export const rememberDemoUser = (userId: string) => {
   demoUser = userId;

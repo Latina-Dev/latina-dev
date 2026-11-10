@@ -52,14 +52,20 @@ const BragSchema = z.object({
     .describe("One entry per gap competency, in the order given."),
 });
 
-const numbersIn = (s: string) => s.match(/\d[\d,.%]*/g) ?? [];
+/** Number tokens in a string, without sentence punctuation stuck to the end ("30." becomes "30"). */
+const numbersIn = (s: string) =>
+  (s.match(/\d[\d,.%]*/g) ?? []).map((n) => n.replace(/[.,]+$/, ""));
 
 /** Keep Claude's summary only if every number in it already appears in her wins. */
 const guardSummary = (summary: string | undefined, wins: Win[]) => {
   const source = wins.map((w) => `${w.raw} ${w.bullet}`).join(" ");
   const fallback = `${wins.length} logged ${wins.length === 1 ? "win" : "wins"} for this competency.`;
   if (!summary?.trim()) return fallback;
-  return numbersIn(summary).every((n) => source.includes(n))
+  // Whole tokens only, so a made-up "3" can't pass because the wins mention "30".
+  const known = new Set(
+    numbersIn(source).flatMap((n) => [n, n.replace(/%$/, "")]),
+  );
+  return numbersIn(summary).every((n) => known.has(n))
     ? summary.trim()
     : fallback;
 };
