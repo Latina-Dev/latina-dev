@@ -22,20 +22,27 @@ import { resourceGroups } from "@/lib/resources";
 
 const outDir = "monthly-post";
 
-/** URLs listed in lib/resources.ts as of the last commit before `date`, empty if none */
-const resourceUrlsBefore = (date: Date) => {
-  const rev = execFileSync("git", ["rev-list", "-1", `--before=${date.toISOString()}`, "HEAD"])
-    .toString()
-    .trim();
-  if (!rev) return new Set<string>();
+/** `git` output for the given arguments, or an empty string if the command fails */
+const gitOutput = (args: string[]) => {
   try {
-    const source = execFileSync("git", ["show", `${rev}:lib/resources.ts`], {
-      stdio: ["ignore", "pipe", "ignore"],
-    }).toString();
-    return new Set([...source.matchAll(/\burl: "([^"]+)"/g)].map((match) => match[1]));
+    return execFileSync("git", args, { stdio: ["ignore", "pipe", "ignore"] }).toString();
   } catch {
-    return new Set<string>(); // the file didn't exist yet
+    return ""; // e.g. the path didn't exist at that commit
   }
+};
+
+/** Resource URLs listed as of the last commit before `date`, empty if none */
+const resourceUrlsBefore = (date: Date) => {
+  const rev = gitOutput(["rev-list", "-1", `--before=${date.toISOString()}`, "HEAD"]).trim();
+  if (!rev) return new Set<string>();
+  // Resources are files in data/resources; before November 2026 they were a list in lib/resources.ts
+  const files = gitOutput(["grep", "-h", "-E", "^url: ", rev, "--", "data/resources"]);
+  const list = gitOutput(["show", `${rev}:lib/resources.ts`]);
+  return new Set(
+    [...files.matchAll(/^url: "([^"]+)"/gm), ...list.matchAll(/\burl: "([^"]+)"/g)].map(
+      (match) => match[1]
+    )
+  );
 };
 
 const escapeHtml = (text: string) => text.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);

@@ -110,6 +110,18 @@ describe("searchResources", () => {
     assert.ok(jobs.total > 0);
     assert.ok(jobs.resources.every((r) => r.category === "jobs"));
   });
+
+  it("filters resources by type and stage", () => {
+    const boards = searchResources({ type: "job board", limit: 50 });
+    assert.ok(boards.total > 0);
+    assert.ok(boards.resources.every((r) => r.types.includes("Job board")));
+
+    const college = searchResources({ stage: "College", type: "Scholarship", limit: 50 });
+    assert.ok(college.total > 0);
+    assert.ok(college.resources.every((r) => r.stages.includes("College")));
+
+    assert.equal(searchResources({ type: "Podcast", stage: "K-12" }).total, 0);
+  });
 });
 
 describe("searchResources edge cases", () => {

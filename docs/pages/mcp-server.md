@@ -55,7 +55,7 @@ Then ask something like "Find Latina engineering leaders open to mentoring" or "
 
 - The server uses the Streamable HTTP transport in stateless mode, so each request is handled on its own. It is a Next.js route handler at `app/mcp/route.ts`, built with the official [TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk).
 - Tools are defined in `lib/mcp/server.ts`, and the search logic is in `lib/mcp/directory.ts`.
-- Member data comes from `data/members`, the same files as the site and [`/members.json`](/pages/members-feed). Resources come from `lib/resources.ts`. Both update whenever the site is redeployed.
+- Member data comes from `data/members`, the same files as the site and [`/members.json`](/pages/members-feed). Resources come from `data/resources`. Both update whenever the site is redeployed.
 - Results include each member's public profile fields and profile URL.
 
 ## Listings

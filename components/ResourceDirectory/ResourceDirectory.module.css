@@ -182,3 +182,21 @@
     gap: 14px;
   }
 }
+
+.tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.tags li {
+  font-size: 12px;
+  font-weight: var(--weight-bold);
+  line-height: 1.4;
+  padding: 2px 8px;
+  border: 1px solid var(--border-brand-tint);
+  background: var(--surface-card-tint);
+  color: var(--text-brand);
+}

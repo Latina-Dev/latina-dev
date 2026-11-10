@@ -6,6 +6,7 @@ import { siteName, siteUrl } from "@/lib/site";
 
 import { countryNames } from "@/types/countries";
 import { memberLevels, openToOptions } from "@/types/members";
+import { resourceStages, resourceTypes } from "@/types/resources";
 
 const instructions = `${siteName} (${siteUrl}) is a directory of Latina software engineers at the student, individual contributor and leadership levels, plus a curated list of communities, programs, job boards, conferences and reads for Latina engineers.
 Use search_members to find Latina engineers by name, company, school, location, country of heritage or what they are open to (mentoring, speaking, job opportunities and more), and get_member for one full profile. Use search_resources and list_resource_categories to find communities and resources. Link people to the profile or resource URLs in the results.`;
@@ -86,7 +87,7 @@ export const createMcpServer = (members: McpMember[]) => {
     {
       title: "Search resources",
       description:
-        "Search the communities, student programs, scholarships, job boards, career and leadership groups, conferences, founder support, podcasts, newsletters and reports that Latina Dev lists for Latina software engineers. Every keyword in `query` must match a resource's name, description or category. Leave it empty to list everything in a category.",
+        "Search the communities, student programs, scholarships, job boards, career and leadership groups, conferences, founder support, podcasts, newsletters and reports that Latina Dev lists for Latina software engineers. Every keyword in `query` must match a resource's name, description, category, type or stage. Filters narrow results further. Leave everything empty to list resources.",
       inputSchema: {
         query: z
           .string()
@@ -96,11 +97,14 @@ export const createMcpServer = (members: McpMember[]) => {
           .enum(resourceCategories.map((c) => c.id) as [string, ...string[]])
           .optional()
           .describe("Category id from list_resource_categories"),
+        type: z.enum(resourceTypes).optional().describe("What the resource is"),
+        stage: z.enum(resourceStages).optional().describe("Career stage it helps most"),
         limit,
       },
       annotations: { title: "Search resources", ...readOnly },
     },
-    ({ query, category, limit }) => asResult(searchResources({ query, category, limit }))
+    ({ query, category, type, stage, limit }) =>
+      asResult(searchResources({ query, category, type, stage, limit }))
   );
 
   server.registerTool(

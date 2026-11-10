@@ -9,6 +9,9 @@ import {
   resourcesJsonLd,
   resourceSlug,
 } from "@/lib/resources";
+import { validateResourceFrontmatter } from "@/lib/resourceSchema";
+
+import { resourceStages, resourceTypes } from "@/types/resources";
 
 const all = resourceGroups.flatMap((group) => group.resources);
 
@@ -30,7 +33,7 @@ describe("resourceGroups", () => {
     const slugs = all.map(resourceSlug);
     assert.equal(new Set(slugs).size, slugs.length);
     for (const slug of slugs) assert.match(slug, /^[a-z0-9]+(-[a-z0-9]+)*$/);
-    assert.equal(resourceSlug({ name: "#LatinaGeeks", url: "", description: "" }), "latinageeks");
+    assert.equal(resourceSlug({ name: "#LatinaGeeks" }), "latinageeks");
   });
 
   it("links every category page from llms.txt", () => {
@@ -102,5 +105,52 @@ describe("resourcesJsonLd", () => {
       data.mainEntity.itemListElement.map((el) => el.position),
       all.map((_, i) => i + 1)
     );
+  });
+});
+
+describe("resource files", () => {
+  it("has one file per resource, named by its slug", () => {
+    const files = readdirSync("data/resources").map((file) => file.replace(/\.md$/, ""));
+    assert.deepEqual(files.sort(), all.map(resourceSlug).sort());
+  });
+
+  it("offers every type and stage filter that a resource uses", () => {
+    for (const resource of all) {
+      for (const type of resource.types) assert.ok(resourceTypes.includes(type), resource.name);
+      for (const stage of resource.stages) assert.ok(resourceStages.includes(stage), resource.name);
+    }
+  });
+});
+
+describe("resourceFrontmatterSchema", () => {
+  const valid = {
+    name: "Latinas in Tech",
+    url: "https://latinasintech.org/",
+    description: "Nonprofit with local chapters.",
+    group: "latina-communities",
+    types: ["Community"],
+    stages: ["Workplace"],
+    serves: ["Latinas"],
+  };
+
+  it("accepts a complete resource", () => {
+    assert.equal(validateResourceFrontmatter("latinas-in-tech.md", valid).success, true);
+  });
+
+  it("rejects unknown keys, unknown options, repeats and non-http links", () => {
+    const bad = [
+      { ...valid, stage: "Workplace" },
+      { ...valid, types: ["Club"] },
+      { ...valid, stages: [] },
+      { ...valid, serves: ["Latinas", "Latinas"] },
+      { ...valid, group: "misc" },
+      { ...valid, url: "javascript:alert(1)" },
+      { ...valid, description: " padded " },
+    ];
+    for (const data of bad) {
+      const result = validateResourceFrontmatter("latinas-in-tech.md", data);
+      assert.equal(result.success, false, JSON.stringify(data));
+      if (!result.success) assert.match(result.error, /^data\/resources\/latinas-in-tech\.md\n/);
+    }
   });
 });

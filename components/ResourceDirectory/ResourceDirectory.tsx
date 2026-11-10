@@ -19,6 +19,8 @@ import {
   resourcesPath,
 } from "@/lib/resources";
 
+import { resourceStages, resourceTypes } from "@/types/resources";
+
 import styles from "./ResourceDirectory.module.css";
 
 const logoDir = "public/img/resources";
@@ -52,9 +54,22 @@ const ResourceLogo = ({ resource }: { resource: Resource }) => {
   );
 };
 
+// Filter options that at least one listed resource has, in the order the site defines them
+const optionsIn = <T extends string>(all: readonly T[], used: T[]) =>
+  all.filter((option) => used.includes(option));
+
 // Text the search box matches against, lowercased once on the server
 const searchText = (resource: Resource, group: ResourceGroup) =>
-  [resource.name, resource.description, group.title, group.heading].join(" ").toLowerCase();
+  [
+    resource.name,
+    resource.description,
+    group.title,
+    group.heading,
+    ...resource.types,
+    ...resource.stages,
+  ]
+    .join(" ")
+    .toLowerCase();
 
 interface Props {
   heading: string; // the page's h1
@@ -70,7 +85,7 @@ interface Props {
 /**
  * The resources page and its category pages. Everything is rendered on the server so crawlers and
  * AI agents see every resource; the category filters are plain links to their own URLs, and the
- * search box only hides cards already on the page.
+ * search box and the type and stage menus only hide cards already on the page.
  */
 const ResourceDirectory = ({
   heading,
@@ -83,6 +98,15 @@ const ResourceDirectory = ({
   extraJsonLd = [],
 }: Props) => {
   const count = groups.reduce((n, group) => n + group.resources.length, 0);
+  const listed = groups.flatMap((group) => group.resources);
+  const types = optionsIn(
+    resourceTypes,
+    listed.flatMap((resource) => resource.types)
+  );
+  const stages = optionsIn(
+    resourceStages,
+    listed.flatMap((resource) => resource.stages)
+  );
   const filters = [
     { label: "All resources", path: resourcesPath, count: resourceCount },
     ...resourceGroups.map((group) => ({
@@ -102,7 +126,13 @@ const ResourceDirectory = ({
         ]}
       />
       <PageHero eyebrow="Resources" title={heading} lede={<p>{intro}</p>}>
-        <ResourceSearch listId="resource-list" countId="resource-count" total={count} />
+        <ResourceSearch
+          listId="resource-list"
+          countId="resource-count"
+          total={count}
+          types={types}
+          stages={stages}
+        />
       </PageHero>
       <div className={`page-width ${directory.layout}`}>
         <nav aria-label="Filter resources" className={directory.filters}>
@@ -154,7 +184,9 @@ const ResourceDirectory = ({
                       key={resource.url}
                       id={resourceSlug(resource)}
                       className={styles.card}
-                      data-search={searchText(resource, group)}>
+                      data-search={searchText(resource, group)}
+                      data-types={resource.types.join("|")}
+                      data-stages={resource.stages.join("|")}>
                       <ResourceLogo resource={resource} />
                       <div>
                         <h3>
@@ -163,6 +195,11 @@ const ResourceDirectory = ({
                           </a>
                         </h3>
                         <p>{resource.description}</p>
+                        <ul className={styles.tags} aria-label="Type">
+                          {resource.types.map((type) => (
+                            <li key={type}>{type}</li>
+                          ))}
+                        </ul>
                       </div>
                     </li>
                   ))}
@@ -171,7 +208,7 @@ const ResourceDirectory = ({
             ))}
           </div>
           <p id="resource-list-empty" className={directory.empty} hidden>
-            Nothing matches that search yet.
+            Nothing matches yet. Try fewer filters or a different search.
           </p>
           {after}
         </div>

@@ -29,6 +29,9 @@ export interface McpResource {
   description: string;
   category: string;
   categoryTitle: string;
+  types: string[];
+  stages: string[];
+  serves: string[];
   page: string;
 }
 
@@ -138,6 +141,9 @@ export const allResources: McpResource[] = resourceGroups.flatMap((group) =>
     description: resource.description,
     category: group.id,
     categoryTitle: group.title,
+    types: resource.types,
+    stages: resource.stages,
+    serves: resource.serves,
     page: `${siteUrl}${resourcesPath}/${group.id}#${resourceSlug(resource)}`,
   }))
 );
@@ -153,6 +159,8 @@ export const resourceCategories = resourceGroups.map((group) => ({
 export interface ResourceSearch {
   query?: string;
   category?: string;
+  type?: string;
+  stage?: string;
   limit?: number;
 }
 
@@ -161,7 +169,15 @@ export const searchResources = (search: ResourceSearch) => {
   const matches = allResources.filter(
     (resource) =>
       (!search.category || resource.category === search.category) &&
-      matchesAll(words, [resource.name, resource.description, resource.categoryTitle])
+      (!search.type || resource.types.some((t) => sameText(t, search.type!))) &&
+      (!search.stage || resource.stages.some((s) => sameText(s, search.stage!))) &&
+      matchesAll(words, [
+        resource.name,
+        resource.description,
+        resource.categoryTitle,
+        resource.types.join(" "),
+        resource.stages.join(" "),
+      ])
   );
   return { total: matches.length, resources: matches.slice(0, search.limit ?? 20) };
 };
