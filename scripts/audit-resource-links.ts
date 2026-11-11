@@ -73,7 +73,7 @@ async function main() {
     `The monthly audit checked ${resources.length} links on https://latina.dev/resources.`,
     "",
     review.length
-      ? `## Needs review (${review.length})\n\nUpdate the URL in \`lib/resources.ts\`, or remove the entry if the organization has closed.\n\n${review.map(row).join("\n")}`
+      ? `## Needs review (${review.length})\n\nUpdate the URL in the resource's file in \`data/resources\`, or delete the file if the organization has closed.\n\n${review.map(row).join("\n")}`
       : "Nothing needs review.",
     "",
     blocked.length

@@ -9,6 +9,11 @@ import {
   resourcesJsonLd,
   resourceSlug,
 } from "@/lib/resources";
+import { validateResourceFrontmatter } from "@/lib/resourceSchema";
+import { resourcesMarkdown } from "@/lib/resourcesMarkdown";
+import { resourceViewPages, stageViews, typeViews } from "@/lib/resourceViews";
+
+import { resourceStages, resourceTypes } from "@/types/resources";
 
 const all = resourceGroups.flatMap((group) => group.resources);
 
@@ -30,7 +35,7 @@ describe("resourceGroups", () => {
     const slugs = all.map(resourceSlug);
     assert.equal(new Set(slugs).size, slugs.length);
     for (const slug of slugs) assert.match(slug, /^[a-z0-9]+(-[a-z0-9]+)*$/);
-    assert.equal(resourceSlug({ name: "#LatinaGeeks", url: "", description: "" }), "latinageeks");
+    assert.equal(resourceSlug({ name: "#LatinaGeeks" }), "latinageeks");
   });
 
   it("links every category page from llms.txt", () => {
@@ -38,6 +43,51 @@ describe("resourceGroups", () => {
     for (const group of resourceGroups) {
       assert.ok(llms.includes(`https://latina.dev/resources/${group.id})`), group.id);
     }
+  });
+});
+
+describe("type and stage pages", () => {
+  it("gives a page to every view with enough resources that no category already covers", () => {
+    const paths = resourceViewPages.map((view) => view.path);
+    assert.ok(paths.includes("/resources/stage/leadership"));
+    assert.ok(paths.includes("/resources/type/job-board"));
+    assert.equal(new Set(paths).size, paths.length);
+    for (const view of resourceViewPages) assert.ok(view.count >= 3, view.value);
+  });
+
+  it("points a view at the category page when both list the same resources", () => {
+    const k12 = stageViews.find((view) => view.value === "K-12");
+    assert.equal(k12?.ownPage, false);
+    assert.equal(k12?.path, "/resources/k-12");
+  });
+
+  it("only lists resources that carry the tag", () => {
+    for (const view of typeViews) {
+      const listed = view.groups.flatMap((group) => group.resources);
+      assert.equal(listed.length, view.count);
+      assert.ok(listed.every((resource) => (resource.types as string[]).includes(view.value)));
+    }
+  });
+
+  it("uses a heading no category page already has", () => {
+    const headings = [...resourceGroups, ...resourceViewPages].map((page) => page.heading);
+    assert.equal(new Set(headings).size, headings.length);
+  });
+
+  it("links every type and stage page from llms.txt, by its heading", () => {
+    const llms = readFileSync("public/llms.txt", "utf8");
+    for (const view of resourceViewPages) {
+      assert.ok(llms.includes(`[${view.heading}](https://latina.dev${view.path})`), view.path);
+    }
+  });
+
+  it("puts type, stage and audience in the Markdown feed", () => {
+    const markdown = resourcesMarkdown();
+    assert.match(
+      markdown,
+      /- \[Techqueria\]\(https:\/\/techqueria\.org\/\): .+ \(Type: .*Community.*\. Stage: .+\. Built for: Latinos\.\)/
+    );
+    for (const view of resourceViewPages) assert.ok(markdown.includes(view.path), view.path);
   });
 });
 
@@ -102,5 +152,52 @@ describe("resourcesJsonLd", () => {
       data.mainEntity.itemListElement.map((el) => el.position),
       all.map((_, i) => i + 1)
     );
+  });
+});
+
+describe("resource files", () => {
+  it("has one file per resource, named by its slug", () => {
+    const files = readdirSync("data/resources").map((file) => file.replace(/\.md$/, ""));
+    assert.deepEqual(files.sort(), all.map(resourceSlug).sort());
+  });
+
+  it("offers every type and stage filter that a resource uses", () => {
+    for (const resource of all) {
+      for (const type of resource.types) assert.ok(resourceTypes.includes(type), resource.name);
+      for (const stage of resource.stages) assert.ok(resourceStages.includes(stage), resource.name);
+    }
+  });
+});
+
+describe("resourceFrontmatterSchema", () => {
+  const valid = {
+    name: "Latinas in Tech",
+    url: "https://latinasintech.org/",
+    description: "Nonprofit with local chapters.",
+    group: "latina-communities",
+    types: ["Community"],
+    stages: ["Workplace"],
+    serves: ["Latinas"],
+  };
+
+  it("accepts a complete resource", () => {
+    assert.equal(validateResourceFrontmatter("latinas-in-tech.md", valid).success, true);
+  });
+
+  it("rejects unknown keys, unknown options, repeats and non-http links", () => {
+    const bad = [
+      { ...valid, stage: "Workplace" },
+      { ...valid, types: ["Club"] },
+      { ...valid, stages: [] },
+      { ...valid, serves: ["Latinas", "Latinas"] },
+      { ...valid, group: "misc" },
+      { ...valid, url: "javascript:alert(1)" },
+      { ...valid, description: " padded " },
+    ];
+    for (const data of bad) {
+      const result = validateResourceFrontmatter("latinas-in-tech.md", data);
+      assert.equal(result.success, false, JSON.stringify(data));
+      if (!result.success) assert.match(result.error, /^data\/resources\/latinas-in-tech\.md\n/);
+    }
   });
 });
