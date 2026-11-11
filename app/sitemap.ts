@@ -3,6 +3,7 @@ import { getGuides } from "@/lib/guides";
 import { hasFullGitHistory, memberLastModified } from "@/lib/memberDates";
 import { getCountryViews, levelViews } from "@/lib/memberViews";
 import { resourceGroups, resourcesPath } from "@/lib/resources";
+import { resourceViewPages } from "@/lib/resourceViews";
 import { siteUrl } from "@/lib/site";
 
 import type { MetadataRoute } from "next";
@@ -20,6 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...getCountryViews(members).map((view) => `/members/country/${view.slug}`),
     resourcesPath,
     ...resourceGroups.map((group) => `${resourcesPath}/${group.id}`),
+    ...resourceViewPages.map((view) => view.path),
     ...getGuides().map((guide) => guide.path),
     "/conference",
     "/add-member",
