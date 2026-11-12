@@ -62,7 +62,7 @@ erDiagram
     ERG ||--o{ EVENT : "hosts"
     RESOURCE ||--o{ EVENT : "hosts"
     GUIDE }o--o{ RESOURCE : "links to"
-    OWNER ||--|| MEMBER : "may edit"
+    OWNER |o--|| MEMBER : "may edit"
     OWNER ||--o| ERG : "may edit (later)"
 
     MEMBER {

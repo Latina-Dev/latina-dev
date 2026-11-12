@@ -1,3 +1,4 @@
+import { ergDescription, ergPage, ergs } from "@/lib/ergs";
 import { resourceGroups, resourceSlug, resourcesPath } from "@/lib/resources";
 import { ResourceView, stageViews, typeViews } from "@/lib/resourceViews";
 import { siteUrl } from "@/lib/site";
@@ -197,4 +198,32 @@ export const searchResources = (search: ResourceSearch) => {
       ])
   );
   return { total: matches.length, resources: matches.slice(0, search.limit ?? 20) };
+};
+
+interface McpErg {
+  company: string;
+  name: string;
+  description: string;
+  source: string; // public page that names the group
+  checked: string; // when the source was last read
+  page: string;
+}
+
+/** Latinx employee resource groups by company, as listed on /ergs */
+const allErgs: McpErg[] = ergs.map((erg) => ({
+  company: erg.company,
+  name: erg.name,
+  description: ergDescription(erg),
+  source: erg.url,
+  checked: erg.checked,
+  page: ergPage(erg),
+}));
+
+export const searchErgs = (search: { query?: string; limit?: number }) => {
+  // "erg" and "group" describe every entry, so they would only filter results out
+  const words = tokens(search.query).filter(
+    (word) => !["erg", "ergs", "group", "groups", "employee", "resource"].includes(word)
+  );
+  const matches = allErgs.filter((erg) => matchesAll(words, [erg.company, erg.name]));
+  return { total: matches.length, ergs: matches.slice(0, search.limit ?? 20) };
 };

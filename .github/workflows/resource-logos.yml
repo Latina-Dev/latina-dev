@@ -1,7 +1,7 @@
 name: Resource logos
 
-# Fetches logos for entries on /resources that don't have one yet and commits them to the chosen
-# branch. Run it by hand from the Actions tab after adding resources. It doesn't run on every push
+# Fetches logos for entries on /resources and /resources/ergs that don't have one yet and commits them to the chosen
+# branch. Run it by hand from the Actions tab after adding resources or ERGs. It doesn't run on every push
 # because commits made by this workflow don't trigger the pull request checks; push again after it
 # runs so CI checks the new logos. Until then, cards show the resource's initials.
 
@@ -33,7 +33,7 @@ jobs:
       - name: Commit new logos
         id: commit
         run: |
-          git add public/img/resources
+          git add public/img/resources public/img/ergs
           if git diff --cached --quiet; then
             echo "No new logos"
             exit 0

@@ -1,3 +1,4 @@
+import { ergs, ergsFeedPath, ergsPath } from "@/lib/ergs";
 import { resourceCount, resourceGroups, resourcesPath } from "@/lib/resources";
 import { resourceViewPages } from "@/lib/resourceViews";
 import { siteUrl } from "@/lib/site";
@@ -28,5 +29,9 @@ export const resourcesMarkdown = () =>
     ...resourceViewPages.map(
       (view) => `- [${view.heading}](${siteUrl}${view.path}): ${view.count} resources`
     ),
+    "",
+    "## Employee resource groups",
+    "",
+    `- [Latinx ERGs at companies](${siteUrl}${ergsPath}): ${ergs.length} companies, each with a public source. As Markdown: ${siteUrl}${ergsFeedPath}.md`,
     "",
   ].join("\n");

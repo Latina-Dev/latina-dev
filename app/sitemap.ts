@@ -1,3 +1,4 @@
+import { ergsPath } from "@/lib/ergs";
 import { getMembers } from "@/lib/getMembers";
 import { getGuides } from "@/lib/guides";
 import { hasFullGitHistory, memberLastModified } from "@/lib/memberDates";
@@ -22,6 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     resourcesPath,
     ...resourceGroups.map((group) => `${resourcesPath}/${group.id}`),
     ...resourceViewPages.map((view) => view.path),
+    ergsPath,
     ...getGuides().map((guide) => guide.path),
     "/conference",
     "/add-member",
