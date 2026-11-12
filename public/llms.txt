@@ -32,6 +32,7 @@ Each member has a profile page at https://latina.dev/members/<slug> with their l
 - [Resources for Latina founders in tech](https://latina.dev/resources/stage/founders)
 - [Communities for Latina software engineers to join](https://latina.dev/resources/type/community)
 - [Coding programs, fellowships and cohorts for Latinas in tech](https://latina.dev/resources/type/program)
+- [Scholarships for Latinas studying computer science](https://latina.dev/resources/type/scholarship)
 - [Professional associations for Latina engineers](https://latina.dev/resources/type/professional-association)
 - [Job boards that reach Latina software engineers](https://latina.dev/resources/type/job-board)
 - [Conferences and summits for Latinas in tech](https://latina.dev/resources/type/conference)
