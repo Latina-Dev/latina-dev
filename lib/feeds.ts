@@ -32,6 +32,8 @@ const decode = (value: string) =>
       }
       return entities[code.toLowerCase()] ?? match;
     })
+    // Decoding can turn &lt;tag&gt; back into markup; titles are plain text, so drop any brackets
+    .replace(/[<>]/g, "")
     .replace(/\s+/g, " ")
     .trim();
 

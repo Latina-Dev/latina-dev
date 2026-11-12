@@ -1,5 +1,5 @@
 import { MemberFrontmatter } from "@/lib/memberSchema";
-import { ProfileFormValues } from "@/lib/profiles/memberFile";
+import { ProfileFormValues, readProfileForm } from "@/lib/profiles/memberFile";
 import { siteUrl } from "@/lib/site";
 
 import { openToOptions } from "@/types/members";
@@ -350,41 +350,13 @@ export const readEditor = (
       form.set(field, value.value);
     }
   }
-  return {
-    // Fields the editor doesn't show are carried over unchanged
-    name: profile.name,
-    level: profile.level,
-    linkedin: profile.linkedin,
-    countries: profile.countries ?? [],
-    ...readEditorFields(form),
-  };
-};
-
-// The same clean-up the website form applies, e.g. a pasted bsky.app URL becomes a handle
-const readEditorFields = (form: FormData) => {
-  const text = (key: string) => {
-    const value = form.get(key);
-    return typeof value === "string" ? value.trim() : "";
-  };
-  return {
-    affiliation: text("affiliation"),
-    location: text("location"),
-    github: text("github").replace(/^@/, ""),
-    twitter: text("twitter")
-      .replace(/^(https?:\/\/)?(www\.)?(x|twitter)\.com\//i, "")
-      .replace(/^@/, "")
-      .replace(/\/+$/, ""),
-    bluesky: text("bluesky")
-      .replace(/^(https?:\/\/)?(www\.)?bsky\.app\/profile\//i, "")
-      .replace(/^@/, "")
-      .replace(/\/+$/, "")
-      .toLowerCase(),
-    website: text("website"),
-    blog: text("blog"),
-    openTo: form.getAll("openTo").filter((v): v is string => typeof v === "string"),
-    featureMilestones: form.get("featureMilestones") === "true",
-    bio: text("bio"),
-  };
+  // Fields the editor doesn't show are carried over unchanged
+  form.set("name", profile.name);
+  form.set("level", profile.level);
+  form.set("linkedin", profile.linkedin);
+  for (const country of profile.countries ?? []) form.append("countries", country);
+  // The same clean-up the website form applies, e.g. a pasted bsky.app URL becomes a handle
+  return readProfileForm(form);
 };
 
 /**
