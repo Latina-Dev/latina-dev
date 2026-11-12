@@ -7,7 +7,7 @@ import { siteUrl } from "@/lib/site";
 import { resourceGroupIds } from "@/types/resources";
 
 // Communities and resources for Latina software engineers, grouped by career stage. Curated by
-// Frances Coronel from her Notion notes, plus newer ones found in October 2026. Each resource is
+// Frances Coronel from her Notion notes, plus newer ones found in October and November 2026. Each resource is
 // one file in data/resources, named by its slug; the groups below are the pages that list them.
 // Every entry is rendered in the page HTML and in the page's JSON-LD.
 
