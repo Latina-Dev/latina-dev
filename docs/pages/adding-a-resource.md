@@ -25,7 +25,7 @@ serves: ["Latinas"]
 | Field         | What to put                                                                                                                                                         |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `name`        | The name as the organization writes it                                                                                                                              |
-| `url`         | Full link, starting with `https://`. Each link can only be listed once                                                                                              |
+| `url`         | Full link, starting with `https://`. Each link can only be listed once. Leave out `utm_` tags: the site adds `utm_source=latina.dev` itself                         |
 | `description` | One sentence on what it offers and who it's for                                                                                                                     |
 | `group`       | The page that lists it: `latina-communities`, `latino-tech-communities`, `k-12`, `college`, `jobs`, `career-growth`, `conferences`, `founders` or `listen-and-read` |
 | `types`       | One or more of: Community, Program, Scholarship, Professional association, Job board, Directory, Guide, Conference, Accelerator, Newsletter, Podcast, Report        |

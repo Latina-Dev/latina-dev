@@ -1,0 +1,70 @@
+name: Referral report
+
+# Counts last month's clicks from latina.dev to each listed resource and ERG (Vercel Web Analytics
+# custom events) and opens an issue assigned to Frances with the per-organization numbers. Needs a
+# VERCEL_TOKEN repository secret with read access to the Latina Dev Vercel team; without it the run
+# only explains what is missing.
+
+on:
+  schedule:
+    - cron: "0 15 2 * *"
+  workflow_dispatch:
+    inputs:
+      month:
+        description: "Month to report, as YYYY-MM (default: last month)"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    env:
+      VERCEL_TEAM_ID: team_ytoDN6eSOgb1lUfjj7mCv0Wo
+      VERCEL_PROJECT_ID: prj_yXvuaZGfdXuRoXhoJAyDMILcHuMB
+    steps:
+      - name: Check for the Vercel token
+        id: token
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "Add a VERCEL_TOKEN repository secret (a Vercel token scoped to the Latina Dev team) to build this report." >> "$GITHUB_STEP_SUMMARY"
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Checkout code
+        if: steps.token.outputs.present == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        if: steps.token.outputs.present == 'true'
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        if: steps.token.outputs.present == 'true'
+        run: npm ci
+      - name: Build the report
+        if: steps.token.outputs.present == 'true'
+        env:
+          MONTH: ${{ inputs.month }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          npx tsx scripts/referral-report.ts "$MONTH"
+          cat referral-report/issue.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Open the issue
+        if: steps.token.outputs.present == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create referral-report --color 9e0001 --description "Monthly referrals to listed organizations" --force
+          gh issue create --title "$(cat referral-report/title.txt)" --label referral-report --assignee FrancesCoronel --body-file referral-report/issue.md

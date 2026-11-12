@@ -15,7 +15,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/privacy",
 });
 
-const updated = "2026-10-13";
+const updated = "2026-11-12";
 
 export default function PrivacyPage() {
   return (
@@ -31,7 +31,7 @@ export default function PrivacyPage() {
         title="Privacy policy"
         lede={
           <p>
-            Last updated <time dateTime={updated}>October 13, 2026</time>
+            Last updated <time dateTime={updated}>November 12, 2026</time>
           </p>
         }
       />
@@ -61,6 +61,15 @@ export default function PrivacyPage() {
               <strong>Analytics:</strong> we use Vercel Web Analytics and Speed Insights to count
               page views and measure page speed. They don&apos;t use cookies and don&apos;t identify
               individual visitors.
+            </li>
+            <li>
+              <strong>Links to listed organizations:</strong> links from our resources and ERG pages
+              to the organizations we list add <code>utm_source=latina.dev</code> and{" "}
+              <code>utm_medium=referral</code>, so those organizations can see that a visit came
+              from Latina Dev. When you open one of these links, Vercel Web Analytics counts the
+              click with the organization&apos;s name and the page you were on, without cookies or
+              anything that identifies you. We use the monthly totals to show organizations how many
+              people Latina Dev sends them.
             </li>
             <li>
               <strong>Error monitoring:</strong> we use Sentry to find and fix errors. When an error

@@ -11,6 +11,7 @@ import ResourceSearch from "@/components/ResourceDirectory/ResourceSearch";
 
 import { ergs, ergsPath } from "@/lib/ergs";
 import { breadcrumbJsonLd } from "@/lib/jsonLd";
+import { outboundLinkProps } from "@/lib/referral";
 import {
   Resource,
   resourceCount,
@@ -227,7 +228,10 @@ const ResourceDirectory = ({
                       <ResourceLogo resource={resource} />
                       <div>
                         <h3>
-                          <a href={resource.url} target="_blank" rel="noopener noreferrer">
+                          <a
+                            {...outboundLinkProps("resource", resource.name, resource.url)}
+                            target="_blank"
+                            rel="noopener noreferrer">
                             {resource.name}
                           </a>
                         </h3>
