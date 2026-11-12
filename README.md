@@ -6,6 +6,8 @@ Latina Dev is an open-source directory of Latina software engineers at the stude
 
 Our goal is to increase visibility and access to valuable opportunities.
 
+[![Screenshot of the Latina Dev homepage](.github/img/screenshot.png)](https://latina.dev)
+
 [![GitHub Issues](https://img.shields.io/github/issues/Latina-Dev/latina-dev.svg?style=for-the-badge)](https://github.com/Latina-Dev/latina-dev/issues) [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/Latina-Dev/latina-dev.svg?style=for-the-badge)](https://github.com/Latina-Dev/latina-dev/pulls)
 
 [![Follow on GitHub](https://img.shields.io/github/followers/Latina-Dev?logo=github&style=for-the-badge&color=black)](https://github.com/Latina-Dev?tab=followers) [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0e76a8?style=for-the-badge&logo=Linkedin&logoColor=white)](https://linkedin.com/company/latina-dev)
