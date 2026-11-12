@@ -17,6 +17,7 @@ on:
       - .github/workflows/monthly-post.yml
       - lib/monthlyPost.ts
       - scripts/monthly-post.ts
+      - scripts/share-image.ts
 
 permissions:
   contents: read

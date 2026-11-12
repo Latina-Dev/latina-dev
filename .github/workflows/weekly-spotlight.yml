@@ -1,0 +1,75 @@
+name: Weekly spotlight
+
+# Drafts the weekly "Latina Dev of the Week" LinkedIn post for the Latina Dev page: one member, so
+# everyone gets a turn before anyone is featured twice (members who opted in to milestone posts go
+# first). Renders a share image and opens an issue assigned to Frances with both. Past spotlights
+# are read from earlier issues with the weekly-spotlight label. On pull requests that change the
+# generator, it builds a draft without opening an issue.
+
+on:
+  schedule:
+    # Mondays, after the monthly post on the 1st
+    - cron: "0 15 * * 1"
+  workflow_dispatch:
+    inputs:
+      member:
+        description: "Profile to feature, e.g. frances-coronel (default: next in the rotation)"
+        required: false
+  pull_request:
+    paths:
+      - .github/workflows/weekly-spotlight.yml
+      - lib/weeklySpotlight.ts
+      - scripts/weekly-spotlight.ts
+      - scripts/share-image.ts
+
+permissions:
+  contents: read
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Read past spotlights
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue list --repo "$GITHUB_REPOSITORY" --label weekly-spotlight --state all --limit 500 \
+            --json body,createdAt > "$RUNNER_TEMP/spotlights.json" || echo "[]" > "$RUNNER_TEMP/spotlights.json"
+      - name: Draft the post
+        env:
+          MEMBER: ${{ inputs.member }}
+          SPOTLIGHT_HISTORY: ${{ runner.temp }}/spotlights.json
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: npx tsx scripts/weekly-spotlight.ts "$MEMBER"
+      - name: Upload the share image
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: spotlight-image
+          path: weekly-spotlight/share-image.png
+          retention-days: 90
+      - name: Show the draft
+        run: cat weekly-spotlight/issue.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Open the issue
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create weekly-spotlight --repo "$GITHUB_REPOSITORY" --color 9e0001 --description "Weekly Latina Dev of the Week post draft" --force
+          title="LinkedIn post: $(head -1 weekly-spotlight/post.txt)"
+          gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --label weekly-spotlight --assignee FrancesCoronel --body-file weekly-spotlight/issue.md
