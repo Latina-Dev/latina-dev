@@ -15,10 +15,11 @@ import { escapeHtml, fontFaces, memberPhoto, owlMark, renderShareImage } from ".
 
 // Drafts this week's "Latina Dev of the Week" LinkedIn post and its share image.
 // Usage: tsx scripts/weekly-spotlight.ts [member-slug]
-// Without a slug, it picks the member to feature from past spotlight issues, read from the JSON
+// Without a slug, it picks a member who opted in (featureMilestones), using past spotlight issues, read from the JSON
 // file at SPOTLIGHT_HISTORY (the output of `gh issue list --json body,createdAt`). Writes
 // weekly-spotlight/post.txt, weekly-spotlight/issue.md and weekly-spotlight/share-image.png. Set
-// RUN_URL to link the workflow run, where the image is uploaded, from the issue.
+// RUN_URL to link the workflow run, where the image is uploaded, from the issue. If nobody has
+// opted in, it writes nothing.
 
 const outDir = "weekly-spotlight";
 
@@ -77,15 +78,21 @@ async function main() {
     countries: data.countries,
     openTo: data.openTo,
     bio: content.trim() || undefined,
-    // Optional opt-in to social posts; read loosely so this works before and after it's in the schema
-    featureMilestones: (data as { featureMilestones?: boolean }).featureMilestones === true,
+    featureMilestones: data.featureMilestones === true,
   }));
 
   const slug = process.argv[2];
   const member = slug
     ? members.find((candidate) => candidate.slug === slug)
     : pickSpotlight(members, readHistory());
-  if (!member) throw new Error(`no member profile named "${slug}" in data/members`);
+  if (slug && !member) throw new Error(`no member profile named "${slug}" in data/members`);
+  if (!member) {
+    // Nothing is written, so the workflow opens no issue this week
+    console.log(
+      "::notice::No member has opted in to being featured yet, so there's no post this week."
+    );
+    return;
+  }
 
   const spotlight = buildWeeklySpotlight({ week: isoWeek(), member, memberCount: members.length });
 

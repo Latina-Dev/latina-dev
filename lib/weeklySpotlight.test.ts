@@ -43,31 +43,36 @@ describe("isoWeek", () => {
 });
 
 describe("pickSpotlight", () => {
-  it("starts with fuller profiles, then longest-standing members", () => {
-    assert.equal(pickSpotlight(members, []).slug, "carla-diaz");
-    const next = pickSpotlight(members, [{ slug: "carla-diaz", date: "2026-11-02" }]);
-    assert.equal(next.slug, "bea-ruiz");
+  const optedIn = members.map((m) => ({ ...m, featureMilestones: m.slug !== "dora-vega" }));
+
+  it("only picks members who opted in", () => {
+    assert.equal(pickSpotlight(members, []), undefined);
+    const past = [
+      { slug: "carla-diaz", date: "2026-10-05" },
+      { slug: "bea-ruiz", date: "2026-10-12" },
+      { slug: "ana-lopez", date: "2026-10-19" },
+    ];
+    // dora-vega hasn't been featured but didn't opt in, so the rotation starts over
+    assert.equal(pickSpotlight(optedIn, past)?.slug, "carla-diaz");
   });
 
-  it("puts members who opted in to milestone posts first", () => {
-    const optedIn = members.map((m) =>
-      m.slug === "dora-vega" ? { ...m, featureMilestones: true } : m
-    );
-    assert.equal(pickSpotlight(optedIn, []).slug, "dora-vega");
+  it("starts with fuller profiles, then longest-standing members", () => {
+    assert.equal(pickSpotlight(optedIn, [])?.slug, "carla-diaz");
+    const next = pickSpotlight(optedIn, [{ slug: "carla-diaz", date: "2026-11-02" }]);
+    assert.equal(next?.slug, "bea-ruiz");
   });
 
   it("features everyone before repeating, then whoever went longest ago", () => {
     const past = [
       { slug: "carla-diaz", date: "2026-10-05" },
       { slug: "bea-ruiz", date: "2026-10-12" },
-      { slug: "ana-lopez", date: "2026-10-19" },
     ];
-    assert.equal(pickSpotlight(members, past).slug, "dora-vega");
-    const all = [...past, { slug: "dora-vega", date: "2026-10-26" }];
-    assert.equal(pickSpotlight(members, all).slug, "carla-diaz");
+    assert.equal(pickSpotlight(optedIn, past)?.slug, "ana-lopez");
+    const all = [...past, { slug: "ana-lopez", date: "2026-10-19" }];
+    assert.equal(pickSpotlight(optedIn, all)?.slug, "carla-diaz");
     // A later spotlight of the same member counts, not the first
     assert.equal(
-      pickSpotlight(members, [...all, { slug: "carla-diaz", date: "2026-11-02" }]).slug,
+      pickSpotlight(optedIn, [...all, { slug: "carla-diaz", date: "2026-11-02" }])?.slug,
       "bea-ruiz"
     );
   });

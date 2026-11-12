@@ -4,9 +4,9 @@ import { MemberLevel } from "@/types/members";
 
 // Drafts the weekly "Latina Dev of the Week" LinkedIn post for the Latina Dev page: one member,
 // picked so everyone gets a turn before anyone is featured twice. Frances posts it herself, since
-// posting to a LinkedIn page through the API needs LinkedIn's approval. Everyone in the directory
-// is opted in to discovery, so every member can be featured; members who opted in to milestone
-// posts go first.
+// posting to a LinkedIn page through the API needs LinkedIn's approval. Being in the directory
+// isn't consent to be featured on social media, so only members who ticked "OK to feature my
+// milestones" (featureMilestones in their profile) are picked.
 
 export interface SpotlightMember {
   name: string;
@@ -56,20 +56,21 @@ const profileDetail = (member: SpotlightMember) =>
   ].filter(Boolean).length;
 
 /**
- * The member to feature next: someone never featured if there is anyone left, otherwise whoever
- * was featured longest ago. Among those, members who opted in to milestone posts come first, then
- * fuller profiles, then longest-standing members.
+ * The member to feature next, among those who opted in: someone never featured if there is anyone
+ * left, otherwise whoever was featured longest ago. Ties go to fuller profiles, then
+ * longest-standing members. Undefined when nobody has opted in.
  */
-export const pickSpotlight = (members: SpotlightMember[], past: PastSpotlight[]) => {
-  if (members.length === 0) throw new Error("no members to feature");
+export const pickSpotlight = (
+  members: SpotlightMember[],
+  past: PastSpotlight[]
+): SpotlightMember | undefined => {
   const lastFeatured = new Map<string, string>();
   for (const { slug, date } of past) {
     if ((lastFeatured.get(slug) ?? "") < date) lastFeatured.set(slug, date);
   }
-  return [...members].sort(
+  return [...members.filter((member) => member.featureMilestones)].sort(
     (a, b) =>
       (lastFeatured.get(a.slug) ?? "").localeCompare(lastFeatured.get(b.slug) ?? "") ||
-      Number(Boolean(b.featureMilestones)) - Number(Boolean(a.featureMilestones)) ||
       profileDetail(b) - profileDetail(a) ||
       a.added.localeCompare(b.added) ||
       a.slug.localeCompare(b.slug)
@@ -173,8 +174,8 @@ export const weeklySpotlightIssue = (spotlight: WeeklySpotlight, runUrl?: string
     `**Tag on LinkedIn:** type @ and their name in the post to mention them: https://www.linkedin.com/in/${encodeURIComponent(member.linkedin)}`,
     "",
     member.featureMilestones
-      ? `${member.name} opted in to being featured in posts.`
-      : `${member.name} hasn't opted in to milestone posts, so you may want to give them a heads-up first. To feature someone else, run the workflow again with their profile name (e.g. \`frances-coronel\`).`,
+      ? `${member.name} opted in to being featured on Latina Dev's social accounts.`
+      : `**${member.name} hasn't opted in on their profile.** Only post this if they've told you it's OK.`,
     "",
     "Close this issue once it's posted.",
   ]

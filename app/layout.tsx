@@ -2,6 +2,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 
 import Footer from "@/components/Footer/Footer";
 import Navbar from "@/components/Navbar/Navbar";
+import OutboundClicks from "@/components/OutboundClicks/OutboundClicks";
 
 import type { Metadata } from "next";
 
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <Footer />
         <Analytics />
+        <OutboundClicks />
         <SpeedInsights />
       </body>
     </html>

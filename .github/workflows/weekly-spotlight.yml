@@ -1,8 +1,8 @@
 name: Weekly spotlight
 
-# Drafts the weekly "Latina Dev of the Week" LinkedIn post for the Latina Dev page: one member, so
-# everyone gets a turn before anyone is featured twice (members who opted in to milestone posts go
-# first). Renders a share image and opens an issue assigned to Frances with both. Past spotlights
+# Drafts the weekly "Latina Dev of the Week" LinkedIn post for the Latina Dev page: one member who
+# opted in to being featured (featureMilestones), so everyone gets a turn before anyone is featured
+# twice. Weeks with nobody opted in open no issue. Renders a share image and opens an issue assigned to Frances with both. Past spotlights
 # are read from earlier issues with the weekly-spotlight label. On pull requests that change the
 # generator, it builds a draft without opening an issue.
 
@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
     inputs:
       member:
-        description: "Profile to feature, e.g. frances-coronel (default: next in the rotation)"
+        description: "Profile to feature, e.g. frances-coronel (default: next member who opted in)"
         required: false
   pull_request:
     paths:
@@ -54,20 +54,26 @@ jobs:
             --json body,createdAt > "$RUNNER_TEMP/spotlights.json"
       - name: Draft the post
         env:
-          MEMBER: ${{ inputs.member }}
+          # Pull requests always render a sample, whether or not anyone has opted in
+          MEMBER: ${{ inputs.member || (github.event_name == 'pull_request' && 'frances-coronel') || '' }}
           SPOTLIGHT_HISTORY: ${{ runner.temp }}/spotlights.json
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: npx tsx scripts/weekly-spotlight.ts "$MEMBER"
+        run: |
+          npx tsx scripts/weekly-spotlight.ts "$MEMBER"
+          if [ -f weekly-spotlight/issue.md ]; then echo "drafted=true" >> "$GITHUB_OUTPUT"; fi
+        id: draft
       - name: Upload the share image
+        if: steps.draft.outputs.drafted == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: spotlight-image
           path: weekly-spotlight/share-image.png
           retention-days: 90
       - name: Show the draft
+        if: steps.draft.outputs.drafted == 'true'
         run: cat weekly-spotlight/issue.md >> "$GITHUB_STEP_SUMMARY"
       - name: Open the issue
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && steps.draft.outputs.drafted == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |

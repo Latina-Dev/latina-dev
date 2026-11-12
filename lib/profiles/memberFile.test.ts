@@ -17,10 +17,14 @@ const values = (overrides: Partial<ProfileFormValues> = {}): ProfileFormValues =
   linkedin: "ana-example",
   affiliation: "",
   github: "",
+  twitter: "",
+  bluesky: "",
   website: "",
+  blog: "",
   location: "",
   countries: ["Peru"],
   openTo: [],
+  featureMilestones: false,
   bio: "Ana builds things.",
   ...overrides,
 });
@@ -39,6 +43,24 @@ describe("readProfileForm", () => {
     assert.equal(form.linkedin, "ana-example");
     assert.equal(form.github, "ana");
     assert.deepEqual(form.countries, ["Peru", "Chile"]);
+    assert.equal(form.featureMilestones, false);
+  });
+
+  it("strips pasted X and Bluesky profile URLs down to the handle", () => {
+    const data = new FormData();
+    data.set("twitter", "https://x.com/ana_ex/");
+    data.set("bluesky", "https://bsky.app/profile/Ana.bsky.social");
+    data.set("featureMilestones", "true");
+
+    const form = readProfileForm(data);
+    assert.equal(form.twitter, "ana_ex");
+    assert.equal(form.bluesky, "ana.bsky.social");
+    assert.equal(form.featureMilestones, true);
+
+    data.set("twitter", "@ana_ex");
+    data.set("bluesky", "@ana.example.com");
+    assert.equal(readProfileForm(data).twitter, "ana_ex");
+    assert.equal(readProfileForm(data).bluesky, "ana.example.com");
   });
 });
 
@@ -50,19 +72,63 @@ describe("buildMemberProfile", () => {
     assert.equal(result.data.github, undefined);
   });
 
-  it("keeps the original date and fields the form doesn't show when editing", () => {
+  it("keeps the original date when editing", () => {
     const existing = {
       name: "Ana Example",
       added: "2023-01-01",
       level: "Student" as const,
       linkedin: "ana-example",
-      twitter: "ana",
     };
     const result = buildMemberProfile(values({ level: "Leader" }), existing, "2026-10-09");
     assert.ok(result.success);
     assert.equal(result.data.added, "2023-01-01");
-    assert.equal(result.data.twitter, "ana");
     assert.equal(result.data.level, "Leader");
+  });
+
+  it("saves Bluesky, blog and X, and drops them when cleared", () => {
+    const added = buildMemberProfile(
+      values({
+        twitter: "ana_ex",
+        bluesky: "ana.bsky.social",
+        blog: "https://ana.example/feed.xml",
+      }),
+      undefined,
+      "2026-10-09"
+    );
+    assert.ok(added.success);
+    assert.equal(added.data.bluesky, "ana.bsky.social");
+    assert.equal(added.data.blog, "https://ana.example/feed.xml");
+    assert.equal(added.data.twitter, "ana_ex");
+
+    const cleared = buildMemberProfile(values(), added.data, "2026-10-10");
+    assert.ok(cleared.success);
+    assert.equal("bluesky" in cleared.data, false);
+    assert.equal("blog" in cleared.data, false);
+    assert.equal("twitter" in cleared.data, false);
+  });
+
+  it("rejects a Bluesky handle that isn't a domain and a blog that isn't a URL", () => {
+    assert.equal(buildMemberProfile(values({ bluesky: "ana" }), undefined, "x").success, false);
+    assert.equal(buildMemberProfile(values({ blog: "ana.blog" }), undefined, "x").success, false);
+  });
+
+  it("records milestone consent only while the box is ticked", () => {
+    const optedIn = buildMemberProfile(
+      values({ featureMilestones: true }),
+      undefined,
+      "2026-10-09"
+    );
+    assert.ok(optedIn.success);
+    assert.equal(optedIn.data.featureMilestones, true);
+    assert.match(serializeMemberFile(optedIn.data, optedIn.bio), /^featureMilestones: true$/m);
+
+    const withdrawn = buildMemberProfile(values(), optedIn.data, "2026-10-10");
+    assert.ok(withdrawn.success);
+    assert.equal("featureMilestones" in withdrawn.data, false);
+
+    const notAsked = buildMemberProfile(values(), undefined, "2026-10-09");
+    assert.ok(notAsked.success);
+    assert.equal("featureMilestones" in notAsked.data, false);
   });
 
   it("reports schema problems", () => {
@@ -83,6 +149,9 @@ describe("serializeMemberFile", () => {
         name: 'Ana "La Dev": Example',
         countries: ["Peru", "Chile"],
         openTo: ["Mentoring"],
+        bluesky: "ana.bsky.social",
+        blog: "https://ana.example/blog",
+        featureMilestones: true,
         bio: "Line one\r\n\r\n\r\n\r\nLine two   ",
       }),
       undefined,

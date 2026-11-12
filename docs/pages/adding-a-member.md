@@ -25,11 +25,14 @@ There are various **optional** fields that you can add as well.
 ```md
 ---
 github: "FrancesCoronel" # your GitHub handle
-twitter: "FrancesCoronel" # your Twitter handle
+twitter: "FrancesCoronel" # your X (Twitter) handle
+bluesky: "frances.bsky.social" # your Bluesky handle, lowercase, without the @
 website: "https://francescoronel.com" # your personal website
+blog: "https://francescoronel.com/rss.xml" # your blog or its RSS feed
 affiliation: "Senior Software Engineer at XYZ" # your current title and org
 location: "San Francisco, CA" # where you are based now
 openTo: ["Mentoring", "Speaking"] # see the list below
+featureMilestones: true # OK to feature your milestones on Latina Dev's social accounts; leave out if not
 ---
 
 Brief bio about yourself. You can use Markdown here.
@@ -47,7 +50,7 @@ Leave out any field you don't want to share. Location and open to are shown on y
 
 ## Your profile page
 
-Every member gets a profile page at `https://latina.dev/members/firstname-lastname`, using the same name as your Markdown file. Member cards on the home page and the members page link to it, and it shows your links (LinkedIn, GitHub, X and website), your level, affiliation and countries, and a few other members at the same level.
+Every member gets a profile page at `https://latina.dev/members/firstname-lastname`, using the same name as your Markdown file. Member cards on the home page and the members page link to it, and it shows your links (LinkedIn, GitHub, X, Bluesky, website and blog), your level, affiliation and countries, and a few other members at the same level.
 
 Profile pages are listed in the [sitemap](https://latina.dev/sitemap.xml) and the [members data feed](/pages/members-feed) so search engines and AI search tools can find and cite them. Every profile is included, so there is no opt-out.
 
