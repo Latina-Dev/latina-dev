@@ -15,11 +15,14 @@ const keyOrder: (keyof MemberFrontmatter)[] = [
   "linkedin",
   "github",
   "twitter",
+  "bluesky",
   "website",
+  "blog",
   "affiliation",
   "countries",
   "location",
   "openTo",
+  "featureMilestones",
 ];
 
 /** Profile fields a member fills in on the profile form */
@@ -29,10 +32,14 @@ export interface ProfileFormValues {
   linkedin: string;
   affiliation: string;
   github: string;
+  twitter: string;
+  bluesky: string;
   website: string;
+  blog: string;
   location: string;
   countries: string[];
   openTo: string[];
+  featureMilestones: boolean;
   bio: string;
 }
 
@@ -60,10 +67,23 @@ export const readProfileForm = (data: FormData): ProfileFormValues => {
       .replace(/\/+$/, ""),
     affiliation: text("affiliation"),
     github: text("github").replace(/^@/, ""),
+    // Accept @handle or a pasted x.com / twitter.com profile URL
+    twitter: text("twitter")
+      .replace(/^(https?:\/\/)?(www\.)?(x|twitter)\.com\//i, "")
+      .replace(/^@/, "")
+      .replace(/\/+$/, ""),
+    // Accept @handle or a pasted bsky.app profile URL; handles are case-insensitive
+    bluesky: text("bluesky")
+      .replace(/^(https?:\/\/)?(www\.)?bsky\.app\/profile\//i, "")
+      .replace(/^@/, "")
+      .replace(/\/+$/, "")
+      .toLowerCase(),
     website: text("website"),
+    blog: text("blog"),
     location: text("location"),
     countries: list("countries"),
     openTo: list("openTo"),
+    featureMilestones: data.get("featureMilestones") === "true",
     bio: text("bio"),
   };
 };
@@ -84,7 +104,7 @@ const normalizeBio = (bio: string) =>
 /**
  * Turn profile form values into validated frontmatter and a bio
  * @param values values from the profile form
- * @param existing the member's current frontmatter when editing, so fields the form doesn't show (like twitter) are kept
+ * @param existing the member's current frontmatter when editing, so fields the form doesn't show are kept
  * @param today date to record as `added` for a new profile, e.g. 2026-10-09
  * @returns frontmatter and bio, or a readable list of problems
  */
@@ -109,11 +129,16 @@ export const buildMemberProfile = (
     level: values.level,
     linkedin: values.linkedin,
     github: optional(values.github, !values.github),
+    twitter: optional(values.twitter, !values.twitter),
+    bluesky: optional(values.bluesky, !values.bluesky),
     website: optional(values.website, !values.website),
+    blog: optional(values.blog, !values.blog),
     affiliation: optional(values.affiliation, !values.affiliation),
     countries: optional(values.countries, values.countries.length === 0),
     location: optional(values.location, !values.location),
     openTo: optional(values.openTo, values.openTo.length === 0),
+    // Consent is only recorded while the box is ticked, so unticking it withdraws consent
+    featureMilestones: optional(true as const, !values.featureMilestones),
   };
 
   const result = memberFrontmatterSchema.safeParse(candidate);

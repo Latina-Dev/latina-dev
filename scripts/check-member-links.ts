@@ -10,8 +10,8 @@ import {
   setFrontmatterField,
 } from "@/lib/linkCheck";
 
-// Checks each member's website and GitHub account. LinkedIn and Twitter are left out because they
-// block automated checkers.
+// Checks each member's website, blog and GitHub account. LinkedIn, X and Bluesky are left out because
+// they block automated checkers or need an API.
 //
 //   npm run links:members -- data/members/a.md   check some profiles; exits 1 if a link is dead
 //   npm run links:members -- --fix               fix every profile: point moved websites at their
@@ -23,7 +23,7 @@ import {
 interface Finding {
   file: string;
   name: string;
-  field: "website" | "github";
+  field: "website" | "blog" | "github";
   value: string;
   result: Exclude<LinkResult, { status: "ok" }>;
 }
@@ -38,14 +38,14 @@ const maxRemovals = 10;
 
 async function checkMember(
   file: string,
-  data: { name: string; website?: string; github?: string }
+  data: { name: string; website?: string; blog?: string; github?: string }
 ) {
   const findings: Finding[] = [];
-  if (data.website) {
-    const url = data.website;
+  for (const field of ["website", "blog"] as const) {
+    const url = data[field];
+    if (!url) continue;
     const result = await confirmDead(() => checkPage(url));
-    if (result.status !== "ok")
-      findings.push({ file, name: data.name, field: "website", value: url, result });
+    if (result.status !== "ok") findings.push({ file, name: data.name, field, value: url, result });
   }
   if (data.github) {
     const username = data.github;
@@ -105,7 +105,7 @@ async function main() {
     rows.length ? `## ${title} (${rows.length})\n\n${intro}\n\n${rows.join("\n")}\n` : "";
 
   const full = [
-    `Checked the website and GitHub links of ${members.length} member profile(s).\n`,
+    `Checked the website, blog and GitHub links of ${members.length} member profile(s).\n`,
     section(
       fix ? "Updated to the new address" : "Moved",
       "These redirect permanently to a new address.",

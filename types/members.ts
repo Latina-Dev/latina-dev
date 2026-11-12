@@ -23,12 +23,15 @@ export interface MemberInterface {
   path: string; // e.g. /members/frances-coronel
   github?: string; // optional: GitHub username, e.g. FrancesCoronel
   twitter?: string; // optional: Twitter username, e.g. FrancesCoronel
+  bluesky?: string; // optional: Bluesky handle, e.g. frances.bsky.social
   website?: string; // optional: Personal website URL, e.g. https://francescoronel.com
+  blog?: string; // optional: Blog or RSS feed URL, e.g. https://francescoronel.com/rss.xml
   bio?: string; // optional: Markdown that forms bio, e.g. Frances Coronel is a senior software engineer...
   affiliation?: string; // optional: title and company or school, e.g. Senior Software Engineer at XYZ
   countries?: CountryName[]; // optional: Country or countries of origin, e.g. ['Peru']
   location?: string; // optional: where the member is based now, e.g. San Francisco, CA
   openTo?: OpenToOption[]; // optional: what the member is open to, e.g. ['Mentoring', 'Speaking']
+  featureMilestones?: true; // optional: member opted in to having milestones shared on Latina Dev's social accounts
 }
 
 export const exampleMember: MemberInterface = {

@@ -33,13 +33,27 @@ export const memberFrontmatterSchema = z.strictObject({
   twitter: text
     .regex(/^[A-Za-z0-9_]{1,15}$/, 'must be only the Twitter username, e.g. "FrancesCoronel"')
     .optional(),
+  bluesky: text
+    .regex(
+      /^(?=.{3,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z](?:[a-z0-9-]{0,61}[a-z0-9])?$/,
+      'must be only the lowercase Bluesky handle, e.g. "frances.bsky.social"'
+    )
+    .optional(),
   website: text
+    .pipe(z.url({ protocol: /^https?$/, message: "must be a full http(s) URL" }))
+    .optional(),
+  blog: text
     .pipe(z.url({ protocol: /^https?$/, message: "must be a full http(s) URL" }))
     .optional(),
   affiliation: text.optional(),
   countries: z.array(z.enum(countryNames)).min(1, "must list at least one country").optional(),
   location: text.optional(),
   openTo: z.array(z.enum(openToOptions)).min(1, "must list at least one option").optional(),
+  // Opt-in consent to have milestones (new job, talk, launch) shared on Latina Dev's social
+  // accounts. Only `true` is stored; leave the key out when the member hasn't opted in.
+  featureMilestones: z
+    .literal(true, { message: "must be true, or left out when the member hasn't opted in" })
+    .optional(),
 });
 
 export type MemberFrontmatter = z.infer<typeof memberFrontmatterSchema>;

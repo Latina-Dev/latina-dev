@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { faGithub, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { faBluesky, faGithub, faLinkedin, faXTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faGlobe, faRss } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { MemberInterface } from "@/types/members";
@@ -13,7 +13,7 @@ interface MemberProps {
 }
 
 const SocialLinks = (props: MemberProps) => {
-  const { name, linkedin, github, twitter, website } = props.member;
+  const { name, linkedin, github, twitter, bluesky, website, blog } = props.member;
 
   return (
     <div className={styles.socialLinks}>
@@ -37,14 +37,24 @@ const SocialLinks = (props: MemberProps) => {
           <FontAwesomeIcon icon={faGithub} />
         </Link>
       )}
-      {/* Twitter */}
+      {/* X */}
       {twitter && (
         <Link
-          href={`https://www.twitter.com/${twitter}`}
-          aria-label={`${name} Twitter`}
+          href={`https://x.com/${twitter}`}
+          aria-label={`${name} X`}
           target={"_blank"}
           rel="noopener noreferrer">
-          <FontAwesomeIcon icon={faTwitter} />
+          <FontAwesomeIcon icon={faXTwitter} />
+        </Link>
+      )}
+      {/* Bluesky */}
+      {bluesky && (
+        <Link
+          href={`https://bsky.app/profile/${bluesky}`}
+          aria-label={`${name} Bluesky`}
+          target={"_blank"}
+          rel="noopener noreferrer">
+          <FontAwesomeIcon icon={faBluesky} />
         </Link>
       )}
       {/* Website */}
@@ -55,6 +65,12 @@ const SocialLinks = (props: MemberProps) => {
           target={"_blank"}
           rel="noopener noreferrer">
           <FontAwesomeIcon icon={faGlobe} />
+        </Link>
+      )}
+      {/* Blog */}
+      {blog && (
+        <Link href={blog} aria-label={`${name} Blog`} target={"_blank"} rel="noopener noreferrer">
+          <FontAwesomeIcon icon={faRss} />
         </Link>
       )}
     </div>
