@@ -98,6 +98,11 @@ describe("buildReferralReport", () => {
     assert.match(issue, /\[this workflow run\]\(https:\/\/example.org\/run\)/);
   });
 
+  it("escapes backslashes and pipes in organization names", () => {
+    const odd = buildReferralReport("2026-11", [{ org: "A\\|B", clicks: 1, visitors: 1 }], []);
+    assert.ok(referralReportIssue(odd).includes("| A\\\\\\|B | No longer listed |"));
+  });
+
   it("says so when nothing was clicked", () => {
     const empty = referralReportIssue(buildReferralReport("2026-11", [], listed));
     assert.match(empty, /No clicks were recorded this month/);

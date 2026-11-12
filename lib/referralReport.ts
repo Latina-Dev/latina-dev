@@ -95,7 +95,9 @@ export const buildReferralReport = (
   };
 };
 
-const cell = (text: string) => text.replace(/\|/g, "\\|");
+// Backslashes first, so an escaped pipe can't be undone by a name ending in a backslash
+const cell = (text: string) =>
+  text.replace(/\\/g, "\\\\").replace(/\|/g, "\\|").replace(/\s+/g, " ");
 
 /** Markdown body of the GitHub issue */
 export const referralReportIssue = (report: ReferralReport, runUrl?: string) => {
