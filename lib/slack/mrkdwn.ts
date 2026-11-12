@@ -86,8 +86,11 @@ export const slackToMarkdown = (text: string, context: MentionNames) => {
             return `[${decoded}](${decoded})`;
           })
           // Anything else in angle brackets is a Slack-only link, e.g. tel: or slack://
-          .replace(/<[^>\s]+\|([^>]+)>/g, "$1")
-          .replace(/<[^>\s]+>/g, "")
+          .replace(/<[^>\s|]+\|([^>]+)>/g, "$1")
+          // Slack escapes < and > in what members type, so any left over are escaped too. The
+          // page also sanitizes when rendering; this keeps the stored Markdown free of tags
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
           .replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s).,!?:;]|$)/g, "$1**$2**")
           .replace(/(^|[\s(])~([^~\n]+)~(?=[\s).,!?:;]|$)/g, "$1$2")
           .replace(/^[•◦▪]\s*/gm, "- ")

@@ -50,6 +50,13 @@ describe("slackToMarkdown", () => {
     );
   });
 
+  it("escapes any leftover angle brackets so no tag reaches the file", () => {
+    assert.equal(
+      slackToMarkdown("call <tel:123|me> or <slack://open> <script>", context),
+      "call me or &lt;slack://open&gt; &lt;script&gt;"
+    );
+  });
+
   it("drops broadcasts and email links", () => {
     assert.equal(slackToMarkdown("<!here> write to <mailto:a@b.com|me>", context), "write to me");
   });
