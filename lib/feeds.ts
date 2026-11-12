@@ -19,23 +19,35 @@ const entities: Record<string, string> = {
   nbsp: " ",
 };
 
-/** Decode CDATA, XML entities and stray tags in a feed's text */
-const decode = (value: string) =>
-  value
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
-    .replace(/<[^>]+>/g, "")
-    .replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, code: string) => {
+/** Remove markup until none is left, so nested or broken tags can't leave a tag behind */
+const stripTags = (value: string) => {
+  let previous: string;
+  let text = value;
+  do {
+    previous = text;
+    text = text.replace(/<[^<>]*>/g, "");
+  } while (text !== previous);
+  return text;
+};
+
+/** Decode CDATA, XML entities and stray tags in a feed's text, leaving plain text */
+const decode = (value: string) => {
+  const decoded = stripTags(value.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")).replace(
+    /&(#x[0-9a-f]+|#\d+|[a-z]+);/gi,
+    (match, code: string) => {
       if (code[0] === "#") {
         const point =
           code[1].toLowerCase() === "x" ? parseInt(code.slice(2), 16) : Number(code.slice(1));
-        return Number.isFinite(point) ? String.fromCodePoint(point) : match;
+        return Number.isInteger(point) && point >= 0 && point <= 0x10ffff
+          ? String.fromCodePoint(point)
+          : match;
       }
       return entities[code.toLowerCase()] ?? match;
-    })
-    // Decoding can turn &lt;tag&gt; back into markup; titles are plain text, so drop any brackets
-    .replace(/[<>]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+    }
+  );
+  // Decoding can turn &lt;tag&gt; back into markup, and titles are plain text, so no brackets
+  return decoded.replace(/[<>]/g, "").replace(/\s+/g, " ").trim();
+};
 
 const tag = (xml: string, name: string) =>
   new RegExp(`<${name}(?:\\s[^>]*)?>([\\s\\S]*?)</${name}>`, "i").exec(xml)?.[1];
