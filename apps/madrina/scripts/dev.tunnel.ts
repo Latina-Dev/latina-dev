@@ -162,7 +162,11 @@ const cleanup = async (
 };
 
 const runDevCommand = () => {
-  return spawn("pnpm", ["dev"], { stdio: "inherit" });
+  // pnpm is a .cmd shim on Windows, which only launches through a shell.
+  return spawn("pnpm", ["dev"], {
+    stdio: "inherit",
+    shell: process.platform === "win32",
+  });
 };
 
 const main = async () => {
@@ -194,9 +198,16 @@ const main = async () => {
     );
     const devProcess = runDevCommand();
 
-    // Keep the script running while pnpm dev is active
+    // Keep the script running while pnpm dev is active, and pass its exit status on.
     await new Promise<void>((resolve) => {
-      devProcess.on("exit", () => {
+      devProcess.on("exit", (code, signal) => {
+        if (code !== 0 && !isCleaningUp)
+          process.exitCode = code ?? (signal ? 1 : 0);
+        resolve();
+      });
+      devProcess.on("error", (error) => {
+        console.error("Could not start pnpm dev:", error.message);
+        process.exitCode = 1;
         resolve();
       });
     });
@@ -206,6 +217,7 @@ const main = async () => {
     } else {
       console.error("Error starting ngrok tunnel:", error);
     }
+    process.exitCode = 1;
   } finally {
     if (!isCleaningUp) {
       await cleanup(client, manifestWasUpdated);
@@ -215,6 +227,13 @@ const main = async () => {
 
 const runDevWithExit = () => {
   const devProcess = runDevCommand();
+  devProcess.on("error", (error) => {
+    console.error("Could not start pnpm dev:", error.message);
+    process.exitCode = 1;
+  });
+  devProcess.on("exit", (code) => {
+    if (code) process.exitCode = code;
+  });
 
   const handleExit = () => {
     if (devProcess) {

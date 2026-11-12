@@ -41,9 +41,10 @@ async function main(): Promise<void> {
     const appId = result.app_id;
     await linkApp(appId);
     await ensureSigningSecret(result);
-    await configureAIGateway();
+    await configureAnthropicKey();
     await setManifestSourceLocal();
     await ensureNgrokToken();
+    await ensureBotToken(appId);
     await startTunnel();
 
     console.log(
@@ -137,7 +138,9 @@ async function linkApp(appId?: string): Promise<void> {
         `Run manually: slack app link --team <your_team_id> --app ${appId} --environment local`,
       ),
     );
-    return;
+    throw new Error(
+      "Slack didn't return an app ID, so the app can't be linked. Check the app in Slack, then run setup again.",
+    );
   }
 
   const spinner = ora({
@@ -153,6 +156,9 @@ async function linkApp(appId?: string): Promise<void> {
     spinner.fail("Failed to link app automatically");
     console.log(colors.warning("⚠️  Please run manually:"));
     console.log(colors.muted(`   slack app link`));
+    throw new Error(
+      "The Slack app isn't linked to this project yet. Run `slack app link`, then run setup again.",
+    );
   }
 }
 
@@ -181,25 +187,28 @@ async function ensureSigningSecret(
   spinner.succeed("Signing secret added to .env!");
 }
 
-async function configureAIGateway(): Promise<void> {
+async function configureAnthropicKey(): Promise<void> {
+  // server/lib/ai/claude.ts reads ANTHROPIC_API_KEY, so that is the key setup has to collect.
+  if (process.env.ANTHROPIC_API_KEY || envFileHas("ANTHROPIC_API_KEY")) return;
+
   console.log(
-    `\n${colors.primary("🤖 Step 2:")} ${colors.highlight("Setup the Vercel AI Gateway")}`,
+    `\n${colors.primary("🤖 Step 2:")} ${colors.highlight("Add your Anthropic API key")}`,
   );
   console.log(
     colors.muted(
-      "Configure your AI Gateway API key for enhanced functionality.\n",
+      "Madrina calls Claude for coaching, drafts and win bullets.\n",
     ),
   );
 
   const token = await promptValueOrOpen(
-    "AI_GATEWAY_API_KEY",
+    "ANTHROPIC_API_KEY",
     "Press ENTER to create an API key or paste your API key here:",
-    "https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai%2Fapi-keys%3Futm_source%3Dai_gateway_landing_page&title=Get+an+API+Key",
+    "https://console.anthropic.com/settings/keys",
   );
 
-  const spinner = ora("Adding AI Gateway key to environment...").start();
-  addToEnv("AI_GATEWAY_API_KEY", token);
-  spinner.succeed("AI Gateway configured!");
+  const spinner = ora("Adding Anthropic API key to .env...").start();
+  addToEnv("ANTHROPIC_API_KEY", token);
+  spinner.succeed("Anthropic API key added to .env!");
 }
 
 /** Without an ngrok token the tunnel step falls back to plain `pnpm dev` and Slack can't reach it. */
@@ -218,6 +227,34 @@ async function ensureNgrokToken(): Promise<void> {
   const spinner = ora("Adding ngrok token to .env...").start();
   addToEnv("NGROK_AUTH_TOKEN", token);
   spinner.succeed("ngrok token added to .env!");
+}
+
+/**
+ * `pnpm dev:tunnel` doesn't go through `slack run`, so nothing injects a bot token.
+ * Without one the server starts but every Slack API call fails.
+ */
+async function ensureBotToken(appId?: string): Promise<void> {
+  if (process.env.SLACK_BOT_TOKEN || envFileHas("SLACK_BOT_TOKEN")) return;
+
+  console.log(
+    `\n${colors.primary("🔑 Step 4:")} ${colors.highlight("Install the app and add its bot token")}`,
+  );
+  console.log(
+    colors.muted(
+      "Install the app to your workspace, then copy the Bot User OAuth Token (starts with xoxb-).\n",
+    ),
+  );
+  const token = await promptValueOrOpen(
+    "SLACK_BOT_TOKEN",
+    "Press ENTER to open the install page or paste your bot token here:",
+    appId
+      ? `https://api.slack.com/apps/${appId}/install-on-team`
+      : "https://api.slack.com/apps",
+  );
+
+  const spinner = ora("Adding bot token to .env...").start();
+  addToEnv("SLACK_BOT_TOKEN", token);
+  spinner.succeed("Bot token added to .env!");
 }
 
 async function startTunnel(): Promise<ChildProcess> {
@@ -328,6 +365,7 @@ function openUrl(rawUrl: string): boolean {
     const url = parsed.href;
     if (process.platform === "darwin") {
       const p = spawn("open", [url], { stdio: "ignore", detached: true });
+      p.on("error", () => {});
       p.unref();
       return true;
     }
@@ -337,10 +375,14 @@ function openUrl(rawUrl: string): boolean {
         stdio: "ignore",
         detached: true,
       });
+      p.on("error", () => {});
       p.unref();
       return true;
     }
+    // A missing xdg-open surfaces as an async "error" event, not a throw. Swallow it so
+    // the prompt stays up and the developer can open the URL by hand.
     const p = spawn("xdg-open", [url], { stdio: "ignore", detached: true });
+    p.on("error", () => {});
     p.unref();
     return true;
   } catch {
@@ -410,7 +452,9 @@ function addToEnv(key: string, value: string): void {
   let next = lines.join("\n");
   if (next && !next.endsWith("\n")) next += "\n";
   next += `${key}="${value}"\n`;
-  fs.writeFileSync(envPath, next, "utf8");
+  // .env holds the signing secret and API keys: keep it readable by the owner only.
+  fs.writeFileSync(envPath, next, { encoding: "utf8", mode: 0o600 });
+  fs.chmodSync(envPath, 0o600);
 }
 
 function handleError(err: any): void {

@@ -11,30 +11,38 @@ export type Win = {
   _synthetic?: boolean;
 };
 
-const wins = new Map<string, Win[]>();
+/** Synthetic seed wins, by profile. Everyone sees these: they are demo data. */
+const seedWins = new Map<string, Win[]>();
+/** Wins a real person logged, by Slack user ID. Only that person sees them. */
+const userWins = new Map<string, Win[]>();
 
 // A month of synthetic wins for Ana so the brag-doc export has something to show.
 // MADRINA_SEED_WINS=0 starts with an empty store instead.
 if (process.env.MADRINA_SEED_WINS !== "0") {
-  wins.set(
+  seedWins.set(
     winsSeed.profile_id,
     winsSeed.wins.map((w) => ({ ...w })),
   );
 }
 
-export const listWins = (profileId: string): Win[] => wins.get(profileId) ?? [];
+/** The profile's synthetic wins, plus the wins this Slack user logged (when one is given). */
+export const listWins = (profileId: string, userId?: string): Win[] => [
+  ...(seedWins.get(profileId) ?? []),
+  ...((userId && userWins.get(userId)) || []),
+];
 
-export const addWin = (profileId: string, win: Win) => {
-  wins.set(profileId, [...listWins(profileId), win]);
+export const addWin = (userId: string, win: Win) => {
+  userWins.set(userId, [...(userWins.get(userId) ?? []), win]);
 };
 
 /**
- * Last Slack user who used Madrina: in the demo workspace, that person is treated as Ana.
- * MADRINA_DEMO_USER_ID wins when it is set, so rememberDemoUser has no effect then.
+ * First Slack user who used Madrina: in the demo workspace, that person is treated as Ana.
+ * It stays fixed after that, so a second person opening Madrina can't redirect Ana's
+ * glue-work flags to themselves. MADRINA_DEMO_USER_ID wins when it is set.
  */
 let demoUser: string | undefined = process.env.MADRINA_DEMO_USER_ID;
 export const rememberDemoUser = (userId: string) => {
-  demoUser = userId;
+  demoUser ??= userId;
 };
 export const getDemoUser = () => process.env.MADRINA_DEMO_USER_ID ?? demoUser;
 

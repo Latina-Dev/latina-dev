@@ -9,6 +9,18 @@ import { markdownToBlocks } from "~/lib/slack/format";
 import { type GroupMessage, maybeFlagGlue } from "~/lib/slack/glue";
 import { publishHome } from "~/lib/slack/home";
 
+/** Messages already handled, so a Slack retry of the same event can't log a win twice. */
+const handled = new Set<string>();
+const firstDelivery = (channel: string, ts: string) => {
+  const key = `${channel}:${ts}`;
+  if (handled.has(key)) return false;
+  handled.add(key);
+  // Keep the set small: Slack only retries within a few minutes.
+  if (handled.size > 500)
+    handled.delete(handled.values().next().value as string);
+  return true;
+};
+
 const register = (app: App) => {
   // Private channels Madrina was invited to (like Ana's 1:1 with her manager): flag glue-work asks.
   app.message(async ({ message, client, logger }) => {
@@ -25,6 +37,7 @@ const register = (app: App) => {
     if (message.channel_type !== "im") return;
     if (message.subtype || !("text" in message) || !message.text) return;
     if ("bot_id" in message && message.bot_id) return;
+    if (!firstDelivery(message.channel, message.ts)) return;
 
     const thread_ts = "thread_ts" in message ? message.thread_ts : undefined;
     const user = "user" in message ? message.user : undefined;
@@ -40,14 +53,14 @@ const register = (app: App) => {
         const win = await rewriteWin(message.text, {
           assumeWin: inCheckinThread,
         });
-        if (win.is_win) {
-          addWin(DEMO_PROFILE_ID, {
+        if (win.is_win && user) {
+          addWin(user, {
             raw: message.text,
             bullet: win.bullet,
             competency: win.competency,
             at: new Date().toISOString(),
           });
-          const count = listWins(DEMO_PROFILE_ID).length;
+          const count = listWins(DEMO_PROFILE_ID, user).length;
           const text = `:madrina-vouched: Logged. Here's your promo-ready bullet:\n> ${win.bullet}\n*${win.competency}*  ·  ${win.coach_note}`;
           await say({
             text,
@@ -75,15 +88,14 @@ const register = (app: App) => {
               },
             ],
           });
-          if (user)
-            await publishHome(client, user).catch((e) =>
-              logger.warn("Home refresh failed", e),
-            );
+          await publishHome(client, user).catch((e) =>
+            logger.warn("Home refresh failed", e),
+          );
           return;
         }
       }
 
-      const reply = await askCoach(message.text);
+      const reply = await askCoach(message.text, user);
       await say({
         text: reply,
         blocks: [...markdownToBlocks(reply), feedbackBlock()],

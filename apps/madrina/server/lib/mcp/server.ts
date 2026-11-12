@@ -7,7 +7,7 @@ import {
   matchedShelf,
   resources,
 } from "~/lib/madrina/data";
-import { listWins } from "~/lib/madrina/store";
+import { getDemoUser, listWins } from "~/lib/madrina/store";
 
 const json = (value: unknown) => ({
   content: [{ type: "text" as const, text: JSON.stringify(value, null, 2) }],
@@ -54,7 +54,7 @@ export const createMadrinaMcpServer = () => {
           manager_named_it: g.managerFocus,
         })),
         support_system: profile.support_system,
-        wins_logged: listWins(profile.id).length,
+        wins_logged: listWins(profile.id, getDemoUser()).length,
       });
     },
   );
@@ -70,7 +70,7 @@ export const createMadrinaMcpServer = () => {
       annotations: readOnly,
     },
     async ({ competency }) => {
-      const all = listWins(getProfile().id);
+      const all = listWins(getProfile().id, getDemoUser());
       const wins = competency
         ? all.filter((w) => w.competency === competency)
         : all;

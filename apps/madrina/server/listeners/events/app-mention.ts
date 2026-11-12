@@ -11,7 +11,7 @@ const appMentionCallback = async ({
   const thread_ts = event.thread_ts || event.ts;
   const question = event.text.replace(/<@[A-Z0-9]+>/g, "").trim();
   try {
-    const reply = await askCoach(question);
+    const reply = await askCoach(question, event.user);
     await say({
       text: reply,
       blocks: [...markdownToBlocks(reply), feedbackBlock()],

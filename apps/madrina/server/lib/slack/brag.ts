@@ -79,7 +79,7 @@ export const exportBragDoc = async (client: WebClient, userId: string) => {
     text: ":promo-ready: Pulling your wins into a brag doc, grouped by competency...",
   });
   try {
-    const doc = await buildBragDoc();
+    const doc = await buildBragDoc(undefined, userId);
     const delivered = await deliver(
       client,
       userId,

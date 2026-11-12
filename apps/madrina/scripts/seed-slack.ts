@@ -71,7 +71,7 @@ async function findChannel(client: WebClient, name: string) {
       cursor,
     });
     const hit = res.channels?.find((c) => c.name === name);
-    if (hit?.id) return hit.id;
+    if (hit?.id) return { id: hit.id, creator: hit.creator };
     cursor = res.response_metadata?.next_cursor || undefined;
   } while (cursor);
   return undefined;
@@ -105,8 +105,16 @@ async function main() {
   if (reset) {
     const suffix = Date.now().toString().slice(-4);
     for (const ch of seed.channels) {
-      const oldId = await findChannel(client, ch.name);
-      if (!oldId) continue;
+      const old = await findChannel(client, ch.name);
+      if (!old) continue;
+      // Only archive channels this bot created. A same-named channel someone else made
+      // may hold real conversations, so leave it alone and stop.
+      if (old.creator !== auth.user_id) {
+        throw new Error(
+          `#${ch.name} exists but wasn't created by this bot, so --reset won't archive it. Rename or archive it by hand, then run again.`,
+        );
+      }
+      const oldId = old.id;
       await client.conversations.rename({
         channel: oldId,
         name: `${ch.name}-old-${suffix}`,
@@ -128,7 +136,7 @@ async function main() {
     } catch (err) {
       if ((err as { data?: { error?: string } }).data?.error !== "name_taken")
         throw err;
-      channelId = await findChannel(client, ch.name);
+      channelId = (await findChannel(client, ch.name))?.id;
       existed = true;
     }
     if (!channelId)

@@ -4,7 +4,7 @@ import { listWins } from "~/lib/madrina/store";
 import { askClaude, MADRINA_VOICE } from "./claude";
 
 /** Everything Madrina knows about the (synthetic) demo profile, for coaching answers. */
-export const coachSystemPrompt = () => {
+export const coachSystemPrompt = (userId?: string) => {
   const profile = getProfile();
   const gaps = getGaps(profile)
     .slice(0, 3)
@@ -18,7 +18,7 @@ export const coachSystemPrompt = () => {
   )
     .map(([role, state]) => `${role}: ${state}`)
     .join(", ");
-  const wins = listWins(profile.id);
+  const wins = listWins(profile.id, userId);
   const shelf = resources.resources
     .map(
       (r) =>
@@ -44,8 +44,9 @@ ${shelf}
 Ground every answer in her profile, gaps and focus map above. If a resource fits, recommend at most one or two from the shelf.`;
 };
 
-export const askCoach = (question: string) =>
+/** `userId` is the Slack user asking, so only their own logged wins reach the prompt. */
+export const askCoach = (question: string, userId?: string) =>
   askClaude({
-    system: coachSystemPrompt(),
+    system: coachSystemPrompt(userId),
     prompt: question || "Say hi briefly and offer one thing you can help with.",
   });

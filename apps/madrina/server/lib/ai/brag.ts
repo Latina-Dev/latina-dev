@@ -78,10 +78,13 @@ const fmtDate = (iso: string) =>
   });
 
 /** Group her logged wins by ladder competency and write a brag doc. Only logged wins count as evidence. */
-export const buildBragDoc = async (profileId?: string): Promise<BragDoc> => {
+export const buildBragDoc = async (
+  profileId?: string,
+  userId?: string,
+): Promise<BragDoc> => {
   const profile = getProfile(profileId);
   const track = profile.track in ladder.tracks ? profile.track : "IC";
-  const wins = listWins(profile.id);
+  const wins = listWins(profile.id, userId);
   const expectation = (c: string) => ladderText(track, profile.target_level, c);
 
   const grouped = ladder.competencies
@@ -140,11 +143,17 @@ ${gapCompetencies.map((c) => `- ${c}: ${profile.target_level} expects "${expecta
     : "no wins yet";
   const title = `${profile.name}: brag doc for ${profile.target_level}`;
   const anySynthetic = wins.some((w) => w._synthetic);
+  // The seed wins load at startup, so don't claim the reader logged lines she didn't.
+  const provenance = !anySynthetic
+    ? "Every line below comes from a win you logged with Madrina."
+    : wins.every((w) => w._synthetic)
+      ? "These are synthetic demo wins, not ones you logged."
+      : "Some of these are synthetic demo wins. The rest are wins you logged with Madrina.";
 
   // No `# title` line: the canvas title already shows it as the header.
   const lines: string[] = [
     `${profile.current_level} → ${profile.target_level} · ${profile.track} track · ${profile.team}`,
-    `${wins.length} logged ${wins.length === 1 ? "win" : "wins"}, ${span}. Every line below comes from a win you logged with Madrina. Edit anything, then share it with whoever you choose.`,
+    `${wins.length} logged ${wins.length === 1 ? "win" : "wins"}, ${span}. ${provenance} Edit anything, then share it with whoever you choose.`,
     "",
   ];
   for (const s of sections) {

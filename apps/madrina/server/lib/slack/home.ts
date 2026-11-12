@@ -45,7 +45,7 @@ export const buildHomeBlocks = (
   const pick = shelf.length
     ? shelf[getShelfCursor(userId) % shelf.length]
     : undefined;
-  const wins = listWins(profile.id);
+  const wins = listWins(profile.id, userId || undefined);
   const glue = listGlue(profile.id);
   const support = profile.support_system as Record<string, string>;
   const firstName = profile.name.split(" ")[0];
@@ -121,8 +121,8 @@ export const buildHomeBlocks = (
         {
           type: "mrkdwn",
           text: weeklyOn
-            ? "⏰ Weekly check-ins are *on*. I'll DM you every Friday afternoon."
-            : "⏰ Weekly check-ins are *off*. Turn them on and I'll DM you every Friday afternoon.",
+            ? "⏰ Weekly check-ins are *on*. I'll DM you every Friday at 23:00 UTC (3 PM Pacific in winter)."
+            : "⏰ Weekly check-ins are *off*. Turn them on and I'll DM you every Friday at 23:00 UTC (3 PM Pacific in winter).",
         },
       ],
     },
