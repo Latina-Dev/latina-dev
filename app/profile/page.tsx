@@ -194,7 +194,11 @@ function EditProfile({ slug, claim = false }: { slug: string; claim?: boolean })
         initial={{
           ...frontmatter,
           github: frontmatter.github ?? "",
+          twitter: frontmatter.twitter ?? "",
+          bluesky: frontmatter.bluesky ?? "",
           website: frontmatter.website ?? "",
+          blog: frontmatter.blog ?? "",
+          featureMilestones: frontmatter.featureMilestones === true,
           affiliation: frontmatter.affiliation ?? "",
           location: frontmatter.location ?? "",
           countries: frontmatter.countries ?? [],

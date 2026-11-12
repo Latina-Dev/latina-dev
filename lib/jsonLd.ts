@@ -31,13 +31,17 @@ export const memberSameAs = (member: MemberInterface): string[] => {
   const linkedin = clean(member.linkedin);
   const github = clean(member.github);
   const twitter = clean(member.twitter);
+  const bluesky = clean(member.bluesky);
   const website = clean(member.website);
+  const blog = clean(member.blog);
 
   return [
     linkedin && `https://www.linkedin.com/in/${encodeURIComponent(linkedin)}`,
     github && `https://github.com/${encodeURIComponent(github)}`,
     twitter && `https://x.com/${encodeURIComponent(twitter)}`,
+    bluesky && `https://bsky.app/profile/${encodeURIComponent(bluesky)}`,
     website,
+    blog,
   ].filter((url): url is string => Boolean(url));
 };
 

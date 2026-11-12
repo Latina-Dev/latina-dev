@@ -108,11 +108,34 @@ export default function ProfileForm({ initial, editing, claim }: Props) {
         />
 
         <Field
+          label="X username"
+          name="twitter"
+          placeholder="FrancesCoronel"
+          defaultValue={initial.twitter}
+        />
+
+        <Field
+          label="Bluesky handle"
+          name="bluesky"
+          placeholder="frances.bsky.social"
+          defaultValue={initial.bluesky}
+        />
+
+        <Field
           label="Personal website"
           name="website"
           type="url"
           placeholder="https://francescoronel.com"
           defaultValue={initial.website}
+        />
+
+        <Field
+          label="Blog or RSS feed"
+          name="blog"
+          type="url"
+          placeholder="https://francescoronel.com/blog"
+          hint="Where you write, so we can share your posts"
+          defaultValue={initial.blog}
         />
 
         <Field
@@ -140,6 +163,8 @@ export default function ProfileForm({ initial, editing, claim }: Props) {
       />
 
       <OpenToCheckboxes selected={initial.openTo ?? []} />
+
+      <MilestonesCheckbox checked={initial.featureMilestones ?? false} />
 
       {editing && <PhotoCheckbox />}
 
@@ -302,6 +327,28 @@ function OpenToCheckboxes({ selected }: { selected: string[] }) {
           </label>
         ))}
       </div>
+    </fieldset>
+  );
+}
+
+function MilestonesCheckbox({ checked }: { checked: boolean }) {
+  return (
+    <fieldset className={styles.fieldset}>
+      <legend className={styles.label}>Milestones</legend>
+      <span className={styles.hint} id="featureMilestones-hint">
+        Optional. Untick any time to stop.
+      </span>
+      <label className={styles.check}>
+        <input
+          type="checkbox"
+          name="featureMilestones"
+          value="true"
+          defaultChecked={checked}
+          aria-describedby="featureMilestones-hint"
+        />
+        OK to feature my milestones (new roles, talks, launches, posts) on Latina Dev&apos;s social
+        accounts
+      </label>
     </fieldset>
   );
 }

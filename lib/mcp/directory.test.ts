@@ -23,7 +23,10 @@ const members = toMcpMembers([
     linkedin: "ana-perez",
     github: "anap",
     twitter: "anap_dev",
+    bluesky: "anap.bsky.social",
     website: "https://anaperez.dev",
+    blog: "https://anaperez.dev/rss.xml",
+    featureMilestones: true,
     affiliation: "Staff Engineer at Acme",
     location: "Austin, TX",
     countries: ["México" as never, "Peru"],
@@ -55,10 +58,22 @@ describe("toMcpMembers", () => {
     assert.equal(ana.linkedin, "https://www.linkedin.com/in/ana-perez");
     assert.equal(ana.github, "https://github.com/anap");
     assert.equal(ana.twitter, "https://x.com/anap_dev");
+    assert.equal(ana.bluesky, "https://bsky.app/profile/anap.bsky.social");
     assert.equal(ana.website, "https://anaperez.dev");
+    assert.equal(ana.blog, "https://anaperez.dev/rss.xml");
+    assert.equal("featureMilestones" in ana, false);
     assert.equal(ana.bio, "Builds design systems & mentors. Writes &lt;code&gt;.");
     assert.equal("bio" in bea, false);
-    for (const field of ["github", "twitter", "website", "affiliation", "location", "openTo"]) {
+    for (const field of [
+      "github",
+      "twitter",
+      "bluesky",
+      "website",
+      "blog",
+      "affiliation",
+      "location",
+      "openTo",
+    ]) {
       assert.equal(field in bea, false, field);
     }
   });

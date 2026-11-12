@@ -70,7 +70,9 @@ describe("personJsonLd", () => {
         affiliation: "Staff Engineer at Acme",
         github: "anaex",
         twitter: "ana_ex",
+        bluesky: "ana.bsky.social",
         website: "https://ana.example",
+        blog: "https://ana.example/feed.xml",
         location: "Austin, TX",
       })
     );
@@ -80,7 +82,9 @@ describe("personJsonLd", () => {
       "https://www.linkedin.com/in/ana-example",
       "https://github.com/anaex",
       "https://x.com/ana_ex",
+      "https://bsky.app/profile/ana.bsky.social",
       "https://ana.example",
+      "https://ana.example/feed.xml",
     ]);
     assert.deepEqual(person.homeLocation, { "@type": "Place", name: "Austin, TX" });
   });

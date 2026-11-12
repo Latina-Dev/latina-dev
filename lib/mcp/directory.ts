@@ -20,7 +20,9 @@ export interface McpMember {
   linkedin: string;
   github?: string;
   twitter?: string;
+  bluesky?: string;
   website?: string;
+  blog?: string;
   added: string;
   bio?: string;
 }
@@ -72,7 +74,9 @@ export const toMcpMembers = (members: MemberInterface[]): McpMember[] =>
         linkedin: `https://www.linkedin.com/in/${member.linkedin}`,
         ...(member.github && { github: `https://github.com/${member.github}` }),
         ...(member.twitter && { twitter: `https://x.com/${member.twitter}` }),
+        ...(member.bluesky && { bluesky: `https://bsky.app/profile/${member.bluesky}` }),
         ...(member.website && { website: member.website }),
+        ...(member.blog && { blog: member.blog }),
         added: member.added,
         ...(bio && { bio }),
       };

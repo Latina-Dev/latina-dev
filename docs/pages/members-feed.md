@@ -16,13 +16,16 @@ The feed is generated at build time from the files in `data/members`, so it upda
       "linkedin": "frances-coronel",
       "github": "FrancesCoronel",
       "twitter": "FrancesCoronel",
+      "bluesky": "frances.bsky.social",
       "website": "https://francescoronel.com",
+      "blog": "https://francescoronel.com/rss.xml",
       "added": "2021-01-01",
       "level": "Individual Contributor",
       "affiliation": "Senior Software Engineer at XYZ",
       "countries": ["Peru"],
       "location": "San Francisco, CA",
       "openTo": ["Mentoring", "Speaking"],
+      "featureMilestones": true,
       "slug": "frances-coronel",
       "path": "/members/frances-coronel",
       "url": "https://latina.dev/members/frances-coronel",
@@ -37,6 +40,7 @@ The feed is generated at build time from the files in `data/members`, so it upda
 - Each member has the fields from their Markdown file (see [Adding a Member](/pages/adding-a-member)), plus `slug`, `path` and `url` for their profile page.
 - `bio` is the member's Markdown bio rendered as HTML. It is an empty string when the member has no bio.
 - Optional fields the member has not filled in are left out rather than set to `null`.
+- `featureMilestones` is `true` when the member has opted in to having their milestones shared on Latina Dev's social accounts. It is left out otherwise, so treat a missing value as no consent.
 
 ## Example
 

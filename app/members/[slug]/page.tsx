@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { faGithub, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { faBluesky, faGithub, faLinkedin, faXTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faGlobe, faRss } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import CountryFlags from "@/components/CountryFlags/CountryFlags";
@@ -57,11 +57,17 @@ export default async function Member({ params }: Props) {
       icon: faGithub,
     },
     member.twitter && {
-      href: `https://www.twitter.com/${member.twitter}`,
-      label: "Twitter",
-      icon: faTwitter,
+      href: `https://x.com/${member.twitter}`,
+      label: "X",
+      icon: faXTwitter,
+    },
+    member.bluesky && {
+      href: `https://bsky.app/profile/${member.bluesky}`,
+      label: "Bluesky",
+      icon: faBluesky,
     },
     member.website && { href: member.website, label: "Website", icon: faGlobe },
+    member.blog && { href: member.blog, label: "Blog", icon: faRss },
   ].filter((link) => !!link);
 
   const facts = [
