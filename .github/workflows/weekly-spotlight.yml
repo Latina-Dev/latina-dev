@@ -48,9 +48,10 @@ jobs:
       - name: Read past spotlights
         env:
           GH_TOKEN: ${{ github.token }}
+        # Fails the run if the lookup fails, rather than restarting the rotation from scratch
         run: |
           gh issue list --repo "$GITHUB_REPOSITORY" --label weekly-spotlight --state all --limit 500 \
-            --json body,createdAt > "$RUNNER_TEMP/spotlights.json" || echo "[]" > "$RUNNER_TEMP/spotlights.json"
+            --json body,createdAt > "$RUNNER_TEMP/spotlights.json"
       - name: Draft the post
         env:
           MEMBER: ${{ inputs.member }}
