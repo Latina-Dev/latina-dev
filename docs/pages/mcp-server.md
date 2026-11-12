@@ -6,12 +6,15 @@ No sign-in or API key is needed. It only returns what is already public on latin
 
 ## Tools
 
-| Tool                       | What it does                                                                                                                                                       |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `search_members`           | Find Latina engineers by keywords (name, title and company or school, location, countries of heritage, bio) and filter by level, country, or what they are open to |
-| `get_member`               | Get one member's full public profile by slug, e.g. `frances-coronel`                                                                                               |
-| `search_resources`         | Find communities, student programs, scholarships, job boards, conferences, founder support, podcasts, newsletters and reports by keyword or category               |
-| `list_resource_categories` | List the resource categories and how many resources each has                                                                                                       |
+| Tool                       | What it does                                                                                                                                                                       |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `search_members`           | Find Latina engineers by keywords (name, title and company or school, location, countries of heritage, bio) and filter by level, country, or what they are open to                 |
+| `get_member`               | Get one member's full public profile by slug, e.g. `frances-coronel`                                                                                                               |
+| `search_resources`         | Find communities, student programs, scholarships, job boards, conferences, founder support, podcasts, newsletters and reports by keyword, category, type, career stage or audience |
+| `list_resource_categories` | List the resource categories, career stages and types, with how many resources each has and the page that lists them                                                               |
+| `search_ergs`              | Find Latinx employee resource groups (ERGs) by company or group name, each with a public source, plus the guide on making ERG work count toward promotion                          |
+
+The server also offers two MCP resources for assistants that load context instead of calling tools: `https://latina.dev/resources.md`, every resource in one Markdown document, and `https://latina.dev/ergs.md`, every ERG.
 
 Every keyword in a query must match. Matching ignores case and accents, so `mexico` finds `México`.
 
@@ -49,13 +52,13 @@ claude mcp add --transport http latina-dev https://latina.dev/mcp
 }
 ```
 
-Then ask something like "Find Latina engineering leaders open to mentoring" or "What scholarships are there for Latina college students in computer science?"
+Then ask something like "Find Latina engineering leaders open to mentoring" or "What scholarships are there for Latina college students in computer science?" or "I'm a Latina engineer moving into management, what should I join?"
 
 ## How it works
 
 - The server uses the Streamable HTTP transport in stateless mode, so each request is handled on its own. It is a Next.js route handler at `app/mcp/route.ts`, built with the official [TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk).
 - Tools are defined in `lib/mcp/server.ts`, and the search logic is in `lib/mcp/directory.ts`.
-- Member data comes from `data/members`, the same files as the site and [`/members.json`](/pages/members-feed). Resources come from `lib/resources.ts`. Both update whenever the site is redeployed.
+- Member data comes from `data/members`, the same files as the site and [`/members.json`](/pages/members-feed). Resources come from `data/resources`. Both update whenever the site is redeployed.
 - Results include each member's public profile fields and profile URL.
 
 ## Listings

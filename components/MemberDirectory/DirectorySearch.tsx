@@ -13,13 +13,21 @@ interface Props {
   gridId: string; // list whose items carry a data-search attribute
   countId: string; // element showing how many members match
   total: number;
+  label?: string; // what the box searches, for screen readers
+  placeholder?: string;
 }
 
 /**
- * Filters the server-rendered member list as you type. Without JavaScript the full list still
+ * Filters a server-rendered list (members, ERGs) as you type. Without JavaScript the full list still
  * shows. A ?q= in the URL (the homepage search) fills the box on load.
  */
-export default function DirectorySearch({ gridId, countId, total }: Props) {
+export default function DirectorySearch({
+  gridId,
+  countId,
+  total,
+  label = "Search members",
+  placeholder = "Name, role or country",
+}: Props) {
   // The ?q= fills the box after hydration, then typing takes over.
   const urlQuery = useUrlQuery();
   const [typed, setQuery] = useState<string | null>(null);
@@ -45,13 +53,13 @@ export default function DirectorySearch({ gridId, countId, total }: Props) {
     <form role="search" className={styles.search} onSubmit={(e) => e.preventDefault()}>
       <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.icon} aria-hidden="true" />
       <label htmlFor="directory-search" className={styles.label}>
-        Search members
+        {label}
       </label>
       <input
         id="directory-search"
         name="q"
         type="search"
-        placeholder="Name, role or country"
+        placeholder={placeholder}
         autoComplete="off"
         value={query}
         onChange={(e) => setQuery(e.target.value)}

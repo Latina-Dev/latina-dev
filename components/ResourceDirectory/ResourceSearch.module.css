@@ -1,0 +1,46 @@
+.form {
+  max-width: 600px;
+  margin-top: 32px;
+}
+
+/* The search box brings its own top margin for pages where it stands alone */
+.search {
+  margin-top: 0;
+}
+
+.selects {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.select {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.select span {
+  font-size: 13px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.select select {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 0;
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  padding: 0 14px;
+}
+
+.select select:focus-visible {
+  outline: 3px solid var(--red-100);
+  outline-offset: 0;
+}

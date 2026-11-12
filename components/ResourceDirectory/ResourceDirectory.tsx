@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Link from "next/link";
 // Layout and filter rail are shared with the member directory
 import directory from "@/app/members/page.module.css";
@@ -8,6 +9,7 @@ import JsonLd from "@/components/JsonLd/JsonLd";
 import PageHero from "@/components/PageHero/PageHero";
 import ResourceSearch from "@/components/ResourceDirectory/ResourceSearch";
 
+import { ergs, ergsPath } from "@/lib/ergs";
 import { breadcrumbJsonLd } from "@/lib/jsonLd";
 import {
   Resource,
@@ -18,6 +20,9 @@ import {
   resourceSlug,
   resourcesPath,
 } from "@/lib/resources";
+import { stageViews, typeViews } from "@/lib/resourceViews";
+
+import { resourceStages, resourceTypes } from "@/types/resources";
 
 import styles from "./ResourceDirectory.module.css";
 
@@ -52,9 +57,32 @@ const ResourceLogo = ({ resource }: { resource: Resource }) => {
   );
 };
 
+// Filter options that at least one listed resource has, in the order the site defines them
+const optionsIn = <T extends string>(all: readonly T[], used: T[]) =>
+  all.filter((option) => used.includes(option));
+
 // Text the search box matches against, lowercased once on the server
 const searchText = (resource: Resource, group: ResourceGroup) =>
-  [resource.name, resource.description, group.title, group.heading].join(" ").toLowerCase();
+  [
+    resource.name,
+    resource.description,
+    group.title,
+    group.heading,
+    ...resource.types,
+    ...resource.stages,
+  ]
+    .join(" ")
+    .toLowerCase();
+
+// Links to the pages that list one career stage or one type, shown under the categories. A view
+// without a page (too few resources) is left out
+const withPath = (views: typeof typeViews) =>
+  views.flatMap((view) => (view.path ? [{ ...view, path: view.path }] : []));
+const viewFilters = [
+  { label: "Career stage", views: withPath(stageViews) },
+  { label: "Type", views: withPath(typeViews) },
+];
+const typePaths = new Map(withPath(typeViews).map((view) => [view.value, view.path]));
 
 interface Props {
   heading: string; // the page's h1
@@ -69,8 +97,8 @@ interface Props {
 
 /**
  * The resources page and its category pages. Everything is rendered on the server so crawlers and
- * AI agents see every resource; the category filters are plain links to their own URLs, and the
- * search box only hides cards already on the page.
+ * AI agents see every resource; the category, career stage and type filters are plain links to their own URLs, and the
+ * search box and the type and stage menus only hide cards already on the page.
  */
 const ResourceDirectory = ({
   heading,
@@ -83,6 +111,15 @@ const ResourceDirectory = ({
   extraJsonLd = [],
 }: Props) => {
   const count = groups.reduce((n, group) => n + group.resources.length, 0);
+  const listed = groups.flatMap((group) => group.resources);
+  const types = optionsIn(
+    resourceTypes,
+    listed.flatMap((resource) => resource.types)
+  );
+  const stages = optionsIn(
+    resourceStages,
+    listed.flatMap((resource) => resource.stages)
+  );
   const filters = [
     { label: "All resources", path: resourcesPath, count: resourceCount },
     ...resourceGroups.map((group) => ({
@@ -102,10 +139,16 @@ const ResourceDirectory = ({
         ]}
       />
       <PageHero eyebrow="Resources" title={heading} lede={<p>{intro}</p>}>
-        <ResourceSearch listId="resource-list" countId="resource-count" total={count} />
+        <ResourceSearch
+          listId="resource-list"
+          countId="resource-count"
+          total={count}
+          types={types}
+          stages={stages}
+        />
       </PageHero>
       <div className={`page-width ${directory.layout}`}>
-        <nav aria-label="Filter resources" className={directory.filters}>
+        <nav aria-label="Filter resources" className={`${directory.filters} ${styles.rail}`}>
           <h2 className={directory.filterLabel}>Category</h2>
           <ul>
             {filters.map((filter) => (
@@ -124,7 +167,31 @@ const ResourceDirectory = ({
                 <span>Guides</span>
               </Link>
             </li>
+            <li>
+              <Link href={ergsPath}>
+                <span>ERGs at companies</span>
+                <span className={directory.count}>{ergs.length}</span>
+              </Link>
+            </li>
           </ul>
+          {viewFilters.map(({ label, views }) => (
+            <Fragment key={label}>
+              <h2 className={`${directory.filterLabel} ${styles.nextFilter}`}>{label}</h2>
+              <ul>
+                {views.map((view) => (
+                  <li key={view.slug}>
+                    <Link
+                      href={view.path}
+                      aria-current={view.path === path ? "page" : undefined}
+                      className={view.path === path ? directory.current : undefined}>
+                      <span>{view.title}</span>
+                      <span className={directory.count}>{view.count}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Fragment>
+          ))}
         </nav>
         <div>
           <div className={directory.resultsBar}>
@@ -154,7 +221,9 @@ const ResourceDirectory = ({
                       key={resource.url}
                       id={resourceSlug(resource)}
                       className={styles.card}
-                      data-search={searchText(resource, group)}>
+                      data-search={searchText(resource, group)}
+                      data-types={resource.types.join("|")}
+                      data-stages={resource.stages.join("|")}>
                       <ResourceLogo resource={resource} />
                       <div>
                         <h3>
@@ -163,6 +232,17 @@ const ResourceDirectory = ({
                           </a>
                         </h3>
                         <p>{resource.description}</p>
+                        <ul className={styles.tags} aria-label="Type">
+                          {resource.types.map((type) => (
+                            <li key={type}>
+                              {typePaths.has(type) ? (
+                                <Link href={typePaths.get(type)!}>{type}</Link>
+                              ) : (
+                                type
+                              )}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </li>
                   ))}
@@ -171,7 +251,7 @@ const ResourceDirectory = ({
             ))}
           </div>
           <p id="resource-list-empty" className={directory.empty} hidden>
-            Nothing matches that search yet.
+            Nothing matches yet. Try fewer filters or a different search.
           </p>
           {after}
         </div>

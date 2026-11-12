@@ -1,4 +1,6 @@
+import { ergDescription, ergPage, ergs } from "@/lib/ergs";
 import { resourceGroups, resourceSlug, resourcesPath } from "@/lib/resources";
+import { ResourceView, stageViews, typeViews } from "@/lib/resourceViews";
 import { siteUrl } from "@/lib/site";
 
 import { MemberInterface } from "@/types/members";
@@ -29,6 +31,9 @@ export interface McpResource {
   description: string;
   category: string;
   categoryTitle: string;
+  types: string[];
+  stages: string[];
+  serves: string[];
   page: string;
 }
 
@@ -138,6 +143,9 @@ export const allResources: McpResource[] = resourceGroups.flatMap((group) =>
     description: resource.description,
     category: group.id,
     categoryTitle: group.title,
+    types: resource.types,
+    stages: resource.stages,
+    serves: resource.serves,
     page: `${siteUrl}${resourcesPath}/${group.id}#${resourceSlug(resource)}`,
   }))
 );
@@ -150,9 +158,25 @@ export const resourceCategories = resourceGroups.map((group) => ({
   url: `${siteUrl}${resourcesPath}/${group.id}`,
 }));
 
+// How many resources carry a tag, with the page that lists them when there is one
+const tagSummary = (view: ResourceView) => ({
+  name: view.value,
+  count: view.count,
+  ...(view.path && { url: `${siteUrl}${view.path}` }),
+});
+
+/** The career stages and types resources are tagged with, for the feed and the MCP tools */
+export const resourceTags = {
+  stages: stageViews.map(tagSummary),
+  types: typeViews.map(tagSummary),
+};
+
 export interface ResourceSearch {
   query?: string;
   category?: string;
+  type?: string;
+  stage?: string;
+  serves?: string;
   limit?: number;
 }
 
@@ -161,7 +185,45 @@ export const searchResources = (search: ResourceSearch) => {
   const matches = allResources.filter(
     (resource) =>
       (!search.category || resource.category === search.category) &&
-      matchesAll(words, [resource.name, resource.description, resource.categoryTitle])
+      (!search.type || resource.types.some((t) => sameText(t, search.type!))) &&
+      (!search.stage || resource.stages.some((s) => sameText(s, search.stage!))) &&
+      (!search.serves || resource.serves.some((s) => sameText(s, search.serves!))) &&
+      matchesAll(words, [
+        resource.name,
+        resource.description,
+        resource.categoryTitle,
+        resource.types.join(" "),
+        resource.stages.join(" "),
+        resource.serves.join(" "),
+      ])
   );
   return { total: matches.length, resources: matches.slice(0, search.limit ?? 20) };
+};
+
+interface McpErg {
+  company: string;
+  name: string;
+  description: string;
+  source: string; // public page that names the group
+  checked: string; // when the source was last read
+  page: string;
+}
+
+/** Latinx employee resource groups by company, as listed on /ergs */
+const allErgs: McpErg[] = ergs.map((erg) => ({
+  company: erg.company,
+  name: erg.name,
+  description: ergDescription(erg),
+  source: erg.url,
+  checked: erg.checked,
+  page: ergPage(erg),
+}));
+
+export const searchErgs = (search: { query?: string; limit?: number }) => {
+  // "erg" and "group" describe every entry, so they would only filter results out
+  const words = tokens(search.query).filter(
+    (word) => !["erg", "ergs", "group", "groups", "employee", "resource"].includes(word)
+  );
+  const matches = allErgs.filter((erg) => matchesAll(words, [erg.company, erg.name]));
+  return { total: matches.length, ergs: matches.slice(0, search.limit ?? 20) };
 };

@@ -36,7 +36,7 @@ describe("/mcp HTTP handling", () => {
       process.chdir(cwd);
     }
     const { tools } = await call("tools/list");
-    assert.equal(tools.length, 4);
+    assert.equal(tools.length, 5);
   });
 
   it("answers CORS preflight requests", () => {
@@ -78,6 +78,7 @@ describe("/mcp", () => {
     assert.deepEqual(tools.map((t: { name: string }) => t.name).sort(), [
       "get_member",
       "list_resource_categories",
+      "search_ergs",
       "search_members",
       "search_resources",
     ]);
@@ -118,5 +119,34 @@ describe("/mcp", () => {
     const jobs = structuredContent.categories.find((c: { id: string }) => c.id === "jobs");
     assert.equal(jobs.url, "https://latina.dev/resources/jobs");
     assert.ok(jobs.count > 0);
+    assert.ok(structuredContent.stages.some((s: { name: string }) => s.name === "College"));
+    assert.ok(structuredContent.types.some((t: { name: string }) => t.name === "Community"));
+  });
+
+  it("finds a company's Latinx ERG and points to the guide", async () => {
+    const { structuredContent } = await call("tools/call", {
+      name: "search_ergs",
+      arguments: { query: "Netflix ERG" },
+    });
+    assert.equal(structuredContent.total, 1);
+    assert.equal(structuredContent.ergs[0].name, "SOMOS@");
+    assert.equal(structuredContent.ergs[0].page, "https://latina.dev/resources/ergs#netflix");
+    assert.equal(structuredContent.guide, "https://latina.dev/guides/erg-work-and-promotion");
+  });
+
+  it("serves every ERG as one Markdown document", async () => {
+    const { resources } = await call("resources/list");
+    const uri = "https://latina.dev/ergs.md";
+    assert.ok(resources.some((r: { uri: string }) => r.uri === uri));
+    const { contents } = await call("resources/read", { uri });
+    assert.match(contents[0].text, /\| Netflix \| SOMOS@ \|/);
+  });
+
+  it("serves every resource as one Markdown document", async () => {
+    const { resources } = await call("resources/list");
+    assert.equal(resources[0].uri, "https://latina.dev/resources.md");
+    const { contents } = await call("resources/read", { uri: resources[0].uri });
+    assert.equal(contents[0].mimeType, "text/markdown");
+    assert.match(contents[0].text, /Techqueria/);
   });
 });
