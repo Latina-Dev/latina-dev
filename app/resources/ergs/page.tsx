@@ -87,8 +87,8 @@ export default async function ErgsPage() {
           <p>
             An employee resource group (ERG) is a group run by employees inside a company. These{" "}
             {ergs.length} companies have one for Latina and Latino employees. Join for the peers,
-            mentors and sponsors. Before you agree to run one, make sure the work counts toward your
-            promotion.
+            mentors and sponsors. Running one can be worth it too, as long as you know it usually
+            doesn&apos;t count toward promotion.
           </p>
         }>
         <DirectorySearch
@@ -168,8 +168,8 @@ export default async function ErgsPage() {
           <div>
             <h2 id="start-heading">Asked to lead an ERG?</h2>
             <p>
-              Running one is often work that doesn&apos;t get you promoted, and women are asked to
-              do it more. Read what to ask for before you say yes.
+              It can be good work to do. It also usually doesn&apos;t count toward promotion, and
+              women are asked to do it more. Read what to know and ask for before you say yes.
             </p>
           </div>
           <ButtonLink text="Read the guide" url={ergGuidePath} />

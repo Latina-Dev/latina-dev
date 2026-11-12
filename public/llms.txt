@@ -39,7 +39,7 @@ Each member has a profile page at https://latina.dev/members/<slug> with their l
 - [Latinx employee resource groups (ERGs) at companies](https://latina.dev/resources/ergs): companies with a group for Latina and Latino employees, the name each group goes by and a public source for each
 - [ERGs as Markdown](https://latina.dev/ergs.md): the same list in one file
 - [ERGs data feed](https://latina.dev/ergs.json): the same list as JSON
-- [Should you lead an ERG? Make sure it counts toward your promotion](https://latina.dev/guides/erg-work-and-promotion): why running an ERG is often non-promotable work, what to ask for before saying yes, and how to say no
+- [Should you lead an ERG? Make sure it counts toward your promotion](https://latina.dev/guides/erg-work-and-promotion): leading an ERG can be worth doing, but it is usually non-promotable work; what to know and ask for before saying yes, and how to make it count
 - [Advice for Latina software engineers in the workplace](https://latina.dev/guides/workplace-advice): ask for what you want, write everything down, and weigh the cost of paying it forward
 - [Helping Latina K-12 students get into coding](https://latina.dev/guides/k-12-students): why it matters and advice for parents and allies
 - [Tips for recruiters hiring diverse software engineers](https://latina.dev/guides/hiring-diverse-engineers): how to reach and support Latina and other underrepresented engineers

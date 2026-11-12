@@ -152,6 +152,6 @@ export const ergsMarkdown = () =>
     "",
     "## Joining and leading",
     "",
-    `Joining an ERG is a low-cost way to find peers, mentors and sponsors. Leading one is often work that does not count toward promotion, and women are asked to do it more often. Before agreeing to lead, read [Should you lead an ERG? Make sure it counts toward your promotion](${siteUrl}${ergGuidePath}).`,
+    `Joining an ERG is a low-cost way to find peers, mentors and sponsors. Leading one can be worth doing, as long as you know it usually does not count toward promotion and that women are asked to do it more often. Before agreeing to lead, read [Should you lead an ERG? Make sure it counts toward your promotion](${siteUrl}${ergGuidePath}).`,
     "",
   ].join("\n");
