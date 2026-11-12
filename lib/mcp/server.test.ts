@@ -36,7 +36,7 @@ describe("/mcp HTTP handling", () => {
       process.chdir(cwd);
     }
     const { tools } = await call("tools/list");
-    assert.equal(tools.length, 5);
+    assert.equal(tools.length, 6);
   });
 
   it("answers CORS preflight requests", () => {
@@ -80,6 +80,7 @@ describe("/mcp", () => {
       "list_resource_categories",
       "search_ergs",
       "search_members",
+      "search_questions",
       "search_resources",
     ]);
     for (const tool of tools) assert.equal(tool.annotations.readOnlyHint, true);

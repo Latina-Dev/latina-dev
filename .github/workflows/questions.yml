@@ -1,0 +1,121 @@
+name: Community questions
+
+# Copies answered questions from the Slack Q&A channel (#ask) into data/questions every hour, then
+# opens (or updates) one pull request that merges itself once checks pass, so they show up on
+# latina.dev/questions. Moderation happens in Slack: delete a message there, or react to it with
+# :no_entry_sign:, and the next run takes it off the site. See docs/pages/community-questions.md.
+#
+# Setup:
+# - Repository variable SLACK_QUESTIONS_CHANNEL_ID: the #ask channel id. Until it's set, runs skip.
+# - Secret SLACK_QUESTIONS_TOKEN: Slack bot token with channels:history and users:read.
+# - Variable SLACK_MODERATOR_IDS (optional): comma-separated Slack user ids whose 🚫 hides a message.
+# - Secret QUESTIONS_SYNC_TOKEN, or the existing MEMBER_LINKS_TOKEN: a fine-grained token with contents
+#   and pull request write access. Pull requests opened with the default token don't start the
+#   required checks, so they would never merge.
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One run at a time, so two never push the sync branch at once
+concurrency:
+  group: community-questions
+  cancel-in-progress: false
+
+jobs:
+  # Runs the repo's code and npm packages with the Slack token, but only a read-only GitHub token.
+  # It hands the changes to the publish job as an artifact
+  sync:
+    if: github.ref == 'refs/heads/main' && vars.SLACK_QUESTIONS_CHANNEL_ID != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      changed: ${{ steps.diff.outputs.changed }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Copy questions from Slack
+        env:
+          SLACK_QUESTIONS_TOKEN: ${{ secrets.SLACK_QUESTIONS_TOKEN }}
+          SLACK_QUESTIONS_CHANNEL_ID: ${{ vars.SLACK_QUESTIONS_CHANNEL_ID }}
+          SLACK_MODERATOR_IDS: ${{ vars.SLACK_MODERATOR_IDS }}
+        run: npm run --silent questions:sync
+      - name: Collect the changes
+        id: diff
+        run: |
+          mkdir -p "$RUNNER_TEMP/sync"
+          git add --all data/questions
+          git diff --cached --binary -- data/questions > "$RUNNER_TEMP/sync/questions.patch"
+          cp questions-sync.md "$RUNNER_TEMP/sync/"
+          if [ -s "$RUNNER_TEMP/sync/questions.patch" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Hand the changes to the publish job
+        if: steps.diff.outputs.changed == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: questions
+          path: ${{ runner.temp }}/sync
+          retention-days: 1
+
+  # Holds the write token but runs no repo code: it applies the patch with git and calls gh
+  publish:
+    needs: sync
+    if: needs.sync.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ secrets.QUESTIONS_SYNC_TOKEN || secrets.MEMBER_LINKS_TOKEN || github.token }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # The commit the sync job read, so the patch always applies
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Download the changes
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: questions
+          path: ${{ runner.temp }}/sync
+      - name: Open or update the pull request
+        run: |
+          git apply --index --include='data/questions/*' "$RUNNER_TEMP/sync/questions.patch"
+          # Only Markdown files directly in data/questions: nothing else may change
+          if git status --porcelain --untracked-files=all | grep -qvE '^(A|M|D)  data/questions/[a-z0-9-]+\.md$'; then
+            echo "::error::The changes touch more than data/questions"
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c automation/questions
+          git commit -m "Sync community questions from Slack"
+          # Lets git push with GH_TOKEN through gh, without writing the token into .git/config
+          gh auth setup-git
+          git push --force --no-verify origin automation/questions
+          gh label create questions --color 9e0001 --description "Community questions from Slack" --force
+          pr=$(gh pr list --head automation/questions --state open --json number --jq '.[0].number')
+          if [ -n "$pr" ]; then
+            gh pr edit "$pr" --body-file "$RUNNER_TEMP/sync/questions-sync.md"
+          else
+            pr=$(gh pr create --base main --head automation/questions --title "Sync community questions from Slack" \
+              --label questions --body-file "$RUNNER_TEMP/sync/questions-sync.md" | grep -oE '[0-9]+$')
+          fi
+          # Members' posts go live without a review: moderation is in Slack
+          gh pr merge "$pr" --auto --squash --delete-branch
