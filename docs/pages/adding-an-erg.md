@@ -22,14 +22,14 @@ checked: "2026-11-10"
 ---
 ```
 
-| Field         | What to put                                                                       |
-| ------------- | --------------------------------------------------------------------------------- |
-| `company`     | The company's name as it writes it                                                |
-| `name`        | What the group calls itself, as written on the source page                        |
-| `website`     | The company's home page. Its logo is fetched from here                            |
-| `url`         | A public page from the company that names the group. No intranet or private links |
-| `checked`     | The date you last read that page, as `YYYY-MM-DD`                                 |
-| `description` | Optional. One sentence on what the group does, if the source says                 |
+| Field         | What to put                                                                                                           |
+| ------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `company`     | The company's name as it writes it                                                                                    |
+| `name`        | What the group calls itself, as written on the source page                                                            |
+| `website`     | The company's home page. Its logo is fetched from here                                                                |
+| `url`         | A public page from the company that names the group. No intranet or private links or `utm_` tags (the site adds them) |
+| `checked`     | The date you last read that page, as `YYYY-MM-DD`                                                                     |
+| `description` | Optional. One sentence on what the group does, if the source says                                                     |
 
 ## Logo
 

@@ -20,6 +20,7 @@ import {
 import { getMembers } from "@/lib/getMembers";
 import { breadcrumbJsonLd } from "@/lib/jsonLd";
 import { pageMetadata } from "@/lib/pageMetadata";
+import { outboundLinkProps } from "@/lib/referral";
 import { resourcesPath } from "@/lib/resources";
 
 import type { Metadata } from "next";
@@ -132,7 +133,10 @@ export default async function ErgsPage() {
                 <div>
                   <h2 className={styles.company}>{erg.company}</h2>
                   <p>
-                    <a href={erg.url} target="_blank" rel="noopener noreferrer">
+                    <a
+                      {...outboundLinkProps("erg", erg.company, erg.url)}
+                      target="_blank"
+                      rel="noopener noreferrer">
                       {erg.name}
                     </a>
                     {erg.description ? `: ${erg.description}` : ", its Latinx ERG"}
