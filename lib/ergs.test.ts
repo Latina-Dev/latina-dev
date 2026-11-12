@@ -2,7 +2,15 @@ import assert from "node:assert/strict";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 
-import { ergGuidePath, ergs, ergsJsonLd, ergSlug, ergsMarkdown, membersAt } from "@/lib/ergs";
+import {
+  ergGuidePath,
+  ergs,
+  ergsJsonLd,
+  ergSlug,
+  ergsMarkdown,
+  isCalendarDate,
+  membersAt,
+} from "@/lib/ergs";
 import { searchErgs } from "@/lib/mcp/directory";
 
 import { exampleMember } from "@/types/members";
@@ -21,11 +29,18 @@ describe("ergs", () => {
     assert.equal(ergSlug("Warner Bros."), "warner-bros");
   });
 
+  it("rejects check dates that are not real days", () => {
+    assert.equal(isCalendarDate("2026-11-12"), true);
+    assert.equal(isCalendarDate("2026-02-30"), false);
+    assert.equal(isCalendarDate("2026-13-01"), false);
+  });
+
   it("backs every ERG with a public source and the date it was checked", () => {
     for (const erg of ergs) {
       assert.match(erg.url, /^https:\/\//, erg.company);
       assert.match(erg.website, /^https:\/\//, erg.company);
       assert.match(erg.checked, /^\d{4}-\d{2}-\d{2}$/, erg.company);
+      assert.ok(isCalendarDate(erg.checked), erg.company);
     }
   });
 

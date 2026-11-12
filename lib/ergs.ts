@@ -29,13 +29,23 @@ const text = z
 
 const link = text.pipe(z.url({ protocol: /^https?$/, message: "must be a full http(s) URL" }));
 
+/** True for a YYYY-MM-DD string that is a real day, so "2026-02-30" fails */
+export const isCalendarDate = (value: string) => {
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+};
+
 /** Frontmatter of each file in data/ergs. Unknown keys are rejected so typos fail the build */
 const ergSchema = z.strictObject({
   company: text,
   name: text, // what the group calls itself, e.g. "Somos"
   website: link, // the company's home page, where its logo is fetched from
   url: link, // a public page that names the group, as proof it exists
-  checked: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "must be YYYY-MM-DD"), // when that page was last read
+  // when that page was last read
+  checked: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "must be YYYY-MM-DD")
+    .refine(isCalendarDate, "must be a real calendar date"),
   description: text.optional(),
 });
 

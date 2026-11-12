@@ -157,8 +157,8 @@ export default async function ErgsPage() {
           No company matches. The list is not complete, so yours may still have one.
         </p>
         <p className={styles.note}>
-          Each name links to a public page from the company that mentions the group, last checked in{" "}
-          {checkedMonth}. The list is not complete. Is something missing or out of date?{" "}
+          Each name links to a public page from the company that mentions the group. Most recent
+          check: {checkedMonth}. The list is not complete. Is something missing or out of date?{" "}
           <a href={newErgUrl} target="_blank" rel="noopener noreferrer">
             Tell us on GitHub
           </a>
