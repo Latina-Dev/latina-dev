@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- :focus-check: compass for the focus check nudge. Latina.dev palette: #9e0001 red, #ffc101 gold, #151515 ink. -->
+  <circle cx="64" cy="64" r="58" fill="#9e0001"/>
+  <circle cx="64" cy="64" r="46" fill="#ffffff"/>
+  <g stroke="#151515" stroke-width="4" stroke-linecap="round" opacity="0.35"><path d="M64 22v8M64 98v8M22 64h8M98 64h8"/></g>
+  <g transform="rotate(35 64 64)"><path fill="#9e0001" d="M64 26 L75 64 L53 64Z"/><path fill="#151515" d="M64 102 L75 64 L53 64Z"/></g>
+  <circle cx="64" cy="64" r="7" fill="#ffc101" stroke="#ffffff" stroke-width="2"/>
+</svg>

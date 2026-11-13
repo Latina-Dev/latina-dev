@@ -1,0 +1,7 @@
+[
+  {
+    "profile_id": "ana", "_synthetic": true, "date": "2026-10-30", "source": "1:1 with manager",
+    "notes": "For the Staff case, Gateway is the priority. Lead the API Gateway migration design end to end and get the RFC approved by the two partner teams. Less time on one-off support asks.",
+    "focus_map": [{"project": "Gateway", "weight": 0.7, "competencies": ["Technical scope", "Influence", "Direction"]}]
+  }
+]
