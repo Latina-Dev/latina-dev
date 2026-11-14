@@ -39,7 +39,7 @@ const postSchema = z.strictObject({
 const writingFileSchema = z.strictObject({
   feed: httpsUrl, // the member's `blog` field when the posts were read
   posts: z.array(postSchema),
-  // Post URLs an organizer hid with a 🚫 in Slack; the daily run keeps them out on every read
+  // Post URLs an organizer hid with a 🚫 in #member-posts; the daily run keeps them out on every read
   hidden: z.array(httpsUrl).optional(),
 });
 

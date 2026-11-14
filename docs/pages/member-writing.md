@@ -7,10 +7,10 @@ Posts are never copied onto latina.dev. Every entry links out to the author's ow
 ## How a post gets listed
 
 1. A member adds her blog, or its RSS or Atom feed, to the `blog` field of her profile at [latina.dev/profile](https://latina.dev/profile).
-2. Once a day, a GitHub Action reads every member's feed, shares new posts in the Latina Dev Slack, and writes them to `data/writing/<member-slug>.json` through a pull request.
+2. Once a day, a GitHub Action reads every member's feed, shares new posts in the Latina Dev Slack's `#member-posts` channel, and writes up to 50 of her newest posts to `data/writing/<member-slug>.json` through a pull request.
 3. When that pull request merges, the site redeploys and the posts appear on `/writing`, on her profile, in the feeds below and in the MCP server.
 
-Members are already vetted when they join the directory, so posts don't need a separate approval. To take a post down, an organizer reacts with 🚫 to it in Slack, and the next run adds it to that member's `hidden` list. If a member clears her `blog` field or leaves the directory, her posts drop off the site on the next deploy, without waiting for the daily run.
+Members are already vetted when they join the directory, so posts don't need a separate approval. To take a post down, an organizer reacts with 🚫 to it in `#member-posts`, and the next run adds it to that member's `hidden` list. If a member clears her `blog` field or leaves the directory, her posts drop off the site on the next deploy, without waiting for the daily run.
 
 ## Feeds for readers and agents
 
