@@ -14,11 +14,12 @@ Each member has a profile page at https://latina.dev/members/<slug> with their l
 
 ## Resources
 
-- [Resources and communities](https://latina.dev/resources): communities, student programs, job boards, career and leadership groups, conferences, founder support, podcasts, newsletters and reports for Latina software engineers, grouped by career stage
+- [Resources and communities](https://latina.dev/resources): communities, AI communities and trainings, student programs, job boards, career and leadership groups, conferences, founder support, podcasts, newsletters and reports for Latina software engineers, grouped by career stage
 - [Resources as Markdown](https://latina.dev/resources.md): every resource with its link, a one-line description, what it is, the career stage it helps most and who it is built for, in one file
 - [Resources data feed](https://latina.dev/resources.json): the same list as JSON
 - [Communities for Latinas in tech](https://latina.dev/resources/latina-communities)
 - [Latino tech communities Latina engineers can join](https://latina.dev/resources/latino-tech-communities)
+- [AI communities and programs for Latina software engineers](https://latina.dev/resources/ai)
 - [Coding programs for Latina K-12 students](https://latina.dev/resources/k-12)
 - [Programs and scholarships for Latina college students](https://latina.dev/resources/college)
 - [Job boards for Latina engineers](https://latina.dev/resources/jobs)
@@ -32,6 +33,7 @@ Each member has a profile page at https://latina.dev/members/<slug> with their l
 - [Resources for Latina founders in tech](https://latina.dev/resources/stage/founders)
 - [Communities for Latina software engineers to join](https://latina.dev/resources/type/community)
 - [Coding programs, fellowships and cohorts for Latinas in tech](https://latina.dev/resources/type/program)
+- [Scholarships for Latinas studying computer science](https://latina.dev/resources/type/scholarship)
 - [Professional associations for Latina engineers](https://latina.dev/resources/type/professional-association)
 - [Job boards that reach Latina software engineers](https://latina.dev/resources/type/job-board)
 - [Conferences and summits for Latinas in tech](https://latina.dev/resources/type/conference)

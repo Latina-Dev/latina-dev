@@ -28,6 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...getGuides().map((guide) => guide.path),
     "/find-support",
     "/conference",
+    "/survey",
     "/add-member",
     "/privacy",
   ].map((path) => ({ url: `${siteUrl}${path}` }));

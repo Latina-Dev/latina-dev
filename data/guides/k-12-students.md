@@ -24,7 +24,7 @@ The hope is that folks read this and get more Latina students interested in codi
 
 ## Programs to explore
 
-Many organizations serve Latina K-12 students in the US who are interested in learning how to code. You'll find them in the [K-12 section of our resources page](/resources#k-12). My personal favorites are the ones I've volunteered for, which include Code Nation, Code.org, SMASH Academy and Mission Bit.
+Many organizations serve Latina K-12 students in the US who are interested in learning how to code. You'll find them in the [K-12 section of our resources page](/resources#k-12). My personal favorites are the ones I've volunteered for, which include Code.org, SMASH Academy and Mission Bit (and Code Nation, before it closed).
 
 ## My K-12 story
 

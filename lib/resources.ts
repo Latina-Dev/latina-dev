@@ -7,7 +7,7 @@ import { siteUrl } from "@/lib/site";
 import { resourceGroupIds } from "@/types/resources";
 
 // Communities and resources for Latina software engineers, grouped by career stage. Curated by
-// Frances Coronel from her Notion notes, plus newer ones found in October 2026. Each resource is
+// Frances Coronel from her Notion notes, plus newer ones found in October and November 2026. Each resource is
 // one file in data/resources, named by its slug; the groups below are the pages that list them.
 // Every entry is rendered in the page HTML and in the page's JSON-LD.
 
@@ -47,6 +47,16 @@ const groups: Omit<ResourceGroup, "resources">[] = [
     summary:
       "Latino tech communities, Slack groups and nonprofits where Latina software engineers can network, find jobs and get mentorship.",
     question: "What are the biggest Latino tech communities Latina engineers can join?",
+  },
+  {
+    id: "ai",
+    title: "Level up in AI",
+    intro:
+      "Communities and programs where Latina engineers and women in tech learn to build with AI, from Latina-led trainings to machine learning research groups.",
+    heading: "AI communities and programs for Latina software engineers",
+    summary:
+      "Communities, trainings and research groups where Latina software engineers and women in tech learn machine learning and build with AI.",
+    question: "Where can Latina software engineers learn to build with AI?",
   },
   {
     id: "k-12",
