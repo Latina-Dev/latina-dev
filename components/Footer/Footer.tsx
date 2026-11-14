@@ -14,6 +14,7 @@ const links = [
     label: "Storybook",
     external: true,
   },
+  { href: "/built-with", label: "Built with" },
   {
     href: "https://github.com/Latina-Dev/latina-dev/blob/main/.github/CODE_OF_CONDUCT.md",
     label: "Code of conduct",

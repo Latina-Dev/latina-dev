@@ -28,6 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/conference",
     "/add-member",
     "/privacy",
+    "/built-with",
   ].map((path) => ({ url: `${siteUrl}${path}` }));
 
   const memberPages: MetadataRoute.Sitemap = members

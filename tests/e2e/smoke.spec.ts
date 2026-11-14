@@ -9,6 +9,7 @@ const pages = [
   "/add-member",
   "/profile",
   "/privacy",
+  "/built-with",
 ];
 
 for (const path of pages) {
