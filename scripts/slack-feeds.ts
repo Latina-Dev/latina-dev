@@ -1,4 +1,5 @@
-import { appendFileSync } from "fs";
+import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import path from "path";
 
 import { creatorFeeds } from "@/lib/creatorFeeds";
 import {
@@ -11,6 +12,8 @@ import {
   parseFeed,
   postMessage,
   previousDay,
+  WritingFile,
+  writingFile,
 } from "@/lib/feeds";
 import { readMemberFiles } from "@/lib/getMembers";
 import { siteUrl } from "@/lib/site";
@@ -20,6 +23,9 @@ import { siteUrl } from "@/lib/site";
 //   npx tsx scripts/slack-feeds.ts          post yesterday's (UTC) new posts
 //   npx tsx scripts/slack-feeds.ts --check  report each feed's health; exits 1 if a curated
 //                                           creator's feed is dead, empty or stale
+//   npx tsx scripts/slack-feeds.ts --write-data
+//                                           also save each member's posts to
+//                                           data/writing/<slug>.json for the site's writing pages
 //
 // Members' blogs (the `blog` field) go to SLACK_MEMBER_POSTS_CHANNEL_ID and curated creators
 // (lib/creatorFeeds.ts) to SLACK_CREATOR_FEED_CHANNEL_ID, posted by the site's Slack bot
@@ -27,6 +33,8 @@ import { siteUrl } from "@/lib/site";
 
 interface Source {
   kind: "member" | "creator";
+  /** profile slug, for members */
+  slug?: string;
   name: string;
   /** latina.dev profile for members, their site for creators */
   url: string;
@@ -35,6 +43,22 @@ interface Source {
 }
 
 const check = process.argv.includes("--check");
+const writeData = process.argv.includes("--write-data");
+const writingDir = path.join(process.cwd(), "data", "writing");
+
+/** Save a member's posts, keeping posts already saved and anything an organizer hid */
+const saveWriting = (slug: string, blog: string, items: FeedItem[]) => {
+  // The site only accepts https feeds and posts
+  if (!blog.startsWith("https://")) return;
+  const file = path.join(writingDir, `${slug}.json`);
+  const existing = existsSync(file)
+    ? (JSON.parse(readFileSync(file, "utf8")) as WritingFile)
+    : undefined;
+  const next = writingFile(blog, items, existing);
+  if (next.posts.length === 0 && !existing) return;
+  mkdirSync(writingDir, { recursive: true });
+  writeFileSync(file, `${JSON.stringify(next, null, 2)}\n`);
+};
 const maxPostsPerSource = 5;
 
 const sources: Source[] = [
@@ -42,6 +66,7 @@ const sources: Source[] = [
     .filter(({ data }) => data.blog)
     .map(({ slug, data }) => ({
       kind: "member" as const,
+      slug,
       name: data.name,
       url: `${siteUrl}/members/${slug}`,
       feed: data.blog!,
@@ -166,7 +191,9 @@ async function runPost() {
   for (const source of sources) {
     let items: FeedItem[];
     try {
-      items = itemsInWindow((await readSource(source)).items, window).slice(0, maxPostsPerSource);
+      const all = (await readSource(source)).items;
+      if (writeData && source.slug) saveWriting(source.slug, source.feed, all);
+      items = itemsInWindow(all, window).slice(0, maxPostsPerSource);
     } catch (error) {
       // A broken feed is reported by the weekly check; keep posting the others
       console.warn(`Skipped ${source.name}: ${error instanceof Error ? error.message : error}`);

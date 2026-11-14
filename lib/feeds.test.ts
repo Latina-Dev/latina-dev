@@ -9,6 +9,7 @@ import {
   parseFeed,
   postMessage,
   previousDay,
+  writingFile,
 } from "@/lib/feeds";
 
 const rss = `<?xml version="1.0"?>
@@ -89,5 +90,51 @@ describe("postMessage", () => {
     const text = (message.blocks[0].text as { text: string }).text;
     assert.ok(text.includes("&lt;!channel&gt; hi"));
     assert.ok(text.includes("<https://ana.dev/search|"));
+  });
+});
+
+describe("writingFile", () => {
+  const item = (title: string, link: string, day: number) => ({
+    title,
+    link,
+    published: new Date(Date.UTC(2026, 10, day)),
+  });
+
+  it("keeps saved posts and hidden URLs, adds new ones newest first", () => {
+    const existing = {
+      feed: "https://ana.dev/blog",
+      posts: [{ title: "Old", url: "https://ana.dev/old", published: "2026-10-01T00:00:00.000Z" }],
+      hidden: ["https://ana.dev/spam"],
+    };
+    const file = writingFile(
+      "https://ana.dev/blog",
+      [
+        item("New", "https://ana.dev/new", 2),
+        item("Spam", "https://ana.dev/spam", 3),
+        item("Insecure", "http://ana.dev/insecure", 4),
+      ],
+      existing
+    );
+    assert.deepEqual(file, {
+      feed: "https://ana.dev/blog",
+      posts: [
+        { title: "New", url: "https://ana.dev/new", published: "2026-11-02T00:00:00.000Z" },
+        { title: "Old", url: "https://ana.dev/old", published: "2026-10-01T00:00:00.000Z" },
+      ],
+      hidden: ["https://ana.dev/spam"],
+    });
+  });
+
+  it("drops saved posts when the member changes blogs", () => {
+    const existing = {
+      feed: "https://old.dev",
+      posts: [{ title: "Old", url: "https://old.dev/a", published: "2026-10-01T00:00:00.000Z" }],
+    };
+    const file = writingFile("https://new.dev", [item("A", "https://new.dev/a", 1)], existing);
+    assert.deepEqual(
+      file.posts.map((post) => post.url),
+      ["https://new.dev/a"]
+    );
+    assert.equal("hidden" in file, false);
   });
 });
