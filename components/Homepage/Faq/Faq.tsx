@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import JsonLd from "@/components/JsonLd/JsonLd";
 
+import { joinLabel, joinPath } from "@/lib/join";
 import { faqJsonLd } from "@/lib/jsonLd";
 
 import styles from "./Faq.module.css";
@@ -27,8 +28,8 @@ const faqs: Faq[] = [
   {
     question: "How do I add my profile?",
     answer:
-      "Fill out the Add Your Profile form and our team will add you to the directory and invite you to our Slack community. Developers can also open a pull request with their profile file and photo, following our contributor docs.",
-    link: { href: "/add-member", text: "Add your profile" },
+      "Sign in with LinkedIn and fill in your profile. Once an organizer approves it, we'll add you to the directory and invite you to our Slack community. Developers can also open a pull request with their profile file and photo, following our contributor docs.",
+    link: { href: joinPath, text: joinLabel },
   },
   {
     question: "Why does Latina representation in software engineering matter?",

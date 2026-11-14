@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { joinLabel, joinPath } from "@/lib/join";
+
 import styles from "./Footer.module.css";
 
 const links = [
   { href: "https://github.com/Latina-Dev/latina-dev", label: "GitHub", external: true },
-  { href: "/add-member", label: "Slack" },
   { href: "https://www.linkedin.com/company/latina-dev/", label: "LinkedIn", external: true },
+  { href: joinPath, label: joinLabel },
   { href: "/profile", label: "Edit your profile" },
   { href: "https://docs.latina.dev", label: "Contribute", external: true },
   {
