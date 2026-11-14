@@ -6,6 +6,7 @@ import { getCountryViews, levelViews } from "@/lib/memberViews";
 import { resourceGroups, resourcesPath } from "@/lib/resources";
 import { resourceViewPages } from "@/lib/resourceViews";
 import { siteUrl } from "@/lib/site";
+import { getWriting, writingPath } from "@/lib/writing";
 
 import type { MetadataRoute } from "next";
 
@@ -38,5 +39,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: memberLastModified(member, useGit),
     }));
 
-  return [...pages, ...memberPages];
+  // Listed only once there are posts; the newest one dates the page
+  const writing = getWriting();
+  const writingPages: MetadataRoute.Sitemap = writing.length
+    ? [{ url: `${siteUrl}${writingPath}`, lastModified: new Date(writing[0].published) }]
+    : [];
+
+  return [...pages, ...writingPages, ...memberPages];
 }

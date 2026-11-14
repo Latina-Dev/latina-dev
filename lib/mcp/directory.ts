@@ -2,6 +2,7 @@ import { ergDescription, ergPage, ergs } from "@/lib/ergs";
 import { resourceGroups, resourceSlug, resourcesPath } from "@/lib/resources";
 import { ResourceView, stageViews, typeViews } from "@/lib/resourceViews";
 import { siteUrl } from "@/lib/site";
+import { getWriting, writingForAgents, WritingPost } from "@/lib/writing";
 
 import { MemberInterface } from "@/types/members";
 
@@ -230,4 +231,28 @@ export const searchErgs = (search: { query?: string; limit?: number }) => {
   );
   const matches = allErgs.filter((erg) => matchesAll(words, [erg.company, erg.name]));
   return { total: matches.length, ergs: matches.slice(0, search.limit ?? 20) };
+};
+
+export interface WritingSearch {
+  query?: string;
+  author?: string; // member profile slug
+  limit?: number;
+}
+
+/** Blog posts members wrote, newest first, as listed on /writing */
+export const searchWriting = (search: WritingSearch, posts: WritingPost[] = getWriting()) => {
+  // "post" and "blog" describe every entry, so they would only filter results out
+  const words = tokens(search.query).filter(
+    (word) => !["post", "posts", "blog", "blogs", "article", "articles", "writing"].includes(word)
+  );
+  const author = search.author?.trim().toLowerCase();
+  const matches = posts.filter(
+    (post) =>
+      (!author || post.authorSlug === author) &&
+      matchesAll(words, [post.title, post.summary, post.author])
+  );
+  return {
+    total: matches.length,
+    posts: matches.slice(0, search.limit ?? 10).map(writingForAgents),
+  };
 };
