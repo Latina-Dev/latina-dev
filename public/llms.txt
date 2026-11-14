@@ -9,7 +9,7 @@ Each member has a profile page at https://latina.dev/members/<slug> with their l
 - [Members](https://latina.dev/members): every member in the directory, with links to their profile pages
 - [Members data feed](https://latina.dev/members.json): the same directory as JSON, built from the site's data files
 - [About Latina Dev](https://latina.dev/#about): what the community is and who it is for
-- [MCP server](https://latina.dev/mcp): a public, read-only Model Context Protocol server (Streamable HTTP, no auth) with tools to search members, to search resources by keyword, category, type, career stage and audience, and to search Latinx employee resource groups by company. Setup: https://docs.latina.dev/#/pages/mcp-server
+- [MCP server](https://latina.dev/mcp): a public, read-only Model Context Protocol server (Streamable HTTP, no auth) with tools to search members, to search resources by keyword, category, type, career stage and audience, to search Latinx employee resource groups by company, and to search career questions members answered. Setup: https://docs.latina.dev/#/pages/mcp-server
 - [Add your profile](https://latina.dev/add-member): how a Latina software engineer can join the directory
 
 ## Resources
@@ -45,6 +45,13 @@ Each member has a profile page at https://latina.dev/members/<slug> with their l
 - [Advice for Latina software engineers in the workplace](https://latina.dev/guides/workplace-advice): ask for what you want, write everything down, and weigh the cost of paying it forward
 - [Helping Latina K-12 students get into coding](https://latina.dev/guides/k-12-students): why it matters and advice for parents and allies
 - [Tips for recruiters hiring diverse software engineers](https://latina.dev/guides/hiring-diverse-engineers): how to reach and support Latina and other underrepresented engineers
+
+## Community questions
+
+- [Questions from Latina software engineers](https://latina.dev/questions): career questions members asked in the Latina Dev Slack, each with a page holding every answer and who gave it
+- [Questions as Markdown](https://latina.dev/questions.md): every question and answer in one file
+- [Questions data feed](https://latina.dev/questions.json): the same as JSON
+- [Find support](https://latina.dev/find-support): pick where you are in your career and what you need, and get matching resources, guides, mentors and answered questions
 
 ## Docs
 

@@ -1,0 +1,158 @@
+.page {
+  padding-top: 48px;
+  padding-bottom: 96px;
+}
+
+.count {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.list,
+.answers {
+  list-style: none;
+  padding: 0;
+  max-width: 48em;
+}
+
+.item {
+  padding: 24px 0;
+  border-top: 1px solid var(--border-default);
+}
+
+.item h2 {
+  font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+  margin-bottom: 8px;
+}
+
+.item h2 a {
+  color: var(--text-default);
+  text-decoration: none;
+}
+
+.item h2 a:hover,
+.item h2 a:focus-visible {
+  color: var(--text-brand);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.excerpt {
+  font-size: 17px;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.meta {
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+.meta a,
+.body a,
+.back a,
+.empty a {
+  color: var(--text-brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.body {
+  max-width: 40em;
+  font-size: clamp(1.0625rem, 2vw, 1.1875rem);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.body p,
+.body ul,
+.body ol,
+.body pre,
+.body blockquote {
+  margin-bottom: 1em;
+}
+
+.body ul,
+.body ol {
+  padding-left: 1.25em;
+}
+
+.body pre {
+  overflow-x: auto;
+  padding: 16px;
+  background: var(--surface-card-tint);
+  border: 1px solid var(--border-default);
+  font-size: 15px;
+}
+
+.body blockquote {
+  padding-left: 16px;
+  border-left: 3px solid var(--border-brand-tint);
+  color: var(--text-muted);
+}
+
+.answersHeading {
+  margin-top: 48px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.answer {
+  padding: 24px 0;
+  border-top: 1px solid var(--border-default);
+}
+
+.answer .meta {
+  margin-bottom: 8px;
+  font-weight: var(--weight-medium);
+}
+
+.empty {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 40em;
+}
+
+.callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 56px;
+  padding: 36px;
+  background: var(--surface-card-tint);
+  border: 1px solid var(--border-brand-tint);
+}
+
+.callout h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 8px;
+}
+
+.callout p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 36em;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.back {
+  margin-top: 40px;
+  font-weight: var(--weight-medium);
+}
+
+@media (max-width: 767px) {
+  .callout {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+  }
+}

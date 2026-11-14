@@ -46,3 +46,5 @@ Create a [fine-grained personal access token](https://github.com/settings/person
 6. Set `SLACK_APPROVER_IDS` to a comma-separated list of Slack member ids allowed to press the buttons. Without it, nobody can approve or reject.
 
 Until these are set, the sign-in page shows but signing in fails, and nothing else on the site is affected.
+
+Members can also edit their profile from Slack with the same app, after linking it with LinkedIn. See [Slack Community](slack.md) for that setup.

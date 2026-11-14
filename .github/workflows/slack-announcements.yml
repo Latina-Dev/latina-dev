@@ -1,0 +1,47 @@
+name: Slack announcements
+
+# When a push to main adds a member profile, an answered question or a guide, posts it in the
+# Latina Dev Slack's #announcements channel (scripts/slack-announce.ts).
+# Needs the SLACK_BOT_TOKEN secret (the profile app's bot, with chat:write) and the
+# SLACK_ANNOUNCEMENTS_CHANNEL_ID repository variable. Until the variable is set, runs skip.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - data/members/**
+      - data/questions/**
+      - data/guides/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: slack-announcements
+  cancel-in-progress: false
+
+jobs:
+  announce:
+    if: vars.SLACK_ANNOUNCEMENTS_CHANNEL_ID != '' && github.event.before != '0000000000000000000000000000000000000000'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Announce what was added
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_ANNOUNCEMENTS_CHANNEL_ID: ${{ vars.SLACK_ANNOUNCEMENTS_CHANNEL_ID }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: npx tsx scripts/slack-announce.ts "$BEFORE" "$AFTER"

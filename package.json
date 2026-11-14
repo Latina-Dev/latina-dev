@@ -20,10 +20,12 @@
     "knip": "knip",
     "test:e2e": "playwright test",
     "links:members": "tsx scripts/check-member-links.ts",
+    "questions:sync": "tsx scripts/sync-slack-questions.ts",
     "links:resources": "tsx scripts/audit-resource-links.ts",
     "logos:resources": "tsx scripts/fetch-resource-logos.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
     "@fortawesome/fontawesome-svg-core": "^7.3.1",
     "@fortawesome/free-brands-svg-icons": "^7.3.1",
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
