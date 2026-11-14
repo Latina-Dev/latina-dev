@@ -1,4 +1,3 @@
-import { faSlack } from "@fortawesome/free-brands-svg-icons";
 import {
   faBuilding,
   faBullhorn,
@@ -12,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import JoinButton from "@/components/JoinButton/JoinButton";
 import JsonLd from "@/components/JsonLd/JsonLd";
 import PageHero from "@/components/PageHero/PageHero";
 
@@ -173,7 +172,7 @@ export default function SurveyPage() {
             Want to help? Add your profile to join Latina Dev and the Slack, then say hi and mention
             the survey. We&apos;ll take it from there.
           </p>
-          <ButtonLink text="Join Latina Dev" url="/add-member" icon={faSlack} />
+          <JoinButton />
         </div>
       </section>
     </>

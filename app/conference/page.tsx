@@ -1,8 +1,7 @@
-import { faSlack } from "@fortawesome/free-brands-svg-icons";
 import { faHandshake, faStar, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import JoinButton from "@/components/JoinButton/JoinButton";
 import JsonLd from "@/components/JsonLd/JsonLd";
 import PageHero from "@/components/PageHero/PageHero";
 
@@ -96,10 +95,10 @@ export default function ConferencePage() {
 
         <div className={styles.slack}>
           <p>
-            Join our Slack and drop a note in <strong>#conference-volunteers</strong> — we&apos;ll
-            take it from there.
+            Add your profile to join our Slack, then drop a note in{" "}
+            <strong>#conference-volunteers</strong> — we&apos;ll take it from there.
           </p>
-          <ButtonLink text="Join our Slack" url="/add-member" icon={faSlack} />
+          <JoinButton />
         </div>
       </section>
     </>
