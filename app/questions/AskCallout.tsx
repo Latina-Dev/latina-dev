@@ -1,8 +1,9 @@
 import { faSlack } from "@fortawesome/free-brands-svg-icons";
 
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import JoinButton from "@/components/JoinButton/JoinButton";
 
-import { askChannelName, joinPath, slackUrl } from "@/lib/questions";
+import { askChannelName, slackUrl } from "@/lib/questions";
 
 import styles from "./questions.module.css";
 
@@ -20,7 +21,7 @@ export default function AskCallout({ heading = "Have a question?" }: { heading?:
       </div>
       <div className={styles.actions}>
         <ButtonLink text={`Ask in ${askChannelName}`} url={slackUrl} icon={faSlack} external />
-        <ButtonLink text="Join to ask" url={joinPath} variant="outline" />
+        <JoinButton variant="outline" />
       </div>
     </aside>
   );

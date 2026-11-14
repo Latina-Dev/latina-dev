@@ -14,6 +14,7 @@ import {
   SupportStageId,
   supportStages,
 } from "@/lib/findSupport";
+import { joinLabel, joinPath } from "@/lib/join";
 
 import styles from "./page.module.css";
 
@@ -201,7 +202,7 @@ export function FindSupportView({
                 Members answer each other in the <strong>#ask</strong> channel of our Slack, and
                 every answered question is published on{" "}
                 <Link href="/questions">latina.dev/questions</Link>.{" "}
-                <Link href="/add-member">Add your profile</Link> to get an invite.
+                <Link href={joinPath}>{joinLabel}</Link> to get an invite.
               </p>
               {result.questions.length > 0 && (
                 <ul className={styles.links}>

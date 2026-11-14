@@ -23,7 +23,6 @@ export const questionsDescription =
 // Where members go to ask or answer: the Slack channel, which needs a Slack account. Everyone
 // else joins through the directory, which comes with a Slack invite
 export const askChannelName = "#ask";
-export const joinPath = "/add-member";
 export const slackUrl = "https://latinadev.slack.com";
 
 const text = z
