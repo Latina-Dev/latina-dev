@@ -6,6 +6,8 @@ const pages = [
   "/members",
   "/members/frances-coronel",
   "/resources/ergs",
+  "/find-support",
+  "/questions",
   "/add-member",
   "/profile",
   "/privacy",
@@ -33,4 +35,15 @@ test("member feed lists every profile", async ({ request }) => {
   const body = await response.json();
   const members = Array.isArray(body) ? body : body.members;
   expect(members.length).toBeGreaterThan(0);
+});
+
+test("find support shows results for the chosen stage and need", async ({ page }) => {
+  await page.goto("/find-support");
+  await page.getByLabel("Working as an engineer").check();
+  await page.getByLabel("A job", { exact: true }).check();
+  await expect(page.getByRole("heading", { level: 2, name: /A job for when/ })).toBeVisible();
+  await expect(page).toHaveURL(/stage=working&need=job/);
+
+  const { violations } = await new AxeBuilder({ page }).analyze();
+  expect(violations.filter((v) => v.impact === "serious" || v.impact === "critical")).toEqual([]);
 });
