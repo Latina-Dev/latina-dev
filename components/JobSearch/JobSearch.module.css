@@ -1,0 +1,315 @@
+/* The job search guide: one page that walks through five steps, plus deeper pages */
+
+/* "Where are you right now?" chips in the red hero */
+.start {
+  margin-top: 32px;
+}
+
+.start p {
+  font-weight: var(--weight-medium);
+  margin-bottom: 12px;
+}
+
+.start ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.start a {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-pill);
+  font-size: 15px;
+  transition: var(--transition);
+}
+
+.start a:hover {
+  background: var(--white);
+  color: var(--red-800);
+}
+
+.crumb {
+  font-size: 15px;
+  margin-bottom: 20px;
+  opacity: 0.92;
+}
+
+.crumb a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Step list beside the content on wide screens, a scrolling strip on top on narrow ones */
+.layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 64px;
+  padding-top: 64px;
+  padding-bottom: 96px;
+}
+
+.nav {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+}
+
+.nav ol {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-left: 3px solid transparent;
+  color: var(--text-muted);
+  font-weight: var(--weight-medium);
+  transition: var(--transition);
+}
+
+.nav a:hover {
+  color: var(--text-default);
+}
+
+.nav a[aria-current="step"] {
+  border-left-color: var(--red-700);
+  color: var(--text-brand);
+  background: var(--surface-card-tint);
+}
+
+.navNumber {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 14px;
+}
+
+.steps {
+  min-width: 0;
+}
+
+.step {
+  scroll-margin-top: 24px;
+}
+
+.step + .step {
+  margin-top: 96px;
+  padding-top: 64px;
+  border-top: 1px solid var(--border-default);
+}
+
+.stepNumber {
+  font-size: 12px;
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-brand);
+  margin-bottom: 8px;
+}
+
+.step > h2 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  margin-bottom: 12px;
+}
+
+.stepLede {
+  max-width: 36em;
+  font-size: clamp(1.0625rem, 2vw, 1.1875rem);
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+/* Cards that lead to deeper pages and sister sites */
+.cards {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.cards a {
+  display: block;
+  height: 100%;
+  border: 1px solid var(--border-default);
+  padding: 18px 20px;
+  transition: var(--transition);
+}
+
+.cards a:hover {
+  border-color: var(--red-700);
+}
+
+.cards strong {
+  display: block;
+  font-size: 17px;
+  color: var(--text-brand);
+  margin-bottom: 4px;
+}
+
+.cards span {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* Markdown from data/job-search */
+.body {
+  max-width: 40em;
+  font-size: clamp(1.0625rem, 2vw, 1.125rem);
+  line-height: 1.7;
+}
+
+.body h2 {
+  font-size: clamp(1.625rem, 3vw, 2rem);
+  margin: 1.6em 0 0.5em;
+}
+
+.body h3 {
+  font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+  margin: 1.5em 0 0.4em;
+}
+
+.body h4 {
+  font-size: 1.125rem;
+  margin: 1.4em 0 0.3em;
+}
+
+.body p,
+.body ul,
+.body ol,
+.body pre,
+.body blockquote {
+  margin-bottom: 1em;
+}
+
+.body ul,
+.body ol {
+  padding-left: 1.25em;
+}
+
+.body li + li {
+  margin-top: 0.4em;
+}
+
+.body li > ul {
+  margin-top: 0.4em;
+  margin-bottom: 0;
+}
+
+.body a,
+.edit a,
+.back a {
+  color: var(--text-brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.body img {
+  max-width: 100%;
+  height: auto;
+  margin: 8px 0 16px;
+  border: 1px solid var(--border-default);
+}
+
+.body blockquote {
+  padding-left: 16px;
+  border-left: 3px solid var(--border-brand-tint);
+  color: var(--text-muted);
+}
+
+.body pre {
+  padding: 16px 18px;
+  overflow-x: auto;
+  background: var(--surface-card-tint);
+  border: 1px solid var(--border-default);
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.body code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.more {
+  margin-top: 96px;
+  padding-top: 64px;
+  border-top: 1px solid var(--border-default);
+}
+
+.more h2 {
+  margin-bottom: 24px;
+}
+
+.edit {
+  color: var(--text-muted);
+}
+
+.article {
+  padding-top: 64px;
+  padding-bottom: 96px;
+}
+
+.back {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-default);
+  font-weight: var(--weight-medium);
+}
+
+@media (max-width: 1023px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    padding-top: 0;
+  }
+
+  .nav {
+    top: 0;
+    z-index: 1;
+    margin: 0 calc(var(--gutter) * -1);
+    padding: 8px var(--gutter);
+    background: var(--surface-page);
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .nav ol {
+    display: flex;
+    overflow-x: auto;
+    gap: 4px;
+  }
+
+  .nav a {
+    padding: 8px 10px;
+    border-left: 0;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+  }
+
+  .nav a[aria-current="step"] {
+    border-bottom-color: var(--red-700);
+  }
+
+  .step {
+    scroll-margin-top: 72px;
+  }
+
+  .article {
+    padding-top: 40px;
+  }
+}

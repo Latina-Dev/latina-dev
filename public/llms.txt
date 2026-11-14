@@ -41,6 +41,7 @@ Each member has a profile page at https://latina.dev/members/<slug> with their l
 - [Latinx employee resource groups (ERGs) at companies](https://latina.dev/resources/ergs): companies with a group for Latina and Latino employees, the name each group goes by and a public source for each
 - [ERGs as Markdown](https://latina.dev/ergs.md): the same list in one file
 - [ERGs data feed](https://latina.dev/ergs.json): the same list as JSON
+- [The tech job search guide](https://latina.dev/job-search): a free, step-by-step guide to landing a software engineering job, in five steps: prepare, search, apply, interview and accept, with cover letter and recruiter email templates, interview checklists and salary negotiation advice. Formerly Hire Me at engjobsearch.com
 - [Should you lead an ERG? Make sure it counts toward your promotion](https://latina.dev/guides/erg-work-and-promotion): leading an ERG can be worth doing, but it is usually non-promotable work; what to know and ask for before saying yes, and how to make it count
 - [Advice for Latina software engineers in the workplace](https://latina.dev/guides/workplace-advice): ask for what you want, write everything down, and weigh the cost of paying it forward
 - [Helping Latina K-12 students get into coding](https://latina.dev/guides/k-12-students): why it matters and advice for parents and allies
