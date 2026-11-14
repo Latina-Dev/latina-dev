@@ -14,4 +14,5 @@
 - [Branding](/pages/branding)
 - [Storybook MCP](/pages/storybook-mcp)
 - [MCP Server](/pages/mcp-server)
+- [Community Questions](/pages/community-questions)
 - [Questions](/pages/questions)

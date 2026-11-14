@@ -13,8 +13,9 @@ No sign-in or API key is needed. It only returns what is already public on latin
 | `search_resources`         | Find communities, student programs, scholarships, job boards, conferences, founder support, podcasts, newsletters and reports by keyword, category, type, career stage or audience |
 | `list_resource_categories` | List the resource categories, career stages and types, with how many resources each has and the page that lists them                                                               |
 | `search_ergs`              | Find Latinx employee resource groups (ERGs) by company or group name, each with a public source, plus the guide on making ERG work count toward promotion                          |
+| `search_questions`         | Find career questions members asked and answered in the Latina Dev Slack, with every answer and who gave it                                                                        |
 
-The server also offers two MCP resources for assistants that load context instead of calling tools: `https://latina.dev/resources.md`, every resource in one Markdown document, and `https://latina.dev/ergs.md`, every ERG.
+The server also offers three MCP resources for assistants that load context instead of calling tools: `https://latina.dev/resources.md`, every resource in one Markdown document, `https://latina.dev/ergs.md`, every ERG, and `https://latina.dev/questions.md`, every answered community question.
 
 Every keyword in a query must match. Matching ignores case and accents, so `mexico` finds `México`.
 
