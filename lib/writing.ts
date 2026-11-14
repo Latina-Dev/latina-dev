@@ -96,27 +96,33 @@ export const collectWriting = (
 ): WritingPost[] => {
   const bySlug = new Map(authors.map((author) => [author.slug, author]));
   const seen = new Set<string>();
-  return files
-    .flatMap(({ slug, data }) => {
-      const author = bySlug.get(slug);
-      if (!author?.blog) return [];
-      const hidden = new Set(data.hidden);
-      return data.posts
-        .filter((post) => !hidden.has(post.url))
-        .map((post) => ({
-          ...post,
-          author: author.name,
-          authorSlug: slug,
-          authorPath: `/members/${encodeURIComponent(slug)}`,
-        }));
-    })
-    .filter((post) => {
-      // A post can appear twice when a feed lists it under two URLs that normalize the same
-      if (seen.has(post.url)) return false;
-      seen.add(post.url);
-      return true;
-    })
-    .sort((a, b) => b.published.localeCompare(a.published) || a.title.localeCompare(b.title));
+  return (
+    files
+      .flatMap(({ slug, data }) => {
+        const author = bySlug.get(slug);
+        if (!author?.blog) return [];
+        const hidden = new Set(data.hidden);
+        return data.posts
+          .filter((post) => !hidden.has(post.url))
+          .map((post) => ({
+            ...post,
+            author: author.name,
+            authorSlug: slug,
+            authorPath: `/members/${encodeURIComponent(slug)}`,
+          }));
+      })
+      .filter((post) => {
+        // A post can appear twice when a feed lists it under two URLs that normalize the same
+        if (seen.has(post.url)) return false;
+        seen.add(post.url);
+        return true;
+      })
+      // Compare instants, not strings: "00:00:00.100Z" is later than "00:00:00Z" but sorts first
+      .sort(
+        (a, b) =>
+          Date.parse(b.published) - Date.parse(a.published) || a.title.localeCompare(b.title)
+      )
+  );
 };
 
 const readWritingFiles = () => {

@@ -110,6 +110,25 @@ describe("collectWriting", () => {
     );
   });
 
+  it("sorts by time even when only some dates have fractional seconds", () => {
+    const posts = collectWriting(
+      [
+        {
+          slug: "ana-lopez",
+          data: file([
+            post("older", "2026-01-01T00:00:00Z"),
+            post("newer", "2026-01-01T00:00:00.100Z"),
+          ]),
+        },
+      ],
+      authors
+    );
+    assert.deepEqual(
+      posts.map((p) => p.title),
+      ["newer", "older"]
+    );
+  });
+
   it("lists a URL once", () => {
     const posts = collectWriting(
       [
