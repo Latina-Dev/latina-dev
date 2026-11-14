@@ -107,7 +107,7 @@ export const collectWriting = (
           ...post,
           author: author.name,
           authorSlug: slug,
-          authorPath: `/members/${slug}`,
+          authorPath: `/members/${encodeURIComponent(slug)}`,
         }));
     })
     .filter((post) => {
