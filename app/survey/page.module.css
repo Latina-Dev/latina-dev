@@ -1,0 +1,145 @@
+.idea {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 80px;
+  align-items: start;
+  padding-top: 80px;
+  padding-bottom: 72px;
+}
+
+.body {
+  font-size: clamp(1.0625rem, 2vw, 1.25rem);
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.body + .body {
+  margin-top: 1em;
+}
+
+.volunteer {
+  padding-bottom: 96px;
+}
+
+.sectionHeader {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 16px 80px;
+  align-items: end;
+  border-bottom: 1px solid var(--border-strong);
+  padding-bottom: 24px;
+  margin-bottom: 40px;
+}
+
+.sectionHeader p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.roleGrid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.role {
+  border: 1px solid var(--border-default);
+  padding: 32px;
+  transition: var(--transition);
+}
+
+.role:hover {
+  border-color: var(--red-700);
+}
+
+.roleIcon {
+  color: var(--text-brand);
+  font-size: 22px;
+}
+
+.role h3 {
+  font-size: 24px;
+  margin: 18px 0 10px;
+}
+
+.role p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.list {
+  list-style: disc;
+  padding-left: 1.25em;
+  display: grid;
+  gap: 12px;
+  font-size: clamp(1.0625rem, 2vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.timeline {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+.timeline li {
+  display: grid;
+  gap: 8px;
+  border-top: 3px solid var(--text-brand);
+  padding-top: 16px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.timeline strong {
+  font-size: 20px;
+  color: var(--text-default);
+}
+
+.slack {
+  display: grid;
+  grid-template-columns: 1.2fr auto;
+  gap: 32px 56px;
+  align-items: center;
+  background: var(--surface-card-tint);
+  padding: clamp(28px, 5vw, 56px);
+  margin-top: 56px;
+}
+
+.slack p {
+  font-size: clamp(1.0625rem, 2vw, 1.25rem);
+  line-height: 1.55;
+}
+
+@media (max-width: 1023px) {
+  .idea,
+  .sectionHeader {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .idea {
+    padding-top: 56px;
+    padding-bottom: 48px;
+  }
+
+  .roleGrid,
+  .timeline {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .role {
+    padding: 24px;
+  }
+
+  .slack {
+    grid-template-columns: 1fr;
+  }
+}

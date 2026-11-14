@@ -1,4 +1,4 @@
-// Shared pieces of the link checks: the monthly /resources audit and the member link check
+// Shared pieces of the link checks: the weekly /resources audit and the member link check
 
 export const userAgent =
   "Mozilla/5.0 (compatible; LatinaDevLinkAudit/1.0; +https://github.com/Latina-Dev/latina-dev)";
