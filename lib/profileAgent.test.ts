@@ -9,6 +9,7 @@ import {
   profileValues,
   Proposal,
   proposalMessage,
+  quickReply,
 } from "@/lib/profileAgent";
 import { buildMemberProfile } from "@/lib/profiles/memberFile";
 
@@ -92,5 +93,18 @@ describe("button round trip", () => {
       bio: "x".repeat(2500),
     });
     assert.doesNotMatch(JSON.stringify(message), /agent_send_edit/);
+  });
+});
+
+describe("quickReply", () => {
+  it("answers greetings, thanks, invites and short messages without Claude", () => {
+    for (const text of ["hola", "help", "Thanks!", "can you invite my friend Ana?", "edit", "ok"]) {
+      assert.ok(quickReply(text), text);
+    }
+  });
+
+  it("leaves real profile changes for Claude", () => {
+    assert.equal(quickReply("I'm a Staff Engineer at Acme now"), undefined);
+    assert.equal(quickReply("I moved to Austin, TX"), undefined);
   });
 });

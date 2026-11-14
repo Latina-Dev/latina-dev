@@ -11,6 +11,7 @@ import {
   profileValues,
   proposalMessage,
   proposeEdit,
+  quickReply,
 } from "@/lib/profileAgent";
 import {
   commitToBranch,
@@ -247,6 +248,12 @@ export const sendSuggestion = async (teamId: string, userId: string, suggestion:
  * @param text what she wrote
  */
 export const answerDirectMessage = async (teamId: string, userId: string, text: string) => {
+  // Questions, thanks, invites and the like get a canned answer and never reach Claude
+  const canned = quickReply(text);
+  if (canned) {
+    await dmMember(userId, canned);
+    return;
+  }
   const slug = linkedSlug(teamId, userId);
   if (!slug) {
     await callSlack("chat.postMessage", {
