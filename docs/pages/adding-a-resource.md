@@ -22,16 +22,16 @@ serves: ["Latinas"]
 ---
 ```
 
-| Field         | What to put                                                                                                                                                         |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`        | The name as the organization writes it                                                                                                                              |
-| `url`         | Full link, starting with `https://`. Each link can only be listed once. Leave out `utm_` tags: the site adds `utm_source=latina.dev` itself                         |
-| `description` | One sentence on what it offers and who it's for                                                                                                                     |
-| `group`       | The page that lists it: `latina-communities`, `latino-tech-communities`, `k-12`, `college`, `jobs`, `career-growth`, `conferences`, `founders` or `listen-and-read` |
-| `types`       | One or more of: Community, Program, Scholarship, Professional association, Job board, Directory, Guide, Conference, Accelerator, Newsletter, Podcast, Report        |
-| `stages`      | One or more of: K-12, College, Workplace, Leadership, Founders                                                                                                      |
-| `serves`      | Who it's built for. One or more of: Latinas, Latinos, Women, Women of color, People of color, Underrepresented groups, Everyone                                     |
-| `schemaType`  | Optional. `Report` or `PodcastSeries` when it isn't an organization                                                                                                 |
+| Field         | What to put                                                                                                                                                               |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | The name as the organization writes it                                                                                                                                    |
+| `url`         | Full link, starting with `https://`. Each link can only be listed once. Leave out `utm_` tags: the site adds `utm_source=latina.dev` itself                               |
+| `description` | One sentence on what it offers and who it's for                                                                                                                           |
+| `group`       | The page that lists it: `latina-communities`, `latino-tech-communities`, `ai`, `k-12`, `college`, `jobs`, `career-growth`, `conferences`, `founders` or `listen-and-read` |
+| `types`       | One or more of: Community, Program, Scholarship, Professional association, Job board, Directory, Guide, Conference, Accelerator, Newsletter, Podcast, Report              |
+| `stages`      | One or more of: K-12, College, Workplace, Leadership, Founders                                                                                                            |
+| `serves`      | Who it's built for. One or more of: Latinas, Latinos, Women, Women of color, People of color, Underrepresented groups, Everyone                                           |
+| `schemaType`  | Optional. `Report` or `PodcastSeries` when it isn't an organization                                                                                                       |
 
 `types` and `stages` are the **Type** and **Stage** menus on the page. The lists of allowed values live in [`types/resources.ts`](https://github.com/Latina-Dev/latina-dev/blob/main/types/resources.ts).
 

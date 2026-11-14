@@ -27,6 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ergsPath,
     ...getGuides().map((guide) => guide.path),
     "/conference",
+    "/survey",
     "/add-member",
     "/privacy",
   ].map((path) => ({ url: `${siteUrl}${path}` }));
