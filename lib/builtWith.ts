@@ -43,8 +43,8 @@ export const tools: Tool[] = [
   },
   {
     name: "latina.dev domain",
-    url: "https://domains.squarespace.com",
-    use: "our home on the web, registered with Squarespace Domains",
+    url: "https://vercel.com/domains",
+    use: "our home on the web, registered through Vercel",
     support: "founder",
   },
   {

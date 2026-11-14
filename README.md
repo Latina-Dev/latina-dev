@@ -41,7 +41,7 @@ Latina Dev is free for everyone. Here's what keeps it running and who pays for i
 
 - [Buffer](https://buffer.com): social posts for our LinkedIn page
 - [Claude](https://claude.com/product/claude-code): AI review on every pull request
-- latina.dev domain
+- latina.dev domain, registered through [Vercel](https://vercel.com/domains)
 
 **Free plans we rely on**
 
