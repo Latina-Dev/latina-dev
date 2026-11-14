@@ -32,8 +32,9 @@ const hideReaction = "no_entry_sign";
 
 /**
  * Whether a message has been hidden with 🚫 by an organizer or by the person who wrote it. Slack
- * can leave people out of a reaction's user list, so when the list is shorter than the count the
- * message is hidden rather than risk showing something an organizer took down
+ * can leave people out of a reaction's user list, so when the list is shorter than the count, or
+ * there is no count, the message is hidden rather than risk showing something an organizer took
+ * down
  * @param message a Slack message
  * @param moderators Slack user ids of organizers
  */
@@ -41,7 +42,8 @@ export const isHidden = (message: SlackMessage, moderators: Set<string>) =>
   (message.reactions ?? []).some(
     (reaction) =>
       reaction.name === hideReaction &&
-      ((reaction.count ?? 0) > reaction.users.length ||
+      // A missing count is treated as a list Slack may have cut short
+      ((reaction.count ?? Infinity) > reaction.users.length ||
         reaction.users.some((user) => isModerator(user, moderators) || user === message.user))
   );
 

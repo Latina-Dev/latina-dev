@@ -148,12 +148,21 @@ describe("buildQuestion", () => {
   });
 
   it("leaves out what an organizer or the author hid with 🚫", () => {
-    const hide = (users: string[]) => ({ reactions: [{ name: "no_entry_sign", users }] });
+    const hide = (users: string[]) => ({
+      reactions: [{ name: "no_entry_sign", users, count: users.length }],
+    });
     assert.equal(isHidden({ ...question, ...hide(["U2"]) }, context.moderators), false);
     // Slack left someone out of the list, who may be an organizer
     assert.equal(
       isHidden(
         { ...question, reactions: [{ name: "no_entry_sign", users: ["U2"], count: 2 }] },
+        context.moderators
+      ),
+      true
+    );
+    assert.equal(
+      isHidden(
+        { ...question, reactions: [{ name: "no_entry_sign", users: ["U2"] }] },
         context.moderators
       ),
       true
@@ -217,9 +226,10 @@ describe("plainText", () => {
       "link (https://a.com/?token=_abc_) and _private_ and bold"
     );
     assert.equal(
-      plainText("[link](https://a.com/?q=(foo)_abc_)"),
-      "link (https://a.com/?q=(foo)_abc_)"
+      plainText("[link](https://a.com/?q=(foo)_abc_) [deep](https://a.com/?q=((foo))_abc_)"),
+      "link (https://a.com/?q=(foo)_abc_) deep (https://a.com/?q=((foo))_abc_)"
     );
+    assert.equal(plainText("**Tips**\n- one\n- two\\\nthree"), "Tips one two three");
     assert.equal(
       plainText("Is &lt;div&gt; ok?\n\n```\nconst a = 1 < 2\n```"),
       "Is <div> ok? const a = 1 < 2"

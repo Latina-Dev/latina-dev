@@ -132,36 +132,33 @@ export const getQuestion = (slug: string) => getQuestions().find((q) => q.slug =
 export const renderMarkdown = async (markdown: string) =>
   String(await unified().use(remarkParse).use(remarkHtml, { sanitize: true }).process(markdown));
 
-/**
- * Plain text of a member's Markdown, for structured data, feeds and search. Code and link
- * destinations are set aside first, so formatting marks are only removed from prose and
- * `_private_` or https://a.com/?t=_x_ come through unchanged
- */
-export const plainText = (markdown: string) => {
-  const kept: string[] = [];
-  const keep = (text: string) => `\u0000${kept.push(text) - 1}\u0000`;
-  return (
-    markdown
-      .replace(/```\w*\n?([\s\S]*?)```/g, (_, code: string) => keep(code))
-      .replace(/`([^`\n]+)`/g, (_, code: string) => keep(code))
-      // A destination may hold one level of parentheses, as Slack links to Wikipedia often do
-      .replace(
-        /!?\[([^\]]*)\]\(((?:[^()\s]|\([^()\s]*\))+)\)/g,
-        (_, label: string, url: string) => `${label} (${keep(url)})`
-      )
-      .replace(/\\\n/g, "\n")
-      .replace(/^(- |> ?|#+ )/gm, "")
-      // Underscores only in pairs that mark emphasis, so my_repo stays whole
-      .replace(/(^|[^\w])_([^_\n]+)_(?=[^\w]|$)/g, "$1$2")
-      .replace(/[*~]/g, "")
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">")
-      .replace(/&amp;/g, "&")
-      .replace(/\u0000(\d+)\u0000/g, (_, i: string) => kept[Number(i)])
-      .replace(/\s+/g, " ")
-      .trim()
-  );
+/** The parts of a parsed Markdown node that plain text needs */
+interface MarkdownNode {
+  type: string;
+  value?: string;
+  url?: string;
+  alt?: string | null;
+  children?: MarkdownNode[];
+}
+
+const nodeText = (node: MarkdownNode): string => {
+  if (node.type === "link") return `${(node.children ?? []).map(nodeText).join("")} (${node.url})`;
+  if (node.type === "image") return `${node.alt ?? ""} (${node.url})`;
+  if (node.type === "break") return " ";
+  if (node.value !== undefined) return node.value;
+  // Block children (paragraphs, list items) are separated so words don't run together
+  return (node.children ?? []).map(nodeText).join(node.type === "paragraph" ? "" : " ");
 };
+
+/**
+ * Plain text of a member's Markdown, for structured data, feeds and search. It reads the parsed
+ * Markdown, so code and link destinations come through exactly as written, and links read as
+ * "label (url)"
+ */
+export const plainText = (markdown: string) =>
+  nodeText(unified().use(remarkParse).parse(markdown) as MarkdownNode)
+    .replace(/\s+/g, " ")
+    .trim();
 
 /** A date for readers, e.g. "November 12, 2026" */
 export const formatQuestionDate = (date: string) =>
