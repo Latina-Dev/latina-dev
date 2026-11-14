@@ -212,5 +212,13 @@ describe("plainText", () => {
       plainText("_Try_ [my repo](https://a.com/my_repo) and `get_user`"),
       "Try my repo (https://a.com/my_repo) and get_user"
     );
+    assert.equal(
+      plainText("[link](https://a.com/?token=_abc_) and `_private_` and *bold*"),
+      "link (https://a.com/?token=_abc_) and _private_ and bold"
+    );
+    assert.equal(
+      plainText("Is &lt;div&gt; ok?\n\n```\nconst a = 1 < 2\n```"),
+      "Is <div> ok? const a = 1 < 2"
+    );
   });
 });
