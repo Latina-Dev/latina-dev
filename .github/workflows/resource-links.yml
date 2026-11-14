@@ -1,12 +1,12 @@
 name: Resource links
 
 # Audits the links on /resources: broken links, redirects to another domain, and parked or spam
-# pages. Monthly, it keeps one open issue up to date with what needs review and closes it once all
+# pages. Weekly, it keeps one open issue up to date with what needs review and closes it once all
 # clear. On pull requests that change the list, it fails so a dead site can't be added.
 
 on:
   schedule:
-    - cron: "0 14 1 * *"
+    - cron: "0 14 * * 1" # Mondays
   workflow_dispatch:
   pull_request:
     paths:
