@@ -1,6 +1,10 @@
 import { faSlack } from "@fortawesome/free-brands-svg-icons";
 import {
   faBuilding,
+  faBullhorn,
+  faChartColumn,
+  faClipboardList,
+  faCode,
   faHouseLaptop,
   faLayerGroup,
   faMoneyBillWave,
@@ -22,7 +26,7 @@ import styles from "./page.module.css";
 export const metadata: Metadata = pageMetadata({
   title: "State of Latina Engineers survey",
   description:
-    "An annual, anonymous survey of Latina software engineers on pay, level, company, remote work and AI tools. Opening in early 2027.",
+    "An annual, anonymous survey of Latina software engineers on pay, level, company, remote work and AI tools. A work in progress built by volunteers.",
   path: "/survey",
 });
 
@@ -62,11 +66,27 @@ const privacy = [
   "Raw answers are never shared, and are deleted 12 months after the report comes out.",
 ];
 
-const steps = [
-  { when: "Now", what: "Finalizing the questions." },
-  { when: "Winter 2026", what: "A short test run with members of the Latina Dev Slack." },
-  { when: "Early 2027", what: "The survey opens to every Latina software engineer for six weeks." },
-  { when: "Spring 2027", what: "A free public report here on latina.dev." },
+const roles = [
+  {
+    icon: faClipboardList,
+    title: "Questions",
+    body: "Sharpen the draft questions and help run a short test with a few members.",
+  },
+  {
+    icon: faCode,
+    title: "Build",
+    body: "Build the form on latina.dev and keep every answer private and anonymous.",
+  },
+  {
+    icon: faChartColumn,
+    title: "Analysis",
+    body: "Turn the answers into clear charts and a free public report.",
+  },
+  {
+    icon: faBullhorn,
+    title: "Outreach",
+    body: "Share the survey with Latina engineers in your communities once it opens.",
+  },
 ];
 
 export default function SurveyPage() {
@@ -79,12 +99,12 @@ export default function SurveyPage() {
         ])}
       />
       <PageHero
-        eyebrow="Work in progress"
+        eyebrow="An idea in progress"
         title="State of Latina Engineers"
         lede={
           <p>
-            An annual, anonymous survey of Latina software engineers. Opening in early 2027, with a
-            goal of 200+ responses in its first year.
+            An annual, anonymous survey of Latina software engineers, built by volunteers from the
+            community.
           </p>
         }
       />
@@ -129,27 +149,31 @@ export default function SurveyPage() {
         </ul>
       </section>
 
-      <section className={`page-width ${styles.volunteer}`} aria-labelledby="timeline-heading">
+      <section className={`page-width ${styles.volunteer}`} aria-labelledby="volunteer-heading">
         <div className={styles.sectionHeader}>
-          <h2 id="timeline-heading">Timeline</h2>
-          <p>Dates may shift while we finish the questions.</p>
+          <h2 id="volunteer-heading">Help make it happen</h2>
+          <p>
+            There&apos;s no launch date yet. This survey happens when enough volunteers help build
+            it.
+          </p>
         </div>
 
-        <ol className={styles.timeline}>
-          {steps.map((step) => (
-            <li key={step.when}>
-              <strong>{step.when}</strong>
-              <span>{step.what}</span>
+        <ul className={`${styles.roleGrid} ${styles.roleGridFour}`}>
+          {roles.map((role) => (
+            <li key={role.title} className={styles.role}>
+              <FontAwesomeIcon icon={role.icon} className={styles.roleIcon} aria-hidden="true" />
+              <h3>{role.title}</h3>
+              <p>{role.body}</p>
             </li>
           ))}
-        </ol>
+        </ul>
 
         <div className={styles.slack}>
           <p>
-            Want to help test the survey or share it when it opens? Join the Latina Dev Slack and
-            we&apos;ll let you know.
+            Want to help? Add your profile to join Latina Dev and the Slack, then say hi and mention
+            the survey. We&apos;ll take it from there.
           </p>
-          <ButtonLink text="Join our Slack" url="/add-member" icon={faSlack} />
+          <ButtonLink text="Join Latina Dev" url="/add-member" icon={faSlack} />
         </div>
       </section>
     </>

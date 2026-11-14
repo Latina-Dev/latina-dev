@@ -80,26 +80,8 @@
   color: var(--text-muted);
 }
 
-.timeline {
-  list-style: none;
-  display: grid;
+.roleGridFour {
   grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
-}
-
-.timeline li {
-  display: grid;
-  gap: 8px;
-  border-top: 3px solid var(--text-brand);
-  padding-top: 16px;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--text-muted);
-}
-
-.timeline strong {
-  font-size: 20px;
-  color: var(--text-default);
 }
 
 .slack {
@@ -130,7 +112,7 @@
   }
 
   .roleGrid,
-  .timeline {
+  .roleGridFour {
     grid-template-columns: 1fr;
     gap: 16px;
   }
