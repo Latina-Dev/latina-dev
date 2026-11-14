@@ -1,0 +1,98 @@
+---
+title: "Search"
+step: 2
+description: "Job alerts, job boards and simple trackers to find roles worth applying to and keep your search organized."
+---
+
+Searching for the ideal job position is tedious but here are a few resources to help you get started.
+
+## Job Alerts
+
+I personally enjoyed using LinkedIn & Glassdoor since you can setup customized job alerts.
+
+### Glassdoor
+
+![Glassdoor Job Alerts](https://www.glassdoor.com/app/static/img/home/value-prop/email.tab.EN.png?v=d39b98end)
+
+### LinkedIn
+
+![LinkedIn Job Alerts](https://i.imgur.com/35X4Xoy.png)
+
+## Job Boards
+
+Here are some websites you can use when looking for open positions.
+
+> Emoji Key (in progress)
+
+- design focused roles 🎨
+- job board for women 🚺️
+- VC firms hiring pool 💸️
+- targeted for current students or recent grads 🎓
+
+---
+
+- [Angel.co Jobs](https://angel.co/jobs) / [Wellfound](https://wellfound.com/jobs)
+- [Behance Jobs](https://www.behance.net/joblist) 🎨
+- [BetaList Jobs](https://betalist.com/jobs)
+- [CrunchBoard](http://www.crunchboard.com/)
+- [DesignerJobs](https://www.designerjobs.co/) 🎨
+- [Dev.to Listings](https://dev.to/listings)
+- [DiversifyTech.co](https://www.diversifytech.co/job-board/)
+- [Dribbble Jobs](https://dribbble.com/jobs) 🎨
+- [GarysGuide](http://www.garysguide.com/jobs)
+- [Glassdoor Jobs](https://www.glassdoor.com/index.htm)
+- [Hanzilla Jobs](https://jobs.hanzilla.co/new-grad/) 🎓 - daily-updated Canadian student and recent-grad roles across internships, co-ops, new grad, junior, and entry-level positions
+- [Hiring Without Whiteboards - GitHub Repo](https://github.com/poteto/hiring-without-whiteboards)
+- [Indeed](https://www.indeed.com/)
+- [Jobs in JavaScript](https://jobsinjs.com/) - daily-updated JavaScript, TypeScript and Node.js roles aggregated from company career pages
+- [Landing.jobs](https://landing.jobs/)
+- [LinkedIn Jobs](https://www.linkedin.com/jobs)
+- [Mashable Job Board](http://jobs.mashable.com/jobs/search/results)
+- [MLH Career Lab](https://careerlab.mlh.io/) 🎓
+- [Outreachy](https://www.outreachy.org/)
+- [PowerToFly](https://powertofly.com/jobs/)
+- [Sequoia](https://www.sequoiacap.com/jobs) 💸️
+- [SimplyHired](http://www.simplyhired.com/local-jobs/new-york-ny)
+- [Slack at Work](https://slackatwork.com/)
+- [The Muse](https://www.themuse.com/)
+- [We Work Remotely](https://weworkremotely.com/)
+- [YCombinator Jobs](https://news.ycombinator.com/jobs) 💸️
+- [ZipRecruiter](https://www.ziprecruiter.com/)
+- [Otta](https://otta.com/) - The better way to find a job in tech
+- [Hired](https://hired.com/) - Tech job hunting marketplace
+- [Tribaja](https://www.tribaja.co/) - Job board for diverse tech talent
+- [cord](https://cord.co/) - The messaging tool for finding work
+- [Tech Ladies](https://www.hiretechladies.com/) - Hire more women in tech 🚺️
+- [Hatchways](https://www.hatchways.io/) - Connecting developers with companies
+- [Responsible Tech Job Board](https://alltechishuman.org/responsible-tech-job-board) - All Tech Is Human
+- [Who's Still Hiring?](https://stillhiring.today/) - Find a tech job with open roles
+- [Work at a Startup](https://www.workatastartup.com/) - YC-backed startup jobs 💸️
+- [Levels.fyi Jobs](https://www.levels.fyi/jobs/location/united-states/title/software-engineer/level/mid_staff?workArrangements=remote) - Software engineering jobs with compensation data
+
+## Job Tracking
+
+Keep track of all the jobs you apply to using a platform like the ones below.
+
+Airtable is my favorite option.
+
+### Airtable
+
+Instead of going through the hassle of using Excel, I would recommending trying out [Airtable](http://airtable.com) instead which supports a Kanban like board and has a better user experience than Excel.
+
+![Airtable - 2017](https://i.imgur.com/JNN772I.png?1)
+
+### Huntr
+
+[Huntr](http://huntr.co/) keeps track of every detail about your job applications - notes, dates, tasks, job descriptions, salaries, locations, company data and more.
+
+![Huntr](https://huntr.co/images/jumbo_header_board_2x.png)
+
+### Trello
+
+[Trello](https://trello.com/) keeps track of everything, from the big picture to the minute details.
+
+![Trello](https://i.imgur.com/U3IMAlX.png)
+
+### Comprehensive.io
+
+[Comprehensive.io](https://www.comprehensive.io/) is a pay range tracker that helps you understand compensation at companies before you apply.

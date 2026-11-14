@@ -6,6 +6,17 @@ const nextConfig = {
     "/profile": ["./data/members/**", "./data/owners/**"],
     "/mcp": ["./data/members/**", "./data/resources/**", "./data/ergs/**"],
   },
+  // engjobsearch.com was the job search guide's old home (the hire-me repo). Once the domain is
+  // added to this Vercel project, every request there lands on the guide. The old site used
+  // docsify hash links, which browsers carry through the redirect; /job-search maps them.
+  async redirects() {
+    return ["engjobsearch.com", "www.engjobsearch.com"].map((host) => ({
+      source: "/:path*",
+      has: [{ type: "host", value: host }],
+      destination: "https://latina.dev/job-search",
+      permanent: true,
+    }));
+  },
 };
 
 const { withSentryConfig } = require("@sentry/nextjs");
