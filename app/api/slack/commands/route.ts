@@ -1,7 +1,7 @@
 import { after } from "next/server";
 
 import { isValidSlackSignature } from "@/lib/profiles/slack";
-import { openEditor, profileBody } from "@/lib/slackProfileApp";
+import { openEditor, openSuggestion, profileBody } from "@/lib/slackProfileApp";
 
 const ephemeral = (text: string) =>
   new Response(JSON.stringify({ response_type: "ephemeral", text }), {
@@ -24,8 +24,11 @@ const slackResponseUrl = (value: string | null) => {
   }
 };
 
-const help =
-  "*/latinadev* shows your Latina Dev profile, and *`/latinadev edit`* opens the editor. You can also open the Latina Dev app's Home tab.";
+const help = [
+  "*`/latinadev`* shows your Latina Dev profile, and *`/latinadev edit`* opens the editor.",
+  "*`/latinadev suggest`* suggests a resource or event for latina.dev.",
+  "You can also DM the Latina Dev app a change, like “I'm a Staff Engineer at Acme now”, or open its Home tab.",
+].join("\n");
 
 /**
  * The /latinadev slash command. Replies only to the member who typed it.
@@ -47,6 +50,17 @@ export async function POST(request: Request) {
   const subcommand = (form.get("text") ?? "").trim().toLowerCase();
 
   if (subcommand === "help") return ephemeral(help);
+
+  if (subcommand === "suggest") {
+    // trigger_id expires after three seconds, so the modal opens before responding
+    try {
+      await openSuggestion(triggerId);
+      return new Response(null, { status: 200 });
+    } catch (error) {
+      console.error(error);
+      return ephemeral("Sorry, that didn't open. Please try `/latinadev suggest` again.");
+    }
+  }
 
   if (subcommand === "edit") {
     // trigger_id expires after three seconds, so the editor opens before responding

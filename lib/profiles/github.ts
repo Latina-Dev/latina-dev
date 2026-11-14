@@ -1,5 +1,6 @@
 // GitHub REST and GraphQL calls that turn profile submissions into pull requests.
-// Uses a token with contents and pull request write access to this repo only.
+// Uses a token with contents and pull request write access to this repo only, plus issues write
+// access for suggestions sent with /latinadev suggest.
 
 const repo = "Latina-Dev/latina-dev";
 const baseBranch = "main";
@@ -126,6 +127,7 @@ export const commitToBranch = async (branch: string, files: RepoFile[], message:
 
 interface PullRequest {
   number: number;
+  node_id: string;
   html_url: string;
   state: "open" | "closed";
   merged: boolean;
@@ -231,3 +233,65 @@ export const rejectPull = async (number: number, headSha: string) => {
   await github(`/repos/${repo}/git/refs/heads/${pull.head.ref}`, { method: "DELETE" });
   return "closed";
 };
+
+/**
+ * Read a file as it is on main right now, rather than the copy deployed with the site, so a
+ * change built from it never undoes something merged since the last deploy
+ * @param path e.g. data/members/frances-coronel.md
+ */
+export const readMainFile = async (path: string) => {
+  const file = await github<{ content: string; encoding: string }>(
+    `/repos/${repo}/contents/${path.split("/").map(encodeURIComponent).join("/")}?ref=${baseBranch}`
+  );
+  return Buffer.from(file.content, file.encoding === "base64" ? "base64" : "utf8").toString("utf8");
+};
+
+// Branches whose pull requests may merge themselves once checks pass. Only changes the bot builds
+// itself go here, e.g. the date a member confirmed their profile, never anything a member typed
+const autoMergePrefix = "freshness/";
+
+/**
+ * Turn on GitHub auto-merge for one of the bot's own housekeeping pull requests, so it squash
+ * merges once required checks pass. Refuses any branch outside freshness/
+ * @param pull the pull request from openOrUpdatePull
+ */
+export const enableAutoMerge = async (pull: {
+  number: number;
+  node_id: string;
+  head: { ref: string };
+}) => {
+  if (!pull.head.ref.startsWith(autoMergePrefix)) {
+    throw new Error(`${pull.head.ref} may not auto-merge`);
+  }
+  const result = await github<{ errors?: { message: string }[] }>("/graphql", {
+    method: "POST",
+    body: {
+      query: `mutation($id: ID!) {
+        enablePullRequestAutoMerge(input: { pullRequestId: $id, mergeMethod: SQUASH }) {
+          clientMutationId
+        }
+      }`,
+      variables: { id: pull.node_id },
+    },
+  });
+  // GitHub refuses when checks have already passed; then merge straight away
+  if (result.errors?.length) {
+    const message = result.errors.map((error) => error.message).join("; ");
+    if (!/clean status/i.test(message)) throw new Error(`Auto-merge failed: ${message}`);
+    await github(`/repos/${repo}/pulls/${pull.number}/merge`, {
+      method: "PUT",
+      body: { merge_method: "squash" },
+    });
+  }
+};
+
+/**
+ * Open an issue, e.g. for a resource or event a member suggested
+ * @param title issue title
+ * @param body Markdown body
+ */
+export const createIssue = (title: string, body: string) =>
+  github<{ number: number; html_url: string }>(`/repos/${repo}/issues`, {
+    method: "POST",
+    body: { title, body },
+  });

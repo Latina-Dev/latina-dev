@@ -11,6 +11,7 @@ const bioMaxLength = 2000;
 const keyOrder: (keyof MemberFrontmatter)[] = [
   "name",
   "added",
+  "updated",
   "level",
   "linkedin",
   "github",
@@ -108,7 +109,7 @@ const normalizeBio = (bio: string) =>
  * Turn profile form values into validated frontmatter and a bio
  * @param values values from the profile form
  * @param existing the member's current frontmatter when editing, so fields the form doesn't show are kept
- * @param today date to record as `added` for a new profile, e.g. 2026-10-09
+ * @param today date to record as `added` for a new profile, or as `updated` for an edit, e.g. 2026-10-09
  * @returns frontmatter and bio, or a readable list of problems
  */
 export const buildMemberProfile = (
@@ -129,6 +130,8 @@ export const buildMemberProfile = (
     ...existing,
     name: values.name,
     added: existing?.added ?? today,
+    // An edit counts as the member confirming her profile is current
+    updated: existing && today ? today : existing?.updated,
     level: values.level,
     linkedin: values.linkedin,
     github: optional(values.github, !values.github),

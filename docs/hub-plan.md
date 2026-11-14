@@ -178,7 +178,7 @@ Each phase ships on its own and leaves the site better even if the next one neve
 1. **Resources become data.** Move `lib/resources.ts` into `data/resources/`, add the BLT Hub fields, bring in the published BLT Hub entries from Notion, add filters to `/resources` and to the MCP tool. No URL changes.
 2. **ERGs.** `data/ergs/`, the `/ergs` directory, the first ERG lead playbook, and the three-door home page.
 3. **Events.** `data/events/`, `/events`, the calendar feed, heritage months.
-4. **Submissions for everything.** Resource, ERG and event forms that reuse the profile pipeline, and owner files per content type.
+4. **Submissions for everything.** ~~Resource, ERG and event forms that reuse the profile pipeline.~~ Replaced on November 14, 2026 by `/latinadev suggest` in Slack (see [Slack Community](pages/slack.md)): members suggest resources and events there, and each suggestion becomes a GitHub issue for an organizer to vet.
 
 ## Parked on purpose
 

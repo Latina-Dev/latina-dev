@@ -1,5 +1,6 @@
 import { after } from "next/server";
 
+import { parseChanges } from "@/lib/profileAgent";
 import {
   approvePull,
   NotMergeableError,
@@ -7,12 +8,22 @@ import {
   rejectPull,
 } from "@/lib/profiles/github";
 import {
+  callSlack,
   closeReviewMessage,
   isApprover,
   isValidSlackSignature,
   replyInThread,
 } from "@/lib/profiles/slack";
-import { checkEditor, dmMember, openEditor, publishHome } from "@/lib/slackProfileApp";
+import {
+  checkAgentEdit,
+  checkEditor,
+  confirmProfileCurrent,
+  dmMember,
+  openEditor,
+  publishHome,
+  sendSuggestion,
+} from "@/lib/slackProfileApp";
+import { readSuggestion } from "@/lib/suggestions";
 
 interface BlockActionPayload {
   type: "block_actions";
@@ -31,7 +42,19 @@ interface ViewSubmissionPayload {
   view: {
     callback_id: string;
     private_metadata: string;
-    state: { values: Record<string, Record<string, { value?: string | null }>> };
+    state: {
+      values: Record<
+        string,
+        Record<
+          string,
+          {
+            value?: string | null;
+            selected_date?: string | null;
+            selected_option?: { value: string } | null;
+          }
+        >
+      >;
+    };
   };
 }
 
@@ -54,13 +77,63 @@ const sentView = {
   ],
 };
 
+// What the suggestion modal turns into once it's sent
+const suggestionSentView = {
+  type: "modal",
+  title: { type: "plain_text", text: "Thanks!" },
+  close: { type: "plain_text", text: "Done" },
+  blocks: [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "🙌 Thanks for the suggestion! An organizer will check it, and I'll DM you a link to follow along.",
+      },
+    },
+  ],
+};
+
+/**
+ * Replace a DM's buttons with what happened, so they can't be pressed twice
+ * @param payload the button press
+ * @param outcome what to show instead
+ */
+const settleMessage = (payload: BlockActionPayload, outcome: string) =>
+  callSlack("chat.update", {
+    channel: payload.channel.id,
+    ts: payload.message.ts,
+    text: outcome,
+    blocks: [
+      ...(payload.message.blocks ?? []).filter((block) => block.type === "section"),
+      { type: "context", elements: [{ type: "mrkdwn", text: outcome }] },
+    ],
+  });
+
 /**
  * The member profile app: the "Edit my profile" button opens the editor, and sending the editor
- * turns the change into a pull request reviewed like any other
+ * turns the change into a pull request reviewed like any other. Also the yearly check-in's
+ * "Still accurate" button, the profile agent's "Send for review" button and /latinadev suggest
  */
 const handleProfileApp = async (payload: BlockActionPayload | ViewSubmissionPayload) => {
   const teamId = payload.team?.id;
   const userId = payload.user.id;
+
+  if (payload.type === "view_submission" && payload.view.callback_id === "suggestion") {
+    const result = readSuggestion(payload.view.state.values);
+    if ("errors" in result) return json({ response_action: "errors", errors: result.errors });
+    after(async () => {
+      try {
+        await sendSuggestion(teamId, userId, result.suggestion);
+      } catch (error) {
+        console.error(error);
+        await dmMember(
+          userId,
+          "Sorry, your suggestion didn't send. Please try `/latinadev suggest` again in a few minutes, or email hola@latina.dev."
+        ).catch((dmError: unknown) => console.error(dmError));
+      }
+    });
+    return json({ response_action: "update", view: suggestionSentView });
+  }
 
   if (payload.type === "view_submission") {
     if (payload.view.callback_id !== "profile_editor") return new Response(null, { status: 200 });
@@ -86,6 +159,56 @@ const handleProfileApp = async (payload: BlockActionPayload | ViewSubmissionPayl
   }
 
   const action = payload.actions[0];
+  if (action.action_id === "confirm_profile_current") {
+    after(async () => {
+      try {
+        const confirmed = await confirmProfileCurrent(teamId, userId, action.value);
+        await settleMessage(
+          payload,
+          confirmed
+            ? "✅ Thanks! Your profile is marked as up to date."
+            : "Your Slack account isn't linked to this profile anymore, so nothing changed."
+        );
+      } catch (error) {
+        console.error(error);
+        await dmMember(
+          userId,
+          "Sorry, I couldn't record that. Please press “Still accurate” again later."
+        ).catch(console.error);
+      }
+    });
+    return new Response(null, { status: 200 });
+  }
+
+  if (action.action_id === "agent_send_edit") {
+    const changes = parseChanges(action.value);
+    const result = changes ? checkAgentEdit(teamId, userId, changes) : undefined;
+    after(async () => {
+      try {
+        if (!result || "errors" in result) {
+          const reason = result && "errors" in result ? Object.values(result.errors)[0] : undefined;
+          await settleMessage(
+            payload,
+            `That change couldn't be sent${reason ? `: ${reason}` : ""}. Type \`/latinadev edit\` to open the editor.`
+          );
+          return;
+        }
+        await result.send();
+        await settleMessage(
+          payload,
+          "🎉 Sent! An organizer will review it, and it goes live on latina.dev once approved."
+        );
+      } catch (error) {
+        console.error(error);
+        await dmMember(
+          userId,
+          "Sorry, your profile change didn't send. Please try again in a few minutes, or type `/latinadev edit`."
+        ).catch(console.error);
+      }
+    });
+    return new Response(null, { status: 200 });
+  }
+
   if (action.action_id === "open_profile_editor") {
     // trigger_id expires after three seconds, so the modal opens before responding
     const opened = await openEditor(teamId, userId, payload.trigger_id).catch((error: unknown) => {

@@ -1,0 +1,44 @@
+name: Slack check-ins
+
+# Once a year, DMs each member who linked Slack to her profile to ask whether it's still accurate
+# (lib/freshness.ts). Runs weekly; each member is asked in the week of the anniversary of her
+# profile's last change. "Still accurate" records today's date as `updated` through a small pull
+# request that merges itself; "Update my profile" opens the Slack editor.
+# Needs the SLACK_BOT_TOKEN secret (the profile app's bot, with users:read and chat:write). Without
+# it the run only lists who is due.
+
+on:
+  schedule:
+    - cron: "0 16 * * 2"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: slack-check-ins
+  cancel-in-progress: false
+
+jobs:
+  check-in:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # Full history, so each profile's last change comes from git
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Ask members who are due
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: npx tsx scripts/slack-check-ins.ts

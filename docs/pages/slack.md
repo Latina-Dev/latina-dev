@@ -8,7 +8,7 @@ Rename these to match channels that already exist rather than making duplicates.
 
 | Channel          | What it's for                                                                                                                            | Who posts          |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `#announcements` | News from organizers: new features, events, the monthly roundup                                                                          | Organizers         |
+| `#announcements` | News from organizers, plus new members, answered questions and guides on latina.dev, posted automatically                                | Organizers and app |
 | `#introductions` | Say hola when you join                                                                                                                   | Everyone           |
 | `#ask`           | Questions for the community, answered by anyone. Questions and answers are published at latina.dev/questions so they can help others too | Everyone           |
 | `#jobs`          | Roles and referrals. Include the location or remote, the level and a salary range                                                        | Everyone           |
@@ -45,10 +45,19 @@ The same Slack app that posts profile reviews also lets members manage their pro
 - **`/latinadev`** shows your profile, with your links, a meter for how many of your five links you've added (GitHub, blog, Bluesky, X, website) and a nudge toward the next one.
 - **`/latinadev edit`**, or **Edit my profile**, opens a form for your title, location, links, what you're open to, milestone opt-in and bio. Name, level and roots stay on [latina.dev/profile](https://latina.dev/profile).
 - The app's **Home tab** shows the same profile card.
+- **DM the app a change**, like "I'm a Staff Engineer at Acme now" or "add Speaking to what I'm open to". The profile agent (Claude, `lib/profileAgent.ts`) replies with the exact change and a **Send for review** button. It can change the same fields as the editor, never name, level, roots or LinkedIn, and the change goes through the same review as any edit.
+- **`/latinadev suggest`** lets any member suggest a resource or an event. The app checks the link loads, opens a GitHub issue with the details and a vetting checklist, posts it in the review channel and DMs the member the issue link. Nothing goes on the site until an organizer vets it and adds it (resources still need the health check and a description checked against the live site). This replaces the web submission forms the hub plan had for phase 4.
+- **Yearly check-in.** Once a year the app DMs each linked member her profile and asks "still accurate?". **Still accurate** records today's date as `updated`, shown as "Updated <month year>" on her profile, through a one-line pull request that merges itself once checks pass, since the bot wrote the change, not the member. **Update my profile** opens the editor. A weekly [GitHub Action](https://github.com/Latina-Dev/latina-dev/blob/main/.github/workflows/slack-check-ins.yml) asks each member in the week of the anniversary of her profile's last change, so nothing has to remember who was asked. Any approved edit also sets `updated`.
 
 LinkedIn is still the only identity. To link Slack, a member presses **Link with LinkedIn**, which opens a personal, 15-minute link on latina.dev. They sign in with the LinkedIn account that owns their profile, and that opens a pull request adding `data/owners/slack/<slug>.txt`, which holds a hash of their Slack id, never the id itself. An organizer approves it in Slack like any other change. Members without an approved profile are sent to add one first.
 
 Every edit sent from Slack opens a pull request on the member's usual profile branch and posts the normal review message, so an organizer still approves every change. To unlink, delete the member's file in `data/owners/slack`.
+
+## Announcements
+
+When a push to main adds a member profile, an answered question or a guide, a [GitHub Action](https://github.com/Latina-Dev/latina-dev/blob/main/.github/workflows/slack-announcements.yml) posts it in #announcements, so members see the community grow and come back. A push that adds more than five at once (say, the first #ask sync) posts one summary instead.
+
+The Slack channels the app posts to are listed in [`lib/slack/channels.ts`](https://github.com/Latina-Dev/latina-dev/blob/main/lib/slack/channels.ts).
 
 ## Feed channels
 
@@ -70,21 +79,26 @@ These have active feeds, but their own bios don't say whether they're Latina, so
 
 ### Slack app ([api.slack.com/apps](https://api.slack.com/apps), the app from [Member Sign-in](member-sign-in.md))
 
-1. **OAuth & Permissions → Bot Token Scopes:** keep `chat:write` and add `commands`. The member Q&A sync also needs `channels:history` and `users:read`, so add them now to reinstall only once.
+1. **OAuth & Permissions → Bot Token Scopes:** keep `chat:write` and add `commands`, `users:read` (the yearly check-in finds linked members by hashing workspace members) and `im:history` (the profile agent reads DMs sent to the app). The member Q&A sync also needs `channels:history`, so add it now to reinstall only once.
 2. **App Home:** turn on the **Home Tab**, and under **Messages Tab** allow messages, so the app can DM members.
-3. **Slash Commands:** create `/latinadev` with the request URL `https://latina.dev/api/slack/commands`, description "Your Latina Dev profile" and usage hint `[edit]`.
-4. **Event Subscriptions:** turn on with the request URL `https://latina.dev/api/slack/events` and subscribe to the bot event `app_home_opened`.
-5. **Interactivity** keeps its request URL, `https://latina.dev/api/slack/interactions`. It now handles the profile editor too.
+3. **Slash Commands:** create `/latinadev` with the request URL `https://latina.dev/api/slack/commands`, description "Your Latina Dev profile" and usage hint `[edit | suggest]`.
+4. **Event Subscriptions:** turn on with the request URL `https://latina.dev/api/slack/events` and subscribe to the bot events `app_home_opened` and `message.im`.
+5. **Interactivity** keeps its request URL, `https://latina.dev/api/slack/interactions`. It now handles the profile editor, suggestions, check-ins and the agent's buttons too.
 6. **Reinstall** the app to the workspace to grant the new scopes. The bot token stays the same.
 
 ### Workspace
 
 1. Create the channels above, set posting permissions and default channels, and pin the #introductions message.
-2. Invite the app to #member-posts and #creator-feed (`/invite @Latina Dev`), and to #ask for the Q&A sync.
+2. Invite the app to #announcements, #member-posts and #creator-feed (`/invite @Latina Dev`), and to #ask for the Q&A sync.
 
 ### GitHub ([repository settings → Secrets and variables → Actions](https://github.com/Latina-Dev/latina-dev/settings/secrets/actions))
 
 1. Secret `SLACK_BOT_TOKEN`: the same `xoxb-…` bot token set in Vercel.
-2. Variables `SLACK_MEMBER_POSTS_CHANNEL_ID` and `SLACK_CREATOR_FEED_CHANNEL_ID`: each channel's id, from the channel's details in Slack.
+2. Variables `SLACK_ANNOUNCEMENTS_CHANNEL_ID`, `SLACK_MEMBER_POSTS_CHANNEL_ID` and `SLACK_CREATOR_FEED_CHANNEL_ID`: each channel's id, from the channel's details in Slack.
+3. The fine-grained token in `PROFILE_BOT_GITHUB_TOKEN` also needs **Issues: read and write**, so suggestions can open issues.
 
-Vercel needs nothing new: the app uses `SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`, `AUTH_SECRET` and the LinkedIn settings that profile sign-in already has.
+### Vercel
+
+1. `ANTHROPIC_API_KEY`: an API key from [platform.claude.com](https://platform.claude.com) for the profile agent. Without it, the app answers DMs by pointing to `/latinadev edit`.
+
+Everything else is already set: `SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`, `SLACK_REVIEW_CHANNEL_ID`, `AUTH_SECRET` and the LinkedIn settings that profile sign-in uses.
