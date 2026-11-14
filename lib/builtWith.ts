@@ -2,7 +2,8 @@
  * The tools and platforms that keep Latina Dev running, shown on /built-with and in the README.
  *
  * `support` says how each one reaches us:
- * - "sponsored": the company gives us a paid plan for free (an open source program or a direct ask)
+ * - "sponsored": the company gives us a paid plan for free (an open source program, a direct ask
+ *   or a perk, like Slack Pro)
  * - "founder": Frances pays for it herself
  * - "free": we use the company's free plan, often one made for open source projects
  *
@@ -50,7 +51,7 @@ export const tools: Tool[] = [
     name: "Slack",
     url: "https://slack.com",
     use: "the members-only Latina Dev community",
-    support: "founder",
+    support: "sponsored",
     plan: "Pro",
   },
   {
@@ -119,7 +120,7 @@ export const supportGroups: { support: Support; title: string; blurb: string }[]
   {
     support: "sponsored",
     title: "Sponsored",
-    blurb: "Companies that give Latina Dev a paid plan for free because it's open source.",
+    blurb: "Companies that give Latina Dev a paid plan for free.",
   },
   {
     support: "founder",

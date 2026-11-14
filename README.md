@@ -32,8 +32,9 @@ Latina Dev is free and run by volunteers. If the directory helped you, or you wa
 
 Latina Dev is free for everyone. Here's what keeps it running and who pays for it. The full list is at [latina.dev/built-with](https://latina.dev/built-with).
 
-**Sponsored** (paid plans given to us for free because we're open source)
+**Sponsored** (paid plans given to us for free)
 
+- [Slack](https://slack.com) Pro: the members-only community
 - [Vercel](https://vercel.com?utm_source=latina-dev&utm_campaign=oss) Pro: hosting, analytics and speed insights
 
 **Funded by our founder** (paid for by [Frances Coronel](https://github.com/FrancesCoronel))
@@ -41,7 +42,6 @@ Latina Dev is free for everyone. Here's what keeps it running and who pays for i
 - [Buffer](https://buffer.com): social posts for our LinkedIn page
 - [Claude](https://claude.com/product/claude-code): AI review on every pull request
 - latina.dev domain
-- [Slack](https://slack.com) Pro: the members-only community
 
 **Free plans we rely on**
 
