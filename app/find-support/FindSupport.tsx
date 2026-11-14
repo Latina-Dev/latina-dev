@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 
@@ -33,15 +34,24 @@ const choicesFromUrl = (params: URLSearchParams | ReadonlyURLSearchParams) => {
  * shows what its link describes, including after the navbar link clears the query
  */
 export default function FindSupport({ data }: { data: SupportData }) {
-  const { stage, need } = choicesFromUrl(useSearchParams());
+  const fromUrl = choicesFromUrl(useSearchParams());
+  // Next.js updates useSearchParams after replaceState in a transition, so the choice is also kept
+  // here for the click itself, and taken from the URL again whenever the URL changes
+  const urlKey = `${fromUrl.stage}|${fromUrl.need}`;
+  const [choice, setChoice] = useState<{ stage?: SupportStageId; need?: SupportNeedId }>(fromUrl);
+  const [seenKey, setSeenKey] = useState(urlKey);
+  if (urlKey !== seenKey) {
+    setSeenKey(urlKey);
+    setChoice(fromUrl);
+  }
   const choose = (next: { stage?: SupportStageId; need?: SupportNeedId }) => {
+    setChoice(next);
     const params = new URLSearchParams();
     if (next.stage) params.set("stage", next.stage);
     if (next.need) params.set("need", next.need);
-    // Next.js keeps useSearchParams in step with replaceState, without a server round trip
     window.history.replaceState(null, "", `?${params.toString()}`);
   };
-  return <FindSupportView data={data} stage={stage} need={need} onChoose={choose} />;
+  return <FindSupportView data={data} stage={choice.stage} need={choice.need} onChoose={choose} />;
 }
 
 /**
