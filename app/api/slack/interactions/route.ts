@@ -12,18 +12,96 @@ import {
   isValidSlackSignature,
   replyInThread,
 } from "@/lib/profiles/slack";
+import { checkEditor, dmMember, openEditor, publishHome } from "@/lib/slackProfileApp";
 
 interface BlockActionPayload {
-  type: string;
+  type: "block_actions";
+  team: { id: string };
   user: { id: string };
+  trigger_id: string;
   channel: { id: string };
   message: { ts: string; blocks?: { type: string; text?: { text: string } }[] };
   actions: { action_id: string; value: string }[];
 }
 
+interface ViewSubmissionPayload {
+  type: "view_submission";
+  team: { id: string };
+  user: { id: string };
+  view: {
+    callback_id: string;
+    private_metadata: string;
+    state: { values: Record<string, Record<string, { value?: string | null }>> };
+  };
+}
+
+const json = (body: unknown) =>
+  new Response(JSON.stringify(body), { headers: { "Content-Type": "application/json" } });
+
+// What the modal turns into once the edit is sent
+const sentView = {
+  type: "modal",
+  title: { type: "plain_text", text: "Sent for review" },
+  close: { type: "plain_text", text: "Done" },
+  blocks: [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "🎉 Thanks! An organizer will review your changes, and they'll go live on latina.dev once approved. I'll DM you if anything goes wrong.",
+      },
+    },
+  ],
+};
+
 /**
- * Handles the Approve and Reject buttons on profile review messages in Slack.
- * Slack needs an answer within three seconds, so the GitHub work runs after responding.
+ * The member profile app: the "Edit my profile" button opens the editor, and sending the editor
+ * turns the change into a pull request reviewed like any other
+ */
+const handleProfileApp = async (payload: BlockActionPayload | ViewSubmissionPayload) => {
+  const teamId = payload.team?.id;
+  const userId = payload.user.id;
+
+  if (payload.type === "view_submission") {
+    if (payload.view.callback_id !== "profile_editor") return new Response(null, { status: 200 });
+    const result = checkEditor(
+      teamId,
+      userId,
+      payload.view.private_metadata,
+      payload.view.state.values
+    );
+    if ("errors" in result) return json({ response_action: "errors", errors: result.errors });
+    after(async () => {
+      try {
+        await result.send();
+      } catch (error) {
+        console.error(error);
+        await dmMember(
+          userId,
+          "Sorry, your profile changes didn't send. Please try again in a few minutes, or update your profile at latina.dev/profile."
+        ).catch((dmError: unknown) => console.error(dmError));
+      }
+    });
+    return json({ response_action: "update", view: sentView });
+  }
+
+  const action = payload.actions[0];
+  if (action.action_id === "open_profile_editor") {
+    // trigger_id expires after three seconds, so the modal opens before responding
+    const opened = await openEditor(teamId, userId, payload.trigger_id).catch((error: unknown) => {
+      console.error(error);
+      return false;
+    });
+    if (!opened) after(() => publishHome(teamId, userId).catch(console.error));
+  }
+  // Link buttons open a URL in the browser; Slack still expects an answer
+  return new Response(null, { status: 200 });
+};
+
+/**
+ * Handles buttons and modals from the Slack app: Approve and Reject on profile review messages,
+ * and the member profile app. Slack needs an answer within three seconds, so the GitHub work runs
+ * after responding.
  */
 export async function POST(request: Request) {
   const body = await request.text();
@@ -37,14 +115,20 @@ export async function POST(request: Request) {
 
   const raw = new URLSearchParams(body).get("payload");
   if (!raw) return new Response("Missing payload", { status: 400 });
-  let payload: BlockActionPayload;
+  let parsed: BlockActionPayload | ViewSubmissionPayload;
   try {
-    payload = JSON.parse(raw) as BlockActionPayload;
+    parsed = JSON.parse(raw) as BlockActionPayload | ViewSubmissionPayload;
   } catch {
     return new Response("Malformed payload", { status: 400 });
   }
+  if (parsed.type === "view_submission") return handleProfileApp(parsed);
+  const payload = parsed as BlockActionPayload;
   const action = payload.actions?.[0];
   if (payload.type !== "block_actions" || !action) return new Response(null, { status: 200 });
+  // Approve and Reject are the only review actions; everything else belongs to the profile app
+  if (action.action_id !== "approve_profile" && action.action_id !== "reject_profile") {
+    return handleProfileApp(payload);
+  }
 
   const channel = payload.channel.id;
   const ts = payload.message.ts;

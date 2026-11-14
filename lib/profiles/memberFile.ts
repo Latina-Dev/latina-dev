@@ -25,6 +25,9 @@ const keyOrder: (keyof MemberFrontmatter)[] = [
   "featureMilestones",
 ];
 
+// One or more slashes at the end, matched from a lookbehind so long runs stay linear
+const trailingSlashes = /(?<!\/)\/+$/;
+
 /** Profile fields a member fills in on the profile form */
 export interface ProfileFormValues {
   name: string;
@@ -64,19 +67,19 @@ export const readProfileForm = (data: FormData): ProfileFormValues => {
     // Accept a pasted profile URL as well as the bare handle
     linkedin: text("linkedin")
       .replace(/^(https?:\/\/)?([a-z]+\.)?linkedin\.com\/in\//i, "")
-      .replace(/\/+$/, ""),
+      .replace(trailingSlashes, ""),
     affiliation: text("affiliation"),
     github: text("github").replace(/^@/, ""),
     // Accept @handle or a pasted x.com / twitter.com profile URL
     twitter: text("twitter")
       .replace(/^(https?:\/\/)?(www\.)?(x|twitter)\.com\//i, "")
       .replace(/^@/, "")
-      .replace(/\/+$/, ""),
+      .replace(trailingSlashes, ""),
     // Accept @handle or a pasted bsky.app profile URL; handles are case-insensitive
     bluesky: text("bluesky")
       .replace(/^(https?:\/\/)?(www\.)?bsky\.app\/profile\//i, "")
       .replace(/^@/, "")
-      .replace(/\/+$/, "")
+      .replace(trailingSlashes, "")
       .toLowerCase(),
     website: text("website"),
     blog: text("blog"),
