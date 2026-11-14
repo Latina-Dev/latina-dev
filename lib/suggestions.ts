@@ -159,7 +159,8 @@ export const isPublicHttpUrl = (value: string) => {
     return false;
   }
   if (url.protocol !== "https:" && url.protocol !== "http:") return false;
-  if (url.username || url.password || url.port) return false;
+  // No sign-in details or custom port: the address must start with the plain host
+  if (url.port || !url.href.startsWith(`${url.protocol}//${url.hostname}`)) return false;
   const host = url.hostname.toLowerCase();
   if (isIP(host.replace(/^\[|\]$/g, ""))) return false;
   if (!host.includes(".")) return false;
