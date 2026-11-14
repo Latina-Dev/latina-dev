@@ -140,7 +140,9 @@ export const plainText = (markdown: string) =>
     .replace(/!?\[([^\]]*)\]\(([^)]+)\)/g, "$1 ($2)")
     .replace(/\\\n/g, "\n")
     .replace(/^(- |> ?|#+ )/gm, "")
-    .replace(/[*_~`]/g, "")
+    // Underscores only in pairs that mark emphasis, so my_repo and get_user stay whole
+    .replace(/(^|[^\w/])_([^_\n]+)_(?=[^\w]|$)/g, "$1$2")
+    .replace(/[*~`]/g, "")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&amp;/g, "&")

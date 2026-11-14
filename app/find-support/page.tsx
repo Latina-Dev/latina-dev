@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import JsonLd from "@/components/JsonLd/JsonLd";
 import PageHero from "@/components/PageHero/PageHero";
 
@@ -11,7 +13,7 @@ import { resourceGroups, resourceSlug, resourcesPath } from "@/lib/resources";
 
 import type { Metadata } from "next";
 
-import FindSupport from "./FindSupport";
+import FindSupport, { FindSupportView } from "./FindSupport";
 
 const path = "/find-support";
 
@@ -71,7 +73,10 @@ export default async function FindSupportPage() {
           </p>
         }
       />
-      <FindSupport data={data} />
+      {/* The page is static, so the choices in the URL are read in the browser */}
+      <Suspense fallback={<FindSupportView data={data} />}>
+        <FindSupport data={data} />
+      </Suspense>
     </>
   );
 }

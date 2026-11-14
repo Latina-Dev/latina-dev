@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { parseQuestionFile, questionJsonLd, renderMarkdown } from "@/lib/questions";
+import { parseQuestionFile, plainText, questionJsonLd, renderMarkdown } from "@/lib/questions";
 import {
   buildQuestion,
   isHidden,
@@ -150,6 +150,14 @@ describe("buildQuestion", () => {
   it("leaves out what an organizer or the author hid with 🚫", () => {
     const hide = (users: string[]) => ({ reactions: [{ name: "no_entry_sign", users }] });
     assert.equal(isHidden({ ...question, ...hide(["U2"]) }, context.moderators), false);
+    // Slack left someone out of the list, who may be an organizer
+    assert.equal(
+      isHidden(
+        { ...question, reactions: [{ name: "no_entry_sign", users: ["U2"], count: 2 }] },
+        context.moderators
+      ),
+      true
+    );
     assert.equal(
       buildQuestion(
         { ...question, ...hide(["U3"]) },
@@ -195,5 +203,14 @@ describe("renderMarkdown", () => {
   it("strips HTML from member text", async () => {
     const html = await renderMarkdown('Hi <script>alert(1)</script><img src=x onerror="x">');
     assert.ok(!html.includes("<script") && !html.includes("onerror"));
+  });
+});
+
+describe("plainText", () => {
+  it("drops emphasis but keeps underscores in links and identifiers", () => {
+    assert.equal(
+      plainText("_Try_ [my repo](https://a.com/my_repo) and `get_user`"),
+      "Try my repo (https://a.com/my_repo) and get_user"
+    );
   });
 });

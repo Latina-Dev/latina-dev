@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 
 import {
   isNeedId,
@@ -18,33 +18,47 @@ import styles from "./page.module.css";
 
 const maxResources = 6;
 
+/** Choices as the URL holds them (?stage=…&need=…), so a result can be shared or bookmarked */
+const choicesFromUrl = (params: URLSearchParams | ReadonlyURLSearchParams) => {
+  const stage = params.get("stage");
+  const need = params.get("need");
+  return {
+    stage: isStageId(stage) ? stage : undefined,
+    need: isNeedId(need) ? need : undefined,
+  };
+};
+
 /**
- * Two questions, then results. Choices are kept in the URL (?stage=…&need=…) so a result can be
- * shared or bookmarked
+ * Two questions, then results. The URL is the only place choices are kept, so the page always
+ * shows what its link describes, including after the navbar link clears the query
  */
 export default function FindSupport({ data }: { data: SupportData }) {
-  const [stage, setStage] = useState<SupportStageId>();
-  const [need, setNeed] = useState<SupportNeedId>();
-
-  // Read a shared link's choices once the page is in the browser
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const fromUrl = { stage: params.get("stage"), need: params.get("need") };
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- the URL is only readable after hydration
-    if (isStageId(fromUrl.stage)) setStage(fromUrl.stage);
-    if (isNeedId(fromUrl.need)) setNeed(fromUrl.need);
-  }, []);
-
-  // Written when a choice changes, not in an effect, so a shared link's query isn't wiped before
-  // the effect above has read it
-  const keepInUrl = (next: { stage?: SupportStageId; need?: SupportNeedId }) => {
+  const { stage, need } = choicesFromUrl(useSearchParams());
+  const choose = (next: { stage?: SupportStageId; need?: SupportNeedId }) => {
     const params = new URLSearchParams();
     if (next.stage) params.set("stage", next.stage);
     if (next.need) params.set("need", next.need);
-    const query = params.toString();
-    window.history.replaceState(null, "", query ? `?${query}` : window.location.pathname);
+    // Next.js keeps useSearchParams in step with replaceState, without a server round trip
+    window.history.replaceState(null, "", `?${params.toString()}`);
   };
+  return <FindSupportView data={data} stage={stage} need={need} onChoose={choose} />;
+}
 
+/**
+ * The questions and results for given choices. Also the server-rendered page before the URL is
+ * read, with nothing chosen
+ */
+export function FindSupportView({
+  data,
+  stage,
+  need,
+  onChoose = () => {},
+}: {
+  data: SupportData;
+  stage?: SupportStageId;
+  need?: SupportNeedId;
+  onChoose?: (next: { stage?: SupportStageId; need?: SupportNeedId }) => void;
+}) {
   const result = stage && need ? matchSupport(data, stage, need) : undefined;
 
   return (
@@ -62,10 +76,7 @@ export default function FindSupport({ data }: { data: SupportData }) {
                   name="stage"
                   value={option.id}
                   checked={stage === option.id}
-                  onChange={() => {
-                    setStage(option.id);
-                    keepInUrl({ stage: option.id, need });
-                  }}
+                  onChange={() => onChoose({ stage: option.id, need })}
                 />
                 <span>{option.label}</span>
               </label>
@@ -84,10 +95,7 @@ export default function FindSupport({ data }: { data: SupportData }) {
                   name="need"
                   value={option.id}
                   checked={need === option.id}
-                  onChange={() => {
-                    setNeed(option.id);
-                    keepInUrl({ stage, need: option.id });
-                  }}
+                  onChange={() => onChoose({ stage, need: option.id })}
                 />
                 <span>{option.label}</span>
               </label>
@@ -131,7 +139,8 @@ export default function FindSupport({ data }: { data: SupportData }) {
               <h3>Where to start</h3>
               {result.broadened && (
                 <p className={styles.note}>
-                  Nothing is tagged for exactly this stage yet, so these work at any stage.
+                  Nothing is tagged for exactly this stage yet, so these are tagged for other
+                  stages.
                 </p>
               )}
               {result.resources.length ? (

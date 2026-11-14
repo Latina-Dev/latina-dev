@@ -43,7 +43,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const questions = getQuestions();
   const questionPages: MetadataRoute.Sitemap = questions.length
     ? [
-        { url: `${siteUrl}${questionsPath}`, lastModified: new Date(questions[0].updated) },
+        {
+          url: `${siteUrl}${questionsPath}`,
+          // The list changes whenever any question gets an answer, not only the newest one
+          lastModified: new Date(
+            questions.map((question) => question.updated).reduce((a, b) => (a > b ? a : b))
+          ),
+        },
         ...questions.map((question) => ({
           url: question.url,
           lastModified: new Date(question.updated),

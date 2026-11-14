@@ -115,13 +115,42 @@ jobs:
           # Lets git push with GH_TOKEN through gh, without writing the token into .git/config
           gh auth setup-git
           git push --force --no-verify origin automation/questions
+          sha=$(git rev-parse HEAD)
           gh label create questions --color 9e0001 --description "Community questions from Slack" --force
-          pr=$(gh pr list --head automation/questions --state open --json number --jq '.[0].number')
+          # --head matches a branch name in any fork too, so only a pull request from this repo counts
+          pr=$(gh pr list --head automation/questions --base main --state open \
+            --json number,isCrossRepository --jq '[.[] | select(.isCrossRepository == false)][0].number // empty')
           if [ -n "$pr" ]; then
             gh pr edit "$pr" --body-file "$RUNNER_TEMP/sync/questions-sync.md"
           else
             pr=$(gh pr create --base main --head automation/questions --title "Sync community questions from Slack" \
               --label questions --body-file "$RUNNER_TEMP/sync/questions-sync.md" | grep -oE '[0-9]+$')
           fi
-          # Members' posts go live without a review: moderation is in Slack
-          gh pr merge "$pr" --auto --squash --delete-branch
+          # Members' posts go live without a review: moderation is in Slack. Only the commit just
+          # pushed may merge
+          gh pr merge "$pr" --auto --squash --delete-branch --match-head-commit "$sha"
+
+  # When nothing differs from main any more, e.g. the only new question was deleted in Slack
+  # before its pull request merged, an open sync pull request is out of date: close it so it
+  # can't publish what was taken down
+  close-stale:
+    needs: sync
+    if: needs.sync.result == 'success' && needs.sync.outputs.changed != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ secrets.QUESTIONS_SYNC_TOKEN || secrets.MEMBER_LINKS_TOKEN || github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Close an out-of-date sync pull request
+        run: |
+          pr=$(gh pr list --head automation/questions --base main --state open \
+            --json number,isCrossRepository --jq '[.[] | select(.isCrossRepository == false)][0].number // empty')
+          if [ -n "$pr" ]; then
+            gh pr merge "$pr" --disable-auto || true
+            gh pr close "$pr" --delete-branch \
+              --comment "Closed by the questions sync: main already matches Slack, so this is out of date."
+          fi
