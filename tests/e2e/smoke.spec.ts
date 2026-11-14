@@ -9,6 +9,7 @@ const pages = [
   "/add-member",
   "/profile",
   "/privacy",
+  "/writing",
 ];
 
 for (const path of pages) {
@@ -33,4 +34,16 @@ test("member feed lists every profile", async ({ request }) => {
   const body = await response.json();
   const members = Array.isArray(body) ? body : body.members;
   expect(members.length).toBeGreaterThan(0);
+});
+
+test("member writing has an RSS feed and a JSON feed", async ({ request }) => {
+  const rss = await request.get("/writing.xml");
+  expect(rss.ok()).toBe(true);
+  expect(rss.headers()["content-type"]).toContain("application/rss+xml");
+  expect(await rss.text()).toContain('<atom:link href="https://latina.dev/writing.xml"');
+
+  const json = await request.get("/writing.json");
+  expect(json.ok()).toBe(true);
+  const body = await json.json();
+  expect(body.count).toBe(body.posts.length);
 });

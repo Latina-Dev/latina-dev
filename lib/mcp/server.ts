@@ -9,17 +9,19 @@ import {
   searchErgs,
   searchMembers,
   searchResources,
+  searchWriting,
 } from "@/lib/mcp/directory";
 import { resourcesPath } from "@/lib/resources";
 import { resourcesMarkdown } from "@/lib/resourcesMarkdown";
 import { siteName, siteUrl } from "@/lib/site";
+import { writingPath } from "@/lib/writing";
 
 import { countryNames } from "@/types/countries";
 import { memberLevels, openToOptions } from "@/types/members";
 import { resourceAudiences, resourceStages, resourceTypes } from "@/types/resources";
 
 const instructions = `${siteName} (${siteUrl}) is a directory of Latina software engineers at the student, individual contributor and leadership levels, plus a curated list of communities, programs, job boards, conferences and reads for Latina engineers, and a list of Latinx employee resource groups (ERGs) by company.
-Use search_members to find Latina engineers by name, company, school, location, country of heritage or what they are open to (mentoring, speaking, job opportunities and more), and get_member for one full profile. Use search_resources when someone asks for help with a career as a Latina in tech: learning to code, college and scholarships, finding a job, growing into leadership or starting a company. Filter by \`stage\` (where they are in their career) and \`type\` (community, program, scholarship, job board and more); list_resource_categories shows every category, stage and type with counts. Use search_ergs when someone asks whether a company has a Latinx ERG, or which companies do. Link people to the profile, resource or ERG URLs in the results.`;
+Use search_members to find Latina engineers by name, company, school, location, country of heritage or what they are open to (mentoring, speaking, job opportunities and more), and get_member for one full profile. Use search_resources when someone asks for help with a career as a Latina in tech: learning to code, college and scholarships, finding a job, growing into leadership or starting a company. Filter by \`stage\` (where they are in their career) and \`type\` (community, program, scholarship, job board and more); list_resource_categories shows every category, stage and type with counts. Use search_ergs when someone asks whether a company has a Latinx ERG, or which companies do. Use search_writing to find blog posts Latina engineers wrote on their own sites, by topic or by member. Link people to the profile, resource or ERG URLs in the results.`;
 
 // Every tool only reads public data from latina.dev
 const readOnly = { readOnlyHint: true, openWorldHint: false } as const;
@@ -40,7 +42,7 @@ const limit = z
 /** A new MCP server over the given members; one is made per request, since the endpoint is stateless */
 export const createMcpServer = (members: McpMember[]) => {
   const server = new McpServer(
-    { name: "latina-dev", title: siteName, version: "1.2.0", websiteUrl: siteUrl },
+    { name: "latina-dev", title: siteName, version: "1.3.0", websiteUrl: siteUrl },
     { instructions }
   );
 
@@ -152,6 +154,37 @@ export const createMcpServer = (members: McpMember[]) => {
         page: `${siteUrl}${ergsPath}`,
         guide: `${siteUrl}${ergGuidePath}`,
       })
+  );
+
+  server.registerTool(
+    "search_writing",
+    {
+      title: "Search member writing",
+      description:
+        "Search blog posts that Latina Dev members published on their own sites, newest first. Use it when someone wants articles by Latina software engineers on a topic, or to see what a member has written. Every keyword in `query` must appear in the post's title, summary or author name. Leave everything empty to list the newest posts. Each result links to the post on the author's site and to her Latina Dev profile; link to both and credit the author by name.",
+      inputSchema: {
+        query: z
+          .string()
+          .optional()
+          .describe('Keywords, e.g. "accessibility", "first engineering job", "Kubernetes"'),
+        author: z
+          .string()
+          .optional()
+          .describe(
+            'Member profile slug, the last part of her profile URL, e.g. "frances-coronel". Use search_members to find it'
+          ),
+        limit: z
+          .number()
+          .int()
+          .min(1)
+          .max(50)
+          .optional()
+          .describe("Most results to return, 1 to 50 (default 10)"),
+      },
+      annotations: { title: "Search member writing", ...readOnly },
+    },
+    ({ query, author, limit }) =>
+      asResult({ ...searchWriting({ query, author, limit }), page: `${siteUrl}${writingPath}` })
   );
 
   // The whole list in one read, for assistants that load context instead of calling tools

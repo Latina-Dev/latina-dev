@@ -16,6 +16,7 @@ import { breadcrumbJsonLd, profilePageJsonLd } from "@/lib/jsonLd";
 import { memberLastModified } from "@/lib/memberDates";
 import { pageMetadata } from "@/lib/pageMetadata";
 import { getRelatedMembers } from "@/lib/relatedMembers";
+import { formatWritingDate, getMemberWriting, writingPath } from "@/lib/writing";
 
 import type { Metadata } from "next";
 import { MemberInterface } from "@/types/members";
@@ -42,6 +43,7 @@ export default async function Member({ params }: Props) {
   if (!member) notFound();
 
   const relatedMembers = getRelatedMembers(member, members);
+  const writing = getMemberWriting(slug);
 
   const { name, affiliation, level, bio, countries, location, openTo } = member;
 
@@ -161,6 +163,24 @@ export default async function Member({ params }: Props) {
                   </li>
                 ))}
               </ul>
+            </section>
+          )}
+          {writing.length > 0 && (
+            <section className={styles.section}>
+              <h2 className={styles.label}>Latest writing</h2>
+              <ul className={styles.writing}>
+                {writing.map((post) => (
+                  <li key={post.url}>
+                    <a href={post.url} target="_blank" rel="noopener">
+                      {post.title}
+                    </a>{" "}
+                    <time dateTime={post.published}>{formatWritingDate(post.published)}</time>
+                  </li>
+                ))}
+              </ul>
+              <Link href={writingPath} className={styles.more}>
+                More writing by Latina engineers <span aria-hidden="true">→</span>
+              </Link>
             </section>
           )}
         </div>

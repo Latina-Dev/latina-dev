@@ -142,6 +142,43 @@
   font-weight: var(--weight-bold);
 }
 
+.writing {
+  list-style: none;
+  margin-bottom: 12px;
+}
+
+.writing li {
+  padding: 10px 0;
+  border-top: 1px solid var(--border-default);
+  font-size: 17px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.writing a {
+  color: var(--text-default);
+  font-weight: var(--weight-bold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.writing a:hover,
+.writing a:focus-visible {
+  color: var(--text-brand);
+}
+
+.writing time {
+  display: block;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.more {
+  font-size: 14px;
+  font-weight: var(--weight-bold);
+  color: var(--text-brand);
+}
+
 .related {
   padding-top: 64px;
   padding-bottom: 80px;

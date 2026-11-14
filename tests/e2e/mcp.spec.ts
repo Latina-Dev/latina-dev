@@ -30,6 +30,7 @@ test("MCP server initializes and lists its tools", async ({ request }) => {
     "search_ergs",
     "search_members",
     "search_resources",
+    "search_writing",
   ]);
 });
 

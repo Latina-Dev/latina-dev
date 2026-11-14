@@ -36,7 +36,7 @@ describe("/mcp HTTP handling", () => {
       process.chdir(cwd);
     }
     const { tools } = await call("tools/list");
-    assert.equal(tools.length, 5);
+    assert.equal(tools.length, 6);
   });
 
   it("answers CORS preflight requests", () => {
@@ -81,8 +81,15 @@ describe("/mcp", () => {
       "search_ergs",
       "search_members",
       "search_resources",
+      "search_writing",
     ]);
     for (const tool of tools) assert.equal(tool.annotations.readOnlyHint, true);
+  });
+
+  it("searches member writing, which may still be empty", async () => {
+    const result = await call("tools/call", { name: "search_writing", arguments: {} });
+    assert.equal(result.structuredContent.page, "https://latina.dev/writing");
+    assert.equal(result.structuredContent.total, result.structuredContent.posts.length);
   });
 
   it("searches real members and gets a profile", async () => {
