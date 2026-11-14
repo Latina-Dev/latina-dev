@@ -11,7 +11,7 @@ name: Community questions
 # - Variable SLACK_MODERATOR_IDS (optional): comma-separated Slack user ids whose 🚫 hides a message.
 # - Secret QUESTIONS_SYNC_TOKEN, or the existing MEMBER_LINKS_TOKEN: a fine-grained token with contents
 #   and pull request write access. Pull requests opened with the default token don't start the
-#   required checks, so they would never merge.
+#   required checks, so they would never merge; without one the publish job stops with an error.
 
 on:
   schedule:
@@ -81,8 +81,14 @@ jobs:
       contents: write
       pull-requests: write
     env:
-      GH_TOKEN: ${{ secrets.QUESTIONS_SYNC_TOKEN || secrets.MEMBER_LINKS_TOKEN || github.token }}
+      GH_TOKEN: ${{ secrets.QUESTIONS_SYNC_TOKEN || secrets.MEMBER_LINKS_TOKEN }}
     steps:
+      - name: Check for a token that starts checks
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::Set the QUESTIONS_SYNC_TOKEN (or MEMBER_LINKS_TOKEN) secret. A pull request opened with the default token never starts the required checks, so it would never merge."
+            exit 1
+          fi
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

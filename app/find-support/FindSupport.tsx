@@ -35,13 +35,15 @@ export default function FindSupport({ data }: { data: SupportData }) {
     if (isNeedId(fromUrl.need)) setNeed(fromUrl.need);
   }, []);
 
-  useEffect(() => {
+  // Written when a choice changes, not in an effect, so a shared link's query isn't wiped before
+  // the effect above has read it
+  const keepInUrl = (next: { stage?: SupportStageId; need?: SupportNeedId }) => {
     const params = new URLSearchParams();
-    if (stage) params.set("stage", stage);
-    if (need) params.set("need", need);
+    if (next.stage) params.set("stage", next.stage);
+    if (next.need) params.set("need", next.need);
     const query = params.toString();
     window.history.replaceState(null, "", query ? `?${query}` : window.location.pathname);
-  }, [stage, need]);
+  };
 
   const result = stage && need ? matchSupport(data, stage, need) : undefined;
 
@@ -60,7 +62,10 @@ export default function FindSupport({ data }: { data: SupportData }) {
                   name="stage"
                   value={option.id}
                   checked={stage === option.id}
-                  onChange={() => setStage(option.id)}
+                  onChange={() => {
+                    setStage(option.id);
+                    keepInUrl({ stage: option.id, need });
+                  }}
                 />
                 <span>{option.label}</span>
               </label>
@@ -79,7 +84,10 @@ export default function FindSupport({ data }: { data: SupportData }) {
                   name="need"
                   value={option.id}
                   checked={need === option.id}
-                  onChange={() => setNeed(option.id)}
+                  onChange={() => {
+                    setNeed(option.id);
+                    keepInUrl({ stage, need: option.id });
+                  }}
                 />
                 <span>{option.label}</span>
               </label>
