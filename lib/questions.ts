@@ -145,8 +145,9 @@ export const plainText = (markdown: string) => {
     markdown
       .replace(/```\w*\n?([\s\S]*?)```/g, (_, code: string) => keep(code))
       .replace(/`([^`\n]+)`/g, (_, code: string) => keep(code))
+      // A destination may hold one level of parentheses, as Slack links to Wikipedia often do
       .replace(
-        /!?\[([^\]]*)\]\(([^)]+)\)/g,
+        /!?\[([^\]]*)\]\(((?:[^()\s]|\([^()\s]*\))+)\)/g,
         (_, label: string, url: string) => `${label} (${keep(url)})`
       )
       .replace(/\\\n/g, "\n")

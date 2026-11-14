@@ -217,6 +217,10 @@ describe("plainText", () => {
       "link (https://a.com/?token=_abc_) and _private_ and bold"
     );
     assert.equal(
+      plainText("[link](https://a.com/?q=(foo)_abc_)"),
+      "link (https://a.com/?q=(foo)_abc_)"
+    );
+    assert.equal(
       plainText("Is &lt;div&gt; ok?\n\n```\nconst a = 1 < 2\n```"),
       "Is <div> ok? const a = 1 < 2"
     );
