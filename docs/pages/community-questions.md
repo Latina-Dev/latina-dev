@@ -26,7 +26,7 @@ Pin a note in #ask so members know: _Questions and answers here are published on
 ## Setup
 
 1. Create a public channel called `#ask` and add the note above to its description.
-2. In the Latina Dev Slack app (the one that posts profile reviews), go to **OAuth & Permissions** and add the `channels:history` and `users:read` bot scopes. Reinstall the app, then invite it to #ask (`/invite @Latina Dev`).
+2. In Madrina, the Latina Dev Slack app (the one that posts profile reviews), go to **OAuth & Permissions** and add the `channels:history` and `users:read` bot scopes. Reinstall the app, then invite it to #ask (`/invite @Madrina`).
 3. In the repository's **Settings → Secrets and variables → Actions**:
    - Secret `SLACK_QUESTIONS_TOKEN`: the app's bot token (`xoxb-…`).
    - Variable `SLACK_QUESTIONS_CHANNEL_ID`: the #ask channel id (in Slack, open the channel details; the id is at the bottom). Runs are skipped until this is set.

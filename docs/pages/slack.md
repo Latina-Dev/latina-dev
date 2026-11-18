@@ -1,6 +1,6 @@
 # Slack Community
 
-The [Latina Dev Slack](https://latinadev.slack.com) is where members meet, ask questions and share their work. This page covers the channels, the Latina Dev app that members use to manage their profile from Slack, the feed channels, and the setup only a workspace admin can do.
+The [Latina Dev Slack](https://latinadev.slack.com) is where members meet, ask questions and share their work. This page covers the channels, Madrina, the Latina Dev Slack app that members use to manage their profile from Slack, the feed channels, and the setup only a workspace admin can do.
 
 ## Channels
 
@@ -14,8 +14,8 @@ Rename these to match channels that already exist rather than making duplicates.
 | `#jobs`          | Roles and referrals. Include the location or remote, the level and a salary range                                                        | Everyone           |
 | `#wins`          | New job, promotion, talk, launch, first PR merged. Members who opted in to milestones may be featured on Latina Dev's social accounts    | Everyone           |
 | `#events`        | Conferences, meetups and talks. Scholarships and tickets especially welcome                                                              | Everyone           |
-| `#member-posts`  | New posts from members' blogs, shared automatically                                                                                      | The Latina Dev app |
-| `#creator-feed`  | New posts from Latina engineers outside the directory, shared automatically                                                              | The Latina Dev app |
+| `#member-posts`  | New posts from members' blogs, shared automatically                                                                                      | Madrina            |
+| `#creator-feed`  | New posts from Latina engineers outside the directory, shared automatically                                                              | Madrina            |
 | `#website`       | Feedback and ideas for latina.dev                                                                                                        | Everyone           |
 | `#cafecito`      | Everything else                                                                                                                          | Everyone           |
 
@@ -38,7 +38,9 @@ Profile reviews stay in their own private channel (`SLACK_REVIEW_CHANNEL_ID`).
 - **Posting permissions** on #announcements, #member-posts and #creator-feed: organizers and the app only.
 - **Welcome message** from Slackbot pointing to #introductions and `/latinadev`.
 
-## The Latina Dev app
+## Madrina, the Latina Dev Slack app
+
+One Slack app does everything in the workspace, and it's called **Madrina** (godmother, the woman who vouches for you). It's mostly buttons, forms and slash commands, so it costs nothing to run; only a DMed profile change uses Claude (Haiku). The career coaching from the separate Madrina prototype (`apps/madrina`, #310) moves into this app later as its own step, once it runs on real member data.
 
 The same Slack app that posts profile reviews also lets members manage their profile from Slack.
 
@@ -79,6 +81,8 @@ These have active feeds, but their own bios don't say whether they're Latina, so
 
 ### Slack app ([api.slack.com/apps](https://api.slack.com/apps), the app from [Member Sign-in](member-sign-in.md))
 
+First, under **Basic Information → Display Information:** name the app **Madrina** (the owl icon is in `apps/madrina/assets/` on #310's branch). **App Home → Your App's Presence in Slack:** set the bot's display name to Madrina too. The slash command stays `/latinadev`.
+
 1. **OAuth & Permissions → Bot Token Scopes:** keep `chat:write` and add `commands`, `users:read` (the yearly check-in finds linked members by hashing workspace members) and `im:history` (the profile agent reads DMs sent to the app). The member Q&A sync also needs `channels:history`, so add it now to reinstall only once.
 2. **App Home:** turn on the **Home Tab**, and under **Messages Tab** allow messages, so the app can DM members.
 3. **Slash Commands:** create `/latinadev` with the request URL `https://latina.dev/api/slack/commands`, description "Your Latina Dev profile" and usage hint `[edit | suggest]`.
@@ -89,7 +93,7 @@ These have active feeds, but their own bios don't say whether they're Latina, so
 ### Workspace
 
 1. Create the channels above, set posting permissions and default channels, and pin the #introductions message.
-2. Invite the app to #announcements, #member-posts and #creator-feed (`/invite @Latina Dev`), and to #ask for the Q&A sync.
+2. Invite the app to #announcements, #member-posts and #creator-feed (`/invite @Madrina`), and to #ask for the Q&A sync.
 
 ### GitHub ([repository settings → Secrets and variables → Actions](https://github.com/Latina-Dev/latina-dev/settings/secrets/actions))
 

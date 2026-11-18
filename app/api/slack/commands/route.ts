@@ -27,7 +27,7 @@ const slackResponseUrl = (value: string | null) => {
 const help = [
   "*`/latinadev`* shows your Latina Dev profile, and *`/latinadev edit`* opens the editor.",
   "*`/latinadev suggest`* suggests a resource or event for latina.dev.",
-  "You can also DM the Latina Dev app a change, like “I'm a Staff Engineer at Acme now”, or open its Home tab.",
+  "You can also DM Madrina a change, like “I'm a Staff Engineer at Acme now”, or open its Home tab.",
 ].join("\n");
 
 /**

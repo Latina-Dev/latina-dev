@@ -1,7 +1,7 @@
 # Slack links
 
 Each file here links a Slack member to the profile they may edit from Slack with the
-Latina Dev app (`/latinadev` or its Home tab). The filename is the profile slug, e.g.
+Madrina, the Latina Dev Slack app (`/latinadev` or its Home tab). The filename is the profile slug, e.g.
 `frances-coronel.txt`, and the file holds the SHA-256 of `slack:<workspace id>:<member id>`,
 never the raw Slack id.
 
