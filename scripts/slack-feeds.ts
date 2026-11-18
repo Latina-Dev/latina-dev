@@ -104,17 +104,32 @@ const readSource = async (source: Source): Promise<{ feedUrl: string; items: Fee
   return { feedUrl: url, items: parseFeed(body) };
 };
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/** Call the Slack Web API, waiting out rate limits (HTTP 429) so a post isn't lost */
 const slack = async (method: string, payload: Record<string, unknown>) => {
-  const response = await fetch(`https://slack.com/api/${method}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`,
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(payload),
-  });
-  const result = (await response.json()) as { ok: boolean; error?: string };
-  if (!result.ok) throw new Error(`Slack ${method} failed: ${result.error ?? response.status}`);
+  // A post skipped today falls out of tomorrow's window, so rate limits are retried
+  for (let attempt = 1; ; attempt++) {
+    const response = await fetch(`https://slack.com/api/${method}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`,
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify(payload),
+    });
+    if (response.status === 429 && attempt < 4) {
+      const seconds = Number(response.headers.get("retry-after"));
+      await sleep(Math.min(Number.isFinite(seconds) && seconds > 0 ? seconds : 5, 60) * 1000);
+      continue;
+    }
+    const result = (await response.json().catch(() => ({ ok: false }))) as {
+      ok: boolean;
+      error?: string;
+    };
+    if (!result.ok) throw new Error(`Slack ${method} failed: ${result.error ?? response.status}`);
+    return;
+  }
 };
 
 // Feed text goes in code spans in the report, so markup or an @mention can't render
