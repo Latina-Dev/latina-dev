@@ -11,6 +11,11 @@ on:
   schedule:
     - cron: "0 16 * * 2"
   workflow_dispatch:
+    inputs:
+      only:
+        description: "Retry just these profile slugs, comma-separated (a failed run lists them)"
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -41,4 +46,5 @@ jobs:
       - name: Ask members who are due
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          CHECK_IN_ONLY: ${{ inputs.only }}
         run: npx tsx scripts/slack-check-ins.ts

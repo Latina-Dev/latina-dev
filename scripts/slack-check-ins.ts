@@ -12,6 +12,9 @@ import { slackKey } from "@/lib/slackLinks";
 //
 //   npx tsx scripts/slack-check-ins.ts            DM every linked member due this week
 //   npx tsx scripts/slack-check-ins.ts --dry-run  only list who is due
+//   npx tsx scripts/slack-check-ins.ts --only=ana-lopez,maria-diaz
+//                                                 retry just these members, e.g. the ones a
+//                                                 failed run lists, so nobody is asked twice
 //
 // Needs SLACK_BOT_TOKEN, the profile app's bot token, with users:read (to find linked members:
 // the repo stores only a hash of each Slack id) and chat:write. Without it the run is a dry run.
@@ -19,6 +22,16 @@ import { slackKey } from "@/lib/slackLinks";
 const dryRun = process.argv.includes("--dry-run") || !process.env.SLACK_BOT_TOKEN;
 // More DMs than this in one week means something is off, e.g. dates lost in a shallow clone
 const maxCheckIns = 40;
+
+// Profile slugs to limit the run to, from --only=a,b or CHECK_IN_ONLY (the workflow's input)
+const only = (
+  process.argv.find((arg) => arg.startsWith("--only="))?.slice("--only=".length) ||
+  process.env.CHECK_IN_ONLY ||
+  undefined
+)
+  ?.split(",")
+  .map((slug) => slug.trim())
+  .filter(Boolean);
 
 const linksPath = "data/owners/slack";
 
@@ -55,6 +68,7 @@ async function main() {
   const profiles = new Map(readMemberFiles().map((file) => [file.slug, file.data]));
   const due = [...links.values()].filter((slug) => {
     const profile = profiles.get(slug);
+    if (only && !only.includes(slug)) return false;
     return profile && isDueForCheckIn(memberLastModified({ slug, ...profile }, true), now);
   });
   console.log(`${due.length} of ${links.size} linked members are due: ${due.join(", ") || "none"}`);
@@ -82,7 +96,7 @@ async function main() {
     cursor = page.response_metadata?.next_cursor ?? "";
   } while (cursor);
 
-  let failures = 0;
+  const failed: string[] = [];
   for (const [slug, userId] of recipients) {
     try {
       await callSlack("chat.postMessage", {
@@ -91,13 +105,16 @@ async function main() {
       });
       console.log(`Asked ${slug}`);
     } catch (error) {
-      failures++;
+      failed.push(slug);
       console.error(`Couldn't ask ${slug}:`, error);
     }
   }
   const missing = due.filter((slug) => !recipients.has(slug));
   if (missing.length) console.log(`Not in Slack anymore: ${missing.join(", ")}`);
-  if (failures) process.exit(1);
+  if (failed.length) {
+    console.error(`Retry only these this week (the "only" input, or --only=): ${failed.join(",")}`);
+    process.exit(1);
+  }
 }
 
 main().catch((error: unknown) => {
