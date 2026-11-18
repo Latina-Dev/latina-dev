@@ -6,7 +6,7 @@ Members ask career questions in the **#ask** channel of the Latina Dev Slack and
 
 1. A member posts a question in #ask. Other members answer in its thread.
 2. Once someone other than the asker has answered, the next hourly run of [`.github/workflows/questions.yml`](https://github.com/Latina-Dev/latina-dev/blob/main/.github/workflows/questions.yml) writes the thread to `data/questions/<slug>.md`.
-3. The run opens (or updates) one pull request from the `automation/questions` branch, which merges itself once checks pass. There's no approval step: moderation happens in Slack.
+3. The run opens (or updates) one pull request from the `automation/questions` branch, which merges itself once checks pass. There's no approval step: moderation happens in Slack. If a later run finds nothing left to publish (say the only new question was deleted in Slack first), it closes that pull request.
 4. Each question gets a page with [QAPage structured data](https://developers.google.com/search/docs/appearance/structured-data/qapage). Questions are also in `/sitemap.xml`, `llms.txt`, [`/questions.json`](https://latina.dev/questions.json), [`/questions.md`](https://latina.dev/questions.md) and the MCP server's `search_questions` tool.
 
 Answers are credited with the name on the member's Slack account. When that full name matches exactly one directory profile, it links to the profile.

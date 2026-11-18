@@ -11,7 +11,7 @@ export interface SlackMessage {
   subtype?: string;
   text?: string;
   reply_count?: number;
-  reactions?: { name: string; users: string[] }[];
+  reactions?: { name: string; users: string[]; count?: number }[];
 }
 
 /** Names to show for user and channel mentions */

@@ -132,17 +132,31 @@ export const getQuestion = (slug: string) => getQuestions().find((q) => q.slug =
 export const renderMarkdown = async (markdown: string) =>
   String(await unified().use(remarkParse).use(remarkHtml, { sanitize: true }).process(markdown));
 
-/** Plain text of a member's Markdown, for structured data, feeds and search */
+/** The parts of a parsed Markdown node that plain text needs */
+interface MarkdownNode {
+  type: string;
+  value?: string;
+  url?: string;
+  alt?: string | null;
+  children?: MarkdownNode[];
+}
+
+const nodeText = (node: MarkdownNode): string => {
+  if (node.type === "link") return `${(node.children ?? []).map(nodeText).join("")} (${node.url})`;
+  if (node.type === "image") return `${node.alt ?? ""} (${node.url})`;
+  if (node.type === "break") return " ";
+  if (node.value !== undefined) return node.value;
+  // Block children (paragraphs, list items) are separated so words don't run together
+  return (node.children ?? []).map(nodeText).join(node.type === "paragraph" ? "" : " ");
+};
+
+/**
+ * Plain text of a member's Markdown, for structured data, feeds and search. It reads the parsed
+ * Markdown, so code and link destinations come through exactly as written, and links read as
+ * "label (url)"
+ */
 export const plainText = (markdown: string) =>
-  markdown
-    .replace(/```[\s\S]*?```/g, (block) => block.replace(/```\w*/g, ""))
-    .replace(/!?\[([^\]]*)\]\(([^)]+)\)/g, "$1 ($2)")
-    .replace(/\\\n/g, "\n")
-    .replace(/^(- |> ?|#+ )/gm, "")
-    .replace(/[*_~`]/g, "")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&amp;/g, "&")
+  nodeText(unified().use(remarkParse).parse(markdown) as MarkdownNode)
     .replace(/\s+/g, " ")
     .trim();
 
