@@ -82,10 +82,19 @@ export interface RepoFile {
  * @param message commit message
  * @returns the new commit's sha, which is the branch head
  */
-export const commitToBranch = async (branch: string, files: RepoFile[], message: string) => {
-  const ref = await github<{ object: { sha: string } }>(
-    `/repos/${repo}/git/ref/heads/${baseBranch}`
-  );
+/** The commit main points at now */
+export const mainSha = async () =>
+  (await github<{ object: { sha: string } }>(`/repos/${repo}/git/ref/heads/${baseBranch}`)).object
+    .sha;
+
+export const commitToBranch = async (
+  branch: string,
+  files: RepoFile[],
+  message: string,
+  // Build on this main commit instead of the latest, when the files were read from it
+  parentSha?: string
+) => {
+  const ref = { object: { sha: parentSha ?? (await mainSha()) } };
   const parent = await github<{ tree: { sha: string } }>(
     `/repos/${repo}/git/commits/${ref.object.sha}`
   );
@@ -239,9 +248,9 @@ export const rejectPull = async (number: number, headSha: string) => {
  * change built from it never undoes something merged since the last deploy
  * @param path e.g. data/members/frances-coronel.md
  */
-export const readMainFile = async (path: string) => {
+export const readMainFile = async (path: string, ref: string = baseBranch) => {
   const file = await github<{ content: string; encoding: string }>(
-    `/repos/${repo}/contents/${path.split("/").map(encodeURIComponent).join("/")}?ref=${baseBranch}`
+    `/repos/${repo}/contents/${path.split("/").map(encodeURIComponent).join("/")}?ref=${encodeURIComponent(ref)}`
   );
   return Buffer.from(file.content, file.encoding === "base64" ? "base64" : "utf8").toString("utf8");
 };

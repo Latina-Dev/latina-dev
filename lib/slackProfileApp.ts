@@ -18,6 +18,7 @@ import {
   createIssue,
   enableAutoMerge,
   findOpenPull,
+  mainSha,
   openOrUpdatePull,
   readMainFile,
 } from "@/lib/profiles/github";
@@ -192,7 +193,9 @@ export const confirmProfileCurrent = async (teamId: string, userId: string, slug
   if (linkedSlug(teamId, userId) !== slug) return false;
   const path = `${memberPath}/${slug}.md`;
   const today = new Date().toISOString().slice(0, 10);
-  const current = await readMainFile(path);
+  // Read and commit against the same main commit, so a newer approved edit is never overwritten
+  const base = await mainSha();
+  const current = await readMainFile(path, base);
   const content = setUpdatedDate(current, today);
   if (content === current) return true;
 
@@ -200,7 +203,7 @@ export const confirmProfileCurrent = async (teamId: string, userId: string, slug
   if (!parsed.success) throw new Error(parsed.error);
   const title = `Confirm profile is current: ${parsed.data.name}`;
   const branch = `freshness/${slug}`;
-  await commitToBranch(branch, [{ path, content }], title);
+  await commitToBranch(branch, [{ path, content }], title, base);
   const pull = await openOrUpdatePull(
     branch,
     title,

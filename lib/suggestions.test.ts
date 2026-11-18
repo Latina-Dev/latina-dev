@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import {
+  isPublicAddress,
   isPublicHttpUrl,
   readSuggestion,
   suggestionIssue,
@@ -88,5 +89,26 @@ describe("suggestionReviewMessage", () => {
     const json = JSON.stringify(message);
     assert.match(json, /<@U0456>/);
     assert.match(json, /Link didn't load/);
+  });
+});
+
+describe("isPublicAddress", () => {
+  it("refuses private, loopback and link-local addresses", () => {
+    for (const address of [
+      "127.0.0.1",
+      "10.1.2.3",
+      "192.168.0.1",
+      "169.254.169.254",
+      "::1",
+      "fd00::1",
+      "::ffff:127.0.0.1",
+    ]) {
+      assert.equal(isPublicAddress(address), false, address);
+    }
+  });
+
+  it("allows public addresses", () => {
+    assert.equal(isPublicAddress("76.76.21.21"), true);
+    assert.equal(isPublicAddress("2606:4700::6810:84e5"), true);
   });
 });

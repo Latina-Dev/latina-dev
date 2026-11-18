@@ -16,9 +16,8 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: slack-announcements
-  cancel-in-progress: false
+# No concurrency group: each push announces its own diff, and a shared group would drop
+# pending runs
 
 jobs:
   announce:

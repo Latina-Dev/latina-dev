@@ -1,4 +1,5 @@
-import { isIP } from "net";
+import { lookup } from "dns/promises";
+import { BlockList, isIP } from "net";
 
 import { siteUrl } from "@/lib/site";
 
@@ -167,6 +168,79 @@ export const isPublicHttpUrl = (value: string) => {
   return !/(^|\.)(localhost|local|internal|lan|home|corp|test|invalid|example)$/.test(host);
 };
 
+// Addresses a public site never resolves to: loopback, private, link-local, CGNAT and the like
+const privateRanges = new BlockList();
+for (const [network, prefix] of [
+  ["0.0.0.0", 8],
+  ["10.0.0.0", 8],
+  ["100.64.0.0", 10],
+  ["127.0.0.0", 8],
+  ["169.254.0.0", 16],
+  ["172.16.0.0", 12],
+  ["192.0.0.0", 24],
+  ["192.168.0.0", 16],
+  ["198.18.0.0", 15],
+  ["224.0.0.0", 3],
+] as const) {
+  privateRanges.addSubnet(network, prefix, "ipv4");
+}
+for (const [network, prefix] of [
+  ["::", 127],
+  ["64:ff9b::", 96],
+  ["fc00::", 7],
+  ["fe80::", 10],
+  ["ff00::", 8],
+] as const) {
+  privateRanges.addSubnet(network, prefix, "ipv6");
+}
+// IPv4-mapped IPv6 addresses (::ffff:a.b.c.d) are checked against the IPv4 ranges by BlockList
+
+/**
+ * Whether an IP address is outside every private or special-use range
+ * @param address an IPv4 or IPv6 address
+ */
+export const isPublicAddress = (address: string) => {
+  const family = isIP(address);
+  if (family === 0) return false;
+  return !privateRanges.check(address, family === 4 ? "ipv4" : "ipv6");
+};
+
+/**
+ * Whether every address a host name resolves to is public, so a public-looking name that points
+ * at a private address is refused
+ * @param hostname the URL's host name
+ */
+const resolvesPublicly = async (hostname: string) => {
+  try {
+    const addresses = await lookup(hostname, { all: true, verbatim: true });
+    return addresses.length > 0 && addresses.every(({ address }) => isPublicAddress(address));
+  } catch {
+    return false;
+  }
+};
+
+// The most of a page read to find its title; a bigger page is cut off there
+const maxBodyBytes = 200_000;
+
+/**
+ * Read the start of a response body, stopping at maxBodyBytes so a huge page can't fill memory
+ * @param response the fetch response
+ */
+const readStart = async (response: Response) => {
+  if (!response.body) return "";
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  while (size < maxBodyBytes) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    size += value.byteLength;
+  }
+  await reader.cancel().catch(() => undefined);
+  return new TextDecoder().decode(Buffer.concat(chunks).subarray(0, maxBodyBytes));
+};
+
 /**
  * Check that a suggested link loads, following up to five redirects and checking each hop
  * @param url a URL that passed isPublicHttpUrl
@@ -175,7 +249,12 @@ export const checkLink = async (url: string): Promise<LinkCheck> => {
   let current = url;
   try {
     for (let hop = 0; hop < 5; hop++) {
-      if (!isPublicHttpUrl(current)) return { ok: false, error: "redirects to a private address" };
+      if (!isPublicHttpUrl(current) || !(await resolvesPublicly(new URL(current).hostname))) {
+        return {
+          ok: false,
+          error: hop ? "redirects to a private address" : "not a public address",
+        };
+      }
       const response = await fetch(current, {
         redirect: "manual",
         headers: { "User-Agent": "LatinaDevBot/1.0 (+https://latina.dev)", Accept: "text/html" },
@@ -186,7 +265,8 @@ export const checkLink = async (url: string): Promise<LinkCheck> => {
         current = new URL(location, current).href;
         continue;
       }
-      const html = response.ok ? (await response.text()).slice(0, 200_000) : "";
+      const html = response.ok ? await readStart(response) : "";
+      if (!response.ok) await response.body?.cancel().catch(() => undefined);
       const title = /<title[^>]*>([^<]{1,200})<\/title>/i
         .exec(html)?.[1]
         ?.replace(/\s+/g, " ")
