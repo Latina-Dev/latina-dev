@@ -28,6 +28,15 @@ export const isDueForCheckIn = (lastConfirmed: Date, now: Date) => {
   return days >= checkInDays && (days - checkInDays) % checkInDays < checkInWindowDays;
 };
 
+/**
+ * Whether a member a run named by hand (a retry after a failed DM) can be asked: any time once
+ * a year has passed since her last change, not just in the anniversary week
+ * @param lastConfirmed when she last edited or confirmed her profile
+ * @param now when the run starts
+ */
+export const isRetryable = (lastConfirmed: Date, now: Date) =>
+  now.getTime() - lastConfirmed.getTime() >= checkInDays * dayMs;
+
 // Slack mrkdwn treats these as formatting, so profile text has them escaped
 const escape = (value: string) =>
   value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

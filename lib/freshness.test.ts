@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { checkInMessage, isDueForCheckIn, setUpdatedDate } from "@/lib/freshness";
+import { checkInMessage, isDueForCheckIn, isRetryable, setUpdatedDate } from "@/lib/freshness";
 
 const day = 24 * 60 * 60 * 1000;
 const last = new Date("2025-11-10T00:00:00Z");
@@ -59,5 +59,15 @@ describe("checkInMessage", () => {
     assert.match(json, /VP &lt;Eng&gt; at A&amp;B/);
     assert.match(json, /confirm_profile_current/);
     assert.match(json, /open_profile_editor/);
+  });
+});
+
+describe("isRetryable", () => {
+  const last = new Date("2025-03-01T00:00:00Z");
+  it("allows a retry any time after a year", () => {
+    assert.equal(isRetryable(last, new Date("2026-03-20T00:00:00Z")), true);
+  });
+  it("refuses a retry before a year has passed", () => {
+    assert.equal(isRetryable(last, new Date("2026-02-20T00:00:00Z")), false);
   });
 });

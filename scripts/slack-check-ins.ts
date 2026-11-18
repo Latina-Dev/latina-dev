@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from "fs";
 
-import { checkInMessage, isDueForCheckIn } from "@/lib/freshness";
+import { checkInMessage, isDueForCheckIn, isRetryable } from "@/lib/freshness";
 import { readMemberFiles } from "@/lib/getMembers";
 import { hasFullGitHistory, memberLastModified } from "@/lib/memberDates";
 import { callSlack } from "@/lib/profiles/slack";
@@ -14,7 +14,8 @@ import { slackKey } from "@/lib/slackLinks";
 //   npx tsx scripts/slack-check-ins.ts --dry-run  only list who is due
 //   npx tsx scripts/slack-check-ins.ts --only=ana-lopez,maria-diaz
 //                                                 retry just these members, e.g. the ones a
-//                                                 failed run lists, so nobody is asked twice
+//                                                 failed run lists, any week after their
+//                                                 anniversary, so nobody is asked twice
 //
 // Needs SLACK_BOT_TOKEN, the profile app's bot token, with users:read (to find linked members:
 // the repo stores only a hash of each Slack id) and chat:write. Without it the run is a dry run.
@@ -68,8 +69,11 @@ async function main() {
   const profiles = new Map(readMemberFiles().map((file) => [file.slug, file.data]));
   const due = [...links.values()].filter((slug) => {
     const profile = profiles.get(slug);
-    if (only && !only.includes(slug)) return false;
-    return profile && isDueForCheckIn(memberLastModified({ slug, ...profile }, true), now);
+    if (!profile) return false;
+    const lastConfirmed = memberLastModified({ slug, ...profile }, true);
+    // A retry names members by hand, so it reaches them after their anniversary week too
+    if (only) return only.includes(slug) && isRetryable(lastConfirmed, now);
+    return isDueForCheckIn(lastConfirmed, now);
   });
   console.log(`${due.length} of ${links.size} linked members are due: ${due.join(", ") || "none"}`);
   if (due.length === 0 || dryRun) return;
@@ -112,7 +116,7 @@ async function main() {
   const missing = due.filter((slug) => !recipients.has(slug));
   if (missing.length) console.log(`Not in Slack anymore: ${missing.join(", ")}`);
   if (failed.length) {
-    console.error(`Retry only these this week (the "only" input, or --only=): ${failed.join(",")}`);
+    console.error(`Retry just these with the "only" input (or --only=): ${failed.join(",")}`);
     process.exit(1);
   }
 }
