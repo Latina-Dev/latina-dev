@@ -1,8 +1,8 @@
-import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import About from "@/components/Homepage/About/About";
 import Faq from "@/components/Homepage/Faq/Faq";
 import Hero from "@/components/Homepage/Hero/Hero";
 import MemberPreview from "@/components/Homepage/MemberPreview/MemberPreview";
+import JoinButton from "@/components/JoinButton/JoinButton";
 import JsonLd from "@/components/JsonLd/JsonLd";
 
 import { getMembers } from "@/lib/getMembers";
@@ -40,7 +40,7 @@ export default async function Home() {
             Add your profile and we&apos;ll add you to the directory and invite you to our Slack
             community.
           </p>
-          <ButtonLink text="Add your profile" url="/add-member" />
+          <JoinButton />
         </div>
       </section>
       {/* Removing Maintainers for now since it feels a little redundant  but once we have more, it should be fine */}

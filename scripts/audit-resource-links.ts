@@ -3,7 +3,7 @@ import { writeFileSync } from "fs";
 import { baseDomain, parkedPatterns, readStart, userAgent, visibleText } from "@/lib/linkCheck";
 import { resourceGroups } from "@/lib/resources";
 
-// Monthly audit of every link on /resources. A plain link checker only catches errors, so this also
+// Weekly audit of every link on /resources. A plain link checker only catches errors, so this also
 // flags the ways a resource goes stale while still answering 200: a redirect to a different domain
 // (rebrands, acquisitions, shutdowns) and parked or spam pages (an expired domain someone bought).
 // Writes a Markdown report to resource-audit.md and exits 1 when anything needs review.
@@ -70,7 +70,7 @@ async function main() {
   const row = (f: Finding) => `- [ ] **${f.name}** (${f.url}): ${f.problem}`;
 
   const report = [
-    `The monthly audit checked ${resources.length} links on https://latina.dev/resources.`,
+    `The weekly audit checked ${resources.length} links on https://latina.dev/resources.`,
     "",
     review.length
       ? `## Needs review (${review.length})\n\nUpdate the URL in the resource's file in \`data/resources\`, or delete the file if the organization has closed.\n\n${review.map(row).join("\n")}`

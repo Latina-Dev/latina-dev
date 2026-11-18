@@ -24,4 +24,4 @@ Amplify opportunities for over 1,000 Latina software engineers by 2025.
 
 ## Roadmap
 
-[Request an invite](mailto:hello@latina.dev) to [our Slack community](https://latinadev.slack.com) to learn more about our roadmap and how you can contribute.
+[Add your profile](https://latina.dev/add-member) to join the directory. We'll invite you to [our Slack community](https://latinadev.slack.com), where you can learn more about our roadmap and how you can contribute.

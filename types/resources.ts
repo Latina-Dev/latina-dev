@@ -2,6 +2,7 @@
 export const resourceGroupIds = [
   "latina-communities",
   "latino-tech-communities",
+  "ai",
   "k-12",
   "college",
   "jobs",

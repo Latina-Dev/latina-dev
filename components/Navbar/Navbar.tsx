@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { joinLabel, joinPath } from "@/lib/join";
+
 import MobileMenu from "./MobileMenu";
 import styles from "./Navbar.module.css";
 
@@ -30,8 +32,8 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link href="/add-member" className={styles.cta}>
-            Add your profile
+          <Link href={joinPath} className={styles.cta}>
+            {joinLabel}
           </Link>
         </nav>
         {/* Works without JavaScript: <details> opens and closes the menu on phones */}
@@ -45,8 +47,8 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link href="/add-member" className={styles.cta}>
-              Add your profile
+            <Link href={joinPath} className={styles.cta}>
+              {joinLabel}
             </Link>
           </nav>
         </MobileMenu>

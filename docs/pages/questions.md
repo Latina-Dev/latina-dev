@@ -6,7 +6,7 @@ Maintainers are willing to video chat if you'd like to sync that way as well to 
 
 Open an issue or message us in Slack under the `#website` channel.
 
-If you'd like an invite to our Slack community, please email us at `[hello@latina.dev](mailto:hello@latina.dev)`.
+To get an invite to our Slack community, [add your profile](https://latina.dev/add-member).
 
 😸 [Open an issue](https://github.com/Latina-Dev/latina-dev/issues/new/choose)
 

@@ -49,6 +49,16 @@ const groups: Omit<ResourceGroup, "resources">[] = [
     question: "What are the biggest Latino tech communities Latina engineers can join?",
   },
   {
+    id: "ai",
+    title: "Level up in AI",
+    intro:
+      "Communities and programs where Latina engineers and women in tech learn to build with AI, from Latina-led trainings to machine learning research groups.",
+    heading: "AI communities and programs for Latina software engineers",
+    summary:
+      "Communities, trainings and research groups where Latina software engineers and women in tech learn machine learning and build with AI.",
+    question: "Where can Latina software engineers learn to build with AI?",
+  },
+  {
     id: "k-12",
     title: "Students: K-12",
     intro: "Programs that introduce Latina girls and teens to coding.",

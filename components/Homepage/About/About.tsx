@@ -1,6 +1,7 @@
-import { faGithub, faSlack } from "@fortawesome/free-brands-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import JoinButton from "@/components/JoinButton/JoinButton";
 
 import styles from "./About.module.css";
 
@@ -43,11 +44,7 @@ export default function About() {
           .
         </p>
         <div className={styles.actions}>
-          <ButtonLink
-            text="Request an invite to our Slack community"
-            url="/add-member"
-            icon={faSlack}
-          />
+          <JoinButton />
           <ButtonLink
             text="Star us on GitHub"
             url="https://github.com/Latina-Dev/latina-dev"
