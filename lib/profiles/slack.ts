@@ -42,7 +42,7 @@ export const isApprover = (userId: string, allowlist = process.env.SLACK_APPROVE
     .filter(Boolean)
     .includes(userId);
 
-export type ReviewKind = "new" | "claim" | "edit";
+export type ReviewKind = "new" | "claim" | "edit" | "link";
 
 export interface ReviewRequest {
   kind: ReviewKind;
@@ -51,7 +51,8 @@ export interface ReviewRequest {
   pullUrl: string;
   profileName: string;
   profileUrl?: string; // the live profile, for claims and edits
-  linkedinName: string; // name on the LinkedIn account that signed in
+  linkedinName?: string; // name on the LinkedIn account that signed in on the site
+  slackUserId?: string; // Slack member who sent an edit from Slack, or who is being linked
   linkedinHandle: string; // handle the member typed, for opening their LinkedIn
   email?: string; // for the Slack invite; never written to the repo
   note?: string; // anything the reviewer should know, e.g. no photo was found
@@ -61,6 +62,7 @@ const kindLabels: Record<ReviewKind, string> = {
   new: "New profile",
   claim: "Profile claim",
   edit: "Profile edit",
+  link: "Slack link",
 };
 
 // Slack mrkdwn treats these as formatting, so user text has them escaped
@@ -72,12 +74,20 @@ const escape = (text: string) =>
  * @param request details of the change
  */
 export const reviewMessage = (request: ReviewRequest) => {
+  if (request.slackUserId && !/^[A-Z0-9]{2,20}$/.test(request.slackUserId)) {
+    throw new Error("Invalid Slack user id");
+  }
   const label = kindLabels[request.kind];
   const lines = [
     `*${label}: ${escape(request.profileName)}*`,
-    `Signed in with LinkedIn as *${escape(request.linkedinName)}*${
-      request.email ? ` (${escape(request.email)})` : ""
-    }`,
+    request.slackUserId && request.kind !== "link"
+      ? `Sent from Slack by <@${request.slackUserId}>, whose Slack account is linked to this profile`
+      : `Signed in with LinkedIn as *${escape(request.linkedinName ?? "Unknown")}*${
+          request.email ? ` (${escape(request.email)})` : ""
+        }`,
+    request.kind === "link" && request.slackUserId
+      ? `Wants to edit this profile from Slack as <@${request.slackUserId}>. They signed in with the LinkedIn account that owns it`
+      : undefined,
     `LinkedIn: <https://www.linkedin.com/in/${encodeURIComponent(request.linkedinHandle)}|linkedin.com/in/${escape(request.linkedinHandle)}>`,
     request.profileUrl ? `Current profile: <${request.profileUrl}>` : undefined,
     `Changes: <${request.pullUrl}|pull request #${request.pullNumber}> (the Vercel preview shows the page)`,
@@ -116,7 +126,10 @@ export const reviewMessage = (request: ReviewRequest) => {
  * @param method e.g. chat.postMessage
  * @param payload JSON body
  */
-const callSlack = async (method: string, payload: Record<string, unknown>) => {
+export const callSlack = async <T extends object = object>(
+  method: string,
+  payload: Record<string, unknown>
+) => {
   const token = process.env.SLACK_BOT_TOKEN;
   if (!token) throw new Error("SLACK_BOT_TOKEN is not set");
   const response = await fetch(`https://slack.com/api/${method}`, {
@@ -127,7 +140,7 @@ const callSlack = async (method: string, payload: Record<string, unknown>) => {
     },
     body: JSON.stringify(payload),
   });
-  const result = (await response.json()) as { ok: boolean; error?: string };
+  const result = (await response.json()) as { ok: boolean; error?: string } & T;
   if (!result.ok) throw new Error(`Slack ${method} failed: ${result.error ?? response.status}`);
   return result;
 };
