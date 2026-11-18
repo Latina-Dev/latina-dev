@@ -176,3 +176,44 @@ export const postMessage = (item: FeedItem, author: string, authorUrl: string) =
     ],
   };
 };
+
+/** A member's posts as the site's writing pages read them (data/writing/<slug>.json) */
+export interface WritingFile {
+  feed: string;
+  posts: { title: string; url: string; published: string }[];
+  hidden?: string[];
+}
+
+// The site lists at most this many posts per member
+const maxWritingPosts = 50;
+
+/**
+ * Merge a feed's items into a member's writing file. Posts already saved stay even after they
+ * drop out of the feed, hidden posts (an organizer's 🚫) are kept out, newest first.
+ * @param blog the member's blog field
+ * @param items parsed feed items
+ * @param existing the current file, if any
+ */
+export const writingFile = (
+  blog: string,
+  items: FeedItem[],
+  existing?: WritingFile
+): WritingFile => {
+  const hidden = existing?.hidden ?? [];
+  const byUrl = new Map<string, WritingFile["posts"][number]>();
+  // A saved post is only kept while it's from the same blog
+  for (const post of existing?.feed === blog ? existing.posts : []) byUrl.set(post.url, post);
+  for (const item of items) {
+    if (!item.link.startsWith("https://")) continue;
+    byUrl.set(item.link, {
+      title: item.title.slice(0, 300),
+      url: item.link,
+      published: item.published.toISOString(),
+    });
+  }
+  const posts = [...byUrl.values()]
+    .filter((post) => !hidden.includes(post.url))
+    .sort((a, b) => b.published.localeCompare(a.published))
+    .slice(0, maxWritingPosts);
+  return { feed: blog, posts, ...(hidden.length ? { hidden } : {}) };
+};
