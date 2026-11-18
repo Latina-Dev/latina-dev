@@ -1,4 +1,5 @@
 import { ergDescription, ergPage, ergs } from "@/lib/ergs";
+import { getQuestions, questionForAgents } from "@/lib/questions";
 import { resourceGroups, resourceSlug, resourcesPath } from "@/lib/resources";
 import { ResourceView, stageViews, typeViews } from "@/lib/resourceViews";
 import { siteUrl } from "@/lib/site";
@@ -230,4 +231,25 @@ export const searchErgs = (search: { query?: string; limit?: number }) => {
   );
   const matches = allErgs.filter((erg) => matchesAll(words, [erg.company, erg.name]));
   return { total: matches.length, ergs: matches.slice(0, search.limit ?? 20) };
+};
+
+/**
+ * Search the questions members asked and answered in Slack, newest first
+ * @param search keywords that must all appear in the question or one of its answers
+ */
+export const searchQuestions = (search: { query?: string; limit?: number }) => {
+  // "question" and "answer" describe every entry, so they would only filter results out
+  const words = tokens(search.query).filter(
+    (word) => !["question", "questions", "answer", "answers"].includes(word)
+  );
+  const matches = getQuestions()
+    .map(questionForAgents)
+    .filter((question) =>
+      matchesAll(words, [
+        question.title,
+        question.question,
+        ...question.answers.map((answer) => answer.text),
+      ])
+    );
+  return { total: matches.length, questions: matches.slice(0, search.limit ?? 10) };
 };

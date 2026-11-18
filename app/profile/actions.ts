@@ -2,7 +2,7 @@
 
 import { auth, signIn, signOut } from "@/auth";
 
-import { commitToBranch, openOrUpdatePull, RepoFile } from "@/lib/profiles/github";
+import { RepoFile } from "@/lib/profiles/github";
 import {
   claimableSlug,
   claimedSlugs,
@@ -17,8 +17,7 @@ import {
   slugForName,
 } from "@/lib/profiles/memberFile";
 import { ownerBranch, ownerFile, readOwnedSlug } from "@/lib/profiles/owners";
-import { postReviewRequest, ReviewKind } from "@/lib/profiles/slack";
-import { siteUrl } from "@/lib/site";
+import { submitForReview } from "@/lib/profiles/submit";
 
 export type ProfileActionState =
   { status: "idle" } | { status: "error"; message: string } | { status: "submitted" };
@@ -54,65 +53,6 @@ const fetchLinkedInPhoto = async (url: string | null | undefined) => {
     return isJpeg && bytes.length <= photoMaxBytes ? bytes : undefined;
   } catch {
     return undefined;
-  }
-};
-
-/**
- * Commit a profile change to the member's branch, open a pull request and ask for review in Slack
- */
-const submitForReview = async ({
-  kind,
-  ownerHash,
-  user,
-  slug,
-  profileName,
-  linkedinHandle,
-  files,
-  note,
-}: {
-  kind: ReviewKind;
-  ownerHash: string;
-  user: { name?: string | null; email?: string | null };
-  slug: string;
-  profileName: string;
-  linkedinHandle: string;
-  files: RepoFile[];
-  note?: string;
-}) => {
-  const branch = ownerBranch(ownerHash);
-  const verb = { new: "Add", claim: "Claim", edit: "Update" }[kind];
-  const title = `${verb} profile: ${profileName}`;
-
-  const headSha = await commitToBranch(branch, files, title);
-  const pull = await openOrUpdatePull(
-    branch,
-    title,
-    [
-      `${verb} the profile for **${profileName}**, submitted through latina.dev/profile.`,
-      "",
-      "Approve or reject it from the review message in Slack. Approve merges it if its checks have passed.",
-      note ? `\nNote: ${note}` : "",
-    ].join("\n")
-  );
-
-  try {
-    await postReviewRequest({
-      kind,
-      pullNumber: pull.number,
-      headSha,
-      pullUrl: pull.html_url,
-      profileName,
-      profileUrl: kind === "new" ? undefined : `${siteUrl}/members/${slug}`,
-      linkedinName: user.name ?? "Unknown",
-      linkedinHandle,
-      email: user.email ?? undefined,
-      note,
-    });
-  } catch (error) {
-    // Slack is the only place organizers see review requests, so tell the member to retry.
-    // Sending again updates the same pull request and posts a fresh review message.
-    console.error(error);
-    throw error;
   }
 };
 
@@ -161,7 +101,7 @@ export async function submitProfile(
   try {
     await submitForReview({
       kind: ownedSlug ? "edit" : claimSlug ? "claim" : "new",
-      ownerHash: member.ownerHash,
+      branch: ownerBranch(member.ownerHash),
       user: member.user,
       slug,
       profileName: profile.data.name,
@@ -207,7 +147,7 @@ export async function claimProfile(
   try {
     await submitForReview({
       kind: "claim",
-      ownerHash: member.ownerHash,
+      branch: ownerBranch(member.ownerHash),
       user: member.user,
       slug,
       profileName: frontmatter.name,
@@ -225,14 +165,18 @@ export async function claimProfile(
 }
 
 /**
- * Sign in with LinkedIn, coming back to the member's personal claim link if they used one
+ * Sign in with LinkedIn, coming back to the member's personal claim link or Slack link if they
+ * used one
  */
 export async function signInWithLinkedIn(formData: FormData) {
   const claim = formData.get("claim");
+  const slack = formData.get("slack");
   const redirectTo =
-    typeof claim === "string" && /^[a-z0-9-]+$/.test(claim)
-      ? `/profile?claim=${claim}`
-      : "/profile";
+    typeof slack === "string" && /^[A-Za-z0-9._-]{1,200}$/.test(slack)
+      ? `/slack/link?t=${slack}`
+      : typeof claim === "string" && /^[a-z0-9-]+$/.test(claim)
+        ? `/profile?claim=${claim}`
+        : "/profile";
   await signIn("linkedin", { redirectTo });
 }
 

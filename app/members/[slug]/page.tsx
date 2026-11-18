@@ -13,7 +13,7 @@ import PageHero from "@/components/PageHero/PageHero";
 
 import { getMemberBySlug, getMembers } from "@/lib/getMembers";
 import { breadcrumbJsonLd, profilePageJsonLd } from "@/lib/jsonLd";
-import { memberLastModified } from "@/lib/memberDates";
+import { formatMonthYear, memberLastModified } from "@/lib/memberDates";
 import { pageMetadata } from "@/lib/pageMetadata";
 import { getRelatedMembers } from "@/lib/relatedMembers";
 
@@ -77,6 +77,10 @@ export default async function Member({ params }: Props) {
       value: <CountryFlags countries={countries} showNames />,
     },
     location && { label: "Based in", value: location },
+    member.updated && {
+      label: "Updated",
+      value: <time dateTime={member.updated}>{formatMonthYear(member.updated)}</time>,
+    },
   ].filter((fact) => !!fact);
 
   return (

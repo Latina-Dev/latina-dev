@@ -124,6 +124,8 @@ The nine resource groups on `/resources` today become saved filters with their o
 | `/ergs/start`                      | New       | Playbook for starting and running an ERG                                  |
 | `/events`, `/events.ics`           | New       | Calendar anyone can subscribe to                                          |
 | `/guides/[slug]`                   | Unchanged |                                                                           |
+| `/questions`, `/questions/[slug]`  | New       | Answered questions from the #ask Slack channel                            |
+| `/find-support`                    | New       | Two questions that lead to the right resources, mentors and answers       |
 | `/profile`                         | Unchanged | Later joined by `/submit/resource`, `/submit/erg`, `/submit/event`        |
 | `/mcp`                             | Change    | Adds `search_ergs` and `search_events`, and filters on `search_resources` |
 | `/ergs.json`, `/events.json`       | New       | Same pattern as `/members.json`                                           |
@@ -176,7 +178,7 @@ Each phase ships on its own and leaves the site better even if the next one neve
 1. **Resources become data.** Move `lib/resources.ts` into `data/resources/`, add the BLT Hub fields, bring in the published BLT Hub entries from Notion, add filters to `/resources` and to the MCP tool. No URL changes.
 2. **ERGs.** `data/ergs/`, the `/ergs` directory, the first ERG lead playbook, and the three-door home page.
 3. **Events.** `data/events/`, `/events`, the calendar feed, heritage months.
-4. **Submissions for everything.** Resource, ERG and event forms that reuse the profile pipeline, and owner files per content type.
+4. **Submissions for everything.** ~~Resource, ERG and event forms that reuse the profile pipeline.~~ Replaced on November 14, 2026 by `/latinadev suggest` in Slack (see [Slack Community](pages/slack.md)): members suggest resources and events there, and each suggestion becomes a GitHub issue for an organizer to vet.
 
 ## Parked on purpose
 
@@ -184,7 +186,7 @@ These were in the original ERG HQ idea. Each is a product of its own, not a page
 
 - ERG management tools (OKRs, budgets, Slack announcements)
 - Paid tiers
-- A community forum
+- A community forum. Partly revisited on November 12, 2026: see decision 5
 - A course on launching an ERG
 - Separate BLT Hub and ERG HQ sites (option B)
 - A database
@@ -197,3 +199,8 @@ Made by Frances on November 9, 2026:
 2. **The ERG HQ product pieces stay parked:** management tools, paid tiers, forum and course.
 3. **Resources are for Latinas.** A BLT Hub entry comes over only if it serves Latinas: Latina, Latinx, or women of color broadly. Entries that only serve other groups are left out.
 4. **`/ergs` starts with Latinx ERGs only.**
+
+Made by Frances on November 12, 2026:
+
+5. **Community questions come from Slack, not a forum.** Members ask and answer in the #ask Slack channel, and an hourly sync publishes each answered thread at `/questions`, with the same agent and search pieces as every other content type. Moderation stays in Slack (delete, or 🚫). This keeps one sign-in and one place to talk, adds no forum software to run, and keeps the knowledge public. A standalone forum (Discourse, GitHub Discussions) stays parked. See [Community Questions](pages/community-questions.md).
+6. **`/find-support` is the front door for someone looking for help.** Two questions (career stage, what she needs) lead to matching resources, guides, members open to mentoring and answered questions. It reads the same data as the rest of the site, so it needs no upkeep of its own.

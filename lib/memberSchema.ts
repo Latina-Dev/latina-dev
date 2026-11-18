@@ -19,6 +19,8 @@ const text = z
 export const memberFrontmatterSchema = z.strictObject({
   name: text,
   added: z.iso.date('must be a quoted date like "2023-05-07"'),
+  // When the member last edited or confirmed her profile, e.g. from the yearly Slack check-in
+  updated: z.iso.date('must be a quoted date like "2026-11-14"').optional(),
   level: z.enum(memberLevels),
   linkedin: text.regex(
     /^[\p{L}\p{N}_-]+$/u,

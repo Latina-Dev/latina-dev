@@ -17,6 +17,7 @@ export type OpenToOption = (typeof openToOptions)[number];
 export interface MemberInterface {
   name: string; // full name, e.g. Frances Coronel
   added: string; // when member was added, e.g. 2023-05-07
+  updated?: string; // optional: when the member last edited or confirmed her profile, e.g. 2026-11-14
   level: MemberLevel;
   linkedin: string; // LinkedIn vanity handle, e.g. frances-coronel from "in/frances-coronel"
   slug: string; // e.g. frances-coronel

@@ -54,6 +54,30 @@ describe("reviewMessage", () => {
       [`42:${"a".repeat(40)}`, `42:${"a".repeat(40)}`]
     );
   });
+
+  it("names the Slack member for a Slack link and for edits sent from Slack", () => {
+    const base = {
+      pullNumber: 7,
+      headSha: "b".repeat(40),
+      pullUrl: "https://github.com/Latina-Dev/latina-dev/pull/7",
+      profileName: "Ana",
+      linkedinHandle: "ana-example",
+      slackUserId: "U0456",
+    };
+    const link = reviewMessage({ ...base, kind: "link", linkedinName: "Ana García" });
+    const linkText = (link.blocks[0] as { text: { text: string } }).text.text;
+    assert.match(link.text, /^Slack link: Ana/);
+    assert.match(linkText, /Signed in with LinkedIn as \*Ana García\*/);
+    assert.match(linkText, /<@U0456>/);
+
+    const edit = reviewMessage({ ...base, kind: "edit" });
+    assert.match(
+      (edit.blocks[0] as { text: { text: string } }).text.text,
+      /Sent from Slack by <@U0456>/
+    );
+
+    assert.throws(() => reviewMessage({ ...base, kind: "edit", slackUserId: "<!channel>" }));
+  });
 });
 
 describe("isApprover", () => {

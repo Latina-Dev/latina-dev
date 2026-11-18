@@ -28,10 +28,14 @@ const lastCommitDate = (path: string) => {
 
 /**
  * When a member's profile last changed: the last commit to their data file when git history is
- * available, otherwise the date they were added.
+ * available, otherwise the date she last confirmed it (`updated`) or was added.
  */
-export const memberLastModified = (member: MemberInterface, useGit = hasFullGitHistory()) =>
-  (useGit && lastCommitDate(`data/members/${member.slug}.md`)) || new Date(member.added);
+export const memberLastModified = (
+  member: Pick<MemberInterface, "slug" | "added" | "updated">,
+  useGit = hasFullGitHistory()
+) =>
+  (useGit && lastCommitDate(`data/members/${member.slug}.md`)) ||
+  new Date(member.updated ?? member.added);
 
 /**
  * When the member directory last changed: the last commit to data/members when git history is
@@ -39,3 +43,14 @@ export const memberLastModified = (member: MemberInterface, useGit = hasFullGitH
  */
 export const directoryLastUpdated = (useGit = hasFullGitHistory()) =>
   (useGit && lastCommitDate("data/members")) || new Date();
+
+/**
+ * A profile date for readers, e.g. "November 2026"
+ * @param date YYYY-MM-DD
+ */
+export const formatMonthYear = (date: string) =>
+  new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });

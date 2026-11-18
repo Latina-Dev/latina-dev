@@ -12,8 +12,9 @@ permissions:
 
 jobs:
   claude-review:
-    # Secrets aren't available to pull requests from forks, and drafts aren't ready for review
-    if: github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository
+    # Secrets aren't available to pull requests from forks, and drafts aren't ready for review.
+    # The hourly community questions sync only copies member posts from Slack, so it isn't reviewed
+    if: github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref != 'automation/questions'
     runs-on: ubuntu-latest
     permissions:
       contents: read

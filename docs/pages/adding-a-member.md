@@ -33,6 +33,7 @@ affiliation: "Senior Software Engineer at XYZ" # your current title and org
 location: "San Francisco, CA" # where you are based now
 openTo: ["Mentoring", "Speaking"] # see the list below
 featureMilestones: true # OK to feature your milestones on Latina Dev's social accounts; leave out if not
+updated: "2026-11-14" # when you last edited or confirmed your profile; set for you by edits and the yearly Slack check-in
 ---
 
 Brief bio about yourself. You can use Markdown here.
@@ -46,7 +47,7 @@ Brief bio about yourself. You can use Markdown here.
 - `Speaking`: you are open to talks, panels and podcasts
 - `Hiring`: you are hiring or can refer people to open roles
 
-Leave out any field you don't want to share. Location and open to are shown on your profile page.
+Leave out any field you don't want to share. Location, open to and the updated date are shown on your profile page.
 
 ## Your profile page
 

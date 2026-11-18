@@ -7,6 +7,7 @@
 - [Member Levels](/pages/member-levels)
 - [Adding a Member](/pages/adding-a-member)
 - [Member Sign-in](/pages/member-sign-in)
+- [Slack Community](/pages/slack)
 - [Adding a Resource](/pages/adding-a-resource)
 - [Adding an ERG](/pages/adding-an-erg)
 - [Members Data Feed](/pages/members-feed)
@@ -14,4 +15,5 @@
 - [Branding](/pages/branding)
 - [Storybook MCP](/pages/storybook-mcp)
 - [MCP Server](/pages/mcp-server)
+- [Community Questions](/pages/community-questions)
 - [Questions](/pages/questions)
