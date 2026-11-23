@@ -49,7 +49,6 @@ This list used to live in [DiversifyMe](https://github.com/FrancesCoronel/divers
 - [RubyConf](http://rubyconf.org/)
 - [SIGNAL](https://signal.twilio.com/)
 - [Spring I/O](https://springio.net/)
-- [Strange Loop](http://www.thestrangeloop.com/opportunity.html)
 - [TAPIA Celebration of Diversity in Computing](https://tapiaconference.cmd-it.org/)
 - [Tech Inclusion Conferences](https://techinclusion.co/)
 - [The LEad Developer](https://theleaddeveloper.com/)
@@ -73,7 +72,6 @@ This list used to live in [DiversifyMe](https://github.com/FrancesCoronel/divers
 - [ffconf](https://ffconf.org/)
 - [JSConf EU](https://jsconf.eu/)
 - [React Summit](https://medium.com/@ReactAmsterdam/react-summit-2020-diversity-scholarships-now-available-dfaaa9cfc6d3)
-- [useR! Conference](http://user2019.r-project.org/)
 
 ## Other Resources
 

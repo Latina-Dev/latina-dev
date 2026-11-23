@@ -1,4 +1,5 @@
 import fs from "fs";
+import { defaultSchema } from "hast-util-sanitize";
 import remarkHtml from "remark-html";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
@@ -136,9 +137,56 @@ export const demoteHeadings = (markdown: string) => {
     .join("\n");
 };
 
-/** Guide bodies are our own Markdown, so the HTML is trusted */
-export const renderJobSearchMarkdown = async (markdown: string) =>
-  String(await unified().use(remarkParse).use(remarkHtml).process(markdown));
+interface MdNode {
+  type: string;
+  value?: string;
+  children?: MdNode[];
+  data?: { hProperties?: Record<string, string> };
+}
+
+const nodeText = (node: MdNode): string =>
+  node.value ?? (node.children ?? []).map(nodeText).join("");
+
+/** GitHub-style heading slug, so links like #cracking-the-pm-interview keep working */
+export const headingSlug = (text: string) =>
+  text
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]/gu, "")
+    .replace(/\s/g, "-");
+
+/** Give each heading an id, numbering repeats the way GitHub does (-1, -2) */
+const remarkHeadingIds = () => (tree: MdNode) => {
+  const seen = new Map<string, number>();
+  const walk = (node: MdNode) => {
+    if (node.type === "heading") {
+      const base = headingSlug(nodeText(node));
+      const count = seen.get(base) ?? 0;
+      seen.set(base, count + 1);
+      node.data = { ...node.data, hProperties: { id: count ? `${base}-${count}` : base } };
+    }
+    node.children?.forEach(walk);
+  };
+  walk(tree);
+};
+
+/**
+ * Guide bodies are our own Markdown, so the HTML is trusted. Deep pages get heading ids for
+ * their in-page links; the step page leaves them off so they can't clash with the step ids.
+ */
+export const renderJobSearchMarkdown = async (
+  markdown: string,
+  { headingIds = false }: { headingIds?: boolean } = {}
+) => {
+  const processor = unified().use(remarkParse);
+  if (headingIds) processor.use(remarkHeadingIds);
+  // Keep the default sanitizing, but without the user-content- prefix so ids match the links
+  return String(
+    await processor
+      .use(remarkHtml, { sanitize: { ...defaultSchema, clobberPrefix: "" } })
+      .process(markdown)
+  );
+};
 
 /** The guide as a schema.org Article by Frances */
 export const jobSearchJsonLd = (page: { path: string; title: string; description: string }) => ({

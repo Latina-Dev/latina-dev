@@ -38,6 +38,7 @@
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "eslint-config-next": "16.4.3",
+    "hast-util-sanitize": "5.0.2",
     "js-yaml": "^5.5.0",
     "next": "^16.4.3",
     "next-auth": "5.0.0-beta.32",
