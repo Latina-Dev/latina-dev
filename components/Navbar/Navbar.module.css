@@ -44,6 +44,7 @@
   gap: 28px;
   font-size: 15px;
   font-weight: var(--weight-medium);
+  white-space: nowrap;
 }
 
 .desktop a:not(.cta) {
@@ -159,7 +160,8 @@
   padding: 14px 20px;
 }
 
-@media (max-width: 767px) {
+/* Six links and the join button need about 1100px on one line; below that, use the menu */
+@media (max-width: 1099px) {
   .desktop {
     display: none;
   }
