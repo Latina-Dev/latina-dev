@@ -27,16 +27,35 @@ export default function StepNav({ steps }: Props) {
     const sections = steps
       .map((step) => document.getElementById(step.slug))
       .filter((el): el is HTMLElement => el !== null);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((entry) => entry.isIntersecting);
-        if (visible.length) setCurrent(visible[0].target.id);
-      },
-      // A step counts as current once its top reaches the upper third of the screen
-      { rootMargin: "0px 0px -66% 0px" }
-    );
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    let observer: IntersectionObserver | undefined;
+    const intersecting = new Set<string>();
+
+    const observe = () => {
+      observer?.disconnect();
+      intersecting.clear();
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) intersecting.add(entry.target.id);
+            else intersecting.delete(entry.target.id);
+          });
+          // The last step, in page order, that reaches the band is the one being read
+          const inBand = steps.filter((step) => intersecting.has(step.slug));
+          if (inBand.length) setCurrent(inBand[inBand.length - 1].slug);
+        },
+        // A step counts as current once its top reaches the upper third of the screen.
+        // Percentages here are of the width, so the margin is in pixels of the height.
+        { rootMargin: `0px 0px -${Math.round(window.innerHeight * 0.66)}px 0px` }
+      );
+      sections.forEach((section) => observer?.observe(section));
+    };
+
+    observe();
+    window.addEventListener("resize", observe);
+    return () => {
+      window.removeEventListener("resize", observe);
+      observer?.disconnect();
+    };
   }, [steps]);
 
   // On narrow screens the steps are a strip that scrolls sideways: keep the current one in view

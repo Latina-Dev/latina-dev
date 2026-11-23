@@ -41,7 +41,7 @@ export default async function JobSearchDeepPage({ params }: Props) {
   const found = getJobSearchPage((await params).slug);
   if (!found) notFound();
   const { page, step } = found;
-  const html = await renderJobSearchMarkdown(page.content);
+  const html = await renderJobSearchMarkdown(page.content, { headingIds: true });
   const siblings = step.pages.filter((p) => p.slug !== page.slug);
 
   return (

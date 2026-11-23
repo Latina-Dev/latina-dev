@@ -56,6 +56,22 @@ describe("renderJobSearchMarkdown", () => {
       }
     }
   });
+
+  it("gives deep pages a heading for every in-page link", async () => {
+    for (const step of getJobSearchSteps()) {
+      for (const page of step.pages) {
+        const html = await renderJobSearchMarkdown(page.content, { headingIds: true });
+        const ids = new Set([...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1]));
+        for (const [, fragment] of html.matchAll(/href="#([^"]+)"/g)) {
+          assert.ok(ids.has(fragment), `${page.slug} links to #${fragment}, which has no heading`);
+        }
+      }
+    }
+  });
+
+  it("leaves heading ids off by default", async () => {
+    assert.equal(await renderJobSearchMarkdown("## Books"), "<h2>Books</h2>\n");
+  });
 });
 
 describe("legacyHashTarget", () => {
