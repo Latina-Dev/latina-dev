@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // /profile reads member profiles and owner files at request time, and the MCP server at /mcp
-  // reads member profiles, resources and ERGs, so ship them with those functions
+  // reads member profiles, resources, ERGs and questions, so ship them with those functions
   outputFileTracingIncludes: {
     "/profile": ["./data/members/**", "./data/owners/**"],
-    "/mcp": ["./data/members/**", "./data/resources/**", "./data/ergs/**"],
+    "/mcp": ["./data/members/**", "./data/resources/**", "./data/ergs/**", "./data/questions/**"],
   },
 };
 
