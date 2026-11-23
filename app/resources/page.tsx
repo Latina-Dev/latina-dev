@@ -5,6 +5,7 @@ import ResourceDirectory from "@/components/ResourceDirectory/ResourceDirectory"
 import styles from "@/components/ResourceDirectory/ResourceDirectory.module.css";
 
 import { formatGuideDate, getGuides } from "@/lib/guides";
+import { jobSearchDescription, jobSearchPath, jobSearchTitle } from "@/lib/jobSearch";
 import { faqJsonLd } from "@/lib/jsonLd";
 import { pageMetadata } from "@/lib/pageMetadata";
 import {
@@ -43,6 +44,12 @@ export default function ResourcesPage() {
           <section id="guides" className={styles.extra} aria-labelledby="guides-heading">
             <h2 id="guides-heading">Guides</h2>
             <ul className={styles.guides}>
+              <li>
+                <Link href={jobSearchPath}>
+                  <strong>{jobSearchTitle}</strong>
+                  <span>{jobSearchDescription}</span>
+                </Link>
+              </li>
               {guides.map((guide) => (
                 <li key={guide.slug}>
                   <Link href={guide.path}>

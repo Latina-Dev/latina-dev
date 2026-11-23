@@ -2,6 +2,7 @@ import { writeFileSync } from "fs";
 
 import { baseDomain, parkedPatterns, readStart, userAgent, visibleText } from "@/lib/linkCheck";
 import { resourceGroups } from "@/lib/resources";
+import { siteUrl } from "@/lib/site";
 
 // Weekly audit of every link on /resources. A plain link checker only catches errors, so this also
 // flags the ways a resource goes stale while still answering 200: a redirect to a different domain
@@ -55,7 +56,11 @@ async function check(name: string, url: string, retry = true): Promise<Finding |
 }
 
 async function main() {
-  const resources = resourceGroups.flatMap((group) => group.resources);
+  // Our own pages (like /job-search) are checked by the build, and a new one would 404 here until
+  // it deploys, so the audit only looks at outside sites
+  const resources = resourceGroups
+    .flatMap((group) => group.resources)
+    .filter((resource) => !resource.url.startsWith(siteUrl));
   const findings: Finding[] = [];
 
   // A few at a time, to be polite to small nonprofit sites

@@ -1,6 +1,7 @@
 import { ergsPath } from "@/lib/ergs";
 import { getMembers } from "@/lib/getMembers";
 import { getGuides } from "@/lib/guides";
+import { getJobSearchPages, jobSearchPath } from "@/lib/jobSearch";
 import { hasFullGitHistory, memberLastModified } from "@/lib/memberDates";
 import { getCountryViews, levelViews } from "@/lib/memberViews";
 import { getQuestions, questionsPath } from "@/lib/questions";
@@ -26,6 +27,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...resourceViewPages.map((view) => view.path),
     ergsPath,
     ...getGuides().map((guide) => guide.path),
+    jobSearchPath,
+    ...getJobSearchPages().map((page) => page.path),
     "/find-support",
     "/conference",
     "/survey",

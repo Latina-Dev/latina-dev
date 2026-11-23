@@ -13,6 +13,7 @@ Status: **option A chosen on November 9, 2026.** Phase 1 is in progress.
 - Members sign in with LinkedIn. A change becomes a pull request that an organizer approves in Slack. See [Member Sign-in](pages/member-sign-in.md).
 - The same data feeds `/members.json`, `/resources.json` and the MCP server at `/mcp`.
 - Madrina, the career coach Slack app, is moving into `apps/madrina` as its own deploy (#310).
+- The job search guide (formerly Hire Me at engjobsearch.com) lives at `/job-search`, from `data/job-search/*.md`: five step files plus deeper pages. engjobsearch.com redirects there.
 
 The three ideas overlap more than they differ:
 

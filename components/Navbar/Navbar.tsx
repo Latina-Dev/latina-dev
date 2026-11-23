@@ -9,6 +9,7 @@ import styles from "./Navbar.module.css";
 const links = [
   { href: "/members", label: "Directory" },
   { href: "/resources", label: "Resources" },
+  { href: "/job-search", label: "Job search" },
   { href: "/find-support", label: "Find support" },
   { href: "/questions", label: "Questions" },
   { href: "/conference", label: "Conference" },
