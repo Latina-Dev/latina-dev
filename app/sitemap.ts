@@ -4,6 +4,7 @@ import { getGuides } from "@/lib/guides";
 import { getJobSearchPages, jobSearchPath } from "@/lib/jobSearch";
 import { hasFullGitHistory, memberLastModified } from "@/lib/memberDates";
 import { getCountryViews, levelViews } from "@/lib/memberViews";
+import { getQuestions, questionsPath } from "@/lib/questions";
 import { resourceGroups, resourcesPath } from "@/lib/resources";
 import { resourceViewPages } from "@/lib/resourceViews";
 import { siteUrl } from "@/lib/site";
@@ -28,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...getGuides().map((guide) => guide.path),
     jobSearchPath,
     ...getJobSearchPages().map((page) => page.path),
+    "/find-support",
     "/conference",
     "/survey",
     "/add-member",
@@ -41,5 +43,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: memberLastModified(member, useGit),
     }));
 
-  return [...pages, ...memberPages];
+  // Each question page changes when an answer is added, so its latest answer is its date
+  const questions = getQuestions();
+  const questionPages: MetadataRoute.Sitemap = questions.length
+    ? [
+        {
+          url: `${siteUrl}${questionsPath}`,
+          // The list changes whenever any question gets an answer, not only the newest one
+          lastModified: new Date(
+            questions.map((question) => question.updated).reduce((a, b) => (a > b ? a : b))
+          ),
+        },
+        ...questions.map((question) => ({
+          url: question.url,
+          lastModified: new Date(question.updated),
+        })),
+      ]
+    : [];
+
+  return [...pages, ...questionPages, ...memberPages];
 }

@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // /profile reads member profiles and owner files at request time, and the MCP server at /mcp
-  // reads member profiles, resources and ERGs, so ship them with those functions
+  // reads member profiles, resources, ERGs and questions, so ship them with those functions
   outputFileTracingIncludes: {
     "/profile": ["./data/members/**", "./data/owners/**"],
-    "/mcp": ["./data/members/**", "./data/resources/**", "./data/ergs/**"],
+    "/mcp": ["./data/members/**", "./data/resources/**", "./data/ergs/**", "./data/questions/**"],
   },
   // engjobsearch.com was the job search guide's old home (the hire-me repo). Once the domain is
   // added to this Vercel project, every request there lands on the guide. The old site used
