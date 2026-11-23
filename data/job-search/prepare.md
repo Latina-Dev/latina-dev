@@ -125,6 +125,10 @@ It looks very promising but keep in mind that the program does cost $4.5K if you
 
 ![LeetCode](https://i.imgur.com/UFncE2a.png)
 
+### Nyrion
+
+[Nyrion](https://nyrion.ai) lets you practice AI-assisted coding interviews in a multi-file codebase, with an AI assistant in the editor and an interviewer who asks about your code. It has a free plan.
+
 ### Pramp
 
 With [Pramp](https://www.pramp.com/#/), you can practice coding interviews live for free.
