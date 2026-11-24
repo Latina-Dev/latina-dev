@@ -1,0 +1,64 @@
+{
+  "display_information": {
+    "name": "Madrina",
+    "description": "Your career madrina in Slack. She vouches for you, keeps your focus honest, and helps women engineers grow toward Staff and beyond.",
+    "long_description": "Madrina is a career coach in Slack for women software engineers. Madrina means godmother in Spanish: the woman who vouches for you. She shows your path from your current level to your target level, on the IC track (Staff, Principal) or management. She spots when your work drifts from what your manager said matters, turns your wins into promo-ready bullets, and recommends resources by women authors. She drafts, you decide: nothing goes to your manager unless you send it. Built on Claude. All demo data is synthetic.",
+    "background_color": "#9e0001"
+  },
+  "features": {
+    "app_home": {
+      "home_tab_enabled": true,
+      "messages_tab_enabled": true,
+      "messages_tab_read_only_enabled": false
+    },
+    "bot_user": {
+      "display_name": "Madrina",
+      "always_online": true
+    },
+    "slash_commands": [
+      {
+        "command": "/madrina",
+        "url": "https://your-app.example.com/api/slack/events",
+        "description": "Say hi to Madrina",
+        "should_escape": false
+      }
+    ]
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": [
+        "chat:write",
+        "im:write",
+        "im:history",
+        "app_mentions:read",
+        "commands",
+        "chat:write.customize",
+        "channels:manage",
+        "groups:write",
+        "channels:read",
+        "groups:read",
+        "canvases:write",
+        "files:write",
+        "groups:history"
+      ]
+    }
+  },
+  "settings": {
+    "event_subscriptions": {
+      "request_url": "https://your-app.example.com/api/slack/events",
+      "bot_events": [
+        "app_home_opened",
+        "app_mention",
+        "message.im",
+        "message.groups"
+      ]
+    },
+    "interactivity": {
+      "is_enabled": true,
+      "request_url": "https://your-app.example.com/api/slack/events"
+    },
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}

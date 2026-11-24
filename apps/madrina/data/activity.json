@@ -1,0 +1,18 @@
+{
+  "profile_id": "ana", "_synthetic": true, "week_of": "2026-11-02",
+  "pull_requests": [
+    {"repo": "billing-service", "title": "Fix rounding bug in invoice totals", "requested_by": "DM from Billing PM"},
+    {"repo": "billing-service", "title": "Add retry to payment webhook", "requested_by": "DM from Billing PM"},
+    {"repo": "billing-service", "title": "Backfill script for failed charges", "requested_by": "DM from Billing EM"},
+    {"repo": "billing-service", "title": "Update invoice email template", "requested_by": "DM from Billing PM"},
+    {"repo": "billing-service", "title": "Bump Stripe SDK", "requested_by": "self"},
+    {"repo": "billing-service", "title": "Hotfix: currency display", "requested_by": "DM from Support lead"},
+    {"repo": "billing-service", "title": "Add logging to refunds flow", "requested_by": "DM from Billing EM"},
+    {"repo": "api-gateway", "title": "Gateway RFC: routing layer draft", "requested_by": "self"},
+    {"repo": "api-gateway", "title": "Spike: rate limiting prototype", "requested_by": "self"}
+  ],
+  "other_work": [
+    {"type": "glue", "title": "Ran incident retro for Billing outage"},
+    {"type": "glue", "title": "Onboarded new hire to Payments codebase"}
+  ]
+}

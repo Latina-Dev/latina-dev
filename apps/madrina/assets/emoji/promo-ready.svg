@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- :promo-ready: win ready for the promo packet. Latina.dev palette: #9e0001 red, #ffc101 gold, #151515 ink. -->
+  <circle cx="64" cy="66" r="56" fill="#9e0001"/>
+  <path fill="none" stroke="#ffffff" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" d="M64 98 V44 M40 66 L64 42 L88 66"/>
+  <path fill="#ffc101" stroke="#ffffff" stroke-width="3" stroke-linejoin="round" paint-order="stroke" d="M102 4 Q104.8 19.2 120 22 Q104.8 24.8 102 40 Q99.2 24.8 84 22 Q99.2 19.2 102 4Z"/>
+</svg>

@@ -1,0 +1,16 @@
+node_modules
+dist
+.data
+.nitro
+.cache
+.output
+.env
+.vercel
+.env*.local
+.slack/apps.json
+.slack/apps.dev.json
+.slack/config.json
+friction.md
+.vscode
+.workflow-data
+demo/

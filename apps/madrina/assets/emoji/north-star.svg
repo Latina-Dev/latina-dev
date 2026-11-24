@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- :north-star: Madrina's guiding star. Latina.dev palette: #9e0001 red, #ffc101 gold, #151515 ink. -->
+  <path fill="#ffc101"  d="M60 12 Q68 58 114 66 Q68 74 60 120 Q52 74 6 66 Q52 58 60 12Z"/>
+  <path fill="#ffc101"  d="M108 6 Q110 18 122 20 Q110 22 108 34 Q106 22 94 20 Q106 18 108 6Z"/>
+  <circle cx="18" cy="22" r="5" fill="#ffc101" opacity="0.7"/>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="128" height="128">
+  <!-- :madrina: emoji, same art as madrina-icon.svg: a madrina owl with her ahijada (godchild) under her wing.
+       Flat negative-space style as a sibling of the Latina.dev owl mark. Royal red #9e0001, white, gold #ffc101. -->
+  <defs><clipPath id="r"><rect width="512" height="512" rx="112"/></clipPath></defs><g clip-path="url(#r)"><rect width="512" height="512" fill="#9e0001"/>
+  <g transform="translate(-22 -22)">
+    <!-- madrina -->
+    <g fill="#ffffff" stroke="#ffffff" stroke-width="12" stroke-linejoin="round">
+      <path d="M166 190 C146 160 144 126 158 104 C180 112 204 128 218 146 Z"/>
+      <path d="M314 190 C334 160 336 126 322 104 C300 112 276 128 262 146 Z"/>
+    </g>
+    <path fill="#ffffff" d="M150 210 C150 150 190 124 240 124 C290 124 330 150 330 210 C352 260 360 330 340 390 C320 440 280 462 240 462 C200 462 160 440 140 390 C120 330 128 260 150 210Z"/>
+    <path fill="#9e0001" d="M240 172 C222 152 170 154 170 198 C170 238 208 258 240 264 C272 258 310 238 310 198 C310 154 258 152 240 172Z"/>
+    <path fill="#ffc101" d="M240 196 L229 218 L240 242 L251 218Z"/>
+    <path fill="none" stroke="#9e0001" stroke-width="18" stroke-linecap="round" d="M196 300 C212 360 262 392 318 398"/>
+    <!-- ahijada, tucked under the wing -->
+    <g stroke="#9e0001" stroke-width="14" stroke-linejoin="round" paint-order="stroke" fill="#ffffff">
+      <path d="M330 360 C330 330 348 314 372 314 C396 314 414 330 414 360 C424 390 420 430 400 448 C390 458 380 462 372 462 C364 462 354 458 344 448 C324 430 320 390 330 360Z"/>
+    </g>
+    <g fill="#ffffff" stroke="#ffffff" stroke-width="7" stroke-linejoin="round">
+      <path d="M340 348 C330 334 328 316 334 304 C344 308 354 314 360 322 Z"/>
+      <path d="M404 348 C414 334 416 316 410 304 C400 308 390 314 384 322 Z"/>
+    </g>
+    <path fill="#ffffff" d="M330 360 C330 330 348 314 372 314 C396 314 414 330 414 360 C424 390 420 430 400 448 C390 458 380 462 372 462 C364 462 354 458 344 448 C324 430 320 390 330 360Z"/>
+    <path fill="#9e0001" d="M372 340 C362 330 342 331 342 352 C342 370 360 380 372 383 C384 380 402 370 402 352 C402 331 382 330 372 340Z"/>
+    <path fill="#ffc101" d="M372 351 L366 362 L372 374 L378 362Z"/>
+  </g>
+</g></svg>

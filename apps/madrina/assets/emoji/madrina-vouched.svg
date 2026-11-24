@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- :madrina-vouched: wax seal, Madrina vouches for this. Latina.dev palette: #9e0001 red, #ffc101 gold, #151515 ink. -->
+  <path fill="#9e0001" stroke="#5e0000" stroke-width="3" stroke-linejoin="round" d="M64.0 6.0 L73.0 12.8 L83.8 9.5 L90.0 19.0 L101.3 19.6 L103.8 30.6 L114.2 35.0 L112.9 46.2 L121.1 53.9 L116.0 64.0 L121.1 74.1 L112.9 81.8 L114.2 93.0 L103.8 97.4 L101.3 108.4 L90.0 109.0 L83.8 118.5 L73.0 115.2 L64.0 122.0 L55.0 115.2 L44.2 118.5 L38.0 109.0 L26.7 108.4 L24.2 97.4 L13.8 93.0 L15.1 81.8 L6.9 74.1 L12.0 64.0 L6.9 53.9 L15.1 46.2 L13.8 35.0 L24.2 30.6 L26.7 19.6 L38.0 19.0 L44.2 9.5 L55.0 12.8Z"/>
+  <circle cx="64" cy="64" r="40" fill="none" stroke="#ffc101" stroke-width="3" stroke-dasharray="2 5" stroke-linecap="round"/>
+  <path fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" d="M44 66 L58 80 L85 50"/>
+</svg>

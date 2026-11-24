@@ -1,0 +1,243 @@
+{
+  "_synthetic": true,
+  "_note": "Backdrop for the Madrina demo. Every person, channel, and message is invented. Matches profiles.json (ana), feedback.json (2026-10-30 1:1), and activity.json (week of 2026-11-02). Slack can't backdate, so dates live in the message text.",
+  "team_id": "T0A7ZPU3U",
+  "invite_user_ids": [
+    "U0A7Z7YN4"
+  ],
+  "personas": {
+    "ana": {
+      "name": "Ana Rivera",
+      "role": "Senior Engineer, Payments Platform",
+      "icon_emoji": ":woman-technologist:",
+      "_synthetic": true,
+      "icon_url": "https://raw.githubusercontent.com/FrancesCoronel/madrina/main/assets/personas/ana.jpg"
+    },
+    "dana": {
+      "name": "Dana Brooks",
+      "role": "Engineering Manager, Payments Platform (Ana's manager)",
+      "icon_emoji": ":female-office-worker:",
+      "_synthetic": true,
+      "icon_url": "https://raw.githubusercontent.com/FrancesCoronel/madrina/main/assets/personas/dana.jpg"
+    },
+    "priya": {
+      "name": "Priya Nair",
+      "role": "Product Manager, Billing",
+      "icon_emoji": ":bar_chart:",
+      "_synthetic": true,
+      "icon_url": "https://raw.githubusercontent.com/FrancesCoronel/madrina/main/assets/personas/priya.jpg"
+    },
+    "marcus": {
+      "name": "Marcus Lee",
+      "role": "Engineering Manager, Billing",
+      "icon_emoji": ":male-technologist:",
+      "_synthetic": true,
+      "icon_url": "https://raw.githubusercontent.com/FrancesCoronel/madrina/main/assets/personas/marcus.jpg"
+    },
+    "tess": {
+      "name": "Tess Romero",
+      "role": "Support Lead",
+      "icon_emoji": ":headphones:",
+      "_synthetic": true,
+      "icon_url": "https://raw.githubusercontent.com/FrancesCoronel/madrina/main/assets/personas/tess.jpg"
+    },
+    "rafael": {
+      "name": "Rafael Duarte",
+      "role": "Tech Lead, Identity (Gateway partner team)",
+      "icon_emoji": ":key:",
+      "_synthetic": true,
+      "icon_url": "https://raw.githubusercontent.com/FrancesCoronel/madrina/main/assets/personas/rafael.jpg"
+    },
+    "sam": {
+      "name": "Sam Ortiz",
+      "role": "Software Engineer, Payments Platform (new hire)",
+      "icon_emoji": ":seedling:",
+      "_synthetic": true,
+      "icon_url": "https://raw.githubusercontent.com/FrancesCoronel/madrina/main/assets/personas/sam.jpg"
+    }
+  },
+  "live_asks": [
+    {
+      "_synthetic": true,
+      "_note": "Posted on cue during the demo with `pnpm tsx scripts/post-live-ask.ts dana-swag`, so the glue-work flag fires live. seed-slack.ts does not post these.",
+      "id": "dana-swag",
+      "channel": "ana-dana-1on1",
+      "from": "dana",
+      "text": "One more thing :gift: could you coordinate the team swag before the offsite on Nov 19? Picking the vendor, collecting sizes, and getting it shipped to the remote folks. You're always so good at this stuff."
+    }
+  ],
+  "channels": [
+    {
+      "name": "proj-gateway-migration",
+      "private": false,
+      "topic": "API Gateway migration. Design lead: Ana. RFC needs sign-off from Identity and Edge.",
+      "purpose": "Design and rollout of the new API Gateway. RFC reviews with Identity and Edge happen here.",
+      "messages": [
+        {
+          "id": "gw-1",
+          "from": "dana",
+          "text": "Kicking off the API Gateway migration :rocket: Ana is leading the design end to end. Goal for this half: RFC approved by *Identity* and *Edge*."
+        },
+        {
+          "id": "gw-2",
+          "from": "ana",
+          "text": "First draft of the routing layer is up for early eyes: `api-gateway` PR *Gateway RFC: routing layer draft*. Biggest open question is where auth checks live."
+        },
+        {
+          "id": "gw-3",
+          "from": "ana",
+          "text": "Also pushed *Spike: rate limiting prototype*. Early numbers look good, writeup to follow."
+        },
+        {
+          "id": "gw-4",
+          "from": "rafael",
+          "text": "Question from Identity: does the RFC keep per-route auth, or move it into the gateway? We'd need to plan for it next quarter either way."
+        }
+      ]
+    },
+    {
+      "name": "team-billing",
+      "private": false,
+      "topic": "Billing service: invoices, charges, refunds.",
+      "purpose": "Requests, incidents, and releases for billing-service. Please ask here instead of in DMs.",
+      "messages": [
+        {
+          "id": "b-1",
+          "from": "priya",
+          "text": "Following up on my DM :pray: invoice totals are off by a cent on some multi-currency orders. Ana, any chance you can look today?"
+        },
+        {
+          "id": "b-1r",
+          "from": "ana",
+          "thread": "b-1",
+          "text": "On it. PR up: *Fix rounding bug in invoice totals*."
+        },
+        {
+          "id": "b-2",
+          "from": "priya",
+          "text": "Also seeing payment webhooks drop when Stripe is slow. Could we add a retry?"
+        },
+        {
+          "id": "b-2r",
+          "from": "ana",
+          "thread": "b-2",
+          "text": "Added retry with backoff: *Add retry to payment webhook*."
+        },
+        {
+          "id": "b-3",
+          "from": "marcus",
+          "text": ":rotating_light: Billing outage on Tue Nov 3, charges failed for about 40 minutes. Ana, can you write a backfill for the failed charges?"
+        },
+        {
+          "id": "b-3r",
+          "from": "ana",
+          "thread": "b-3",
+          "text": "*Backfill script for failed charges* is in review. Dry run matched all 312 failed charges."
+        },
+        {
+          "id": "b-4",
+          "from": "tess",
+          "text": "EU customers are seeing the wrong currency symbol on receipts and tickets are piling up. Can someone hotfix?"
+        },
+        {
+          "id": "b-4r",
+          "from": "ana",
+          "thread": "b-4",
+          "text": "*Hotfix: currency display* merged :white_check_mark:"
+        },
+        {
+          "id": "b-5",
+          "from": "priya",
+          "text": "Legal wants the new footer on invoice emails. Could you update the template? Sorry, I know it's another one."
+        },
+        {
+          "id": "b-5r",
+          "from": "ana",
+          "thread": "b-5",
+          "text": "Done: *Update invoice email template*. Also bumped the Stripe SDK while I was in there."
+        },
+        {
+          "id": "b-6",
+          "from": "marcus",
+          "text": "Can we get more logging in the refunds flow before next week's audit? Pinged you in DM too, Ana."
+        },
+        {
+          "id": "b-6r",
+          "from": "ana",
+          "thread": "b-6",
+          "text": "PR up: *Add logging to refunds flow*."
+        },
+        {
+          "id": "b-7",
+          "from": "ana",
+          "text": ":spiral_note_pad: Retro for Tuesday's Billing outage is Thu 2pm. Draft action items: alert on webhook latency, and a runbook for backfills."
+        },
+        {
+          "id": "b-7r",
+          "from": "marcus",
+          "thread": "b-7",
+          "text": "Thanks for running this, Ana :raised_hands:"
+        }
+      ]
+    },
+    {
+      "name": "ana-dana-1on1",
+      "private": true,
+      "topic": "Ana + Dana weekly 1:1 :spiral_note_pad:",
+      "purpose": "Running 1:1 notes and agenda for Ana and Dana.",
+      "messages": [
+        {
+          "id": "o-1",
+          "from": "dana",
+          "text": ":spiral_note_pad: *1:1 notes, Fri Oct 30*\nFor the Staff case, Gateway is the priority.\n• Lead the API Gateway migration design end to end\n• Get the RFC approved by the two partner teams (Identity and Edge)\n• Less time on one-off support asks"
+        },
+        {
+          "id": "o-1r",
+          "from": "ana",
+          "thread": "o-1",
+          "text": "Got it. I'll aim to have the RFC ready for partner review by mid-November."
+        },
+        {
+          "id": "o-2",
+          "from": "dana",
+          "text": "For next week: RFC status, and let's talk about who could sponsor your Staff case."
+        }
+      ]
+    },
+    {
+      "name": "team-payments-platform",
+      "private": false,
+      "topic": "Payments Platform team channel",
+      "purpose": "Team updates, onboarding, and announcements for Payments Platform.",
+      "messages": [
+        {
+          "id": "p-1",
+          "from": "dana",
+          "text": "Please welcome *Sam Ortiz* to Payments Platform! :wave:"
+        },
+        {
+          "id": "p-2",
+          "from": "ana",
+          "text": "Welcome Sam! I wrote up an onboarding guide for the Payments codebase. Let's pair tomorrow on your first PR."
+        },
+        {
+          "id": "p-2r",
+          "from": "sam",
+          "thread": "p-2",
+          "text": "Thank you Ana, the guide is great :sparkles:"
+        },
+        {
+          "id": "p-3",
+          "from": "ana",
+          "text": ":pager: *On-call handoff, week of Oct 26*\n• Billing webhook latency alert fired twice, both self-resolved\n• Refunds dashboard is slow to load, ticket filed\n• Nothing paging right now. Have a quiet week!"
+        },
+        {
+          "id": "p-3r",
+          "from": "dana",
+          "thread": "p-3",
+          "text": "Thanks Ana, you always write the best handoffs :pray:"
+        }
+      ]
+    }
+  ]
+}
