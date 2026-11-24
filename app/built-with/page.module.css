@@ -1,0 +1,44 @@
+.group + .group {
+  margin-top: 64px;
+}
+
+.group h2 {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  margin-bottom: 0.25em;
+}
+
+.blurb {
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  max-width: 40em;
+}
+
+.grid {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.card a {
+  font-weight: var(--weight-medium);
+  color: var(--text-brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.card p {
+  margin-top: 6px;
+  color: var(--text-muted);
+}
+
+.plan {
+  font-weight: normal;
+}

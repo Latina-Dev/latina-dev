@@ -28,6 +28,27 @@ Our goal is to increase visibility and access to valuable opportunities.
 
 Latina Dev is free and run by volunteers. If the directory helped you, or you want more Latina engineers to be seen, please [star the repo](https://github.com/Latina-Dev/latina-dev). Stars help us qualify for open source programs that give free tools and credits to projects like this one.
 
+## Supported by
+
+Latina Dev is free for everyone. Here's what keeps it running and who pays for it. The full list is at [latina.dev/built-with](https://latina.dev/built-with).
+
+**Sponsored** (paid plans given to us for free)
+
+- [Slack](https://slack.com) Pro: the members-only community
+- [Vercel](https://vercel.com?utm_source=latina-dev&utm_campaign=oss) Pro: hosting, analytics and speed insights
+
+**Funded by our founder** (paid for by [Frances Coronel](https://github.com/FrancesCoronel))
+
+- [Buffer](https://buffer.com): social posts for our LinkedIn page
+- [Claude](https://claude.com/product/claude-code): AI review on every pull request
+- latina.dev domain, registered through [Vercel](https://vercel.com/domains)
+
+**Free plans we rely on**
+
+[Chromatic](https://www.chromatic.com) · [CodeRabbit](https://www.coderabbit.ai) · [Formspree](https://formspree.io) · [GitHub](https://github.com) · [Greptile](https://www.greptile.com) · [ImprovMX](https://improvmx.com) · [LinkedIn](https://www.linkedin.com/company/latina-dev) · [OpenSSF Scorecard](https://scorecard.dev) · [Sentry](https://sentry.io) · [Storybook](https://storybook.js.org)
+
+Run a developer tool with an open source program? Email [hola@latina.dev](mailto:hola@latina.dev). You can also chip in through [GitHub Sponsors](https://github.com/sponsors/francescoronel) or [Ko-fi](https://ko-fi.com/francescoronel).
+
 ## Contributing
 
 > To get started...
