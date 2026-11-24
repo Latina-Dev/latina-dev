@@ -1,6 +1,5 @@
 import { execFileSync } from "child_process";
-import { mkdirSync, readFileSync, writeFileSync } from "fs";
-import { chromium } from "@playwright/test";
+import { mkdirSync, writeFileSync } from "fs";
 
 import { readMemberFiles } from "@/lib/getMembers";
 import { getGuides } from "@/lib/guides";
@@ -14,6 +13,8 @@ import {
   previousMonth,
 } from "@/lib/monthlyPost";
 import { resourceGroups } from "@/lib/resources";
+
+import { escapeHtml, fontFaces, memberPhoto, owlMark, renderShareImage } from "./share-image";
 
 // Drafts the monthly LinkedIn post for a month (YYYY-MM, default: last month) and its share image.
 // Writes monthly-post/post.txt, monthly-post/issue.md and monthly-post/share-image.png. Set
@@ -45,11 +46,6 @@ const resourceUrlsBefore = (date: Date) => {
   );
 };
 
-const escapeHtml = (text: string) => text.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
-
-const dataUri = (path: string, type: string) =>
-  `data:${type};base64,${readFileSync(path).toString("base64")}`;
-
 // 1200×627 is LinkedIn's size for a shared image
 const shareImageHtml = (post: MonthlyPost) => {
   const people = [...post.newMembers, ...post.spotlight].slice(0, 4);
@@ -58,13 +54,9 @@ const shareImageHtml = (post: MonthlyPost) => {
     [post.newResources.length, post.newResources.length === 1 ? "new resource" : "new resources"],
     [post.newGuides.length, post.newGuides.length === 1 ? "new guide" : "new guides"],
   ].filter(([n]) => n);
-  const font = (weight: number, file: string) =>
-    `@font-face { font-family: Latina; font-weight: ${weight}; src: url(${dataUri(`public/fonts/${file}.woff2`, "font/woff2")}); }`;
   return `<!doctype html>
 <html><head><meta charset="utf-8"><style>
-${font(500, "Latina-Medium")}
-${font(700, "Latina-Bold")}
-${font(900, "Latina-Heavy")}
+${fontFaces()}
 * { box-sizing: border-box; margin: 0; }
 body { width: 1200px; height: 627px; background: #9e0001; color: #fff; font-family: Latina, sans-serif;
   padding: 64px 72px; display: flex; flex-direction: column; justify-content: space-between; }
@@ -81,7 +73,7 @@ h1 { font-weight: 900; font-size: 76px; line-height: 1; }
   margin-left: -24px; background: #fff; }
 .people img:first-child { margin-left: 0; }
 </style></head><body>
-<header><img src="${dataUri("public/img/logos/owl-mark-white.svg", "image/svg+xml")}" alt="">LATINA DEV</header>
+<header><img src="${owlMark()}" alt="">LATINA DEV</header>
 <div>
   <h1>${escapeHtml(post.label)}</h1>
   <p class="sub">${post.memberCount} Latina software engineers · latina.dev</p>
@@ -95,28 +87,12 @@ h1 { font-weight: 900; font-size: 76px; line-height: 1; }
       : `<div class="stat"><b>Member spotlight</b></div>`
   }</div>
   <div class="people">${people
-    .map((member) => {
-      try {
-        return `<img src="${dataUri(`public/img/members/${member.slug}.jpg`, "image/jpeg")}" alt="">`;
-      } catch {
-        return ""; // no photo yet
-      }
-    })
+    .map((member) => memberPhoto(member.slug))
+    .filter(Boolean)
+    .map((src) => `<img src="${src}" alt="">`)
     .join("")}</div>
 </div>
 </body></html>`;
-};
-
-const renderShareImage = async (post: MonthlyPost, path: string) => {
-  const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
-  try {
-    const page = await browser.newPage({ viewport: { width: 1200, height: 627 } });
-    await page.setContent(shareImageHtml(post));
-    await page.evaluate(() => document.fonts.ready);
-    await page.screenshot({ path });
-  } finally {
-    await browser.close();
-  }
 };
 
 async function main() {
@@ -151,7 +127,7 @@ async function main() {
   mkdirSync(outDir, { recursive: true });
   writeFileSync(`${outDir}/post.txt`, post.text + "\n");
   writeFileSync(`${outDir}/issue.md`, monthlyPostIssue(post, process.env.RUN_URL));
-  await renderShareImage(post, `${outDir}/share-image.png`);
+  await renderShareImage(shareImageHtml(post), `${outDir}/share-image.png`);
   console.log(post.text);
 }
 
