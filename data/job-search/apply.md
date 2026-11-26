@@ -49,3 +49,7 @@ Lastly, print out your resume to see if the formatting is appropriate on both ph
 ### JobEmerge
 
 [JobEmerge](https://www.jobemerge.work) is an AI career copilot: job-fit test, 19-language resume translator, Markdown editor. One-time pricing, no auto-renewal.
+
+### AI Engineer Resume Examples
+
+[AI Engineer Resume Examples](https://github.com/landedjobs/ai-engineer-resume-examples) is a free guide to resumes for AI engineer roles: 20 before-and-after bullet rewrites, 8 example resumes, and templates.
